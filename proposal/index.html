@@ -952,7 +952,7 @@ a:hover { color: var(--orange); }
         <span class="label">Audience 03</span>
         <h3>Funders</h3>
         <p>Trusts, foundations, statutory funders (Sport England, National Lottery), corporate sponsors reviewing Track Academy for grants.</p>
-        <p><strong>Track record:</strong> Laureus, Sported, Jack Petchey, Tesco, England Athletics.</p>
+         <p><strong>Confirmed funders & partners:</strong> Laureus, Sported, Jack Petchey, Tesco, England Athletics. (All sourced from the 2024 Annual Report and LinkedIn.)</p>
         <span class="stat">577</span>
         <p class="stat-caption">sessions delivered to 331 young people in 2024</p>
         <p><strong>They want:</strong> evidence, governance, demographics, and a face behind the numbers.</p>
@@ -1000,20 +1000,20 @@ a:hover { color: var(--orange); }
       </div>
       <div class="diagnosis-item">
         <div class="content">
-          <h4>The team page is unnamed photos</h4>
-          <p>The Annual Report lists every staff member, coach, mentor, trustee — by name, with bios. The website shows group photos with no labels. Funders researching Track Academy can't see who runs it.</p>
+           <h4>The website has group photos but no individual bios</h4>
+           <p>We have the assets: named staff, coaches, mentors, and trustees are all documented. These just need to be connected to their photos on the site. Funders researching Track Academy should see who runs it — not guess from a group shot.</p>
         </div>
       </div>
       <div class="diagnosis-item">
         <div class="content">
-          <h4>Hosting costs £160/year for a site staff hate</h4>
-          <p>The hosting renewal is a complaint, not an investment. Moving to Calvin's Cloudflare infrastructure eliminates that cost — and is faster, more secure, and zero maintenance.</p>
+           <h4>Hosting costs £160/year — unnecessarily</h4>
+           <p>The hosting renewal is an expense, not an investment. Moving to Calvin's Cloudflare infrastructure eliminates that cost entirely — and the new site will be faster, more secure, and zero maintenance.</p>
         </div>
       </div>
       <div class="diagnosis-item">
         <div class="content">
-          <h4>No visibility on Google for Brent searches</h4>
-          <p>"Athletics for kids Brent", "youth athletics Willesden", "Pupil Premium athletics" — Track Academy doesn't currently rank for any of the searches its three audiences actually do.</p>
+           <h4>No search visibility for the funder audience</h4>
+           <p>Track Academy already shows for local programme searches ("athletics for kids Brent", "youth athletics Willesden"). What's missing is visibility for the queries funders and schools use: "sports charity London", "Pupil Premium athletics", "youth mentoring charity Brent" — the terms that bring in partners and grants.</p>
         </div>
       </div>
     </div>
@@ -1025,7 +1025,7 @@ a:hover { color: var(--orange); }
   <div class="container">
     <span class="section-num">05 / Architecture</span>
     <h2>A new sitemap built around the three audiences.</h2>
-    <p class="lead">17 pages, each with a specific job. Nothing decorative.</p>
+     <p class="lead">19 pages, each with a specific job. Nothing decorative.</p>
     <div class="sitemap">
       <ul>
         <li class="primary">Homepage — route the three audiences, show impact, latest events, Instagram</li>
@@ -1035,8 +1035,9 @@ a:hover { color: var(--orange); }
         <li><strong>Events — database-driven feed, filterable by type</strong></li>
         <li><strong>Competitions — fixtures pulled from database, URN registration</strong></li>
         <li class="primary">Register — multi-step wizard, syncs to Upshot</li>
-        <li><strong>Support — donate, sponsor, volunteer</strong></li>
-        <li><strong>Contact — audience-routed form</strong></li>
+         <li><strong>Support — donate (Stripe), sponsor, volunteer</strong></li>
+         <li><strong>Donate — direct to Stripe checkout</strong></li>
+         <li><strong>Contact — audience-routed form</strong></li>
         <li>Privacy Policy, 404</li>
       </ul>
     </div>
@@ -1099,10 +1100,8 @@ a:hover { color: var(--orange); }
         <h3>Rebuild</h3>
         <ul>
           <li>7-step wizard — one thing at a time</li>
-          <li>Child's name and DOB first,_AUTO assigns age group</li>
-          <li>Education fields only show if child is in Year 5+</li>
-          <li>Save & come back later — draft emailed to parent</li>
-          <li>"Register another child" pre-fills parent details</li>
+           <li>Child's name and DOB first, auto assigns age group</li>
+           <li>"Register another child" pre-fills parent details</li>
           <li>Mobile-first, large tap targets, one column</li>
           <li>Inline validation — friendly, on blur</li>
           <li>Universal Credit flow auto-applies free place</li>
@@ -1181,14 +1180,14 @@ a:hover { color: var(--orange); }
         <h4>OpenTrack</h4>
         <p>Continues as competition entry system. Event cards link out to OpenTrack directly.</p>
       </div>
-      <div class="integration">
-        <div class="icon">W</div>
-        <h4>Whydonate</h4>
-        <p>Continues as donation platform. CTAs across the site link to the existing Whydonate page.</p>
-      </div>
+       <div class="integration">
+         <div class="icon">P</div>
+         <h4>Stripe</h4>
+         <p>New donate page with embedded Stripe checkout. One-click donations without leaving the site. Replaces the Whydonate embed for a faster, cleaner donation experience.</p>
+       </div>
     </div>
     <div class="note">
-      <strong>Future Phase 2+:</strong> Stripe payments on-site (replaces bank transfer friction), parent portal (view child's progress), school portal (download termly reports), Spond replacement (in-app messaging + RSVPs + payments). All designed for — none built in this phase.
+       <strong>Future Phase 2+:</strong> Stripe membership payments on-site (replaces bank transfer and Spond payment friction), parent portal (view child's progress, register siblings), school portal (download termly reports, manage pupil list), Spond replacement (in-app messaging + RSVPs). All designed for — none built in Phase 1.
     </div>
   </div>
 </section>
@@ -1197,53 +1196,53 @@ a:hover { color: var(--orange); }
 <section id="seo" style="background: var(--grey-light);">
   <div class="container">
     <span class="section-num">10 / Search</span>
-    <h2>The website should answer the searches Brent families are already doing.</h2>
-    <p class="lead">Right now, Track Academy doesn't appear for the search queries its three audiences actually use. The rebuild fixes that — not by chasing traffic, but by building pages worth sending demand to.</p>
-    <div class="keyword-grid">
-      <div class="keyword-cluster">
-        <h4>Programme searches</h4>
-        <ul>
-          <li><strong>Athletics for kids Brent</strong> → /athletics</li>
-          <li><strong>After school sports Willesden</strong> → /athletics</li>
-          <li><strong>Youth athletics London NW10</strong> → /athletics</li>
-          <li><strong>Holiday programme athletics Brent</strong> → /holiday-programmes</li>
-          <li><strong>Athletics open meet London</strong> → /events</li>
-        </ul>
-      </div>
-      <div class="keyword-cluster">
-        <h4>School & funder searches</h4>
-        <ul>
-          <li><strong>School sports partnership Brent</strong> → /schools</li>
-          <li><strong>Pupil Premium athletics</strong> → /schools</li>
-          <li><strong>Ofsted personal development evidence</strong> → /schools</li>
-          <li><strong>Sports charity London</strong> → /impact</li>
-          <li><strong>Youth mentoring charity Brent</strong> → /mentoring</li>
-        </ul>
-      </div>
-      <div class="keyword-cluster">
-        <h4>Local SEO</h4>
-        <ul>
-          <li><strong>Willesden Sports Centre athletics</strong></li>
-          <li><strong>Things to do in NW10 with kids</strong></li>
-          <li><strong>Free activities for kids in Brent</strong></li>
-          <li><strong>Youth clubs in Brent</strong></li>
-          <li><strong>Brent children's activities</strong></li>
-        </ul>
-      </div>
-      <div class="keyword-cluster">
-        <h4>Brand defence</h4>
-        <ul>
-          <li><strong>Track Academy</strong> → homepage</li>
-          <li><strong>Track Academy Brent</strong> → homepage</li>
-          <li><strong>Track Academy Willesden</strong> → homepage</li>
-          <li><strong>Track Academy athletics</strong> → homepage</li>
-          <li><strong>Track Academy mentoring</strong> → /mentoring</li>
-        </ul>
-      </div>
-    </div>
-    <div class="note">
-      <strong>Google Business Profile</strong> is the single highest-leverage SEO action for Track Academy. If verified and updated with session times, photos, and weekly posts, Track Academy will appear in the local map pack for "athletics Brent" and "youth sports Willesden" within weeks — not months. We'll help set this up as part of the rebuild.
-    </div>
+     <h2>Double down on the programmes — and build visibility for funders and schools.</h2>
+     <p class="lead">Track Academy already shows for local programme searches: "athletics for kids Brent", "youth athletics Willesden", "holiday programme athletics Brent". The gap is visibility for the searches that bring in partners, grants, and long-term funding.</p>
+     <div class="keyword-grid">
+       <div class="keyword-cluster">
+         <h4>Existing strengths (protect)</h4>
+         <ul>
+           <li><strong>Athletics for kids Brent</strong> — already ranks</li>
+           <li><strong>Youth athletics Willesden</strong> — already ranks</li>
+           <li><strong>After school sports Willesden</strong> — already ranks</li>
+           <li><strong>Holiday programme athletics Brent</strong> — already ranks</li>
+           <li><strong>Athletics open meet London</strong> — already ranks</li>
+         </ul>
+       </div>
+       <div class="keyword-cluster">
+         <h4>Funders & grants (build)</h4>
+         <ul>
+           <li><strong>Sports charity London for youth</strong> → /impact</li>
+           <li><strong>Youth development charity Brent</strong> → /about</li>
+           <li><strong>Sport England funded athletics London</strong> → /impact</li>
+           <li><strong>Charity impact report athletics</strong> → /impact</li>
+           <li><strong>Community sport grants London</strong> → /support</li>
+         </ul>
+       </div>
+       <div class="keyword-cluster">
+         <h4>School & partnership (build)</h4>
+         <ul>
+           <li><strong>Pupil Premium athletics</strong> → /schools</li>
+           <li><strong>Ofsted personal development sport</strong> → /schools</li>
+           <li><strong>School sports partnership NW10</strong> → /schools</li>
+           <li><strong>PE staff CPD athletics London</strong> → /schools</li>
+           <li><strong>MAT sports programme London</strong> → /schools</li>
+         </ul>
+       </div>
+       <div class="keyword-cluster">
+         <h4>Brand defence</h4>
+         <ul>
+           <li><strong>Track Academy</strong> → homepage</li>
+           <li><strong>Track Academy Brent</strong> → homepage</li>
+           <li><strong>Track Academy Willesden</strong> → homepage</li>
+           <li><strong>Track Academy athletics</strong> → homepage</li>
+           <li><strong>Track Academy mentoring</strong> → /mentoring</li>
+         </ul>
+       </div>
+     </div>
+     <div class="note">
+       <strong>Google Business Profile</strong> is the single highest-leverage SEO action for Track Academy. If verified and updated with session times, photos, and weekly posts, Track Academy will appear in the local map pack for broader terms like "youth charity Brent" and "sports programme Willesden" — alongside the programme terms they already rank for. We'll help set this up as part of the rebuild.
+     </div>
   </div>
 </section>
 
@@ -1258,7 +1257,7 @@ a:hover { color: var(--orange); }
         <div class="phase-num">Phase 1</div>
         <div class="phase-content">
           <h4>Website rebuild + database foundation + Upshot sync</h4>
-          <p>All 17 pages live. Multi-step registration wizard saving to Supabase and syncing to Upshot. Audience-routed enquiry forms. Database schema created. Sanity CMS for staff editing. GA4 + Search Console installed. Hosting migrated. DNS pointed. 301 redirects active. <strong>This is what £800 + £300/mo buys.</strong></p>
+          <p>All 19 pages live. Multi-step registration wizard saving to Supabase and syncing to Upshot. Audience-routed enquiry forms. Database schema created. Sanity CMS for staff editing. GA4 + Search Console installed. Hosting migrated. DNS pointed. 301 redirects active. <strong>This is what £800 + £300/mo buys.</strong></p>
         </div>
       </div>
       <div class="phase">
@@ -1301,7 +1300,7 @@ a:hover { color: var(--orange); }
         <div class="amount">£800</div>
         <div class="period">Website rebuild + database</div>
         <ul>
-          <li>All 17 pages designed and built</li>
+          <li>All 19 pages designed and built</li>
           <li>Multi-step registration wizard</li>
           <li>Audience-routed enquiry forms</li>
           <li>Supabase database schema set up</li>
