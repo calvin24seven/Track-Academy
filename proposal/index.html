@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Academy — Website & Systems Rebuild Proposal</title>
+<meta name="description" content="A strategic website proposal for Track Academy — rebuilding the digital foundation for athletics, education, and mentoring in Brent.">
+<style>
+:root {
+  --blue: #0b2b8c;
+  --blue-dark: #08216a;
+  --orange: #f26f2a;
+  --orange-dark: #d45f1f;
+  --ink: #1a1a1a;
+  --grey: #4a4a4a;
+  --grey-light: #f5f5f5;
+  --white: #ffffff;
+  --success: #1a7d3a;
+  --amber: #e8a200;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+  background: var(--white);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (min-width: 768px) {
+  .container { padding: 0 48px; }
+}
+
+/* Progress bar at top */
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: var(--orange);
+  width: 0%;
+  z-index: 1000;
+  transition: width 0.1s ease;
+}
+
+/* Side nav (desktop) */
+.side-nav {
+  position: fixed;
+  right: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: none;
+}
+@media (min-width: 1100px) {
+  .side-nav { display: block; }
+}
+.side-nav ul { list-style: none; }
+.side-nav li { margin: 14px 0; }
+.side-nav a {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d0d0d0;
+  transition: all 0.2s ease;
+  position: relative;
+}
+.side-nav a.active { background: var(--orange); transform: scale(1.4); }
+.side-nav a:hover::after {
+  content: attr(data-label);
+  position: absolute;
+  right: 20px;
+  top: -6px;
+  background: var(--blue);
+  color: var(--white);
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 11px;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+/* Section base */
+section {
+  padding: 80px 0;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  section { padding: 120px 0; }
+}
+
+.section-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 16px;
+  display: block;
+}
+
+h1 {
+  font-size: 2.25rem;
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 768px) {
+  h1 { font-size: 3.5rem; }
+}
+
+h2 {
+  font-size: 1.75rem;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 768px) {
+  h2 { font-size: 2.5rem; }
+}
+
+h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+p { margin-bottom: 16px; color: var(--grey); max-width: 65ch; }
+p strong { color: var(--ink); }
+
+.lead {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  color: var(--grey);
+  max-width: 60ch;
+  margin-bottom: 32px;
+}
+
+@media (min-width: 768px) {
+  .lead { font-size: 1.5rem; }
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { color: var(--orange); }
+
+.note {
+  border-left: 3px solid var(--orange);
+  padding: 16px 20px;
+  background: var(--grey-light);
+  margin: 24px 0;
+  font-size: 0.95rem;
+  color: var(--grey);
+}
+.note strong { color: var(--ink); }
+
+/* Cover */
+.cover {
+  background: var(--blue);
+  color: var(--white);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 100px 0 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cover::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, rgba(11,43,140,1) 0%, rgba(8,33,106,1) 100%);
+  z-index: 0;
+}
+
+.cover .container { position: relative; z-index: 1; }
+
+.cover-logo {
+  max-width: 280px;
+  width: 70%;
+  margin-bottom: 48px;
+}
+
+@media (min-width: 768px) {
+  .cover-logo { width: 280px; }
+}
+
+.cover-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-top: 48px;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.7);
+}
+.cover-meta div { display: flex; flex-direction: column; gap: 4px; }
+.cover-meta div span:first-child { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.6; }
+.cover-meta div span:last-child { color: rgba(255,255,255,0.9); font-weight: 500; }
+
+.cover h1 { color: var(--white); max-width: 18ch; }
+.cover .lead { color: rgba(255,255,255,0.85); }
+
+.cover-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 16px 28px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+.btn-primary {
+  background: var(--orange);
+  color: var(--white);
+  border-color: var(--orange);
+}
+.btn-primary:hover { background: var(--orange-dark); border-color: var(--orange-dark); color: var(--white); }
+.btn-secondary {
+  background: transparent;
+  color: var(--white);
+  border-color: rgba(255,255,255,0.4);
+}
+.btn-secondary:hover { border-color: var(--white); color: var(--white); }
+
+.btn-blue {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
+}
+.btn-blue:hover { background: var(--blue-dark); color: var(--white); }
+
+.btn-outline-blue {
+  background: transparent;
+  color: var(--blue);
+  border-color: var(--blue);
+}
+.btn-outline-blue:hover { background: var(--blue); color: var(--white); }
+
+/* Contents bar */
+.contents {
+  background: var(--grey-light);
+  padding: 40px 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+.contents-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+@media (min-width: 640px) { .contents-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) { .contents-grid { grid-template-columns: repeat(4, 1fr); } }
+.contents a {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 10px 0;
+  font-size: 0.875rem;
+  color: var(--grey);
+  border-bottom: 1px solid #e0e0e0;
+  transition: all 0.2s ease;
+}
+.contents a:hover { color: var(--orange); padding-left: 4px; }
+.contents a span:first-child {
+  font-weight: 700;
+  color: var(--orange);
+  font-size: 0.75rem;
+  min-width: 24px;
+}
+
+/* What we heard — cards */
+.heard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 48px;
+}
+@media (min-width: 640px) { .heard-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .heard-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.heard-card {
+  background: var(--white);
+  border: 1px solid #e5e5e5;
+  padding: 28px;
+  transition: all 0.2s ease;
+}
+.heard-card:hover { border-color: var(--orange); transform: translateY(-2px); }
+.heard-card h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--ink);
+}
+.heard-card p { font-size: 0.9rem; color: var(--grey); margin: 0; line-height: 1.5; }
+
+/* Shift table */
+.shift-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 32px;
+}
+.shift-table th, .shift-table td {
+  padding: 20px 24px;
+  text-align: left;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 0.95rem;
+}
+.shift-table th {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--orange);
+  font-weight: 700;
+  background: var(--grey-light);
+}
+.shift-table .old { color: var(--grey); text-decoration: line-through; opacity: 0.6; }
+.shift-table .new { color: var(--ink); font-weight: 600; }
+
+/* ICP grid */
+.icp-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-top: 48px;
+}
+@media (min-width: 900px) { .icp-grid { grid-template-columns: repeat(3, 1fr); } }
+.icp-card {
+  background: var(--white);
+  border: 1px solid #e5e5e5;
+  padding: 36px 28px;
+}
+.icp-card .label {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--orange);
+  font-weight: 700;
+  margin-bottom: 24px;
+  display: block;
+}
+.icp-card h3 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 16px;
+  color: var(--blue);
+}
+.icp-card p { font-size: 0.95rem; margin-bottom: 12px; }
+.icp-card .stat {
+  display: block;
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--orange);
+  margin: 24px 0 4px;
+  line-height: 1;
+}
+.icp-card .stat-caption {
+  font-size: 0.8rem;
+  color: var(--grey);
+  margin: 0 0 16px;
+}
+
+/* Diagnosis list */
+.diagnosis { counter-reset: diagnosis; }
+.diagnosis-item {
+  display: flex;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid #e5e5e5;
+  counter-increment: diagnosis;
+}
+.diagnosis-item:last-child { border-bottom: none; }
+.diagnosis-item::before {
+  content: "0" counter(diagnosis);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--orange);
+  letter-spacing: 0.1em;
+  min-width: 32px;
+  padding-top: 4px;
+}
+.diagnosis-item .content { flex: 1; }
+.diagnosis-item h4 { font-size: 1.05rem; margin-bottom: 6px; color: var(--ink); font-weight: 700; }
+.diagnosis-item p { font-size: 0.9rem; color: var(--grey); margin: 0; max-width: 65ch; }
+
+/* Sitemap vis */
+.sitemap {
+  margin-top: 48px;
+  padding: 32px;
+  background: var(--grey-light);
+  border-radius: 4px;
+}
+.sitemap ul { list-style: none; margin-top: 16px; padding-left: 24px; }
+.sitemap li {
+  padding: 8px 0;
+  font-size: 0.95rem;
+  color: var(--grey);
+  position: relative;
+}
+.sitemap li::before {
+  content: "—";
+  color: var(--orange);
+  position: absolute;
+  left: -20px;
+  font-weight: 700;
+}
+.sitemap .primary { font-weight: 700; color: var(--blue); }
+
+/* Homepage rewrite */
+.before-after {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-top: 48px;
+}
+@media (min-width: 768px) { .before-after { grid-template-columns: 1fr 1fr; } }
+
+.before, .after {
+  padding: 32px;
+  border: 2px solid;
+}
+.before {
+  background: var(--grey-light);
+  border-color: #d0d0d0;
+}
+.after {
+  background: var(--white);
+  border-color: var(--orange);
+}
+.before .label, .after .label {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: block;
+}
+.before .label { color: var(--grey); }
+.after .label { color: var(--orange); }
+.before h3, .after h3 {
+  font-size: 1.35rem;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+.before p, .after p { font-size: 0.95rem; }
+
+/* Registration comparison */
+.reg-comparison {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-top: 48px;
+}
+@media (min-width: 768px) { .reg-comparison { grid-template-columns: 1fr 1fr; } }
+.reg-col h3 { font-size: 1.25rem; margin-bottom: 20px; }
+.reg-col ul { list-style: none; padding: 0; }
+.reg-col li {
+  padding: 12px 0;
+  padding-left: 28px;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 0.95rem;
+  position: relative;
+  color: var(--grey);
+}
+.reg-col li::before {
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+}
+.reg-col.now li::before { content: "\2717"; color: #d63a3a; }
+.reg-col.next li::before { content: "\2713"; color: var(--success); }
+
+/* Impact dashboard mock */
+.impact-mock {
+  background: var(--blue);
+  color: var(--white);
+  padding: 48px 32px;
+  margin-top: 48px;
+}
+.impact-mock h3 { color: var(--white); margin-bottom: 32px; }
+.impact-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 32px;
+}
+@media (min-width: 768px) { .impact-stats { grid-template-columns: repeat(4, 1fr); } }
+.impact-stat .num {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--orange);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.impact-stat .label {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.impact-mock .footnote {
+  margin-top: 32px;
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.5);
+}
+
+/* Integration grid */
+.integrations {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-top: 48px;
+}
+@media (min-width: 640px) { .integrations { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .integrations { grid-template-columns: repeat(4, 1fr); } }
+.integration {
+  padding: 24px;
+  border: 1px solid #e5e5e5;
+  text-align: center;
+}
+.integration .icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  background: var(--grey-light);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  color: var(--blue);
+  font-size: 1.25rem;
+}
+.integration h4 { font-size: 0.95rem; margin-bottom: 6px; }
+.integration p { font-size: 0.85rem; color: var(--grey); margin: 0; }
+
+/* SEO keywords */
+.keyword-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin-top: 48px;
+}
+@media (min-width: 768px) { .keyword-grid { grid-template-columns: 1fr 1fr; } }
+.keyword-cluster { padding: 24px; background: var(--grey-light); }
+.keyword-cluster h4 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--orange);
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.keyword-cluster ul { list-style: none; padding: 0; }
+.keyword-cluster li {
+  padding: 8px 0;
+  font-size: 0.9rem;
+  color: var(--grey);
+  border-bottom: 1px solid #e5e5e5;
+}
+.keyword-cluster li:last-child { border-bottom: none; }
+.keyword-cluster li strong { color: var(--ink); }
+
+/* Roadmap */
+.roadmap {
+  margin-top: 48px;
+  position: relative;
+}
+.roadmap::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #e0e0e0;
+}
+@media (min-width: 768px) { .roadmap::before { left: 80px; } }
+.phase {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 40px;
+  position: relative;
+  align-items: flex-start;
+}
+.phase::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 8px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--orange);
+  border: 3px solid var(--white);
+  box-shadow: 0 0 0 2px var(--orange);
+}
+@media (min-width: 768px) {
+  .phase::before { left: 73px; width: 16px; height: 16px; }
+}
+.phase-num {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--orange);
+  min-width: 60px;
+  padding-top: 2px;
+  padding-left: 32px;
+}
+@media (min-width: 768px) {
+  .phase-num { min-width: 120px; padding-left: 0; text-align: right; }
+}
+.phase-content { flex: 1; padding-bottom: 8px; }
+.phase-content h4 { font-size: 1.1rem; margin-bottom: 8px; }
+.phase-content p { font-size: 0.9rem; margin: 0; }
+
+/* Pricing */
+.pricing {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+@media (min-width: 768px) { .pricing { grid-template-columns: repeat(3, 1fr); } }
+.price-card {
+  padding: 32px 28px;
+  border: 1px solid #e5e5e5;
+}
+.price-card.featured {
+  border-color: var(--orange);
+  border-width: 2px;
+  position: relative;
+}
+.price-card.featured::after {
+  content: 'INCLUDED';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--orange);
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 4px 12px;
+  border-radius: 2px;
+}
+.price-card .label {
+  font-size: 0.85rem;
+  color: var(--grey);
+  margin-bottom: 8px;
+}
+.price-card .amount {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--blue);
+  margin-bottom: 8px;
+  line-height: 1;
+}
+.price-card .period {
+  font-size: 0.9rem;
+  color: var(--grey);
+  margin-bottom: 24px;
+}
+.price-card ul { list-style: none; padding: 0; margin: 0; }
+.price-card li {
+  padding: 10px 0;
+  padding-left: 24px;
+  font-size: 0.9rem;
+  position: relative;
+  color: var(--grey);
+  border-top: 1px solid #f0f0f0;
+}
+.price-card li::before {
+  content: "\2713";
+  position: absolute;
+  left: 0;
+  color: var(--success);
+  font-weight: 700;
+}
+
+/* Closing */
+.closing {
+  background: var(--blue);
+  color: var(--white);
+  padding: 100px 0 120px;
+}
+.closing h2 { color: var(--white); }
+.closing p { color: rgba(255,255,255,0.85); }
+.closing .note { background: rgba(255,255,255,0.05); border-color: var(--orange); color: rgba(255,255,255,0.9); }
+.closing .note strong { color: var(--white); }
+.closing-meta {
+  margin-top: 64px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+@media (min-width: 768px) { .closing-meta { grid-template-columns: repeat(4, 1fr); } }
+.closing-meta div span:first-child {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  display: block;
+  margin-bottom: 6px;
+}
+.closing-meta div span:last-child {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.9);
+  font-weight: 500;
+}
+
+/* Reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Split section */
+.split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  align-items: center;
+  margin-top: 48px;
+}
+@media (min-width: 768px) { .split { grid-template-columns: 1fr 1fr; } }
+.split-stat {
+  background: var(--blue);
+  color: var(--white);
+  padding: 48px;
+}
+.split-stat .big {
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--orange);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.split-stat .label {
+  color: rgba(255,255,255,0.8);
+  font-size: 0.95rem;
+}
+
+/* Mobile nav for sections */
+.mobile-toc {
+  display: block;
+  margin-bottom: 32px;
+}
+@media (min-width: 1100px) { .mobile-toc { display: none; } }
+
+/* Tone table */
+.tone-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 32px;
+}
+.tone-table th, .tone-table td {
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid #e5e5e5;
+  font-size: 0.95rem;
+  vertical-align: top;
+}
+.tone-table th {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--orange);
+  font-weight: 700;
+  background: var(--grey-light);
+}
+.tone-table .avoid { color: #d63a3a; }
+.tone-table .use { color: var(--success); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav class="side-nav" id="sideNav">
+  <ul>
+    <li><a href="#intro" data-label="Intro"></a></li>
+    <li><a href="#heard" data-label="What we heard"></a></li>
+    <li><a href="#vision" data-label="The Vision"></a></li>
+    <li><a href="#audiences" data-label="Three Audiences"></a></li>
+    <li><a href="#diagnosis" data-label="Site Diagnosis"></a></li>
+    <li><a href="#architecture" data-label="New Architecture"></a></li>
+    <li><a href="#homepage" data-label="Homepage Direction"></a></li>
+    <li><a href="#registration" data-label="Registration"></a></li>
+    <li><a href="#impact" data-label="Impact Dashboard"></a></li>
+    <li><a href="#integrations" data-label="Integrations"></a></li>
+    <li><a href="#seo" data-label="Search"></a></li>
+    <li><a href="#roadmap" data-label="Roadmap"></a></li>
+    <li><a href="#investment" data-label="Investment"></a></li>
+    <li><a href="#next" data-label="Next Step"></a></li>
+  </ul>
+</nav>
+
+<!-- COVER -->
+<section class="cover" id="intro">
+  <div class="container">
+    <img src="assets/track-academy-logo-white.png" alt="Track Academy" class="cover-logo">
+    <span class="section-num" style="color: var(--orange);">Proposal · July 2026</span>
+    <h1>A website that proves the impact Track Academy already has.</h1>
+    <p class="lead">A strategic plan to rebuild trackacademy.co.uk into a launchpad that registers young people, routes schools, attracts funders, and tracks the data Upshot can't.</p>
+    <div class="cover-cta">
+      <a href="#investment" class="btn btn-primary">See the investment</a>
+      <a href="#diagnosis" class="btn btn-secondary">Review the diagnosis</a>
+    </div>
+    <div class="cover-meta">
+      <div><span>Prepared for</span><span>Patrik Ewe, CEO</span></div>
+      <div><span>From</span><span>Calvin</span></div>
+      <div><span>Status</span><span>Working document</span></div>
+      <div><span>Reading time</span><span>~12 minutes</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENTS -->
+<section class="contents">
+  <div class="container">
+    <div class="contents-grid">
+      <a href="#heard"><span>01</span> What we heard</a>
+      <a href="#vision"><span>02</span> The vision</a>
+      <a href="#audiences"><span>03</span> Three audiences</a>
+      <a href="#diagnosis"><span>04</span> Site diagnosis</a>
+      <a href="#architecture"><span>05</span> New architecture</a>
+      <a href="#homepage"><span>06</span> Homepage direction</a>
+      <a href="#registration"><span>07</span> Registration reimagined</a>
+      <a href="#impact"><span>08</span> Impact dashboard</a>
+      <a href="#integrations"><span>09</span> Integrations</a>
+      <a href="#seo"><span>10</span> Search opportunity</a>
+      <a href="#roadmap"><span>11</span> Roadmap</a>
+      <a href="#investment"><span>12</span> Investment</a>
+      <a href="#next"><span>13</span> Next step</a>
+    </div>
+  </div>
+</section>
+
+<!-- 01 WHAT WE HEARD -->
+<section id="heard">
+  <div class="container">
+    <span class="section-num">01 / Discovery</span>
+    <h2>What we heard from Patrik.</h2>
+    <p class="lead">Four observations from our conversations. They shape everything that follows.</p>
+    <div class="heard-grid">
+      <div class="heard-card">
+        <h4>WordPress is weighing staff down</h4>
+        <p>Plugin updates, Elementor quirks, and no dev handover have made the site a maintenance burden. Staff aren't editing it. Visitors aren't booking from it.</p>
+      </div>
+      <div class="heard-card">
+        <h4>Upshot can't tell Track Academy's story</h4>
+        <p>Upshot is the operational database. It can't show the world what Track Academy achieves. Funders see forms. Parents see a 50-field registration. The website can't query any of it.</p>
+      </div>
+      <div class="heard-card">
+        <h4>Three audiences need three journeys</h4>
+        <p>Parents, schools, and funders all arrive at one homepage. Right now they all see the same thing. They need to be routed — and spoken to — differently.</p>
+      </div>
+      <div class="heard-card">
+        <h4>The brand and website are quietly stuck in 2017</h4>
+        <p>Patrik's own 2025 priorities list a brand and website refresh. The mission is<strong> clearer than the site can show</strong>. The data is <strong>better than the site can prove</strong>.</p>
+      </div>
+    </div>
+    <div class="note">
+      <strong>The opportunity</strong> isn't to replace Upshot or build a CRM. It's to build a website that makes registering easy, proves the impact, and speaks to three audiences — while syncing to Upshot behind the scenes. That's what this proposal is.
+    </div>
+  </div>
+</section>
+
+<!-- 02 THE VISION -->
+<section id="vision" style="background: var(--grey-light);">
+  <div class="container">
+    <span class="section-num">02 / Vision</span>
+    <h2>From charity brochure to digital launchpad.</h2>
+    <p class="lead">Track Academy already has the model, the data, and the 17-year track record. The website needs to catch up.</p>
+    <table class="shift-table">
+      <thead><tr><th>Old perception</th><th>New direction</th></tr></thead>
+      <tbody>
+        <tr><td class="old">WordPress brochure</td><td class="new">Digital launchpad with database backbone</td></tr>
+        <tr><td class="old">One page for everyone</td><td class="new">Three routed journeys: parents, schools, funders</td></tr>
+        <tr><td class="old">Upshot form embedded</td><td class="new">Our own multi-step registration, syncing to Upshot</td></tr>
+        <tr><td class="old">Impact only in PDF</td><td class="new">Live impact numbers on the site</td></tr>
+        <tr><td class="old">Manual event updates</td><td class="new">Database-driven events and fixtures</td></tr>
+        <tr><td class="old">Plugin maintenance</td><td class="new">Zero-plugin, headless site — no admin burden</td></tr>
+        <tr><td class="old">£160/year hosting</td><td class="new">Free hosting on Calvin's infrastructure</td></tr>
+        <tr><td class="old">Invisible to Google for Brent searches</td><td class="new">Optimised to rank for local youth athletics queries</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      <strong>Track Academy's 2024 Annual Report says</strong> the four priorities for 2025 include "Refresh our brand and website: Ensuring our identity reflects our evolving mission." This proposal directly answers that priority — and Patrik has already budgeted for it.
+    </div>
+  </div>
+</section>
+
+<!-- 03 THREE AUDIENCES -->
+<section id="audiences">
+  <div class="container">
+    <span class="section-num">03 / Audiences</span>
+    <h2>Who the website needs to speak to.</h2>
+    <p class="lead">Three audiences. Three journeys. One website that routes each one properly instead of showing everyone the same homepage.</p>
+    <div class="icp-grid">
+      <div class="icp-card">
+        <span class="label">Audience 01</span>
+        <h3>Parents</h3>
+        <p>Brent families looking for athletics, education, and mentoring for their child aged 5-21.</p>
+        <p><strong>£25 a term.</strong> Free if on financial support.</p>
+        <span class="stat">98%</span>
+        <p class="stat-caption">of athletes would recommend Track Academy to a friend</p>
+        <p><strong>They want:</strong> affordable, safe, trustworthy, easy to register.</p>
+      </div>
+      <div class="icp-card">
+        <span class="label">Audience 02</span>
+        <h3>Schools</h3>
+        <p>Brent primary and secondary schools with Pupil Premium funding. Need Ofsted-ready evidence and admin-light delivery.</p>
+        <p><strong>Tiers:</strong> Bronze £1,950 / Silver £3,950 / Gold £6,950 per year.</p>
+        <span class="stat">66%</span>
+        <p class="stat-caption">of participants improved school performance</p>
+        <p><strong>They want:</strong> Ofsted personal development evidence, Pupil Premium justification, clear outcomes tracked.</p>
+      </div>
+      <div class="icp-card">
+        <span class="label">Audience 03</span>
+        <h3>Funders</h3>
+        <p>Trusts, foundations, statutory funders (Sport England, National Lottery), corporate sponsors reviewing Track Academy for grants.</p>
+        <p><strong>Track record:</strong> Laureus, Sported, Jack Petchey, Tesco, England Athletics.</p>
+        <span class="stat">577</span>
+        <p class="stat-caption">sessions delivered to 331 young people in 2024</p>
+        <p><strong>They want:</strong> evidence, governance, demographics, and a face behind the numbers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 DIAGNOSIS -->
+<section id="diagnosis" style="background: var(--grey-light);">
+  <div class="container">
+    <span class="section-num">04 / Diagnosis</span>
+    <h2>The current site is holding Track Academy back.</h2>
+    <p class="lead">A short list of specific things we'd change first. Not a critique — making the opportunity obvious.</p>
+    <div class="diagnosis">
+      <div class="diagnosis-item">
+        <div class="content">
+          <h4>Registration is a wall, not a doorway</h4>
+          <p>The Upshot form has 50+ fields, demographic dropdowns for ethnicity and faith before a parent can even enter their child's name. Parents abandon it. Staff answer the phone instead. It's the number one friction point.</p>
+        </div>
+      </div>
+      <div class="diagnosis-item">
+        <div class="content">
+          <h4>The Contact page still has Lorem ipsum</h4>
+          <p>trackacademy.co.uk/contact-us literally contains placeholder text. It's the kind of detail that erodes trust in seconds — and exactly the kind of detail a funder would notice.</p>
+        </div>
+      </div>
+      <div class="diagnosis-item">
+        <div class="content">
+          <h4>Impact is only visible in a PDF</h4>
+          <p>The 2024 Annual Report has all the numbers: 577 sessions, 331 young people, 66% improved school performance, 98% recommendation rate. None of it appears on the website in a way that updates or routes funders to it.</p>
+        </div>
+      </div>
+      <div class="diagnosis-item">
+        <div class="content">
+          <h4>The homepage speaks to no one specifically</h4>
+          <p>Parents, schools, and funders all see the same hero and the same four cards. There's no "I'm a parent, I'm from a school, I'm a funder" routing. Every audience has to work to find their own relevant info.</p>
+        </div>
+      </div>
+      <div class="diagnosis-item">
+        <div class="content">
+          <h4>Events and fixtures are manually edited</h4>
+          <p>Staff edit WordPress pages when events change. Fixtures are in a table updated by hand. There's no filter, no archive, no database. It's maintenance work dressed up as content.</p>
+        </div>
+      </div>
+      <div class="diagnosis-item">
+        <div class="content">
+          <h4>The team page is unnamed photos</h4>
+          <p>The Annual Report lists every staff member, coach, mentor, trustee — by name, with bios. The website shows group photos with no labels. Funders researching Track Academy can't see who runs it.</p>
+        </div>
+      </div>
+      <div class="diagnosis-item">
+        <div class="content">
+          <h4>Hosting costs £160/year for a site staff hate</h4>
+          <p>The hosting renewal is a complaint, not an investment. Moving to Calvin's Cloudflare infrastructure eliminates that cost — and is faster, more secure, and zero maintenance.</p>
+        </div>
+      </div>
+      <div class="diagnosis-item">
+        <div class="content">
+          <h4>No visibility on Google for Brent searches</h4>
+          <p>"Athletics for kids Brent", "youth athletics Willesden", "Pupil Premium athletics" — Track Academy doesn't currently rank for any of the searches its three audiences actually do.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 ARCHITECTURE -->
+<section id="architecture">
+  <div class="container">
+    <span class="section-num">05 / Architecture</span>
+    <h2>A new sitemap built around the three audiences.</h2>
+    <p class="lead">17 pages, each with a specific job. Nothing decorative.</p>
+    <div class="sitemap">
+      <ul>
+        <li class="primary">Homepage — route the three audiences, show impact, latest events, Instagram</li>
+        <li><strong>About:</strong> About Us, Impact, Safeguarding, Team</li>
+        <li><strong>Programmes:</strong> Athletics, Education & Life Skills, Mentoring, Holiday Programmes, Performance Coaching</li>
+        <li class="primary">Schools — tiers, pricing, testimonials, enquiry form</li>
+        <li><strong>Events — database-driven feed, filterable by type</strong></li>
+        <li><strong>Competitions — fixtures pulled from database, URN registration</strong></li>
+        <li class="primary">Register — multi-step wizard, syncs to Upshot</li>
+        <li><strong>Support — donate, sponsor, volunteer</strong></li>
+        <li><strong>Contact — audience-routed form</strong></li>
+        <li>Privacy Policy, 404</li>
+      </ul>
+    </div>
+    <div class="note">
+      <strong>301 redirects</strong> from every old URL to the new equivalents. No SEO equity lost. All current Google-ranking pages maintained at their new locations.
+    </div>
+  </div>
+</section>
+
+<!-- 06 HOMEPAGE -->
+<section id="homepage" style="background: var(--grey-light);">
+  <div class="container">
+    <span class="section-num">06 / Homepage</span>
+    <h2>How the homepage should feel in 10 seconds.</h2>
+    <p class="lead">The current homepage says "Changing lives since 2007" but makes the visitor do the work. The new one routes them.</p>
+    <div class="before-after">
+      <div class="before">
+        <span class="label">Before</span>
+        <h3>Track Academy<br>Changing lives since 2007.</h3>
+        <p>Through our unique blend of athletics, education and mentoring, Track Academy is a launchpad for young people to break down barriers, unlock their potential and thrive.</p>
+        <p style="margin-top: 16px; font-size: 0.85rem; color: var(--grey);">Four programme cards below. No audience routing. No pricing clarity until they click through. No proof placed where a funder or parent will see it first.</p>
+      </div>
+      <div class="after">
+        <span class="label">After</span>
+        <h3>Track Academy<br>Changing lives since 2007.</h3>
+        <p>Through athletics, education and mentoring, we're a launchpad for young people in Brent to break down barriers, unlock their potential and thrive.</p>
+        <p style="margin-top: 16px;"><strong>Register your child</strong> &nbsp;·&nbsp; <strong>Partner with your school</strong> &nbsp;·&nbsp; <strong>Support our work</strong></p>
+        <p style="margin-top: 16px; font-size: 0.85rem; color: var(--grey);">Below the hero: audience router ("I'm a parent / I'm from a school / I'm a funder"). Then programme cards. Then a stat band: <strong>577 sessions, 331 young people, 98% recommend, 200+ competition entries</strong>. Then stories. Then school partnership teaser. Then Instagram feed.</p>
+      </div>
+    </div>
+    <div class="note">
+      <strong>The voice doesn't change.</strong> "Changing lives since 2007" remains. We're not rebranding Track Academy — we're giving its existing voice an architecture that lets it speak to three audiences at once.
+    </div>
+  </div>
+</section>
+
+<!-- 07 REGISTRATION -->
+<section id="registration">
+  <div class="container">
+    <span class="section-num">07 / Registration</span>
+    <h2>Replace the 50-field form with a step-by-step wizard.</h2>
+    <p class="lead">The current Upshot embed asks a Brent parent about their 8-year-old's GCSE results before they've entered their child's name. We fix it — without touching Upshot's data.</p>
+    <div class="reg-comparison">
+      <div class="reg-col now">
+        <h3>Today</h3>
+        <ul>
+          <li>50+ fields on a single page</li>
+          <li>Ethnicity, faith, gender before the child's name</li>
+          <li>Education fields shown regardless of child's age</li>
+          <li>No save-and-continue</li>
+          <li>No sibling autofill</li>
+          <li>No mobile-optimised layout</li>
+          <li>Validation only on submit</li>
+          <li>Confusing for Universal Credit applicants</li>
+          <li>Lost on refresh or accidental back</li>
+          <li>No confirmation email with next steps</li>
+        </ul>
+      </div>
+      <div class="reg-col next">
+        <h3>Rebuild</h3>
+        <ul>
+          <li>7-step wizard — one thing at a time</li>
+          <li>Child's name and DOB first,_AUTO assigns age group</li>
+          <li>Education fields only show if child is in Year 5+</li>
+          <li>Save & come back later — draft emailed to parent</li>
+          <li>"Register another child" pre-fills parent details</li>
+          <li>Mobile-first, large tap targets, one column</li>
+          <li>Inline validation — friendly, on blur</li>
+          <li>Universal Credit flow auto-applies free place</li>
+          <li>Server-side autosave — never lose progress</li>
+          <li>Confirmation email: session time, what to bring, Spond link</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">
+      <strong>How it syncs with Upshot:</strong> The new registration saves to our own Supabase database first. A sync job then maps the fields to Upshot's expected format and pushes them via Upshot's API. If the sync fails, it retries and flags it — the parent sees a clean confirmation either way, and Track Academy staff are alerted to fix it. Upshot gets the data. The parent gets a real form.
+    </div>
+  </div>
+</section>
+
+<!-- 08 IMPACT DASHBOARD -->
+<section id="impact" style="background: var(--grey-light);">
+  <div class="container">
+    <span class="section-num">08 / Impact</span>
+    <h2>An impact page that shows the numbers Upshot can't.</h2>
+    <p class="lead">The 2024 Annual Report has stats that should live on the website — not buried in a PDF. Track Academy deserves an impact page that makes a Sport England grants officer want to write the cheque.</p>
+    <div class="impact-mock">
+      <h3>Live impact band — proposed for /impact</h3>
+      <div class="impact-stats">
+        <div class="impact-stat">
+          <div class="num">577</div>
+          <div class="label">Sessions in 2024</div>
+        </div>
+        <div class="impact-stat">
+          <div class="num">331</div>
+          <div class="label">Young people aged 5-21</div>
+        </div>
+        <div class="impact-stat">
+          <div class="num">98%</div>
+          <div class="label">Would recommend us</div>
+        </div>
+        <div class="impact-stat">
+          <div class="num">200+</div>
+          <div class="label">Competition entries</div>
+        </div>
+      </div>
+      <p class="footnote">In Phase 1 these numbers are authored in the CMS (Sanity). In Phase 2 they pull live from the Supabase database — automatically counted from attendance records and outcome surveys.</p>
+    </div>
+    <div class="split" style="margin-top: 48px;">
+      <div class="split-stat">
+        <div class="big">66%</div>
+        <div class="label">of participants improved their school performance in 2024</div>
+      </div>
+      <div>
+        <h3>The page becomes evidence, not a gallery.</h3>
+        <p>The current impact page is a testimonial gallery. The new one leads with the numbers a funder needs to see — then backs them with stories, the annual report download, demographics (64% girls, 85% ethnic minorities, 85% from Brent), and the context funders cite in their own reports (41% Brent child poverty, 28% feel they have safe spaces).</p>
+        <p>It ends with one clear CTA: <strong>Support our work</strong> or <strong>Talk to us about funding</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 INTEGRATIONS -->
+<section id="integrations">
+  <div class="container">
+    <span class="section-num">09 / Integrations</span>
+    <h2>We're not replacing Upshot. We're making it usable.</h2>
+    <p class="lead">Upshot stays as the operational system of record. The new website and database sit alongside it, syncing data automatically. Patrik keeps the system he trusts. Parents get a form they can actually fill in.</p>
+    <div class="integrations">
+      <div class="integration">
+        <div class="icon">U</div>
+        <h4>Upshot</h4>
+        <p>Write-only sync from our database on every registration. Daily reconciliation. Failure alerts to admin.</p>
+      </div>
+      <div class="integration">
+        <div class="icon">S</div>
+        <h4>Spond</h4>
+        <p>Continues as parent communication. Link to Spond from confirmation email and competition pages.</p>
+      </div>
+      <div class="integration">
+        <div class="icon">O</div>
+        <h4>OpenTrack</h4>
+        <p>Continues as competition entry system. Event cards link out to OpenTrack directly.</p>
+      </div>
+      <div class="integration">
+        <div class="icon">W</div>
+        <h4>Whydonate</h4>
+        <p>Continues as donation platform. CTAs across the site link to the existing Whydonate page.</p>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Future Phase 2+:</strong> Stripe payments on-site (replaces bank transfer friction), parent portal (view child's progress), school portal (download termly reports), Spond replacement (in-app messaging + RSVPs + payments). All designed for — none built in this phase.
+    </div>
+  </div>
+</section>
+
+<!-- 10 SEO -->
+<section id="seo" style="background: var(--grey-light);">
+  <div class="container">
+    <span class="section-num">10 / Search</span>
+    <h2>The website should answer the searches Brent families are already doing.</h2>
+    <p class="lead">Right now, Track Academy doesn't appear for the search queries its three audiences actually use. The rebuild fixes that — not by chasing traffic, but by building pages worth sending demand to.</p>
+    <div class="keyword-grid">
+      <div class="keyword-cluster">
+        <h4>Programme searches</h4>
+        <ul>
+          <li><strong>Athletics for kids Brent</strong> → /athletics</li>
+          <li><strong>After school sports Willesden</strong> → /athletics</li>
+          <li><strong>Youth athletics London NW10</strong> → /athletics</li>
+          <li><strong>Holiday programme athletics Brent</strong> → /holiday-programmes</li>
+          <li><strong>Athletics open meet London</strong> → /events</li>
+        </ul>
+      </div>
+      <div class="keyword-cluster">
+        <h4>School & funder searches</h4>
+        <ul>
+          <li><strong>School sports partnership Brent</strong> → /schools</li>
+          <li><strong>Pupil Premium athletics</strong> → /schools</li>
+          <li><strong>Ofsted personal development evidence</strong> → /schools</li>
+          <li><strong>Sports charity London</strong> → /impact</li>
+          <li><strong>Youth mentoring charity Brent</strong> → /mentoring</li>
+        </ul>
+      </div>
+      <div class="keyword-cluster">
+        <h4>Local SEO</h4>
+        <ul>
+          <li><strong>Willesden Sports Centre athletics</strong></li>
+          <li><strong>Things to do in NW10 with kids</strong></li>
+          <li><strong>Free activities for kids in Brent</strong></li>
+          <li><strong>Youth clubs in Brent</strong></li>
+          <li><strong>Brent children's activities</strong></li>
+        </ul>
+      </div>
+      <div class="keyword-cluster">
+        <h4>Brand defence</h4>
+        <ul>
+          <li><strong>Track Academy</strong> → homepage</li>
+          <li><strong>Track Academy Brent</strong> → homepage</li>
+          <li><strong>Track Academy Willesden</strong> → homepage</li>
+          <li><strong>Track Academy athletics</strong> → homepage</li>
+          <li><strong>Track Academy mentoring</strong> → /mentoring</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Google Business Profile</strong> is the single highest-leverage SEO action for Track Academy. If verified and updated with session times, photos, and weekly posts, Track Academy will appear in the local map pack for "athletics Brent" and "youth sports Willesden" within weeks — not months. We'll help set this up as part of the rebuild.
+    </div>
+  </div>
+</section>
+
+<!-- 11 ROADMAP -->
+<section id="roadmap">
+  <div class="container">
+    <span class="section-num">11 / Roadmap</span>
+    <h2>What gets built — and when.</h2>
+    <p class="lead">A phased approach. Phase 1 is what this proposal covers. Everything else is designed for, not built yet.</p>
+    <div class="roadmap">
+      <div class="phase">
+        <div class="phase-num">Phase 1</div>
+        <div class="phase-content">
+          <h4>Website rebuild + database foundation + Upshot sync</h4>
+          <p>All 17 pages live. Multi-step registration wizard saving to Supabase and syncing to Upshot. Audience-routed enquiry forms. Database schema created. Sanity CMS for staff editing. GA4 + Search Console installed. Hosting migrated. DNS pointed. 301 redirects active. <strong>This is what £800 + £300/mo buys.</strong></p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">Phase 2</div>
+        <div class="phase-content">
+          <h4>Internal tools + Athlete Passports</h4>
+          <p>Staff dashboard to view athletes, attendance, contact info. Event and fixture management via CMS. Athlete Passport system (per-term record of attendance, confidence, fitness, behaviour) — the same system referenced on the schools page.</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">Phase 3</div>
+        <div class="phase-content">
+          <h4>Portals + impact dashboards</h4>
+          <p>Parent portal (view child's progress, pay fees, register siblings, message staff). School portal (view Athlete Passports, download termly reports, manage pupil list). Funder dashboard (live impact data, demographic breakdowns, outcome trends).</p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">Phase 4</div>
+        <div class="phase-content">
+          <h4>Operational replacement</h4>
+          <p>Stripe on-site payments. Volunteer management. Spond replacement with in-app messaging and RSVPs. OpenTrack deeper integration. News/stories blog for ongoing SEO. Track Academy's digital operations — running on one system the staff actually own.</p>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Why phased:</strong> Phase 1 proves the case. It's the website + database + Upshot sync that makes the immediate difference for parents, schools, and funders. Phases 2-4 are the natural progression — and they're all designed for in Phase 1 so nothing needs rebuilding later.
+    </div>
+  </div>
+</section>
+
+<!-- 12 INVESTMENT -->
+<section id="investment" style="background: var(--grey-light);">
+  <div class="container">
+    <span class="section-num">12 / Investment</span>
+    <h2>What it costs — and what it replaces.</h2>
+    <p class="lead">Track Academy already pays £300/month for website updates. We're proposing that same monthly figure retainer funds the rebuild, the hosting, and ongoing development — with a one-off rebuild fee that covers the database foundation.</p>
+    <div class="pricing">
+      <div class="price-card">
+        <div class="label">One-off</div>
+        <div class="amount">£800</div>
+        <div class="period">Website rebuild + database</div>
+        <ul>
+          <li>All 17 pages designed and built</li>
+          <li>Multi-step registration wizard</li>
+          <li>Audience-routed enquiry forms</li>
+          <li>Supabase database schema set up</li>
+          <li>Upshot sync integration</li>
+          <li>Sanity CMS configured for staff</li>
+          <li>GA4 + Google Search Console</li>
+          <li>301 redirects from old URLs</li>
+          <li>Google Business Profile optimised</li>
+          <li>5-10 SEO-focused pages</li>
+        </ul>
+      </div>
+      <div class="price-card featured">
+        <div class="label">Monthly</div>
+        <div class="amount">£300</div>
+        <div class="period">Ongoing retainer</div>
+        <ul>
+          <li>Free hosting on Calvin's infrastructure</li>
+          <li>Unlimited content updates via Sanity</li>
+          <li>Form submissions routed to right staff</li>
+          <li>Upshot sync maintenance</li>
+          <li>Monthly SEO review + new content</li>
+          <li>Monthly performance + analytics report</li>
+          <li>Feature prioritisation for Phase 2</li>
+          <li>Email/Slack support within 48 hours</li>
+          <li>Backup, security updates, uptime monitoring</li>
+          <li>Phase 2 development hours banked</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <div class="label">Replaces</div>
+        <div class="amount" style="color: var(--success);">£160</div>
+        <div class="period">Annual hosting saved</div>
+        <ul>
+          <li>Old WordPress + Elementor hosting retired</li>
+          <li>No more plugin updates</li>
+          <li>No more theme conflicts</li>
+          <li>No more £160 annual renewal</li>
+          <li>No more "days of work for updates"</li>
+          <li>No more Lorem ipsum on contact page</li>
+          <li>Staff trained on Sanity — no code needed</li>
+          <li>All previous monthly rate bundled into retainer</li>
+          <li>Hosting now on Calvin's Cloudflare — free</li>
+          <li>Net cost to Track Academy: <strong>£0 hosting</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Compared to:</strong> Patrik mentioned that an equivalent system would normally cost £10k+. This proposal is £800 + £300/mo because we're Calvin — not an agency — and the monthly retainer IS the ongoing investment, not a separate line item. The infrastructure is already paid for. The only real cost is Calvin's time.
+    </div>
+  </div>
+</section>
+
+<!-- 13 NEXT STEP -->
+<section id="next" class="closing">
+  <div class="container">
+    <span class="section-num" style="color: var(--orange);">13 / Next step</span>
+    <h2>A practical next step.</h2>
+    <p class="lead">This is a working document, not a pitch. If it's useful, we review it together — and turn it into a clear build plan.</p>
+    <div class="cover-cta">
+      <a href="mailto:calvin@partneredgrowth.com?subject=Track Academy proposal — next step" class="btn btn-primary">Book a follow-up discussion</a>
+      <a href="#diagnosis" class="btn btn-secondary">Review the diagnosis again</a>
+    </div>
+    <p style="margin-top: 32px; font-size: 0.9rem; color: rgba(255,255,255,0.7); max-width: 60ch;">
+      No rush. This is foundational work — the right structure matters more than the fastest launch. Happy to walk anyone on the team through any section of this document.
+    </p>
+    <div class="closing-meta">
+      <div><span>Prepared for</span><span>Patrik Ewe, CEO</span></div>
+      <div><span>From</span><span>Calvin</span></div>
+      <div><span>Date</span><span>July 2026</span></div>
+      <div><span>Version</span><span>v1.0</span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Scroll progress
+const progress = document.getElementById('progress');
+const sideNav = document.getElementById('sideNav');
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('.side-nav a');
+
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollPercent = (scrollTop / docHeight) * 100;
+  progress.style.width = scrollPercent + '%';
+
+  // Active section
+  let current = '';
+  sections.forEach(sec => {
+    const rect = sec.getBoundingClientRect();
+    if (rect.top <= 100 && rect.bottom > 100) {
+      current = sec.id;
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+});
+
+// Reveal animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+
+document.querySelectorAll('section').forEach(s => {
+  s.classList.add('reveal');
+  observer.observe(s);
+});
+</script>
+
+</body>
+</html>
