@@ -63,6 +63,48 @@ Assets provided in `research/Track Academy/Assets/`:
 - Domain: trackacademy.co.uk (confirmed)
 - Hosting: moving to Calvin's infrastructure (free to client)
 - Current hosting renewal: £160/year (perceived as pricey)
+- Domain registrar: unsure — client will provide later
+
+## Gaps resolved (round 2)
+
+### 1) Funders
+- Not confirmed — continue without. Will be refined during/after build.
+
+### 2) Upshot integration
+- Calvin will get credentials
+- Strategy: **build our own backend AND integrate with Upshot** (dual approach)
+- Our database will be the primary system; Upshot sync will be a feature
+
+### 3) Domain registrar
+- Client will provide later — not a blocker for build phase
+
+### 4) Google Analytics
+- Unsure if installed — we'll add proper GA4 + Search Console during rebuild
+
+### 5) Spond
+- Calvin doesn't have direct access to Spond admin
+- Spond usage documented from registration T&Cs:
+  - Main communication platform for athletes and parents/guardians
+  - Training updates, competition/event invitations, club announcements, membership fee payments
+  - Members responsible for checking regularly and responding within deadlines
+  - Discounted membership for Universal Credit recipients (proof required)
+  - Club page: https://club.spond.com/trackacademy
+  - Spond handles: messaging, event RSVPs, payment collection
+  - **Our rebuild should either integrate with Spond or eventually replace it**
+
+### 6) High-res logo
+- Just what's in the research folder (PNG files)
+- Two versions: "Track academy logo wit white writing.png" and "track academy logo.png"
+
+### 7) Sponsor logos
+- Calvin will get sponsor logos later — not a blocker
+
+### 8) Photo consent
+- Yes, they have photo consent for web use — confirmed
+
+### 9) Team headshots
+- We have both: group photos (from website/annual report) AND individual names (from annual report)
+- Can use group photos initially; individual headshots can be swapped in later if provided
 
 ## Business context (from original brief)
 - Client currently uses WordPress + Elementor → staff hate it (too much admin, plugin updates)
