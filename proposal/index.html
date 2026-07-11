@@ -831,9 +831,9 @@ a:hover { color: var(--orange); }
 <section class="cover" id="intro">
   <div class="container">
     <img src="assets/track-academy-logo-white.png" alt="Track Academy" class="cover-logo">
-    <span class="section-num" style="color: var(--orange);">Proposal Â· July 2026</span>
+    <span class="section-num" style="color: var(--orange);">Proposal · July 2026</span>
     <h1>A website that proves the impact Track Academy already has.</h1>
-    <p class="lead">A strategic plan to rebuild trackacademy.co.uk into a launchpad that registers young people, routes schools, attracts funders, and tracks the data Upshot can't.</p>
+    <p class="lead">A strategic plan to rebuild trackacademy.co.uk into a digital launchpad that registers young people, routes schools, attracts funders, and turns Track Academy's impact data into clear public evidence.</p>
     <div class="cover-cta">
       <a href="#investment" class="btn btn-primary">See the investment</a>
       <a href="#diagnosis" class="btn btn-secondary">Review the diagnosis</a>
@@ -880,8 +880,8 @@ a:hover { color: var(--orange); }
         <p>Plugin updates, Elementor quirks, and no dev handover have made the site a maintenance burden. Staff aren't editing it. Visitors aren't booking from it.</p>
       </div>
       <div class="heard-card">
-        <h4>Upshot can't tell Track Academy's story</h4>
-        <p>Upshot is the operational database. It can't show the world what Track Academy achieves. Funders see forms. Parents see a 50-field registration. The website can't query any of it.</p>
+<h4>The website can't show what Upshot knows</h4>
+<p>Upshot holds the operational data - attendance, outcomes, demographics. But the website can't display any of it. Funders see a PDF. Parents see a 50-field form. The public face and the operational data aren't connected.</p>
       </div>
       <div class="heard-card">
         <h4>Three audiences need three journeys</h4>
@@ -893,7 +893,7 @@ a:hover { color: var(--orange); }
       </div>
     </div>
     <div class="note">
-      <strong>The opportunity</strong> isn't to replace Upshot or build a CRM. It's to build a website that makes registering easy, proves the impact, and speaks to three audiences - while syncing to Upshot behind the scenes. That's what this proposal is.
+      <strong>The opportunity</strong> isn't to replace Upshot. Upshot remains the operational system of record. The opportunity is to build the public-facing layer around it - a website that makes registering easy, turns impact data into public evidence, and speaks to three audiences. That's what this proposal is.
     </div>
   </div>
 </section>
@@ -909,7 +909,7 @@ a:hover { color: var(--orange); }
       <tbody>
         <tr><td class="old">WordPress brochure</td><td class="new">Digital launchpad with database backbone</td></tr>
         <tr><td class="old">One page for everyone</td><td class="new">Three routed journeys: parents, schools, funders</td></tr>
-        <tr><td class="old">Upshot form embedded</td><td class="new">Our own multi-step registration, syncing to Upshot</td></tr>
+        <tr><td class="old">Upshot form embedded</td><td class="new">Our own multi-step registration, Upshot-ready workflow</td></tr>
         <tr><td class="old">Impact only in PDF</td><td class="new">Live impact numbers on the site</td></tr>
         <tr><td class="old">Manual event updates</td><td class="new">Database-driven events and fixtures</td></tr>
         <tr><td class="old">Plugin maintenance</td><td class="new">Zero-plugin, headless site - no admin burden</td></tr>
@@ -1034,7 +1034,7 @@ a:hover { color: var(--orange); }
         <li class="primary">Schools - tiers, pricing, testimonials, enquiry form</li>
         <li><strong>Events - database-driven feed, filterable by type</strong></li>
         <li><strong>Competitions - fixtures pulled from database, URN registration</strong></li>
-        <li class="primary">Register - multi-step wizard, syncs to Upshot</li>
+        <li class="primary">Register - multi-step wizard, Upshot-ready</li>
          <li><strong>Support - donate (Stripe), sponsor, volunteer</strong></li>
          <li><strong>Donate - direct to Stripe checkout</strong></li>
          <li><strong>Contact - audience-routed form</strong></li>
@@ -1064,7 +1064,7 @@ a:hover { color: var(--orange); }
         <span class="label">After</span>
         <h3>Track Academy<br>Changing lives since 2007.</h3>
         <p>Through athletics, education and mentoring, we're a launchpad for young people in Brent to break down barriers, unlock their potential and thrive.</p>
-        <p style="margin-top: 16px;"><strong>Register your child</strong> &nbsp;Â·&nbsp; <strong>Partner with your school</strong> &nbsp;Â·&nbsp; <strong>Support our work</strong></p>
+        <p style="margin-top: 16px;"><strong>Register your child</strong> &nbsp;·&nbsp; <strong>Partner with your school</strong> &nbsp;·&nbsp; <strong>Support our work</strong></p>
         <p style="margin-top: 16px; font-size: 0.85rem; color: var(--grey);">Below the hero: audience router ("I'm a parent / I'm from a school / I'm a funder"). Then programme cards. Then a stat band: <strong>577 sessions, 331 young people, 98% recommend, 200+ competition entries</strong>. Then stories. Then school partnership teaser. Then Instagram feed.</p>
       </div>
     </div>
@@ -1111,7 +1111,7 @@ a:hover { color: var(--orange); }
       </div>
     </div>
     <div class="note">
-      <strong>How it syncs with Upshot:</strong> The new registration saves to our own Supabase database first. A sync job then maps the fields to Upshot's expected format and pushes them via Upshot's API. If the sync fails, it retries and flags it - the parent sees a clean confirmation either way, and Track Academy staff are alerted to fix it. Upshot gets the data. The parent gets a real form.
+      <strong>How it works with Upshot:</strong> The new registration saves to our own Supabase database first - so parents get a clean, fast experience regardless. Subject to Upshot API access permissions, we will either sync directly via API or create an export/import workflow that gives staff the same operational result in Upshot. Either way, the parent gets a real form and Track Academy keeps the system Patrik trusts.
     </div>
   </div>
 </section>
@@ -1120,7 +1120,7 @@ a:hover { color: var(--orange); }
 <section id="impact" style="background: var(--grey-light);">
   <div class="container">
     <span class="section-num">08 / Impact</span>
-    <h2>An impact page that shows the numbers Upshot can't.</h2>
+    <h2>An impact page that shows the numbers the public never sees.</h2>
     <p class="lead">The 2024 Annual Report has stats that should live on the website - not buried in a PDF. Track Academy deserves an impact page that makes a Sport England grants officer want to write the cheque.</p>
     <div class="impact-mock">
       <h3>Live impact band - proposed for /impact</h3>
@@ -1162,13 +1162,13 @@ a:hover { color: var(--orange); }
 <section id="integrations">
   <div class="container">
     <span class="section-num">09 / Integrations</span>
-    <h2>We're not replacing Upshot. We're making it usable.</h2>
-    <p class="lead">Upshot stays as the operational system of record. The new website and database sit alongside it, syncing data automatically. Patrik keeps the system he trusts. Parents get a form they can actually fill in.</p>
+    <h2>We're not replacing Upshot. We're building the public-facing layer around it.</h2>
+    <p class="lead">Upshot remains the operational system of record. The new website and database become the public-facing layer that sits alongside it. Patrik keeps the system he trusts. Parents get a form they can actually fill in.</p>
     <div class="integrations">
       <div class="integration">
         <div class="icon">U</div>
         <h4>Upshot</h4>
-        <p>Write-only sync from our database on every registration. Daily reconciliation. Failure alerts to admin.</p>
+        <p>Remains the operational system of record. Subject to API access, we sync directly or create an export/import workflow that gives staff the same clean result in Upshot.</p>
       </div>
       <div class="integration">
         <div class="icon">S</div>
@@ -1187,7 +1187,7 @@ a:hover { color: var(--orange); }
        </div>
     </div>
     <div class="note">
-       <strong>Future Phase 2+:</strong> Stripe membership payments on-site (replaces bank transfer and Spond payment friction), parent portal (view child's progress, register siblings), school portal (download termly reports, manage pupil list), Spond replacement (in-app messaging + RSVPs). All designed for - none built in Phase 1.
+       <strong>Future Phase 2+:</strong> Stripe membership payments on-site (replaces bank transfer and Spond payment friction), parent portal (view child's progress, register siblings), school portal (download termly reports, manage pupil list), Spond replacement (in-app messaging + RSVPs). All designed for - none built in Phase 1A.
     </div>
   </div>
 </section>
@@ -1256,8 +1256,8 @@ a:hover { color: var(--orange); }
       <div class="phase">
         <div class="phase-num">Phase 1</div>
         <div class="phase-content">
-          <h4>Website rebuild + database foundation + Upshot sync</h4>
-          <p>All 19 pages live. Multi-step registration wizard saving to Supabase and syncing to Upshot. Audience-routed enquiry forms. Database schema created. Sanity CMS for staff editing. GA4 + Search Console installed. Hosting migrated. DNS pointed. 301 redirects active. <strong>This is what £800 + £300/mo buys.</strong></p>
+          <h4>Website rebuild + database foundation + Upshot-ready workflow</h4>
+          <p>All core pages live. Multi-step registration wizard saving to Supabase with Upshot-ready workflow. Audience-routed enquiry forms. Database schema created. Sanity CMS for staff editing. GA4 + Search Console installed. Hosting migrated. DNS pointed. 301 redirects active. <strong>Phase 1A gives Track Academy the rebuilt website foundation. The £300/month retainer then turns that foundation into a living digital system over time.</strong></p>
         </div>
       </div>
       <div class="phase">
@@ -1283,7 +1283,7 @@ a:hover { color: var(--orange); }
       </div>
     </div>
     <div class="note">
-      <strong>Why phased:</strong> Phase 1 proves the case. It's the website + database + Upshot sync that makes the immediate difference for parents, schools, and funders. Phases 2-4 are the natural progression - and they're all designed for in Phase 1 so nothing needs rebuilding later.
+      <strong>Why phased:</strong> Phase 1A proves the case. It's the website foundation that makes the immediate difference for parents, schools, and funders. Phases 2-4 are the natural progression - and they're all designed for in Phase 1A so nothing needs rebuilding later.
     </div>
   </div>
 </section>
@@ -1293,40 +1293,38 @@ a:hover { color: var(--orange); }
   <div class="container">
     <span class="section-num">12 / Investment</span>
     <h2>What it costs - and what it replaces.</h2>
-    <p class="lead">Track Academy already pays £300/month for website updates. We're proposing that same monthly figure retainer funds the rebuild, the hosting, and ongoing development - with a one-off rebuild fee that covers the database foundation.</p>
+    <p class="lead">Track Academy already pays £300/month for website updates. We're proposing that same monthly figure as an ongoing retainer - with a one-off rebuild fee that covers the website foundation. The retainer then turns that foundation into a living digital system over time.</p>
     <div class="pricing">
       <div class="price-card">
         <div class="label">One-off</div>
         <div class="amount">£800</div>
-        <div class="period">Website rebuild + database</div>
+        <div class="period">Phase 1A: Website rebuild foundation</div>
         <ul>
-          <li>All 19 pages designed and built</li>
+          <li>Core site rebuild - key pages designed and built</li>
           <li>Multi-step registration wizard</li>
           <li>Audience-routed enquiry forms</li>
-          <li>Supabase database schema set up</li>
-          <li>Upshot sync integration</li>
-          <li>Sanity CMS configured for staff</li>
-          <li>GA4 + Google Search Console</li>
+          <li>Sanity CMS configured for staff editing</li>
+          <li>GA4 + Google Search Console installed</li>
+          <li>Free hosting on Calvin's infrastructure</li>
           <li>301 redirects from old URLs</li>
-          <li>Google Business Profile optimised</li>
-          <li>5-10 SEO-focused pages</li>
+          <li>Basic SEO foundations</li>
         </ul>
       </div>
       <div class="price-card featured">
         <div class="label">Monthly</div>
         <div class="amount">£300</div>
-        <div class="period">Ongoing retainer</div>
+        <div class="period">Ongoing build + support</div>
         <ul>
           <li>Free hosting on Calvin's infrastructure</li>
-          <li>Unlimited content updates via Sanity</li>
-          <li>Form submissions routed to right staff</li>
-          <li>Upshot sync maintenance</li>
-          <li>Monthly SEO review + new content</li>
-          <li>Monthly performance + analytics report</li>
-          <li>Feature prioritisation for Phase 2</li>
+          <li>Up to one focused update day per month</li>
+          <li>Registration wizard refinement</li>
+          <li>SEO pages and content improvements</li>
+          <li>Impact page enhancements</li>
+          <li>Upshot workflow / integration work</li>
+          <li>Monthly analytics + performance report</li>
+          <li>Each month: one priority improvement shipped</li>
           <li>Email/Slack support within 48 hours</li>
-          <li>Backup, security updates, uptime monitoring</li>
-          <li>Phase 2 development hours banked</li>
+          <li>Backup, security, uptime monitoring</li>
         </ul>
       </div>
       <div class="price-card">
@@ -1341,14 +1339,13 @@ a:hover { color: var(--orange); }
           <li>No more "days of work for updates"</li>
           <li>No more Lorem ipsum on contact page</li>
           <li>Staff trained on Sanity - no code needed</li>
-          <li>All previous monthly rate bundled into retainer</li>
           <li>Hosting now on Calvin's Cloudflare - free</li>
           <li>Net cost to Track Academy: <strong>£0 hosting</strong></li>
         </ul>
       </div>
     </div>
     <div class="note">
-      <strong>Compared to:</strong> Patrik mentioned that an equivalent system would normally cost £10k+. This proposal is £800 + £300/mo because we're Calvin - not an agency - and the monthly retainer IS the ongoing investment, not a separate line item. The infrastructure is already paid for. The only real cost is Calvin's time.
+      <strong>Compared to:</strong> Patrik mentioned that an equivalent system would normally cost £10k+. This proposal is £800 + £300/mo because the infrastructure is already paid for and the monthly retainer IS the ongoing investment, not a separate line item. The £800 covers the rebuild foundation. The £300/month is where the system grows - SEO pages, registration refinements, impact improvements, Upshot workflow, and one priority improvement shipped each month.
     </div>
   </div>
 </section>
@@ -1358,13 +1355,13 @@ a:hover { color: var(--orange); }
   <div class="container">
     <span class="section-num" style="color: var(--orange);">13 / Next step</span>
     <h2>A practical next step.</h2>
-    <p class="lead">This is a working document, not a pitch. If it's useful, we review it together - and turn it into a clear build plan.</p>
+    <p class="lead">Recommended next step: approve Phase 1A and book a 60-minute build kickoff. In that session, we confirm the final sitemap, access requirements, Upshot workflow, launch priorities and first 30-day delivery plan.</p>
     <div class="cover-cta">
-      <a href="mailto:calvin@partneredgrowth.com?subject=Track Academy proposal - next step" class="btn btn-primary">Book a follow-up discussion</a>
+      <a href="mailto:calvin@partneredgrowth.com?subject=Track Academy Phase 1A - build kickoff" class="btn btn-primary">Book the build kickoff</a>
       <a href="#diagnosis" class="btn btn-secondary">Review the diagnosis again</a>
     </div>
     <p style="margin-top: 32px; font-size: 0.9rem; color: rgba(255,255,255,0.7); max-width: 60ch;">
-      No rush. This is foundational work - the right structure matters more than the fastest launch. Happy to walk anyone on the team through any section of this document.
+      To move forward, we'll need: access to the current website hosting, domain registrar details, and confirmation of Upshot API or export access. From there, we can finalise the page list, data flow and launch plan.
     </p>
     <div class="closing-meta">
       <div><span>Prepared for</span><span>Patrik Ewe, CEO</span></div>
