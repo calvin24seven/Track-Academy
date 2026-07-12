@@ -21,7 +21,7 @@ A secondary audience exists — young people themselves — but they typically a
 ## ICP 1: Parents
 
 ### Profile
-A parent or guardian in Brent or surrounding NW London boroughs, aged 28-55, likely Afro-Caribbean diaspora, may be on Universal Credit or other financial support. Their child is aged 5-21 and either loves sport, needs a safe space after school, or has been referred by a school or social service.
+A parent or guardian in Brent or surrounding NW London boroughs, aged 28-55, likely Afro-Caribbean diaspora, may be on Universal Credit or other financial support. Their child is aged 5-23 and either loves sport, needs a safe space after school, or has been referred by a school or social service.
 
 ### Sub-segments
 
@@ -293,7 +293,7 @@ A grants officer, corporate social responsibility manager, or individual major d
 ## Secondary Audience: Young People
 
 ### Profile
-Aged 5-21, currently registered or potential. They come to the site through a parent, school, or social media. They want to know: what's happening, when, and can they be part of it.
+Aged 5-23, currently registered or potential. They come to the site through a parent, school, or social media. They want to know: what's happening, when, and can they be part of it.
 
 ### What they care about
 - Events and competitions
@@ -324,7 +324,7 @@ Aged 5-21, currently registered or potential. They come to the site through a pa
 | **Secondary CTA** | Talk to us | Talk to us | Download annual report |
 | **Entry page** | /register or /parents | /schools | /impact |
 | **Tone** | Warm, reassuring, simple | Structured, evidence-led, clear | Data-first, story-second |
-| **Key numbers to show** | £25/term or free, ages 5-21, session times | £1,950-£6,950/year, 66% school improvement, 87% skills, 94% believe goals | 577 sessions, 331 young people, 98% would recommend, 90% leave with resilience |
+| **Key numbers to show** | £25/term or free, ages 5-23, session times | £1,950-£6,950/year, 66% school improvement, 87% skills, 94% believe goals | 577 sessions, 331 young people, 98% would recommend, 90% leave with resilience |
 | **Key testimonial** | Ra'elle: "They taught me to fight - for myself" | Kayla Anderson, St Claudine's School | Runner's World: "If it seems like a youth club in the open air — it is" |
 | **Conversion metric** | Completed registration form | Enquiry form submission | Contact form / donation / annual report download |
 | **Value proposition** | Safe, affordable, life-changing athletics + education in Brent | Ofsted-ready personal development via sport, fully funded for Pupil Premium | Proven impact in one of London's most under-resourced boroughs, 17-year track record, innovative 360 model |

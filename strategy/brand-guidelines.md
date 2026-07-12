@@ -97,32 +97,31 @@ If the brand were a person: A coach who grew up on these estates, made it throug
 
 | Colour | Hex | RGB | Usage |
 |---|---|---|---|
-| **Track Blue** | `#0b2b8c` | 11, 43, 140 | Primary brand colour. Headers, buttons, trust elements, primary CTAs. |
-| **Track Orange** | `#f26f2a` | 242, 111, 42 | Energy, warmth, action. Secondary CTAs, highlights, stat numbers, hover states. |
+| **Track Blue** | `#112b8c` | 17, 43, 140 | Primary brand colour. Body text on white, section backgrounds, footer, trust elements. |
+| **Track Orange** | `#f2620e` | 242, 98, 14 | Energy, warmth, action. Primary CTAs, stat numbers, highlight accents. |
 
-### Supporting palette
+### Extended palette
 
 | Colour | Hex | Usage |
 |---|---|---|
-| **Brent Green** | `#0d7e3e` | Community, growth, "thriving" sections. (Optional — aligned with athletics track grass.) |
-| **Track Grey** | `#4a4a4a` | Body text, secondary information |
+| **Track Gold** | `#f2b90e` | Elegant accent text on dark navy backgrounds. Section highlights. |
+| **Track Light Orange** | `#f2a30f` | Text on dark/black backgrounds. Subtle highlights. |
+| **Track Navy** | `#0a1c5f` | Dark section backgrounds. Pair with gold or light orange text. |
+| **Track Pink** | `#d90152` | Alerts, warnings, emphasis only. Use sparingly — can feel intense. White text on pink only.
+| **Track Grey** | `#4a4a4a` | Body text fallback, secondary information |
 | **Light Grey** | `#f5f5f5` | Section backgrounds, cards |
 | **White** | `#ffffff` | Primary background, clean sections |
-| **Ink** | `#1a1a1a` | Headings (alternatively Track Blue) |
+| **Ink** | `#1a1a1a` | (avoid pure black — soften with palette) |
 
-### Functional colours
-
-| Colour | Hex | Usage |
-|---|---|---|
-| **Success Green** | `#1a7d3a` | Confirmations, "free" badges, consent |
-| **Alert Amber** | `#e8a200` | Warnings, "entries closing" badges |
-| **Error Red** | `#d63a3a` | Form errors, safeguarding urgency |
+**Source:** TA colour palette fonts 2025-2026 (1).pdf — official brand document.
 
 ### Colour rules
 - Track Blue + Track Orange = the core duo. Use 80/20 (blue dominant, orange for emphasis).
 - Never use orange as a large background colour — it overwhelms.
 - Blue is trust. Orange is energy. Trust leads, energy follows.
 - Ensure WCAG AA contrast on all text/background combinations.
+- Avoid: blue text on orange (or vice versa) — low contrast and straining.
+- Avoid: pink on orange/gold — clashes and poor readability.
 
 ---
 
@@ -132,10 +131,12 @@ If the brand were a person: A coach who grew up on these estates, made it throug
 
 | Role | Typeface | Fallback | Reasoning |
 |---|---|---|---|
-| **Headings** | **Bricolage Grotesque** or **Space Grotesk** | sans-serif | Modern, characterful, works for both sport and social cause. Slightly condensed feel without being aggressive. |
-| **Body** | **Inter** | system-ui, sans-serif | Clean, highly legible at all sizes. Non-negotiable for accessibility. |
-| **Stats/Numbers** | **Bricolage Grotesque** (bold) or **Space Grotesk** (bold) | sans-serif | Impact numbers should pop. Large, bold, orange. |
-| **Quotes** | **Inter** (italic, medium) | sans-serif | Testimonials should feel human, not decorative. |
+| **Headings** | **Fredoka Medium** | sans-serif | Official brand font. Rounded, friendly, modern — works for both sport and social cause without being childish. |
+| **Body** | **Inter Regular** | system-ui, sans-serif | Official brand font. Clean, highly legible at all sizes. Non-negotiable for accessibility. |
+| **Stats/Numbers** | **Fredoka Medium** (bold weight) | sans-serif | Impact numbers should pop. Large, bold, orange. |
+| **Quotes** | **Inter** (medium/italic) | sans-serif | Testimonials should feel human, not decorative. |
+
+**Source:** TA colour palette fonts 2025-2026 (1).pdf — official brand document.
 
 ### Type scale (responsive, rem-based)
 

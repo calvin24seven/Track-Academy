@@ -1,7 +1,43 @@
 # Tone of Voice — Track Academy
 
-*Version 1.0 · July 2026*
+*Version 1.1 · July 2026*
 *Derived from analysis of 10+ real Instagram captions, 5 LinkedIn posts, and the Annual Report 2024.*
+*Updated with the official Key Messaging Framework (February 2026).*
+
+---
+
+## 0. Official Tone Dimensions (from Key Messaging Framework 2026)
+
+Track Academy's official voice operates across five dimensions:
+
+- **Aspirational:** We focus on potential and a brighter future.
+- **Professional:** We are credible and deliver results.
+- **Passionate:** Our belief in our young people is unwavering.
+- **Nurturing:** We are a supportive and safe network.
+- **Respectful:** We value every individual and their story.
+
+## 0b. Official Straplines
+
+- **Bright futures.** (primary — used in logo)
+- **Beat your personal best.**
+- **Thriving, not just surviving.**
+- **Raise your game.**
+- **Find your stride.**
+
+## 0c. Official Values
+
+- **Youth-led:** We listen first.
+- **Strive for excellence:** We push ourselves and each other.
+- **Empathetic:** We lead with kindness and understanding.
+- **Committed:** We show up every day.
+
+## 0d. Official 50-word description
+
+> Track Academy blends athletics, education and mentoring to empower young people (5-23) in under-resourced NW London communities. Based in Brent, where child poverty is 41%, we help young people overcome barriers, build confidence, and develop the skills and networks to shape their own futures.
+
+## 0e. Official funder statement
+
+> 90% of participants leave with resilience, practical skills and a trusted network — the ultimate launchpad for shaping their education, careers and communities.
 
 ---
 

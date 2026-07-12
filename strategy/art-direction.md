@@ -152,18 +152,18 @@ background: linear-gradient(
 
 #### Quote card background
 ```css
-background-color: #0b2b8c;
+background-color: #112b8c;
 color: #ffffff;
 ```
 
 #### Stat band
 ```css
-background-color: #0b2b8c;
+background-color: #112b8c;
 ```
 
 #### Section divider (no image)
 ```css
-background-color: #0b2b8c;
+background-color: #112b8c;
 height: 4px;
 width: 60px;
 margin: 48px 0;
@@ -176,11 +176,11 @@ margin: 48px 0;
 ### Buttons
 
 #### Primary CTA
-- Background: Track Orange `#f26f2a`
+- Background: Track Orange `#f2620e`
 - Text: White, bold, 1rem
 - Padding: 16px 32px
 - Border-radius: 0 (square corners — deliberate, not rounded — sport aesthetic)
-- Hover: darkens to `#d45f1f`, 0.1s ease
+- Hover: darkens to `#d4550c`, 0.1s ease
 - Active: darkens further to `#b5501a`
 
 #### Secondary CTA
@@ -223,7 +223,7 @@ margin: 48px 0;
    young people aged 5-21
 ```
 
-- Number: 4.5rem, Bricolage Grotesque bold, orange
+- Number: 4.5rem, Fredoka Medium bold, orange
 - Label: 0.875rem, white, small caps, letter-spacing 0.05em
 
 ### Badges

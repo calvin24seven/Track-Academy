@@ -192,7 +192,7 @@ Future phases (not in scope for MVP but designed for):
 1. **Hero** — Stat band style
    - Full-width Track Blue
    - Large number "577"
-   - Caption: "sessions delivered in 2024 — across 52 weeks, to 331 young people aged 5-21 in Brent."
+   - Caption: "sessions delivered in 2024 — across 52 weeks, to 331 young people aged 5-23 in Brent."
 
 2. **Core impact band**
    - 4 stats: 331 young people / 215 girls & young women / 200+ competition entries / 98% would recommend
@@ -217,7 +217,7 @@ Future phases (not in scope for MVP but designed for):
 
 5. **Who we reach** — Demographics panel
    - 64% girls / 85% ethnic minorities / 85% from Brent
-   - Age range: 5-21
+   - Age range: 5-23
 
 6. **Stories** — 3-up quote cards
    - Ra'elle, age 14, Jack Petchey winner
@@ -338,7 +338,7 @@ Future phases (not in scope for MVP but designed for):
 1. **Hero** — Full-bleed
    - Image: students on track about to race
    - Headline: "Athletics Training"
-   - Lead: "Coaching for young people aged 5-21, three times a week at Willesden Sports Centre."
+   - Lead: "Coaching for young people aged 5-23, three times a week at Willesden Sports Centre."
 
 2. **Two programme blocks**
    - Multi-skills (5-10): Tue/Thu 4-5pm, Sat 10-11am
