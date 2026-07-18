@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Academy — Systems & Data Autonomy Proposal</title>
+<meta name="description" content="A proposal to give Track Academy full autonomy over its data, registration, billing, sign-in, and communications — replacing manual workflows with an integrated system.">
+<style>
+:root {
+  --blue: #112b8c;
+  --blue-dark: #0a1c5f;
+  --orange: #f2620e;
+  --orange-dark: #d4550c;
+  --ink: #1a1a1a;
+  --grey: #4a4a4a;
+  --grey-light: #f5f5f5;
+  --white: #ffffff;
+  --success: #1a7d3a;
+  --amber: #e8a200;
+  --red: #d63a3a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+  background: var(--white);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+@media (min-width: 768px) { .container { padding: 0 48px; } }
+
+/* Progress bar */
+.progress {
+  position: fixed; top: 0; left: 0; height: 3px;
+  background: var(--orange); width: 0%; z-index: 1000;
+  transition: width 0.1s ease;
+}
+
+/* Side nav */
+.side-nav {
+  position: fixed; right: 32px; top: 50%; transform: translateY(-50%);
+  z-index: 100; display: none;
+}
+@media (min-width: 1100px) { .side-nav { display: block; } }
+.side-nav ul { list-style: none; }
+.side-nav li { margin: 14px 0; }
+.side-nav a {
+  display: block; width: 10px; height: 10px; border-radius: 50%;
+  background: #d0d0d0; transition: all 0.2s ease; position: relative;
+}
+.side-nav a.active { background: var(--orange); transform: scale(1.4); }
+.side-nav a:hover::after {
+  content: attr(data-label); position: absolute; right: 20px; top: -6px;
+  background: var(--blue); color: var(--white); padding: 4px 10px;
+  border-radius: 4px; font-size: 11px; white-space: nowrap; font-weight: 600;
+}
+
+/* Section base */
+section { padding: 80px 0; position: relative; }
+@media (min-width: 768px) { section { padding: 120px 0; } }
+
+.section-num {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--orange); margin-bottom: 16px; display: block;
+}
+
+h1 {
+  font-size: 2.25rem; line-height: 1.15; font-weight: 800;
+  letter-spacing: -0.02em; margin-bottom: 24px;
+}
+@media (min-width: 768px) { h1 { font-size: 3.5rem; } }
+
+h2 {
+  font-size: 1.75rem; line-height: 1.2; font-weight: 700;
+  letter-spacing: -0.01em; margin-bottom: 24px;
+}
+@media (min-width: 768px) { h2 { font-size: 2.5rem; } }
+
+h3 {
+  font-size: 1.25rem; font-weight: 700; margin-bottom: 12px;
+}
+
+h4 {
+  font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; color: var(--ink);
+}
+
+p { margin-bottom: 16px; color: var(--grey); max-width: 65ch; }
+p strong { color: var(--ink); }
+
+.lead {
+  font-size: 1.25rem; line-height: 1.5; color: var(--grey);
+  max-width: 60ch; margin-bottom: 32px;
+}
+@media (min-width: 768px) { .lead { font-size: 1.5rem; } }
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { color: var(--orange); }
+
+.note {
+  border-left: 3px solid var(--orange); padding: 16px 20px;
+  background: var(--grey-light); margin: 24px 0; font-size: 0.95rem; color: var(--grey);
+}
+.note strong { color: var(--ink); }
+
+/* Cover */
+.cover {
+  background: var(--blue); color: var(--white);
+  min-height: 100vh; display: flex; align-items: center;
+  padding: 100px 0 80px; position: relative; overflow: hidden;
+}
+.cover::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, rgba(11,43,140,1) 0%, rgba(8,33,106,1) 100%); z-index: 0;
+}
+.cover .container { position: relative; z-index: 1; }
+.cover-logo { max-width: 280px; width: 70%; margin-bottom: 48px; }
+@media (min-width: 768px) { .cover-logo { width: 280px; } }
+.cover-meta {
+  display: flex; flex-wrap: wrap; gap: 32px; margin-top: 48px;
+  font-size: 0.85rem; color: rgba(255,255,255,0.7);
+}
+.cover-meta div { display: flex; flex-direction: column; gap: 4px; }
+.cover-meta div span:first-child {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.6;
+}
+.cover-meta div span:last-child { color: rgba(255,255,255,0.9); font-weight: 500; }
+.cover h1 { color: var(--white); max-width: 18ch; }
+.cover .lead { color: rgba(255,255,255,0.85); }
+.cover-cta { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 40px; }
+
+.btn {
+  display: inline-block; padding: 16px 28px; font-weight: 700; font-size: 0.95rem;
+  border: 2px solid transparent; cursor: pointer; transition: all 0.2s ease;
+  text-decoration: none; letter-spacing: 0.01em;
+}
+.btn-primary {
+  background: var(--orange); color: var(--white); border-color: var(--orange);
+}
+.btn-primary:hover { background: var(--orange-dark); border-color: var(--orange-dark); color: var(--white); }
+.btn-secondary {
+  background: transparent; color: var(--white); border-color: rgba(255,255,255,0.4);
+}
+.btn-secondary:hover { border-color: var(--white); color: var(--white); }
+.btn-blue { background: var(--blue); color: var(--white); border-color: var(--blue); }
+.btn-blue:hover { background: var(--blue-dark); color: var(--white); }
+
+/* Contents bar */
+.contents { background: var(--grey-light); padding: 40px 0; border-bottom: 1px solid #e5e5e5; }
+.contents-grid {
+  display: grid; grid-template-columns: 1fr; gap: 12px;
+}
+@media (min-width: 640px) { .contents-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) { .contents-grid { grid-template-columns: repeat(3, 1fr); } }
+.contents a {
+  display: flex; align-items: baseline; gap: 10px; padding: 10px 0;
+  font-size: 0.875rem; color: var(--grey); border-bottom: 1px solid #e0e0e0;
+  transition: all 0.2s ease;
+}
+.contents a:hover { color: var(--orange); padding-left: 4px; }
+.contents a span:first-child {
+  font-weight: 700; color: var(--orange); font-size: 0.75rem; min-width: 24px;
+}
+
+/* Issue cards */
+.issues-grid {
+  display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 48px;
+}
+@media (min-width: 640px) { .issues-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1000px) { .issues-grid { grid-template-columns: repeat(3, 1fr); } }
+
+.issue-card {
+  background: var(--white); border: 1px solid #e5e5e5; padding: 24px;
+  transition: all 0.2s ease; position: relative;
+}
+.issue-card:hover { border-color: var(--orange); }
+.issue-card .issue-num {
+  font-size: 2rem; font-weight: 800; color: var(--orange); line-height: 1;
+  margin-bottom: 12px; display: block;
+}
+.issue-card .tag {
+  display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 3px 8px; margin-bottom: 12px;
+}
+.tag-data { background: #fef0e6; color: var(--orange); }
+.tag-reg { background: #e6f0fe; color: var(--blue); }
+.tag-billing { background: #e6fef0; color: var(--success); }
+.tag-comms { background: #fef9e6; color: var(--amber); }
+.tag-signin { background: #f3e6fe; color: #6b21a8; }
+.issue-card p { font-size: 0.9rem; color: var(--grey); margin: 0; line-height: 1.5; }
+
+/* Shift table */
+.shift-table {
+  width: 100%; border-collapse: collapse; margin-top: 32px;
+}
+.shift-table th, .shift-table td {
+  padding: 20px 24px; text-align: left; border-bottom: 1px solid #e5e5e5; font-size: 0.95rem;
+}
+.shift-table th {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--orange); font-weight: 700; background: var(--grey-light);
+}
+.shift-table .old { color: var(--grey); text-decoration: line-through; opacity: 0.6; }
+.shift-table .new { color: var(--ink); font-weight: 600; }
+
+/* Before-after */
+.before-after {
+  display: grid; grid-template-columns: 1fr; gap: 32px; margin-top: 48px;
+}
+@media (min-width: 768px) { .before-after { grid-template-columns: 1fr 1fr; } }
+.before, .after { padding: 32px; border: 2px solid; }
+.before { background: var(--grey-light); border-color: #d0d0d0; }
+.after { background: var(--white); border-color: var(--orange); }
+.before .label, .after .label {
+  font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  font-weight: 700; margin-bottom: 16px; display: block;
+}
+.before .label { color: var(--grey); }
+.after .label { color: var(--orange); }
+.before h3, .after h3 { font-size: 1.35rem; margin-bottom: 12px; line-height: 1.3; }
+.before p, .after p { font-size: 0.95rem; }
+
+/* Comparison lists */
+.comp-list { list-style: none; padding: 0; margin-top: 16px; }
+.comp-list li {
+  padding: 10px 0; padding-left: 28px; font-size: 0.9rem;
+  position: relative; color: var(--grey); border-bottom: 1px solid #f0f0f0;
+}
+.comp-list li::before { position: absolute; left: 0; font-weight: 700; }
+.comp-list.bad li::before { content: "\2717"; color: var(--red); }
+.comp-list.good li::before { content: "\2713"; color: var(--success); }
+
+/* Flow diagram */
+.flow {
+  margin-top: 48px; display: flex; flex-wrap: wrap; gap: 16px; align-items: center;
+}
+.flow-step {
+  flex: 1; min-width: 140px; padding: 20px; text-align: center;
+  border: 1px solid #e5e5e5; background: var(--white);
+}
+.flow-step .step-num {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--orange); margin-bottom: 8px; display: block;
+}
+.flow-step h4 { font-size: 0.9rem; margin-bottom: 4px; }
+.flow-step p { font-size: 0.8rem; color: var(--grey); margin: 0; }
+.flow-arrow {
+  font-size: 1.5rem; color: var(--orange); font-weight: 700; flex: 0 0 auto;
+  display: none;
+}
+@media (min-width: 900px) { .flow-arrow { display: block; } }
+
+/* QR mock */
+.qr-mock {
+  background: var(--blue); color: var(--white); padding: 48px 32px;
+  margin-top: 48px; display: grid; grid-template-columns: 1fr; gap: 32px;
+  align-items: center;
+}
+@media (min-width: 768px) { .qr-mock { grid-template-columns: 1fr 1fr; } }
+.qr-mock h3 { color: var(--white); }
+.qr-mock p { color: rgba(255,255,255,0.8); }
+.qr-visual {
+  background: var(--white); padding: 32px; text-align: center; border-radius: 8px;
+}
+.qr-visual .qr-box {
+  width: 160px; height: 160px; margin: 0 auto 16px;
+  background: repeating-linear-gradient(45deg, #000, #000 8px, #fff 8px, #fff 16px);
+  border: 8px solid #000;
+}
+.qr-visual .qr-label {
+  font-size: 0.85rem; color: var(--ink); font-weight: 600;
+}
+
+/* Pricing */
+.pricing {
+  margin-top: 48px; display: grid; grid-template-columns: 1fr; gap: 24px;
+}
+@media (min-width: 768px) { .pricing { grid-template-columns: repeat(3, 1fr); } }
+.price-card {
+  padding: 32px 28px; border: 1px solid #e5e5e5;
+}
+.price-card.featured {
+  border-color: var(--orange); border-width: 2px; position: relative;
+}
+.price-card.featured::after {
+  content: 'RECOMMENDED'; position: absolute; top: -12px; left: 50%;
+  transform: translateX(-50%); background: var(--orange); color: var(--white);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em;
+  padding: 4px 12px; border-radius: 2px;
+}
+.price-card .label { font-size: 0.85rem; color: var(--grey); margin-bottom: 8px; }
+.price-card .amount {
+  font-size: 2.5rem; font-weight: 800; color: var(--blue); margin-bottom: 8px; line-height: 1;
+}
+.price-card .period { font-size: 0.9rem; color: var(--grey); margin-bottom: 24px; }
+.price-card ul { list-style: none; padding: 0; margin: 0; }
+.price-card li {
+  padding: 10px 0; padding-left: 24px; font-size: 0.9rem; position: relative;
+  color: var(--grey); border-top: 1px solid #f0f0f0;
+}
+.price-card li::before {
+  content: "\2713"; position: absolute; left: 0; color: var(--success); font-weight: 700;
+}
+
+/* Roadmap */
+.roadmap { margin-top: 48px; position: relative; }
+.roadmap::before {
+  content: ''; position: absolute; left: 24px; top: 0; bottom: 0;
+  width: 2px; background: #e0e0e0;
+}
+@media (min-width: 768px) { .roadmap::before { left: 80px; } }
+.phase {
+  display: flex; gap: 32px; margin-bottom: 40px; position: relative; align-items: flex-start;
+}
+.phase::before {
+  content: ''; position: absolute; left: 18px; top: 8px; width: 14px; height: 14px;
+  border-radius: 50%; background: var(--orange); border: 3px solid var(--white);
+  box-shadow: 0 0 0 2px var(--orange);
+}
+@media (min-width: 768px) {
+  .phase::before { left: 73px; width: 16px; height: 16px; }
+}
+.phase-num {
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--orange); min-width: 60px;
+  padding-top: 2px; padding-left: 32px;
+}
+@media (min-width: 768px) {
+  .phase-num { min-width: 120px; padding-left: 0; text-align: right; }
+}
+.phase-content { flex: 1; padding-bottom: 8px; }
+.phase-content h4 { font-size: 1.1rem; margin-bottom: 8px; }
+.phase-content p { font-size: 0.9rem; margin: 0; }
+
+/* Architecture diagram */
+.arch-diagram {
+  margin-top: 48px; display: grid; grid-template-columns: 1fr; gap: 16px;
+}
+@media (min-width: 640px) { .arch-diagram { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 900px) { .arch-diagram { grid-template-columns: repeat(4, 1fr); } }
+.arch-block {
+  padding: 24px; border: 1px solid #e5e5e5; text-align: center;
+}
+.arch-block .icon {
+  width: 48px; height: 48px; margin: 0 auto 16px; background: var(--grey-light);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; color: var(--blue); font-size: 1.25rem;
+}
+.arch-block h4 { font-size: 0.95rem; margin-bottom: 6px; }
+.arch-block p { font-size: 0.85rem; color: var(--grey); margin: 0; }
+
+/* Section break */
+.section-break { background: var(--grey-light); }
+
+/* Split */
+.split {
+  display: grid; grid-template-columns: 1fr; gap: 48px; align-items: center; margin-top: 48px;
+}
+@media (min-width: 768px) { .split { grid-template-columns: 1fr 1fr; } }
+.split-stat {
+  background: var(--blue); color: var(--white); padding: 48px;
+}
+.split-stat .big {
+  font-size: 4rem; font-weight: 800; color: var(--orange);
+  line-height: 1; margin-bottom: 12px;
+}
+.split-stat .label {
+  color: rgba(255,255,255,0.8); font-size: 0.95rem;
+}
+
+/* Closing */
+.closing {
+  background: var(--blue); color: var(--white); padding: 100px 0 120px;
+}
+.closing h2 { color: var(--white); }
+.closing p { color: rgba(255,255,255,0.85); }
+.closing .note { background: rgba(255,255,255,0.05); border-color: var(--orange); color: rgba(255,255,255,0.9); }
+.closing .note strong { color: var(--white); }
+.closing-meta {
+  margin-top: 64px; padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  display: grid; grid-template-columns: 1fr; gap: 24px;
+}
+@media (min-width: 768px) { .closing-meta { grid-template-columns: repeat(4, 1fr); } }
+.closing-meta div span:first-child {
+  font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5); display: block; margin-bottom: 6px;
+}
+.closing-meta div span:last-child {
+  font-size: 0.95rem; color: rgba(255,255,255,0.9); font-weight: 500;
+}
+
+/* Reveal animation */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* Toggle answer */
+.answer-box {
+  background: var(--grey-light); padding: 24px 28px; margin-top: 24px;
+  border-left: 3px solid var(--orange);
+}
+.answer-box h4 { color: var(--success); margin-bottom: 12px; }
+.answer-box p { font-size: 0.95rem; color: var(--grey); }
+
+/* Stat cards inline */
+.stat-row {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 32px;
+}
+@media (min-width: 768px) { .stat-row { grid-template-columns: repeat(4, 1fr); } }
+.stat-item {
+  text-align: center; padding: 24px 16px; border: 1px solid #e5e5e5;
+}
+.stat-item .num {
+  font-size: 2.5rem; font-weight: 800; color: var(--orange); line-height: 1; margin-bottom: 8px;
+}
+.stat-item .cap {
+  font-size: 0.8rem; color: var(--grey); text-transform: uppercase; letter-spacing: 0.05em;
+}
+
+/* Data table */
+.data-table {
+  width: 100%; border-collapse: collapse; margin-top: 32px;
+}
+.data-table th, .data-table td {
+  padding: 16px 20px; text-align: left; border-bottom: 1px solid #e5e5e5; font-size: 0.95rem;
+}
+.data-table th {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--orange); font-weight: 700; background: var(--grey-light);
+}
+.data-table td.can { color: var(--success); font-weight: 600; }
+.data-table td.cannot { color: var(--red); }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav class="side-nav" id="sideNav">
+  <ul>
+    <li><a href="#intro" data-label="Intro"></a></li>
+    <li><a href="#issues" data-label="12 Issues"></a></li>
+    <li><a href="#core-problem" data-label="Core Problem"></a></li>
+    <li><a href="#solution" data-label="The Solution"></a></li>
+    <li><a href="#registration" data-label="Registration"></a></li>
+    <li><a href="#signin" data-label="QR Sign-in"></a></li>
+    <li><a href="#billing" data-label="Billing"></a></li>
+    <li><a href="#comms" data-label="Communications"></a></li>
+    <li><a href="#trial" data-label="Trial Session"></a></li>
+    <li><a href="#data" data-label="Data Advantage"></a></li>
+    <li><a href="#architecture" data-label="Architecture"></a></li>
+    <li><a href="#roadmap" data-label="Roadmap"></a></li>
+    <li><a href="#investment" data-label="Investment"></a></li>
+    <li><a href="#next" data-label="Next Step"></a></li>
+  </ul>
+</nav>
+
+<!-- ========== COVER ========== -->
+<section class="cover" id="intro">
+  <div class="container">
+    <img src="assets/track-academy-logo-white.png" alt="Track Academy" class="cover-logo">
+    <span class="section-num" style="color: var(--orange);">Proposal · July 2026</span>
+    <h1>A system Track Academy owns. Data you can query. Workflows that save hours every week.</h1>
+    <p class="lead">A strategic plan to give Track Academy full autonomy over registration, billing, sign-in, communications, and data — replacing manual workflows with an integrated system that puts you in control.</p>
+    <div class="cover-cta">
+      <a href="#investment" class="btn btn-primary">See the investment</a>
+      <a href="#core-problem" class="btn btn-secondary">See the problem</a>
+    </div>
+    <div class="cover-meta">
+      <div><span>Prepared for</span><span>Patrik Ewe, CEO</span></div>
+      <div><span>From</span><span>Calvin</span></div>
+      <div><span>Status</span><span>Working document</span></div>
+      <div><span>Reading time</span><span>~15 minutes</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONTENTS ========== -->
+<section class="contents">
+  <div class="container">
+    <div class="contents-grid">
+      <a href="#issues"><span>01</span> The 12 issues from the front desk</a>
+      <a href="#core-problem"><span>02</span> Why Upshot alone isn't enough</a>
+      <a href="#solution"><span>03</span> The solution: own your system</a>
+      <a href="#registration"><span>04</span> Registration that works</a>
+      <a href="#signin"><span>05</span> QR code sign-in</a>
+      <a href="#billing"><span>06</span> Automated billing & payments</a>
+      <a href="#comms"><span>07</span> Communications that land</a>
+      <a href="#trial"><span>08</span> The trial session flow</a>
+      <a href="#data"><span>09</span> The data advantage</a>
+      <a href="#architecture"><span>10</span> Technical architecture</a>
+      <a href="#roadmap"><span>11</span> Roadmap</a>
+      <a href="#investment"><span>12</span> Investment</a>
+      <a href="#next"><span>13</span> Next step</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 01: THE 12 ISSUES ========== -->
+<section id="issues">
+  <div class="container">
+    <span class="section-num">01 / Discovery</span>
+    <h2>Twelve issues. One root cause.</h2>
+    <p class="lead">Speaking with the receptionist at the sports centre uncovered the daily friction that parents, staff, and the system create. These aren't edge cases — they're the normal operating reality.</p>
+
+    <div class="issues-grid">
+      <div class="issue-card">
+        <span class="issue-num">01</span>
+        <span class="tag tag-data">Data</span>
+        <p>Upshot makes receiving emails <strong>optional</strong> — so most customers don't have it ticked. No email means no communication. The database is full of contacts you can't reach.</p>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">02</span>
+        <span class="tag tag-data">Data migration</span>
+        <p>Customers migrated from a previous platform to Upshot <strong>without their email addresses</strong>. Those contacts exist but are unreachable — lost in transit between systems.</p>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">03</span>
+        <span class="tag tag-comms">Manual outreach</span>
+        <p>The receptionist is <strong>manually going through each customer one by one</strong> — checking if they have an email, asking for consent, updating records. Hours of work that a system should do automatically.</p>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">04</span>
+        <span class="tag tag-reg">Wrong names</span>
+        <p>The registration form is <strong>not clear that details should be for the child, not the adult</strong>. Parents enter their own names. The database is full of adult names where children's names should be.</p>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">05</span>
+        <span class="tag tag-data">No querying</span>
+        <p><strong>No way to select or query who has data consent turned off</strong> in Upshot. You can't even find out how big the problem is, let alone fix it in bulk.</p>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">06</span>
+        <span class="tag tag-reg">Too many fields</span>
+        <p>The form requires <strong>multiple submissions per child</strong> — a 20+ step form × 3 kids = 60+ fields to fill in. Parents give up. Staff field the calls instead.</p>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">07</span>
+        <span class="tag tag-data">No own database</span>
+        <p>Track Academy <strong>doesn't have its own database</strong>. All data lives in Upshot — you can't query it freely, export it flexibly, or build anything on top of it without Upshot's permission and API access.</p>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">08</span>
+        <span class="tag tag-signin">Manual sign-in</span>
+        <p>Parents <strong>manually sign each child in by hand</strong> at the track — 6 fields per child. If a parent has 3 children, that's 18 fields filled in at the door, every session, on paper.</p>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">09</span>
+        <span class="tag tag-comms">No welcome email</span>
+        <p><strong>No welcome email is sent</strong> after registration. Parents don't know session times, what to bring, where to go, or who to ask for. First impressions are confusion at the sports centre door.</p>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">10</span>
+        <span class="tag tag-billing">Manual billing</span>
+        <p>After registration, <strong>admin manually bills parents</strong>. Some pay, some don't. Universal Credit chasing happens ad-hoc and is sometimes left unverified. No automation, no enforcement, no visibility.</p>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">11</span>
+        <span class="tag tag-signin">Trial bottleneck</span>
+        <p>Children get <strong>one free session</strong> — but there's no streamlined flow from trial → sign-up → payment. Each trial is an admin task instead of an automated funnel.</p>
+      </div>
+      <div class="issue-card">
+        <span class="issue-num">12</span>
+        <span class="tag tag-signin">Bad WiFi</span>
+        <p>The CEO's rebuttal: <strong>"the WiFi at the sports centre is bad."</strong> Fair point — but it's a solvable engineering problem, not a reason to keep paper sign-in sheets.</p>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>These aren't separate problems.</strong> They all trace back to one thing: Track Academy doesn't own its data or its workflows. Upshot is a great operational tool, but it's not a registration platform, a billing system, a sign-in tool, or a communications engine. When you try to make it do all those things — and you don't have your own database — this is what happens.
+    </div>
+  </div>
+</section>
+
+<!-- ========== 02: CORE PROBLEM ========== -->
+<section id="core-problem" class="section-break">
+  <div class="container">
+    <span class="section-num">02 / Root cause</span>
+    <h2>Upshot is a great operational tool. It's not a platform.</h2>
+    <p class="lead">The diagram is simple: Upshot holds the data, but Track Academy doesn't. Staff work around the tool instead of the tool working for staff.</p>
+
+    <table class="shift-table">
+      <thead><tr><th>What's happening now</th><th>What it costs</th></tr></thead>
+      <tbody>
+        <tr><td class="old">Receptionist manually checking each customer for email consent</td><td class="new">Hours per week of manual data work</td></tr>
+        <tr><td class="old">No way to bulk-query or bulk-update consent status</td><td class="new">Can't even scope the problem</td></tr>
+        <tr><td class="old">Registration form doesn't distinguish parent from child</td><td class="new">Database full of wrong names — unusable for comms</td></tr>
+        <tr><td class="old">Paper-based sign-in: 6 fields per child, every session</td><td class="new">Staff time + data entry backlog + error-prone</td></tr>
+        <tr><td class="old">Manual billing: admin chases payments individually</td><td class="new">Unpredictable cashflow, unpaid sessions, admin burnout</td></tr>
+        <tr><td class="old">No welcome email, no onboarding journey</td><td class="new">Confused parents, missed first sessions, poor retention</td></tr>
+        <tr><td class="old">Trial sessions are ad-hoc admin tasks</td><td class="new">No pipeline from trial → registered → paying</td></tr>
+        <tr><td class="old">Data lives in Upshot, not in Track Academy's hands</td><td class="new">Can't build anything custom. Dependent on a third party.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <strong>This isn't a criticism of Upshot.</strong> Upshot is designed for impact measurement and funder reporting — and it's good at that. But it was never designed to be a registration platform, a billing system, a sign-in tool, or a marketing email engine. Track Academy needs those things. Right now, staff are the glue holding disconnected pieces together.
+    </div>
+  </div>
+</section>
+
+<!-- ========== 03: THE SOLUTION ========== -->
+<section id="solution">
+  <div class="container">
+    <span class="section-num">03 / The solution</span>
+    <h2>Own your system. Own your data. Automate the manual.</h2>
+    <p class="lead">Build Track Academy's own database and integrated workflows. Upshot stays as the operational system — but now it's fed by <em>your</em> system, not the other way around.</p>
+
+    <div class="split">
+      <div>
+        <h3>Six integrated modules. One database.</h3>
+        <p><strong>1. Smart Registration</strong> — Child-first form. Sibling autofill. Clear at every step whose details you're entering. Data goes to your Supabase database first, then syncs to Upshot.</p>
+        <p><strong>2. QR Code Sign-in</strong> — Parent scans one QR code. Ticks which children are attending. Done. Works offline, syncs when WiFi returns. No paper. No 6 fields per child.</p>
+        <p><strong>3. Automated Billing</strong> — Stripe integration. £26/quarter/child. Automatic. If unpaid after X days, QR sign-in stops working. Universal Credit verification flow built in.</p>
+        <p><strong>4. Communications Engine</strong> — Welcome email on registration. SMS campaigns to collect missing emails. Consent management you can query. Triggered emails for key moments.</p>
+        <p><strong>5. Trial Session Flow</strong> — Capture basics → child attends free → automated follow-up → registration → payment. A pipeline, not an admin task.</p>
+        <p><strong>6. Your Database</strong> — Supabase (PostgreSQL). You own it. You query it. You export it. You build on it. Full SQL access. No third-party gatekeeper between you and your data.</p>
+      </div>
+      <div class="split-stat">
+        <div class="big">100%</div>
+        <div class="label">of your data, queryable by you, with full SQL access. No gatekeepers.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 04: REGISTRATION ========== -->
+<section id="registration" class="section-break">
+  <div class="container">
+    <span class="section-num">04 / Registration</span>
+    <h2>A registration form that knows the difference between a parent and a child.</h2>
+    <p class="lead">The current form is the #1 source of bad data and abandoned sign-ups. The rebuild starts with one question: "Who is this for?"</p>
+
+    <div class="before-after">
+      <div class="before">
+        <span class="label">Current form (Upshot)</span>
+        <h3>One form for everyone — confusing and long</h3>
+        <ul class="comp-list bad">
+          <li>Doesn't clearly separate parent from child details</li>
+          <li>Parents enter their own name instead of child's</li>
+          <li>50+ fields in one page — overwhelming</li>
+          <li>Asks about GCSE results for 8-year-olds</li>
+          <li>Multiple submissions needed per child (3 kids = 60+ fields)</li>
+          <li>Email consent is optional — most leave it unchecked</li>
+          <li>No save-and-come-back</li>
+          <li>No sibling autofill</li>
+          <li>No mobile optimisation</li>
+        </ul>
+      </div>
+      <div class="after">
+        <span class="label">Proposed form (our system)</span>
+        <h3>Child-first, parent-second. Clear, short, mobile-friendly.</h3>
+        <ul class="comp-list good">
+          <li><strong>"First, tell us about your child"</strong> — unmistakable header</li>
+          <li>Child's name, DOB, school year — 4 fields to start</li>
+          <li>Age-adaptive: only shows relevant fields (no GCSEs for 8-year-olds)</li>
+          <li>Then: "Now, tell us about yourself" — parent section clearly separated</li>
+          <li><strong>"Register another child?"</strong> — copies parent details, only asks child info</li>
+          <li>Progress bar: "Step 1 of 5" — visually unintimidating</li>
+          <li>Mobile-first: large tap targets, one column, thumb-friendly</li>
+          <li>Inline validation: catches errors on blur, not on submit</li>
+          <li>Autosave: never lose progress</li>
+          <li>Email consent: clearly explained, prominently placed — not hidden</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Upshot stays in the loop.</strong> All registration data saves to Track Academy's Supabase database. Subject to Upshot API access, we sync directly — or create a clean export/import workflow. Either way, Upshot gets the data it needs, and Track Academy gets a form that actually works.
+    </div>
+  </div>
+</section>
+
+<!-- ========== 05: QR CODE SIGN-IN ========== -->
+<section id="signin">
+  <div class="container">
+    <span class="section-num">05 / Sign-in</span>
+    <h2>One scan. Tick the kids attending. Done.</h2>
+    <p class="lead">Replace the 6-field-per-child paper sign-in with a QR code at the sports centre door. Parent scans, checks which children are here, submits. 10 seconds. That's it.</p>
+
+    <div class="qr-mock">
+      <div>
+        <h3>How it works</h3>
+        <p><strong>1.</strong> A laminated QR code is placed at the sports centre reception desk.</p>
+        <p><strong>2.</strong> Parent arrives, opens their phone camera, scans the code.</p>
+        <p><strong>3.</strong> A mobile web page opens — no app to install. It shows their children's names with checkboxes.</p>
+        <p><strong>4.</strong> Parent ticks the child (or children) attending, taps "Sign in". Done.</p>
+        <p><strong>5.</strong> Attendance is recorded in the database in real time. Staff see who's here on a simple dashboard.</p>
+        <p style="margin-top: 20px;"><strong>Multiple children?</strong> All listed on one screen. One scan signs in all of them. No 18-field paper form for a family of three.</p>
+      </div>
+      <div class="qr-visual">
+        <div class="qr-box"></div>
+        <div class="qr-label">Parent scans → checks children → done</div>
+        <p style="color: var(--grey); font-size: 0.85rem; margin-top: 12px;">No app to install. Works on any smartphone. Works offline — syncs when WiFi returns.</p>
+      </div>
+    </div>
+
+    <div class="answer-box">
+      <h4>🔧 "But the WiFi at the sports centre is bad" — here's how we solve that</h4>
+      <p><strong>Offline-first design.</strong> The sign-in page is a Progressive Web App (PWA). It loads once and works without internet. When a parent scans and submits, the attendance is saved locally on the device and queued. The moment any connectivity returns — even a flicker of 4G — it syncs to the database. No data lost. No parent waiting.</p>
+      <p><strong>Fallback:</strong> If a parent genuinely has no smartphone, staff can sign them in from the staff dashboard on a tablet or laptop. Still one-click per child — still no paper.</p>
+      <p><strong>4G backup:</strong> A cheap 4G dongle (£15/month) at the sports centre provides a backup connection independent of the building WiFi. The system switches automatically.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 06: BILLING ========== -->
+<section id="billing" class="section-break">
+  <div class="container">
+    <span class="section-num">06 / Billing</span>
+    <h2>Automatic billing. No chasing. No guesswork.</h2>
+    <p class="lead">After registration, the system handles payment — not the admin. Stripe integration for card payments. Universal Credit verification flow built in. QR sign-in tied to payment status.</p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <span class="step-num">Step 1</span>
+        <h4>Registration complete</h4>
+        <p>Child details saved. Parent details saved. System checks: UC declared?</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="step-num">Step 2a</span>
+        <h4>No UC declared</h4>
+        <p>Redirect to Stripe. £26/quarter/child. Set up automatically.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="step-num">Step 3</span>
+        <h4>Payment confirmed</h4>
+        <p>QR sign-in activated. Welcome email sent. Child is ready to attend.</p>
+      </div>
+    </div>
+    <div class="flow" style="margin-top: 16px;">
+      <div class="flow-step">
+        <span class="step-num">Step 2b</span>
+        <h4>UC declared</h4>
+        <p>Upload UC evidence. Flagged for staff review. Temporary access granted.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="step-num">Step 4</span>
+        <h4>UC verified by staff</h4>
+        <p>Free place confirmed. QR sign-in stays active. No payment needed.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="step-num">Step 5</span>
+        <h4>If unpaid > X days</h4>
+        <p>QR sign-in disabled. Automated reminder sent. Self-resolving enforcement.</p>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top: 32px;">
+      <strong>What this replaces:</strong> Admin manually emailing/calling parents for payment → manual bank transfer reconciliation → manual UC evidence chasing → manual decision on who can attend. <strong>The system handles it. Staff handle exceptions only.</strong>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-item">
+        <div class="num">£26</div>
+        <div class="cap">Per child, per quarter</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">Auto</div>
+        <div class="cap">Stripe recurring billing</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">0</div>
+        <div class="cap">Manual payment chasing</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">100%</div>
+        <div class="cap">Payment visibility for staff</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 07: COMMUNICATIONS ========== -->
+<section id="comms">
+  <div class="container">
+    <span class="section-num">07 / Communications</span>
+    <h2>Automated emails. SMS when needed. Consent you can query.</h2>
+    <p class="lead">Right now, most parents can't be emailed — because Upshot made it optional and nobody ticked the box. We fix the data problem first, then build the comms engine on top.</p>
+
+    <h3 style="margin-top: 48px;">Immediate fix: SMS campaign to collect emails</h3>
+    <div class="split">
+      <div>
+        <p><strong>The problem:</strong> Hundreds of parents in the database with no email — or no email consent. You can't email them to ask for their email. Circular.</p>
+        <p><strong>The fix:</strong> A one-time SMS campaign via Twilio. Text parents a short link to a simple form:</p>
+        <div class="note">
+          <strong>Example SMS:</strong><br>
+          "Hi [parent name], Track Academy here. We're updating our records so we can send you session times, event invites, and important updates. Please add your email here: [short link]. It takes 30 seconds. Thanks! — The Track Academy team"
+        </div>
+        <p>The form captures: email address + consent to email + confirmation of child's name. Data goes straight into your Supabase database — not lost in Upshot's consent maze.</p>
+      </div>
+      <div class="split-stat">
+        <div class="big">~£40</div>
+        <div class="label">Estimated cost for 500 SMS via Twilio. One-off campaign to recover hundreds of email addresses.</div>
+      </div>
+    </div>
+
+    <h3 style="margin-top: 48px;">Ongoing: triggered emails that actually send</h3>
+    <table class="shift-table">
+      <thead><tr><th>Trigger</th><th>Email</th><th>Purpose</th></tr></thead>
+      <tbody>
+        <tr><td class="new">Registration completed</td><td class="new">Welcome email</td><td>Session times, what to bring, where to go, Spond invite link, contact info, link to website pages covering everything they need</td></tr>
+        <tr><td class="new">24h before first session</td><td class="new">Reminder email</td><td>"See you tomorrow! Here's what you need." Reduces no-shows.</td></tr>
+        <tr><td class="new">Payment successful</td><td class="new">Receipt + confirmation</td><td>Quarter confirmed, QR sign-in active, next payment date</td></tr>
+        <tr><td class="new">Payment failed</td><td class="new">Gentle reminder</td><td>"Your payment didn't go through. Update your details here." Before sign-in is affected.</td></tr>
+        <tr><td class="new">Payment overdue > 14 days</td><td class="new">Final notice</td><td>"QR sign-in will be paused in 7 days. Here's how to pay."</td></tr>
+        <tr><td class="new">Term ending</td><td class="new">Renewal notice</td><td>"Next term starts [date]. Your payment will be taken on [date]."</td></tr>
+        <tr><td class="new">Event announced</td><td class="new">Event invite</td><td>Targeted: only to relevant age groups/programmes</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <strong>All emails are queryable.</strong> Want to know who received the welcome email but hasn't attended a session? Run a query. Want to see which parents have consent turned off? Run a query. Your database. Your rules.
+    </div>
+  </div>
+</section>
+
+<!-- ========== 08: TRIAL SESSION FLOW ========== -->
+<section id="trial" class="section-break">
+  <div class="container">
+    <span class="section-num">08 / Trial session</span>
+    <h2>From "I'll give it a try" to "My child is registered and paid" — automatically.</h2>
+    <p class="lead">Every child gets one free session. Right now, that's an admin task. With the new system, it's a funnel.</p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <span class="step-num">Step 1</span>
+        <h4>Trial sign-up</h4>
+        <p>Short form: parent name, child name, DOB, phone. 30 seconds. No 50-field wall.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="step-num">Step 2</span>
+        <h4>Instant confirmation</h4>
+        <p>SMS: "You're booked for [day] at [time]. Show this text at the door." QR sign-in link included.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="step-num">Step 3</span>
+        <h4>Child attends free</h4>
+        <p>Scans QR code on arrival. Staff see "TRIAL" badge. Child participates. System flags trial as used.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="step-num">Step 4</span>
+        <h4>Same-day follow-up</h4>
+        <p>Email/SMS: "Hope they loved it! Ready to join? Finish registration in 5 mins." Link to full registration form — pre-filled with trial data.</p>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">
+        <span class="step-num">Step 5</span>
+        <h4>Complete → Pay</h4>
+        <p>Parent completes full registration (pre-filled from trial data). Redirects to Stripe or UC upload. Done.</p>
+      </div>
+    </div>
+
+    <div class="note" style="margin-top: 32px;">
+      <strong>What happens if they don't convert?</strong> After 7 days: follow-up SMS. After 14 days: final reminder. After 30 days: trial record archived. Staff can see conversion rates in a dashboard — know exactly how many trials become members each month.
+    </div>
+  </div>
+</section>
+
+<!-- ========== 09: THE DATA ADVANTAGE ========== -->
+<section id="data">
+  <div class="container">
+    <span class="section-num">09 / Data</span>
+    <h2>Your data. Your queries. Your rules.</h2>
+    <p class="lead">This is the single biggest shift. Right now, your data lives in a system you can't query freely. With your own database, every question you have about your customers is a 5-second SQL query away.</p>
+
+    <table class="data-table">
+      <thead><tr><th>What staff need to know</th><th>Upshot today</th><th>Our system</th></tr></thead>
+      <tbody>
+        <tr><td>Which parents haven't given email consent?</td><td class="cannot">Can't query this</td><td class="can">One query. Exportable list.</td></tr>
+        <tr><td>Which children haven't attended in 4+ weeks?</td><td class="cannot">Manual cross-referencing</td><td class="can">Attendance query. Automated alert.</td></tr>
+        <tr><td>Which parents haven't paid this quarter?</td><td class="cannot">N/A — Upshot doesn't do billing</td><td class="can">Payment status dashboard. Filterable.</td></tr>
+        <tr><td>How many trialists converted to members this month?</td><td class="cannot">Not trackable</td><td class="can">Conversion rate dashboard. Real-time.</td></tr>
+        <tr><td>Which schools send the most children?</td><td class="cannot">Manual tally</td><td class="can">Grouped by school. One query.</td></tr>
+        <tr><td>Demographic breakdown for a funder report?</td><td class="cannot">Limited export options</td><td class="can">Custom SQL. Any format.</td></tr>
+        <tr><td>Which sessions are at capacity vs. under-attended?</td><td class="cannot">Manual headcount</td><td class="can">Live session attendance vs. capacity.</td></tr>
+        <tr><td>Who needs a safeguarding check renewed?</td><td class="cannot">N/A — not tracked in Upshot</td><td class="can">Staff table. Automated reminders.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <strong>And when you need this data in Upshot?</strong> We sync it. Your database is the source of truth. Upshot gets a clean, structured feed of exactly the data it needs for impact reporting — no manual entry, no duplication, no errors. <strong>Your system feeds Upshot, not the other way around.</strong>
+    </div>
+  </div>
+</section>
+
+<!-- ========== 10: TECHNICAL ARCHITECTURE ========== -->
+<section id="architecture" class="section-break">
+  <div class="container">
+    <span class="section-num">10 / Architecture</span>
+    <h2>What powers the system — and why it's reliable, even with bad WiFi.</h2>
+    <p class="lead">The stack is chosen for three things: reliability, affordability, and Track Academy's full ownership of data.</p>
+
+    <div class="arch-diagram">
+      <div class="arch-block">
+        <div class="icon">DB</div>
+        <h4>Supabase (PostgreSQL)</h4>
+        <p>Your database. Full SQL. You own it. £0/month on free tier — scales to £25/month when needed. Hosted in London region for GDPR compliance.</p>
+      </div>
+      <div class="arch-block">
+        <div class="icon">W</div>
+        <h4>Astro Website</h4>
+        <p>Fast, static-first website. Hosted on Cloudflare Pages — free. Registration form, sign-in page, all public-facing pages. Works offline as a PWA.</p>
+      </div>
+      <div class="arch-block">
+        <div class="icon">$</div>
+        <h4>Stripe</h4>
+        <p>Recurring billing. £26/quarter/child. Automatic. Handles failed payments, retries, receipts. Industry-standard security (PCI DSS Level 1). 1.5% + 20p per transaction.</p>
+      </div>
+      <div class="arch-block">
+        <div class="icon">✉</div>
+        <h4>Resend + Twilio</h4>
+        <p>Resend for transactional emails (welcome, reminders, receipts). Twilio for SMS campaigns. Both pay-as-you-go — no monthly subscription for low volumes.</p>
+      </div>
+    </div>
+
+    <div class="arch-diagram" style="margin-top: 16px;">
+      <div class="arch-block">
+        <div class="icon">U</div>
+        <h4>Upshot (via API/export)</h4>
+        <p>Stays as your operational and funder-reporting system. Fed clean data from your database. Subject to API access — otherwise a structured CSV export workflow.</p>
+      </div>
+      <div class="arch-block">
+        <div class="icon">S</div>
+        <h4>Spond</h4>
+        <p>Continues as parent group communication. Invite link sent automatically in welcome email. No change needed.</p>
+      </div>
+      <div class="arch-block">
+        <div class="icon">📶</div>
+        <h4>Offline PWA</h4>
+        <p>QR sign-in page works without internet. Saves attendance locally. Syncs automatically when connectivity returns. 4G dongle backup for £15/month.</p>
+      </div>
+      <div class="arch-block">
+        <div class="icon">📊</div>
+        <h4>Staff Dashboard</h4>
+        <p>Simple web dashboard: today's attendance, payment status, trial conversions, quick search for any parent/child record. Password-protected. Mobile-friendly.</p>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Total infrastructure cost: £0–£40/month</strong> (Supabase free tier + Stripe per-transaction + Resend free tier + Twilio pay-as-you-go + optional 4G dongle). No £160/year hosting. No expensive SaaS subscriptions. You pay for what you use.
+    </div>
+  </div>
+</section>
+
+<!-- ========== 11: ROADMAP ========== -->
+<section id="roadmap">
+  <div class="container">
+    <span class="section-num">11 / Roadmap</span>
+    <h2>What gets built — and when.</h2>
+    <p class="lead">A phased approach. Each phase delivers something staff can actually use — no waiting months for value.</p>
+
+    <div class="roadmap">
+      <div class="phase">
+        <div class="phase-num">Phase 1A</div>
+        <div class="phase-content">
+          <h4>Website rebuild + database foundation + registration</h4>
+          <p>All core website pages live. Multi-step child-first registration wizard saving to Supabase. Upshot sync workflow. Sanity CMS for staff editing. GA4 + Search Console. 301 redirects. Free Cloudflare hosting. <strong>Delivers: a working website and registration form that captures clean data.</strong></p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">Phase 1B</div>
+        <div class="phase-content">
+          <h4>SMS campaign + email collection + welcome emails</h4>
+          <p>Twilio SMS campaign to recover missing emails from the existing Upshot database. Simple email-capture landing page. Welcome email sequence built (post-registration, pre-first-session, post-first-session). Consent tracking in your database. <strong>Delivers: reachable parents and automated onboarding.</strong></p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">Phase 2</div>
+        <div class="phase-content">
+          <h4>QR code sign-in + attendance tracking</h4>
+          <p>PWA sign-in page. QR code generated for the sports centre. Offline-first sync. Staff attendance dashboard. Automated attendance records in Supabase — ready to feed Upshot. <strong>Delivers: end of paper sign-in. Hours saved every week for Yvonne and the reception team.</strong></p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">Phase 3</div>
+        <div class="phase-content">
+          <h4>Automated billing + Stripe + UC verification</h4>
+          <p>Stripe integration for quarterly billing (£26/child). Automatic payment collection. Failed payment handling. UC evidence upload flow with staff verification dashboard. Payment status tied to QR sign-in (unpaid = no sign-in). <strong>Delivers: end of manual billing. Predictable cashflow.</strong></p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">Phase 4</div>
+        <div class="phase-content">
+          <h4>Trial session funnel + staff dashboard</h4>
+          <p>Short trial sign-up form. Automated trial → registration → payment pipeline. Trial conversion dashboard. Staff dashboard with search, attendance views, payment status, and quick actions. <strong>Delivers: a self-serve pipeline. Staff manage exceptions, not every step.</strong></p>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">Phase 5</div>
+        <div class="phase-content">
+          <h4>Portals + athlete passports + advanced reporting</h4>
+          <p>Parent portal (view progress, pay, register siblings). School portal (Athlete Passports, termly reports). Funder dashboard (live impact data). Volunteer management. Spond replacement evaluation. <strong>Delivers: a complete digital ecosystem owned by Track Academy.</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Phases 1A and 1B can be delivered in 6–8 weeks.</strong> Phases 2–5 are progressively built under the monthly retainer. Each phase is scoped and priced before work begins. No surprises.
+    </div>
+  </div>
+</section>
+
+<!-- ========== 12: INVESTMENT ========== -->
+<section id="investment" class="section-break">
+  <div class="container">
+    <span class="section-num">12 / Investment</span>
+    <h2>What it costs — and what it saves.</h2>
+    <p class="lead">The website rebuild is Phase 1A. The systems work (SMS, QR sign-in, billing, trial funnel) is built under the ongoing retainer. You pay for the foundation once. You pay for progress monthly.</p>
+
+    <div class="pricing">
+      <div class="price-card">
+        <div class="label">One-off</div>
+        <div class="amount">£800</div>
+        <div class="period">Phase 1A: Website rebuild + database foundation</div>
+        <ul>
+          <li>Core website rebuild — all key pages</li>
+          <li>Multi-step child-first registration wizard</li>
+          <li>Supabase database: athletes, guardians, attendance</li>
+          <li>Upshot sync workflow</li>
+          <li>Sanity CMS for staff content editing</li>
+          <li>GA4 + Google Search Console</li>
+          <li>Free Cloudflare hosting (saves £160/year)</li>
+          <li>301 redirects from old URLs</li>
+          <li>SEO foundations</li>
+        </ul>
+      </div>
+      <div class="price-card featured">
+        <div class="label">Monthly retainer</div>
+        <div class="amount">£300</div>
+        <div class="period">Ongoing build + support — Phase 1B through Phase 5</div>
+        <ul>
+          <li>Free hosting on Cloudflare (included)</li>
+          <li>Up to one focused build day per month</li>
+          <li>SMS campaign setup + email collection form</li>
+          <li>Welcome email sequence (Phase 1B)</li>
+          <li>QR code sign-in system (Phase 2)</li>
+          <li>Stripe billing integration (Phase 3)</li>
+          <li>Trial session funnel (Phase 4)</li>
+          <li>Staff dashboard</li>
+          <li>Monthly analytics + performance report</li>
+          <li>Email/Slack support within 48 hours</li>
+          <li>Backup, security, uptime monitoring</li>
+        </ul>
+      </div>
+      <div class="price-card">
+        <div class="label">What this replaces</div>
+        <div class="amount" style="color: var(--success);">£160</div>
+        <div class="period">Annual hosting saved</div>
+        <ul>
+          <li>Old WordPress hosting retired</li>
+          <li>No plugin updates, no theme conflicts</li>
+          <li>No £160/year d9 renewal</li>
+          <li>No manual paper sign-in sheets</li>
+          <li>No manual billing and payment chasing</li>
+          <li>No manual customer-by-customer email collection</li>
+          <li>No manual UC verification backlog</li>
+          <li>Staff hours recovered: <strong>5–10 hours/week</strong></li>
+          <li>Hosting: <strong>£0/year</strong> on Cloudflare</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>Infrastructure costs (paid directly by Track Academy):</strong> Supabase free tier (£0), Stripe transaction fees (1.5% + 20p per payment), Resend free tier (3,000 emails/month free), Twilio SMS (~£0.04/SMS — one-off campaign ~£40 for 1,000 texts). Optional 4G dongle backup: ~£15/month. <strong>Total running cost: £0–£55/month, depending on usage.</strong>
+    </div>
+    <div class="note">
+      <strong>6-month agreement + reassess:</strong> £800 Phase 1A + £300/month for 6 months. After that, review: if the system is mature and stable, the monthly drops to reflect lighter maintenance. If Track Academy wants to push into the next phase, we price it. <strong>50% up-front on the £800 works.</strong>
+    </div>
+    <div class="note">
+      <strong>Total Phase 1A + 6 months retainer: £2,600.</strong> For that, Track Academy gets a new website, its own database, automated registration, SMS email recovery, welcome emails, and the foundations for QR sign-in, Stripe billing, and the trial funnel — all built progressively over the retainer period.
+    </div>
+  </div>
+</section>
+
+<!-- ========== 13: NEXT STEP ========== -->
+<section id="next" class="closing">
+  <div class="container">
+    <span class="section-num" style="color: var(--orange);">13 / Next step</span>
+    <h2>The receptionist already told us what's broken. Now let's fix it.</h2>
+    <p class="lead">Recommended next step: approve Phase 1A + Phase 1B and book a 60-minute systems kickoff. We'll walk through the registration flow, the email recovery campaign, the database schema, and confirm the first 30-day delivery plan.</p>
+
+    <div class="cover-cta">
+      <a href="mailto:calvin@partneredgrowth.com?subject=Track Academy Systems Proposal - build kickoff" class="btn btn-primary">Book the systems kickoff</a>
+      <a href="#issues" class="btn btn-secondary">Review the 12 issues again</a>
+    </div>
+
+    <p style="margin-top: 32px; font-size: 0.9rem; color: rgba(255,255,255,0.7); max-width: 60ch;">
+      To move forward, we'll need: access to the current Upshot account (to review the data and consent situation), domain registrar details, confirmation of Upshot API or export access, and a list of priority parents to target in the SMS campaign. From there, we finalise the data flow, registration design, and launch plan.
+    </p>
+
+    <div class="note" style="margin-top: 32px;">
+      <strong>One conversation changed the scope.</strong> The original website rebuild proposal (13 sections, £800 + £300/month) still stands — it's the foundation. This systems proposal adds what the receptionist revealed: registration that captures the right data, automated sign-in, billing that works without staff chasing, and communications that actually reach parents. <strong>Both proposals are aligned. The website is Phase 1A. The systems work is Phase 1B onwards under the same retainer.</strong>
+    </div>
+
+    <div class="closing-meta">
+      <div><span>Prepared for</span><span>Patrik Ewe, CEO</span></div>
+      <div><span>From</span><span>Calvin</span></div>
+      <div><span>Date</span><span>July 2026</span></div>
+      <div><span>Version</span><span>v1.0 — Systems & Data Autonomy</span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Scroll progress
+const progress = document.getElementById('progress');
+const sideNav = document.getElementById('sideNav');
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('.side-nav a');
+
+window.addEventListener('scroll', () => {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollPercent = (scrollTop / docHeight) * 100;
+  progress.style.width = scrollPercent + '%';
+
+  let current = '';
+  sections.forEach(sec => {
+    const rect = sec.getBoundingClientRect();
+    if (rect.top <= 100 && rect.bottom > 100) {
+      current = sec.id;
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+});
+
+// Reveal animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -80px 0px' });
+
+document.querySelectorAll('section').forEach(s => {
+  s.classList.add('reveal');
+  observer.observe(s);
+});
+</script>
+
+</body>
+</html>
