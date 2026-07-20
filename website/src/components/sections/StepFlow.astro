@@ -1,0 +1,60 @@
+---
+/**
+ * StepFlow.astro — numbered steps with connecting aesthetic
+ * NOT the generic "3 steps with icons" — uses oversized numerals and a vertical track line
+ */
+interface Step {
+  title: string;
+  description: string;
+}
+
+interface Props {
+  label?: string;
+  heading?: string;
+  steps: Step[];
+}
+
+const { label, heading, steps } = Astro.props;
+---
+
+<section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
+  <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
+    {label && (
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        {label}
+      </p>
+    )}
+    {heading && (
+      <h2 class="mb-[clamp(2rem,5vw,4rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        {heading}
+      </h2>
+    )}
+
+    <div class="relative">
+      <!-- Vertical track line -->
+      <div class="absolute left-6 top-4 bottom-4 w-px bg-[var(--color-grey-300)] lg:left-8"></div>
+
+      {steps.map((step, i) => (
+        <div class="relative mb-10 flex gap-6 last:mb-0 lg:gap-8">
+          <!-- Oversized numeral with track line dot -->
+          <div class="relative z-10 flex-shrink-0">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--color-track-blue)] lg:h-16 lg:w-16">
+              <span class="font-heading text-xl font-700 text-[var(--color-track-orange)] tabular-nums lg:text-2xl">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+            </div>
+          </div>
+
+          <div class="flex-1 pt-1 lg:pt-3">
+            <h3 class="font-heading text-[clamp(1.125rem,2vw,1.5rem)] font-500 leading-[1.2] text-[var(--color-track-blue)]">
+              {step.title}
+            </h3>
+            <p class="mt-2 max-w-md font-body text-base leading-[1.6] text-[var(--color-grey-700)]">
+              {step.description}
+            </p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

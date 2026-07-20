@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SimpleHero from '../components/sections/SimpleHero.astro';
+import NumeralsEscaping from '../components/sections/NumeralsEscaping.astro';
+import CTABanner from '../components/sections/CTABanner.astro';
+import Button from '../components/ui/Button.astro';
+import GroupPhoto from '../assets/stories/group-photo.jpg';
+
+const seo = {
+  title: 'Support Track Academy',
+  description:
+    'Every £1 helps us keep the track open. Donate, sponsor or volunteer — and help young people in Brent thrive.',
+};
+
+const needStats = [
+  { number: 41, suffix: '%', label: 'Brent child poverty', context: 'the need is real' },
+  { number: 331, label: 'young people', context: 'we support each year' },
+  { number: 577, label: 'sessions delivered', context: 'in 2024' },
+];
+
+const waysToSupport = [
+  { label: 'Donate', heading: 'Keep the track open', description: 'A one-off or regular gift through Whydonate goes straight to running sessions, buying kit and supporting young people.', cta: { label: 'Donate on Whydonate', href: 'https://whydonate.com/fundraising/trackacademy' }, primary: true },
+  { label: 'Sponsor', heading: 'Sponsor an event or programme', description: 'Back a holiday programme, a competition season or a school partnership. Your brand alongside real impact in Brent.', cta: { label: 'Talk to us about sponsorship', href: '/contact' } },
+  { label: 'Volunteer', heading: 'Give your time', description: 'Coaches, mentors, tutors and event-day helpers — if you\'ve got time and care, we\'ll find your role.', cta: { label: 'Get in touch', href: '/contact' } },
+];
+
+const whereMoneyGoes = [
+  { amount: '£25', impact: 'one child\'s coaching for a term' },
+  { amount: '£500', impact: 'one mentor\'s training' },
+  { amount: '£1,950', impact: 'one school\'s Bronze partnership' },
+];
+---
+
+<BaseLayout {...seo}>
+  <SimpleHero
+    image={GroupPhoto}
+    title="Support Track Academy"
+    lead="Every £1 helps us keep the track open."
+  />
+
+  <NumeralsEscaping
+    stats={needStats}
+    caption="In 2024. This is what your support makes possible."
+  />
+
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        Ways to Support
+      </p>
+      <h2 class="mb-[clamp(2rem,5vw,3rem)] max-w-2xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        Three ways to stand at the track edge with us.
+      </h2>
+
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[5fr_4fr_3fr] lg:gap-8">
+        <div class="bg-[var(--color-track-blue)] p-8 text-white lg:p-10">
+          <p class="font-body text-sm font-600 uppercase tracking-[0.05em] text-[var(--color-track-orange)]">{waysToSupport[0].label}</p>
+          <h3 class="mt-4 font-heading text-[clamp(1.5rem,3vw,2rem)] font-500 leading-[1.1]">{waysToSupport[0].heading}</h3>
+          <p class="mt-4 max-w-md font-body text-base leading-[1.6] text-white/80">{waysToSupport[0].description}</p>
+          <div class="mt-8">
+            <Button href={waysToSupport[0].cta.href} label={waysToSupport[0].cta.label} variant="primary" external />
+          </div>
+        </div>
+
+        <div class="bg-[var(--color-grey-100)] p-8">
+          <p class="font-body text-sm font-600 uppercase tracking-[0.05em] text-[var(--color-track-orange)]">{waysToSupport[1].label}</p>
+          <h3 class="mt-4 font-heading text-[clamp(1.25rem,3vw,1.75rem)] font-500 leading-[1.1] text-[var(--color-grey-900)]">{waysToSupport[1].heading}</h3>
+          <p class="mt-4 font-body text-base leading-[1.6] text-[var(--color-grey-700)]">{waysToSupport[1].description}</p>
+          <div class="mt-8">
+            <Button href={waysToSupport[1].cta.href} label={waysToSupport[1].cta.label} variant="secondary" />
+          </div>
+        </div>
+
+        <div class="bg-[var(--color-grey-100)] p-8">
+          <p class="font-body text-sm font-600 uppercase tracking-[0.05em] text-[var(--color-track-orange)]">{waysToSupport[2].label}</p>
+          <h3 class="mt-4 font-heading text-[clamp(1.25rem,3vw,1.75rem)] font-500 leading-[1.1] text-[var(--color-grey-900)]">{waysToSupport[2].heading}</h3>
+          <p class="mt-4 font-body text-base leading-[1.6] text-[var(--color-grey-700)]">{waysToSupport[2].description}</p>
+          <div class="mt-8">
+            <Button href={waysToSupport[2].cta.href} label={waysToSupport[2].cta.label} variant="link" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tracked-surface bg-[var(--color-track-navy)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        Sponsorship
+      </p>
+      <h2 class="mb-6 max-w-2xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-white">
+        Corporate sponsorship that means something.
+      </h2>
+      <p class="max-w-xl font-body text-base leading-[1.65] text-white/80">
+        We work with companies who want more than a logo. Your sponsorship directly funds a programme, a group of young people or a season — and we tell that story with you.
+      </p>
+      <div class="mt-8">
+        <Button href="/contact" label="Talk to us about partnership" variant="primary" />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        Where Your Money Goes
+      </p>
+      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        From a child to a school.
+      </h2>
+      <div class="space-y-[clamp(1.5rem,4vw,2.5rem)]">
+        {whereMoneyGoes.map((item) => (
+          <div class="flex flex-col items-baseline gap-3 border-b border-[var(--color-grey-300)] pb-[clamp(1.5rem,3vw,2rem)] sm:flex-row sm:gap-8 sm:items-center">
+            <span class="font-heading text-[clamp(2.5rem,8vw,5rem)] font-700 leading-none text-[var(--color-track-blue)] tabular-nums sm:w-64">{item.amount}</span>
+            <p class="font-body text-[clamp(1.125rem,1.5vw,1.25rem)] leading-[1.5] text-[var(--color-grey-700)]">{item.impact}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-grey-100)] py-[clamp(2.5rem,5vw,4rem)]">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <p class="font-body text-sm font-600 uppercase tracking-[0.05em] text-[var(--color-grey-500)]">Trust & Accreditation</p>
+      <p class="mt-2 font-heading text-lg font-400 text-[var(--color-grey-900)]">London Living Wage Employer · Charity 1164222 · England Athletics Affiliated</p>
+    </div>
+  </section>
+
+  <CTABanner
+    heading="Every £1 keeps the track open."
+    ctaPrimary={{ label: 'Donate now', href: 'https://whydonate.com/fundraising/trackacademy' }}
+    ctaSecondary={{ label: 'Talk to us', href: '/contact' }}
+  />
+</BaseLayout>

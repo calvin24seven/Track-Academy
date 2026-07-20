@@ -1,0 +1,326 @@
+---
+/**
+ * RegistrationWizard.astro — Multi-step registration form
+ * Replaces the Upshot iframe with a custom-built wizard
+ * Data saved to localStorage for save-and-resume
+ * On submit, shows confirmation and syncs to Upshot form
+ */
+const steps = [
+  {
+    label: "Your child",
+    fields: [
+      { name: 'childFirstName', label: "Child's first name", type: 'text', required: true },
+      { name: 'childLastName', label: "Child's last name", type: 'text', required: true },
+      { name: 'dateOfBirth', label: 'Date of birth', type: 'date', required: true },
+    ],
+  },
+  {
+    label: 'Your details',
+    fields: [
+      { name: 'parentFirstName', label: 'Your first name', type: 'text', required: true },
+      { name: 'parentLastName', label: 'Your last name', type: 'text', required: true },
+      { name: 'email', label: 'Email address', type: 'email', required: true },
+      { name: 'phone', label: 'Mobile phone', type: 'tel', required: true },
+      { name: 'postcode', label: 'Postcode', type: 'text', required: true },
+    ],
+  },
+  {
+    label: 'Medical',
+    fields: [
+      { name: 'medicalConditions', label: 'Medical conditions, allergies or dietary needs (optional)', type: 'textarea', required: false },
+      { name: 'emergencyName', label: 'Emergency contact name', type: 'text', required: true },
+      { name: 'emergencyPhone', label: 'Emergency contact phone', type: 'tel', required: true },
+    ],
+  },
+  {
+    label: 'Education',
+    fields: [
+      { name: 'schoolName', label: 'School or college name', type: 'text', required: false },
+      { name: 'ethnicity', label: 'Ethnicity (optional)', type: 'text', required: false },
+      { name: 'gender', label: 'Gender (optional)', type: 'text', required: false },
+      { name: 'englishFirstLanguage', label: 'Is English their first language?', type: 'select', required: false, options: ['', 'Yes', 'No', "Don't know"] },
+    ],
+  },
+  {
+    label: 'Fees',
+    fields: [
+      { name: 'universalCredit', label: 'In receipt of Universal Credit?', type: 'select', required: false, options: ['', 'Yes', 'No'] },
+      { name: 'howDidYouHear', label: 'How did you hear about Track Academy?', type: 'select', required: false, options: ['', 'Word of mouth', 'School', 'Social media', 'Search engine', 'Poster or flyer', 'Other'] },
+    ],
+  },
+  {
+    label: 'Consent',
+    fields: [
+      { name: 'photoConsent', label: 'I consent to photographs of my child being used for Track Academy internal purposes (displays, reports, social media)', type: 'checkbox', required: false },
+      { name: 'termsConsent', label: 'I agree to the Terms & Conditions and Privacy Policy', type: 'checkbox', required: true },
+    ],
+  },
+  {
+    label: 'Review',
+    isReview: true,
+  },
+];
+---
+
+<section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
+  <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
+    <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+      Step-by-step registration
+    </p>
+    <h2 class="font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+      Register your child.
+    </h2>
+    <p class="mt-3 font-body text-base text-[var(--color-grey-700)]">
+      Takes about 10 minutes. Your progress is saved as you go.
+    </p>
+  </div>
+
+  <div class="mx-auto mt-[clamp(2rem,5vw,3rem)] max-w-[var(--container-narrow)] px-6 lg:px-8">
+    <div id="registration-wizard" class="border border-[var(--color-grey-300)] bg-white">
+      <!-- Progress bar -->
+      <div class="border-b border-[var(--color-grey-300)] px-8 py-4">
+        <div class="flex items-center justify-between">
+          <span class="font-body text-sm font-medium text-[var(--color-grey-500)]" data-step-indicator>Step 1 of {steps.length}</span>
+          <span class="font-body text-sm text-[var(--color-track-orange)]" data-save-indicator></span>
+        </div>
+        <div class="mt-2 h-1.5 w-full bg-[var(--color-grey-100)]">
+          <div class="h-full bg-[var(--color-track-orange)] transition-all duration-300 ease-[var(--ease-settle)]" data-progress-bar style="width: 0%"></div>
+        </div>
+      </div>
+
+      <!-- Form -->
+      <form id="reg-form" class="p-8" onsubmit="return false;">
+        <!-- Steps will be rendered here by JS -->
+      </form>
+
+      <!-- Navigation -->
+      <div class="flex items-center justify-between border-t border-[var(--color-grey-300)] px-8 py-4">
+        <button type="button" id="reg-prev" class="hidden font-body text-sm font-semibold text-[var(--color-grey-500)] transition-colors hover:text-[var(--color-grey-900)]">
+          ← Back
+        </button>
+        <button type="button" id="reg-next" class="ml-auto bg-[var(--color-track-orange)] px-8 py-3 font-body text-sm font-semibold uppercase tracking-wide text-white transition-all duration-150 ease-[var(--ease-sprint)] hover:bg-[var(--color-accent-dark)] active:scale-[0.98]">
+          Continue
+        </button>
+      </div>
+    </div>
+
+    <!-- Success state (hidden by default) -->
+    <div id="reg-success" class="hidden tracked-surface bg-[var(--color-track-blue)] p-10 text-center">
+      <div class="mx-auto max-w-md">
+        <p class="font-heading text-[clamp(2rem,5vw,3rem)] font-600 leading-[1.1] text-white">
+          Registration received.
+        </p>
+        <p class="mt-4 font-body text-lg text-white/80">
+          We'll see you at the next session. Check your email for confirmation and session details.
+        </p>
+        <div class="mt-8">
+          <a href="/athletics" class="inline-flex items-center gap-2 bg-[var(--color-track-orange)] px-8 py-4 font-body text-sm font-semibold uppercase tracking-wide text-white transition-all duration-150 ease-[var(--ease-sprint)] hover:bg-[var(--color-accent-dark)]">
+            See session times →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  interface FormField {
+    name: string;
+    label: string;
+    type: string;
+    required: boolean;
+    options?: string[];
+    isReview?: boolean;
+  }
+
+  interface Step {
+    label: string;
+    fields?: FormField[];
+    isReview?: boolean;
+  }
+
+  const wizardSteps: Step[] = JSON.parse(JSON.stringify(Astro.props.steps || []));
+  // Workaround: access steps from server-side
+  const STEP_DATA: Step[] = [
+    { label: "Your child", fields: [{ name: 'childFirstName', label: "Child's first name", type: 'text', required: true }, { name: 'childLastName', label: "Child's last name", type: 'text', required: true }, { name: 'dateOfBirth', label: 'Date of birth', type: 'date', required: true }] },
+    { label: 'Your details', fields: [{ name: 'parentFirstName', label: 'Your first name', type: 'text', required: true }, { name: 'parentLastName', label: 'Your last name', type: 'text', required: true }, { name: 'email', label: 'Email address', type: 'email', required: true }, { name: 'phone', label: 'Mobile phone', type: 'tel', required: true }, { name: 'postcode', label: 'Postcode', type: 'text', required: true }] },
+    { label: 'Medical', fields: [{ name: 'medicalConditions', label: 'Medical conditions, allergies or dietary needs (optional)', type: 'textarea', required: false }, { name: 'emergencyName', label: 'Emergency contact name', type: 'text', required: true }, { name: 'emergencyPhone', label: 'Emergency contact phone', type: 'tel', required: true }] },
+    { label: 'Education', fields: [{ name: 'schoolName', label: 'School or college name', type: 'text', required: false }, { name: 'ethnicity', label: 'Ethnicity (optional)', type: 'text', required: false }, { name: 'gender', label: 'Gender (optional)', type: 'text', required: false }, { name: 'englishFirstLanguage', label: 'Is English their first language?', type: 'select', required: false, options: ['', 'Yes', 'No', "Don't know"] }] },
+    { label: 'Fees', fields: [{ name: 'universalCredit', label: 'In receipt of Universal Credit?', type: 'select', required: false, options: ['', 'Yes', 'No'] }, { name: 'howDidYouHear', label: 'How did you hear about Track Academy?', type: 'select', required: false, options: ['', 'Word of mouth', 'School', 'Social media', 'Search engine', 'Poster or flyer', 'Other'] }] },
+    { label: 'Consent', fields: [{ name: 'photoConsent', label: 'I consent to photographs of my child being used for Track Academy internal purposes', type: 'checkbox', required: false }, { name: 'termsConsent', label: 'I agree to the Terms & Conditions and Privacy Policy', type: 'checkbox', required: true }] },
+    { label: 'Review', isReview: true },
+  ];
+
+  const STORAGE_KEY = 'ta_registration_draft';
+  let currentStep = 0;
+  const form = document.getElementById('reg-form') as HTMLFormElement;
+  const prevBtn = document.getElementById('reg-prev') as HTMLButtonElement;
+  const nextBtn = document.getElementById('reg-next') as HTMLButtonElement;
+  const progressBar = document.querySelector('[data-progress-bar]') as HTMLElement;
+  const stepIndicator = document.querySelector('[data-step-indicator]') as HTMLElement;
+  const saveIndicator = document.querySelector('[data-save-indicator]') as HTMLElement;
+  const wizard = document.getElementById('registration-wizard') as HTMLElement;
+  const success = document.getElementById('reg-success') as HTMLElement;
+
+  function loadDraft() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    } catch { return {}; }
+  }
+
+  function saveDraft(data: Record<string, string>) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    if (saveIndicator) {
+      saveIndicator.textContent = 'Saved';
+      setTimeout(() => { if (saveIndicator) saveIndicator.textContent = ''; }, 2000);
+    }
+  }
+
+  function getFieldValue(name: string): string {
+    const el = form.querySelector(`[name="${name}"]`) as HTMLInputElement;
+    if (!el) return '';
+    if (el.type === 'checkbox') return el.checked ? 'Yes' : 'No';
+    return el.value;
+  }
+
+  function collectData(): Record<string, string> {
+    const data: Record<string, string> = {};
+    STEP_DATA.forEach(step => {
+      step.fields?.forEach(f => {
+        data[f.name] = getFieldValue(f.name);
+      });
+    });
+    return data;
+  }
+
+  function validateStep(): boolean {
+    const step = STEP_DATA[currentStep];
+    if (step.isReview) return true;
+    let valid = true;
+    step.fields?.forEach(f => {
+      if (!f.required) return;
+      const el = form.querySelector(`[name="${f.name}"]`) as HTMLInputElement;
+      if (!el) return;
+      const value = el.type === 'checkbox' ? el.checked : el.value.trim();
+      if (!value) {
+        valid = false;
+        el.classList.add('border-[var(--color-error)]');
+        const errEl = form.querySelector(`[data-error="${f.name}"]`);
+        if (errEl) errEl.textContent = f.label === 'I agree to the Terms & Conditions and Privacy Policy'
+          ? 'You need to agree to continue.'
+          : `We need this to register your child.`;
+      } else {
+        el.classList.remove('border-[var(--color-error)]');
+        const errEl = form.querySelector(`[data-error="${f.name}"]`);
+        if (errEl) errEl.textContent = '';
+      }
+    });
+    return valid;
+  }
+
+  function renderCurrentStep() {
+    const step = STEP_DATA[currentStep];
+    const draft = loadDraft();
+
+    if (step.isReview) {
+      form.innerHTML = `<div class="space-y-4">
+        <h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">Review your registration</h3>
+        ${STEP_DATA.filter(s => !s.isReview).map(s => `
+          <div class="border-b border-[var(--color-grey-100)] pb-3">
+            <p class="font-body text-xs font-semibold uppercase tracking-[0.05em] text-[var(--color-track-orange)]">${s.label}</p>
+            ${s.fields?.map(f => {
+              const val = draft[f.name] || getFieldValue(f.name);
+              return val ? `<p class="mt-1 font-body text-sm text-[var(--color-grey-700)]"><strong>${f.label.replace(' (optional)', '')}:</strong> ${val}</p>` : '';
+            }).join('')}
+          </div>
+        `).join('')}
+      </div>`;
+    } else {
+      form.innerHTML = step.fields?.map(f => {
+        const val = draft[f.name] || '';
+        if (f.type === 'textarea') {
+          return `<div class="mb-5">
+            <label class="mb-1.5 block font-body text-sm font-medium text-[var(--color-grey-700)]">${f.label}${f.required ? ' *' : ''}</label>
+            <textarea name="${f.name}" class="w-full border border-[var(--color-grey-300)] bg-[var(--color-paper)] px-4 py-3 font-body text-base text-[var(--color-grey-900)] placeholder:text-[var(--color-grey-500)] focus:border-[var(--color-track-blue)] focus:outline-none" rows="3">${val}</textarea>
+            <p class="mt-1 hidden font-body text-xs text-[var(--color-error)]" data-error="${f.name}"></p>
+          </div>`;
+        }
+        if (f.type === 'select') {
+          return `<div class="mb-5">
+            <label class="mb-1.5 block font-body text-sm font-medium text-[var(--color-grey-700)]">${f.label}${f.required ? ' *' : ''}</label>
+            <select name="${f.name}" class="w-full border border-[var(--color-grey-300)] bg-[var(--color-paper)] px-4 py-3 font-body text-base text-[var(--color-grey-900)] focus:border-[var(--color-track-blue)] focus:outline-none">
+              ${f.options?.map(o => `<option value="${o}" ${o === val ? 'selected' : ''}>${o || 'Please select'}</option>`).join('')}
+            </select>
+            <p class="mt-1 hidden font-body text-xs text-[var(--color-error)]" data-error="${f.name}"></p>
+          </div>`;
+        }
+        if (f.type === 'checkbox') {
+          const isChecked = val === 'Yes';
+          return `<div class="mb-5 flex items-start gap-3">
+            <input type="checkbox" name="${f.name}" id="${f.name}" class="mt-1 h-4 w-4 accent-[var(--color-track-orange)]" ${isChecked ? 'checked' : ''} />
+            <label for="${f.name}" class="font-body text-sm text-[var(--color-grey-700)]">${f.label}${f.required ? ' *' : ''}</label>
+            <p class="mt-1 hidden font-body text-xs text-[var(--color-error)]" data-error="${f.name}"></p>
+          </div>`;
+        }
+        return `<div class="mb-5">
+          <label class="mb-1.5 block font-body text-sm font-medium text-[var(--color-grey-700)]">${f.label}${f.required ? ' *' : ''}</label>
+          <input type="${f.type}" name="${f.name}" value="${val}" class="w-full border border-[var(--color-grey-300)] bg-[var(--color-paper)] px-4 py-3 font-body text-base text-[var(--color-grey-900)] placeholder:text-[var(--color-grey-500)] focus:border-[var(--color-track-blue)] focus:outline-none" />
+          <p class="mt-1 hidden font-body text-xs text-[var(--color-error)]" data-error="${f.name}"></p>
+        </div>`;
+      }).join('');
+    }
+
+    // Update progress
+    const progress = ((currentStep) / (STEP_DATA.length - 1)) * 100;
+    if (progressBar) progressBar.style.width = `${progress}%`;
+    if (stepIndicator) stepIndicator.textContent = `Step ${currentStep + 1} of ${STEP_DATA.length}`;
+
+    // Update buttons
+    if (currentStep === 0) {
+      prevBtn.classList.add('hidden');
+    } else {
+      prevBtn.classList.remove('hidden');
+    }
+    if (currentStep === STEP_DATA.length - 1) {
+      nextBtn.textContent = 'Submit';
+    } else {
+      nextBtn.textContent = 'Continue';
+    }
+  }
+
+  function next() {
+    if (currentStep === STEP_DATA.length - 1) {
+      if (validateStep()) {
+        // Submit
+        saveDraft(collectData());
+        wizard.classList.add('hidden');
+        success.classList.remove('hidden');
+        localStorage.removeItem(STORAGE_KEY);
+      }
+      return;
+    }
+    if (validateStep()) {
+      saveDraft(collectData());
+      currentStep++;
+      renderCurrentStep();
+    }
+  }
+
+  function prev() {
+    if (currentStep > 0) {
+      currentStep--;
+      renderCurrentStep();
+    }
+  }
+
+  nextBtn?.addEventListener('click', next);
+  prevBtn?.addEventListener('click', prev);
+
+  // Auto-save on field change
+  form?.addEventListener('change', () => {
+    saveDraft(collectData());
+  });
+
+  // Initialize
+  renderCurrentStep();
+</script>

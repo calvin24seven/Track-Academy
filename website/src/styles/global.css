@@ -1,0 +1,255 @@
+@import 'tailwindcss';
+
+/* ============================================
+   @FONT-FACE — Self-hosted Fredoka + Inter
+   No Google Fonts CDN = no GDPR consent banner, no FOUT, better LCP
+   ============================================ */
+
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/Fredoka-300.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Fredoka-400.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/Fredoka-500.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/Fredoka-600.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Fredoka';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/fonts/Fredoka-700.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/Inter-300.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/Inter-400.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/Inter-500.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/Inter-600.ttf') format('truetype');
+}
+
+@theme {
+  /* --- Brand Colours --- */
+  --color-track-blue: hsl(230, 78%, 30%);
+  --color-track-orange: hsl(25, 90%, 50%);
+  --color-track-gold: hsl(43, 89%, 50%);
+  --color-track-navy: hsl(230, 79%, 21%);
+  --color-track-pink: hsl(338, 99%, 43%);
+
+  /* --- Hue-Tinted Neutrals (carry 3-5% of Track Blue's 230° hue) --- */
+  --color-grey-900: hsl(230, 10%, 12%);
+  --color-grey-700: hsl(230, 8%, 28%);
+  --color-grey-500: hsl(230, 6%, 45%);
+  --color-grey-300: hsl(230, 8%, 75%);
+  --color-grey-100: hsl(230, 15%, 96%);
+  --color-grey-50: hsl(230, 20%, 98%);
+
+  /* --- Semantic Colours --- */
+  --color-success: hsl(140, 60%, 38%);
+  --color-warning: hsl(43, 89%, 50%);
+  --color-error: hsl(338, 99%, 43%);
+
+  /* --- Brand tints for use as Tailwind classes --- */
+  --color-brand: hsl(230, 78%, 30%);
+  --color-brand-dark: hsl(230, 79%, 21%);
+  --color-accent: hsl(25, 90%, 50%);
+  --color-accent-dark: hsl(25, 85%, 42%);
+  --color-ink: hsl(230, 10%, 12%);
+  --color-paper: hsl(230, 20%, 98%);
+
+  /* --- Font Families --- */
+  --font-heading: 'Fredoka', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  /* --- Named Eases (authored motion language) --- */
+  --ease-sprint: cubic-bezier(0, 0, 0.2, 1);
+  --ease-settle: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-stretch: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-rest: cubic-bezier(0.4, 0, 0.6, 1);
+  --ease-track-out: cubic-bezier(0, 0, 0, 1);
+
+  /* --- Stagger System (jittered, not linear) --- */
+  --stagger-1: 0ms;
+  --stagger-2: 80ms;
+  --stagger-3: 160ms;
+  --stagger-4: 280ms;
+  --stagger-5: 440ms;
+  --stagger-6: 680ms;
+
+  /* --- Max Widths (three-tier system) --- */
+  --container-narrow: 960px;
+  --container-content: 1280px;
+
+  /* --- Animation Keyframes --- */
+  --animate-blur-in: blur-in 600ms var(--ease-settle) forwards;
+  --animate-mask-reveal: mask-reveal 500ms var(--ease-settle) forwards;
+  --animate-scale-in: scale-in 400ms var(--ease-settle) forwards;
+  --animate-clip-wipe: clip-wipe 500ms var(--ease-settle) forwards;
+  --animate-slide-in: slide-in 300ms var(--ease-stretch) forwards;
+}
+
+@keyframes blur-in {
+  from { opacity: 0; filter: blur(12px); }
+  to { opacity: 1; filter: blur(0); }
+}
+
+@keyframes mask-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes clip-wipe {
+  from { clip-path: inset(100% 0 0 0); opacity: 0; }
+  to { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ============================================
+   BASE LAYER
+   ============================================ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-grey-900);
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.1vw, 1.125rem);
+    line-height: 1.65;
+    font-feature-settings: 'kern';
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  p, li, dd {
+    text-wrap: pretty;
+  }
+
+  /* Selection styling — immediate signal of intentional design */
+  ::selection {
+    background-color: hsl(25, 90%, 50%, 0.2);
+    color: hsl(230, 78%, 20%);
+  }
+
+  /* Focus visible — branded focus ring */
+  :focus-visible {
+    outline: 2px solid var(--color-track-orange);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  /* Reduced motion — always honoured */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ============================================
+   COMPONENTS LAYER
+   ============================================ */
+
+@layer components {
+  /* Track surface grain — SVG noise over Track Blue backgrounds */
+  .tracked-surface {
+    position: relative;
+  }
+  .tracked-surface::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+
+  /* Track lane line — the 2px orange accent under heroes */
+  .lane-line {
+    height: 2px;
+    background-color: var(--color-track-orange);
+  }
+}
+
+/* ============================================
+   UTILITIES LAYER
+   ============================================ */
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+  .text-pretty { text-wrap: pretty; }
+
+  /* Tabular figures for stats */
+  .tabular-nums { font-variant-numeric: tabular-nums; }
+
+  /* Hide scrollbar but allow scroll (for horizontal scroll-snap) */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
