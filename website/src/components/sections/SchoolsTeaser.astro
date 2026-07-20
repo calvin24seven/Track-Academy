@@ -1,0 +1,72 @@
+---
+/**
+ * SchoolsTeaser.astro — replaced the generic split section
+ * Uses Pattern B (Offset Feature) — image extends 1 column past the centre line
+ * Per art-direction-pro.md, this replaces the "Schools teaser — Split section" from prd.md
+ */
+import { Image } from 'astro:assets';
+import CoachImage from '../../assets/stories/coach-back.jpg';
+import Button from '../ui/Button.astro';
+
+interface Props {
+  image?: ImageMetadata;
+}
+
+const { image = CoachImage } = Astro.props;
+---
+
+<section class="bg-[var(--color-paper)] py-[clamp(4rem,10vw,9rem)]">
+  <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+    <!-- Pattern B: Offset Feature — image extends past content column -->
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16">
+      <!-- Text — starts 1 column in from the left, leaving editorial space -->
+      <div class="flex flex-col justify-center lg:pr-8">
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+          Schools Partnership
+        </p>
+        <h2 class="font-heading text-[clamp(1.75rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+          Bright Futures Through Sport.
+        </h2>
+        <p class="mt-5 max-w-md font-body text-[clamp(1rem,1.1vw,1.125rem)] leading-[1.65] text-[var(--color-grey-700)]">
+          Partner schools get Pupil Premium pupils funded, Athlete Passports, and termly Ofsted-ready reports. We do the work. Schools give us the kids.
+        </p>
+
+        <!-- Tiers preview — NOT 3-column pricing. A single line. -->
+        <div class="mt-6 flex flex-wrap items-baseline gap-x-6 gap-y-2">
+          <div class="flex items-baseline gap-2">
+            <span class="font-heading text-2xl font-700 text-[var(--color-track-blue)]">£1,950</span>
+            <span class="text-xs font-medium uppercase tracking-wide text-[var(--color-grey-500)]">Bronze</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="font-heading text-2xl font-700 text-[var(--color-track-blue)]">£3,950</span>
+            <span class="text-xs font-medium uppercase tracking-wide text-[var(--color-grey-500)]">Silver</span>
+          </div>
+          <div class="flex items-baseline gap-2">
+            <span class="font-heading text-2xl font-700 text-[var(--color-track-blue)]">£6,950</span>
+            <span class="text-xs font-medium uppercase tracking-wide text-[var(--color-grey-500)]">Gold</span>
+          </div>
+        </div>
+
+        <div class="mt-8">
+          <Button href="/schools" label="See school partnership tiers" variant="link" />
+        </div>
+      </div>
+
+      <!-- Image — extends past the centre line by 1 column width (offset feature) -->
+      <div class="relative lg:-mr-[4rem]">
+        <div class="aspect-[4/5] w-full overflow-hidden">
+          <Image
+            src={image}
+            alt="Track Academy coach with students at a school session"
+            class="h-full w-full object-cover"
+            loading="lazy"
+            widths={[400, 600, 800]}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+          />
+        </div>
+        <!-- Track Orange accent line on the left edge of the image -->
+        <div class="absolute left-0 top-0 h-full w-1 bg-[var(--color-track-orange)]"></div>
+      </div>
+    </div>
+  </div>
+</section>

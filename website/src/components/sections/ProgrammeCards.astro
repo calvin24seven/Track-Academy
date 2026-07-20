@@ -1,0 +1,100 @@
+---
+/**
+ * ProgrammeCards.astro — 4-up visual programme card grid
+ * Each card: edge-to-edge photo, title, one-sentence description, learn more link
+ * PRD section 3.1 item 3: "What we do — 4-up card grid"
+ * Places between AudienceRouter and PillarSequence
+ */
+import { Image } from 'astro:assets';
+
+interface Programme {
+  title: string;
+  description: string;
+  href: string;
+  image: ImageMetadata;
+}
+
+const programmes: Programme[] = [
+  {
+    title: 'Athletics',
+    description: 'Running, jumping, throwing — three sessions a week at Willesden Sports Centre. Ages 5–21.',
+    href: '/athletics',
+    image: (await import('../../assets/programme/ready-to-race.jpg')).default,
+  },
+  {
+    title: 'Education & Life Skills',
+    description: 'Free maths, English and science tuition every Saturday. Ten life skills that build confidence.',
+    href: '/education',
+    image: (await import('../../assets/programme/students-learning.jpg')).default,
+  },
+  {
+    title: 'Mentoring',
+    description: 'One-to-one support from a trained mentor. One trusted adult changes everything.',
+    href: '/mentoring',
+    image: (await import('../../assets/programme/education.jpg')).default,
+  },
+  {
+    title: 'Holiday Programmes',
+    description: '45 workshops a year. Escape rooms, laser tag, CV skills — keeping young people active during school breaks.',
+    href: '/holiday-programmes',
+    image: (await import('../../assets/stories/group-photo.jpg')).default,
+  },
+];
+---
+
+<section class="bg-white py-[clamp(3rem,8vw,6rem)]">
+  <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+    <div class="mb-[clamp(2rem,4vw,3rem)]">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        What we do
+      </p>
+      <h2 class="max-w-2xl font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        The only athletics charity in the country to also offer education, mentoring and life skills.
+      </h2>
+    </div>
+
+    <!-- 4-up card grid -->
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+      {programmes.map((programme) => (
+        <a
+          href={programme.href}
+          class="group flex flex-col overflow-hidden border border-[var(--color-grey-200)] bg-white transition-all duration-200 ease-[var(--ease-sprint)] hover:border-[var(--color-track-orange)] hover:shadow-lg"
+        >
+          <!-- Edge-to-edge photo — aspect-ratio 4/3 -->
+          <div class="relative aspect-[4/3] w-full overflow-hidden">
+            <Image
+              src={programme.image}
+              alt={programme.title}
+              class="h-full w-full object-cover transition-transform duration-[600ms] ease-[var(--ease-rest)] group-hover:scale-105"
+              loading="lazy"
+              widths={[300, 400, 600]}
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            />
+          </div>
+          <!-- Text block -->
+          <div class="flex flex-1 flex-col p-5">
+            <h3 class="font-heading text-lg font-500 leading-[1.2] text-[var(--color-track-blue)]">
+              {programme.title}
+            </h3>
+            <p class="mt-2 flex-1 font-body text-sm leading-[1.55] text-[var(--color-grey-700)]">
+              {programme.description}
+            </p>
+            <span class="mt-4 inline-flex items-center gap-2 font-body text-xs font-semibold uppercase tracking-wide text-[var(--color-track-orange)] transition-all duration-150 group-hover:gap-3">
+              Learn more →
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Bottom CTA: all programmes -->
+    <div class="mt-10 text-center">
+      <a
+        href="/athletics"
+        class="inline-flex items-center gap-2 font-body text-sm font-semibold text-[var(--color-track-blue)] transition-colors duration-150 hover:text-[var(--color-track-orange)]"
+      >
+        View all programmes →
+      </a>
+    </div>
+  </div>
+</section>

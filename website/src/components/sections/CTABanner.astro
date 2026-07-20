@@ -1,0 +1,38 @@
+---
+/**
+ * CTABanner.astro — full-width CTA band with track surface grain
+ * Variants: solid-blue, split
+ */
+import Button from '../ui/Button.astro';
+
+interface Props {
+  heading?: string;
+  body?: string;
+  ctaPrimary?: { label: string; href: string };
+  ctaSecondary?: { label: string; href: string };
+}
+
+const {
+  heading = 'Ready to get your child on the track?',
+  body,
+  ctaPrimary = { label: 'Register your child', href: '/register' },
+  ctaSecondary,
+} = Astro.props;
+---
+
+<section class="tracked-surface bg-[var(--color-track-blue)] py-[clamp(3rem,6vw,5rem)]">
+  <div class="mx-auto max-w-[var(--container-narrow)] px-6 text-center lg:px-8">
+    <h2 class="font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-white">
+      {heading}
+    </h2>
+    {body && (
+      <p class="mx-auto mt-4 max-w-md font-body text-base text-white/70">{body}</p>
+    )}
+    <div class="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+      <Button href={ctaPrimary.href} label={ctaPrimary.label} variant="primary" />
+      {ctaSecondary && (
+        <Button href={ctaSecondary.href} label={ctaSecondary.label} variant="secondary" />
+      )}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SimpleHero from '../components/sections/SimpleHero.astro';
+import RegistrationWizard from '../components/forms/RegistrationWizard.astro';
+import GirlSmiling from '../assets/stories/girl-smiling.jpg';
+
+const seo = {
+  title: 'Register Your Child — Track Academy',
+  description:
+    'Register your child for athletics, education, and mentoring at Track Academy in Brent. Aged 5-21, three times a week. £25 per term, free on financial support.',
+};
+
+const wizardSteps = [
+  "Your child's details",
+  'Your contact details',
+  'Medical and emergency contacts',
+  'Education and background',
+  'Membership and fees',
+  'Consent and agreements',
+  'Review and submit',
+];
+---
+
+<BaseLayout {...seo}>
+  <SimpleHero
+    image={GirlSmiling}
+    title="Register Your Child"
+    lead="£25 per term. Free if on financial support."
+  />
+
+  <!-- Registration wizard -->
+  <RegistrationWizard />
+
+  <!-- What to expect -->
+  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        What to expect
+      </p>
+      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        After you register.
+      </h2>
+
+      <ol class="space-y-[clamp(1rem,3vw,1.5rem)]">
+        {wizardSteps.map((step, i) => (
+          <li class="flex items-start gap-5 border-b border-[var(--color-grey-300)] pb-[clamp(1rem,3vw,1.5rem)]">
+            <span class="font-heading text-[clamp(1.5rem,3vw,2.25rem)] font-300 leading-none text-[var(--color-track-orange)] tabular-nums">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <p class="pt-1 font-body text-[clamp(1rem,1.5vw,1.125rem)] leading-[1.5] text-[var(--color-grey-900)]">{step}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+</BaseLayout>

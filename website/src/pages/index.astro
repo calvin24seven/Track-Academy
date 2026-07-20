@@ -1,0 +1,73 @@
+---
+/**
+ * Homepage — Track Academy
+ * Revised per client feedback:
+ * 1. Hero: warmer community image, "Every young person deserves somewhere to belong."
+ * 2. Audience router: "Who are you?" — 3 cards right after hero
+ * 3. Programme cards: 4-up visual grid with photos
+ * 4. 360 approach: scroll-pinned pillar sequence
+ * 5. Video: brought higher (after the 360 approach section)
+ * 6. Stats: oversized numerals escaping the column
+ * 7. Stories: swipeable full-bleed athlete portraits
+ * 8. Instagram feed: Elfsite embed, lazy-loaded
+ * 9. Schools teaser: offset feature pattern
+ * 10. Trust strip: partner/funder logos
+ * 11. Get involved: primary/secondary CTA cards
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TrackEntranceHero from '../components/sections/TrackEntranceHero.astro';
+import AudienceRouter from '../components/sections/AudienceRouter.astro';
+import ProgrammeCards from '../components/sections/ProgrammeCards.astro';
+import PillarSequence from '../components/sections/PillarSequence.astro';
+import VideoEmbed from '../components/sections/VideoEmbed.astro';
+import NumeralsEscaping from '../components/sections/NumeralsEscaping.astro';
+import AthleteStack from '../components/sections/AthleteStack.astro';
+import InstagramFeed from '../components/sections/InstagramFeed.astro';
+import SchoolsTeaser from '../components/sections/SchoolsTeaser.astro';
+import TrustStrip from '../components/sections/TrustStrip.astro';
+import GetInvolved from '../components/sections/GetInvolved.astro';
+
+const seo = {
+  title: 'Track Academy — Athletics, Education & Mentoring in Brent',
+  description:
+    'Athletics, education and mentoring for young people aged 5–21 in Brent. The only athletics charity in the country offering 360-degree support. £25 per term. Register your child.',
+};
+---
+
+<BaseLayout {...seo}>
+  <!-- 1. The Track Entrance — warmer hero with community/belonging emotion -->
+  <TrackEntranceHero
+    headline="Every young person deserves somewhere to belong."
+    lead="Through athletics, education and mentoring in Brent, we're a launchpad for young people to break down barriers, unlock their potential and thrive. Since 2007."
+  />
+
+  <!-- 2. Audience router — "Who are you?" 3 cards, right after hero -->
+  <AudienceRouter />
+
+  <!-- 3. Programme cards — 4-up visual grid with photos -->
+  <ProgrammeCards />
+
+  <!-- 4. The 360 Story — visual pillars with icons -->
+  <PillarSequence />
+
+  <!-- 5. Video — brought higher per client feedback -->
+  <VideoEmbed videoId="Wu1qvPAgoXM" title="Annie's story — Track Academy" />
+
+  <!-- 6. The Numbers That Prove It -->
+  <NumeralsEscaping />
+
+  <!-- 7. The Athlete Stack — swipeable stories -->
+  <AthleteStack />
+
+  <!-- 8. Instagram feed — @trackacademy_ via Elfsite -->
+  <InstagramFeed />
+
+  <!-- 9. Schools teaser -->
+  <SchoolsTeaser />
+
+  <!-- 10. Trust strip — partner/funder/trust logos -->
+  <TrustStrip />
+
+  <!-- 11. Get involved — primary/secondary, not 3 equal cards -->
+  <GetInvolved />
+</BaseLayout>

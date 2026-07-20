@@ -1,0 +1,66 @@
+---
+/**
+ * MobileStickyCTA.astro — Sticky bottom bar on mobile, hidden on desktop
+ * "Register your child — £25/term" with a primary button
+ * Appears after scrolling past the hero, fixed to the bottom of the viewport
+ * Only visible on screens < 1024px (lg breakpoint)
+ *
+ * Uses a simple Intersection Observer: hidden on hero, appears once hero is scrolled past.
+ * Pure CSS fallback: hidden by default on desktop, visible on mobile with scroll detection via JS.
+ */
+---
+
+<aside
+  id="mobile-sticky-cta"
+  class="fixed bottom-0 left-0 right-0 z-40 translate-y-full border-t border-[var(--color-track-orange)]/30 bg-[var(--color-track-blue)] px-4 py-3 transition-transform duration-300 ease-[var(--ease-sprint)] lg:hidden"
+  aria-label="Quick registration"
+>
+  <div class="mx-auto flex max-w-[var(--container-content)] items-center justify-between gap-3">
+    <div class="min-w-0 flex-1">
+      <p class="truncate font-body text-sm font-semibold text-white">
+        Register your child
+      </p>
+      <p class="truncate font-body text-xs text-white/60">
+        £25 a term — free if on financial support
+      </p>
+    </div>
+    <a
+      href="/register"
+      class="shrink-0 rounded-sm bg-[var(--color-track-orange)] px-5 py-2.5 font-body text-sm font-bold text-white transition-colors duration-150 hover:bg-[var(--color-track-orange)]/90 active:scale-95"
+    >
+      Register
+    </a>
+  </div>
+</aside>
+
+<script>
+  // Show the sticky CTA after the hero is scrolled past
+  const sticky = document.getElementById('mobile-sticky-cta');
+  if (sticky) {
+    const hero = document.querySelector('section:first-of-type');
+    if (hero) {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            // Hero is visible — hide sticky CTA
+            sticky.classList.add('translate-y-full');
+          } else {
+            // Hero is scrolled past — show sticky CTA
+            sticky.classList.remove('translate-y-full');
+          }
+        },
+        { threshold: 0 }
+      );
+      observer.observe(hero);
+    } else {
+      // Fallback: show after a short scroll
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          sticky.classList.remove('translate-y-full');
+        } else {
+          sticky.classList.add('translate-y-full');
+        }
+      }, { passive: true });
+    }
+  }
+</script>

@@ -1,0 +1,71 @@
+---
+/**
+ * SplitFeature.astro — 50/50 image+text, alternate sides
+ * Uses Pattern B (Offset Feature) from art-direction-pro.md
+ */
+import { Image } from 'astro:assets';
+import Button from '../ui/Button.astro';
+
+interface Props {
+  image: ImageMetadata;
+  imageSide?: 'left' | 'right';
+  label?: string;
+  heading: string;
+  body: string;
+  cta?: { label: string; href: string };
+  background?: 'paper' | 'grey';
+}
+
+const {
+  image,
+  imageSide = 'left',
+  label,
+  heading,
+  body,
+  cta,
+  background = 'paper',
+} = Astro.props;
+
+const bg = background === 'paper' ? 'bg-[var(--color-paper)]' : 'bg-[var(--color-grey-100)]';
+const imageFirst = imageSide === 'left';
+---
+
+<section class={`${bg} py-[clamp(3rem,8vw,6rem)]`}>
+  <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+    <div class={`grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-16 ${imageFirst ? '' : 'lg:[&>*:first-child]:order-2'}`}>
+      <!-- Image — offset past centre line -->
+      <div class={`relative ${imageFirst ? 'lg:-ml-[2rem]' : 'lg:-mr-[2rem]'}`}>
+        <div class="aspect-[4/5] w-full overflow-hidden">
+          <Image
+            src={image}
+            alt={heading}
+            class="h-full w-full object-cover"
+            loading="lazy"
+            widths={[400, 600, 800]}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+          />
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div class="flex flex-col justify-center">
+        {label && (
+          <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+            {label}
+          </p>
+        )}
+        <h2 class="font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+          {heading}
+        </h2>
+        <p class="mt-5 max-w-md font-body text-[clamp(1rem,1.1vw,1.125rem)] leading-[1.65] text-[var(--color-grey-700)]">
+          {body}
+        </p>
+        {cta && (
+          <div class="mt-8">
+            <Button href={cta.href} label={cta.label} variant="link" />
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

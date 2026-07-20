@@ -1,0 +1,167 @@
+---
+/**
+ * About page — Track Academy
+ * Per art-direction-pro.md: Hero Type B (Editorial Split), Founder's Track (Signature 5), Brent Context (Signature 7)
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SimpleHero from '../components/sections/SimpleHero.astro';
+import NumeralsEscaping from '../components/sections/NumeralsEscaping.astro';
+import CTABanner from '../components/sections/CTABanner.astro';
+import Button from '../components/ui/Button.astro';
+import { Image } from 'astro:assets';
+import OlderStudents from '../assets/hero/older-students.jpg';
+import CoachDemo from '../assets/hero/coach-demonstrating.jpg';
+
+const seo = {
+  title: 'About Track Academy — 17 Years of Changing Lives in Brent',
+  description: 'Founded in 2007 by Connie Henry MBE, Track Academy blends athletics, education and mentoring in Brent. Meet the team, read our story.',
+};
+---
+
+<BaseLayout {...seo}>
+  <!-- Hero Type B: Editorial Split -->
+  <SimpleHero
+    image={OlderStudents}
+    title="About Track Academy"
+    lead="Blending athletics, education, and mentoring, Track Academy is a launchpad for young people to break down barriers, unlock their potential and thrive."
+  />
+
+  <!-- Founder's Track — Signature Moment 5: pinned image, scrolling text, cross-fade -->
+  <section class="bg-[var(--color-paper)] py-[clamp(4rem,10vw,9rem)]">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        The Founder's Track
+      </p>
+      <h2 class="mb-[clamp(2rem,5vw,4rem)] max-w-2xl font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        2007. One coach. One track.
+      </h2>
+
+      <!-- Pinned image + scrolling text -->
+      <div class="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
+        <!-- Left: founder image (pinned on desktop) -->
+        <div class="lg:sticky lg:top-32 lg:self-start">
+          <div class="aspect-[3/4] w-full overflow-hidden">
+            <Image
+              src={CoachDemo}
+              alt="Coach demonstrating at the track"
+              class="h-full w-full object-cover"
+              loading="lazy"
+              widths={[400, 600, 800]}
+              sizes="(max-width: 1024px) 100vw, 50vw"
+            />
+          </div>
+          <p class="mt-3 font-body text-sm text-[var(--color-grey-500)]">
+            Willesden Sports Centre, NW10.
+          </p>
+        </div>
+
+        <!-- Right: scrolling story -->
+        <div class="space-y-8">
+          <div>
+            <p class="font-body text-[clamp(1.125rem,1.5vw,1.375rem)] leading-[1.6] text-[var(--color-grey-900)]">
+              <strong>Connie Henry MBE</strong> grew up in Brent. She honed her craft at Willesden Sports Centre. She believed that athletics was more than a sport — it was a vehicle for profound social change.
+            </p>
+          </div>
+          <div>
+            <p class="font-body text-[clamp(1.125rem,1.5vw,1.375rem)] leading-[1.6] text-[var(--color-grey-900)]">
+              In 2007, she founded Track Academy on a single belief: that a coach who stands at the track edge every Tuesday and Saturday, believing in kids who've been told they can't, can change the trajectory of those kids' lives.
+            </p>
+          </div>
+          <div>
+            <blockquote class="border-l-2 border-[var(--color-track-orange)] pl-6 font-body text-xl font-300 italic leading-[1.4] text-[var(--color-grey-700)]">
+              "I'm benefitting from a very well-oiled machine. Connie left Track Academy in the most stable position it's ever had financially."
+            </blockquote>
+            <p class="mt-3 font-body text-sm font-600 uppercase tracking-[0.05em] text-[var(--color-grey-500)]">
+              — Patrik Ewe, CEO
+            </p>
+          </div>
+          <div>
+            <p class="font-body text-[clamp(1.125rem,1.5vw,1.375rem)] leading-[1.6] text-[var(--color-grey-900)]">
+              17 years later, Track Academy has delivered <strong>577 sessions</strong> to <strong>331 young people</strong>. Connie stepped back in 2024. Patrik Ewe now stands at the track edge. The track is still open.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The 360-degree approach -->
+  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-narrow)] px-6 text-center lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        Our Model
+      </p>
+      <h2 class="mx-auto mb-6 max-w-3xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        We are more than a sports club. We are a lifeline, a confidence-builder and a community.
+      </h2>
+      <p class="mx-auto max-w-2xl font-body text-base leading-[1.65] text-[var(--color-grey-700)]">
+        Our unique, holistic model blends on-track athletic training with off-track academic support and life-skills mentoring. We don't just train athletes; we develop positive youth, role models and leaders.
+      </p>
+
+      <!-- Three pillars as inline badges, not cards -->
+      <div class="mt-8 flex flex-wrap justify-center gap-3 text-sm">
+        <span class="border border-[var(--color-track-blue)] px-4 py-2 font-body font-600 uppercase tracking-wide text-[var(--color-track-blue)]">On-track training</span>
+        <span class="border border-[var(--color-track-blue)] px-4 py-2 font-body font-600 uppercase tracking-wide text-[var(--color-track-blue)]">Off-track education</span>
+        <span class="border border-[var(--color-track-blue)] px-4 py-2 font-body font-600 uppercase tracking-wide text-[var(--color-track-blue)]">One-to-one mentoring</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Brent Context — Signature Moment 7: one number at a time -->
+  <section class="tracked-surface bg-[var(--color-track-navy)] py-[clamp(4rem,10vw,9rem)]">
+    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        The Need
+      </p>
+      <h2 class="mb-[clamp(2rem,5vw,4rem)] font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.1] tracking-[-0.01em] text-white">
+        The need for our work has never been greater.
+      </h2>
+
+      <div class="space-y-[clamp(2rem,5vw,3rem)]">
+        {[
+          { number: '41%', label: 'Brent child poverty' },
+          { number: '28%', label: 'feel they have enough safe spaces' },
+          { number: '1 in 3', label: 'affected by bullying' },
+          { number: '64%', label: 'of girls no longer active by 14' },
+        ].map((stat) => (
+          <div class="border-b border-white/10 pb-[clamp(1.5rem,3vw,2rem)]">
+            <p class="font-heading text-[clamp(4rem,12vw,9rem)] font-300 leading-[0.85] tracking-[-0.03em] text-[var(--color-track-orange)] tabular-nums">
+              {stat.number}
+            </p>
+            <p class="mt-2 font-body text-sm font-medium uppercase tracking-[0.05em] text-white/60">
+              {stat.label}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 2025 priorities -->
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
+      <h2 class="mb-8 font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        2025 priorities
+      </h2>
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+        {[
+          'Grow athletics programme — recruit specialist coaches',
+          'Deepen community ties — strengthen school partnerships',
+          'Secure sustainable funding — diversify income',
+          'Refresh brand and website — this project',
+        ].map((item, i) => (
+          <div class="flex items-start gap-4">
+            <span class="font-heading text-2xl font-300 text-[var(--color-track-orange)] tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+            <p class="font-body text-base leading-[1.6] text-[var(--color-grey-900)]">{item}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABanner
+    heading="Want to know what we've achieved?"
+    body="Read the full 2024 Annual Report."
+    ctaPrimary={{ label: 'See our impact', href: '/impact' }}
+  />
+</BaseLayout>

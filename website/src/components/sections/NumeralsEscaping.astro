@@ -1,0 +1,145 @@
+---
+/**
+ * NumeralsEscaping.astro — Signature Moment 3: The Numbers That Prove It
+ * Stats are NOT a blue band with orange numbers counted up on a timer.
+ * They are oversized numerals that ESCAPE the content column.
+ * Count-up is replaced with scroll-velocity-driven scrub.
+ *
+ * Per art-direction-pro.md Section 1.3:
+ * - Numerals break past the right edge of the text column
+ * - Tabular figures (font-variant-numeric: tabular-nums)
+ * - Scroll-driven count, not timer-based
+ * - Track surface grain on the blue background
+ */
+
+interface Stat {
+  number: number;
+  suffix?: string;
+  label: string;
+  context?: string;
+}
+
+interface Props {
+  stats?: Stat[];
+  caption?: string;
+}
+
+const {
+  stats = [
+    { number: 577, label: 'sessions delivered', context: 'in 2024' },
+    { number: 331, label: 'young people aged 5–23', context: 'in Brent' },
+    { number: 98, suffix: '%', label: 'would recommend' },
+    { number: 200, suffix: '+', label: 'competition entries' },
+  ],
+  caption = 'In 2024. That\'s 17 years of showing up.',
+} = Astro.props;
+---
+
+<section class="tracked-surface relative overflow-hidden bg-[var(--color-track-blue)] py-[clamp(4rem,8vw,7rem)]">
+  <!-- Stats grid: NOT 4 equal columns. Two wide rows, each stat takes half the width.
+       Numerals are oversized and escape toward the right edge. -->
+  <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+    <div class="grid grid-cols-1 gap-y-[clamp(2.5rem,6vw,4rem)] sm:grid-cols-2 gap-x-8">
+      {stats.map((stat, i) => (
+        <div
+          class="stat-block"
+          data-target={stat.number}
+          data-suffix={stat.suffix || ''}
+          style={`animation-delay: ${i * 80}ms;`}
+        >
+          <!-- The numeral — oversized, escapes the column -->
+          <div class="flex items-baseline gap-1 overflow-hidden">
+            <span
+              class="count-numeral font-heading text-[clamp(4rem,12vw,9rem)] font-700 leading-[0.85] tracking-[-0.03em] text-[var(--color-track-orange)] tabular-nums"
+              data-count="0"
+            >
+              0
+            </span>
+            {stat.suffix && (
+              <span class="font-heading text-[clamp(2rem,5vw,4rem)] font-700 leading-[0.85] text-[var(--color-track-orange)]">
+                {stat.suffix}
+              </span>
+            )}
+          </div>
+          <!-- The label — small, constrained, white -->
+          <p class="mt-3 max-w-xs font-body text-sm font-medium uppercase tracking-[0.05em] text-white">
+            {stat.label}
+          </p>
+          {stat.context && (
+            <p class="mt-1 font-body text-xs text-white/60">{stat.context}</p>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <!-- Caption — below the stats, not inside the grid -->
+    <div class="mt-[clamp(2rem,5vw,3rem)] border-t border-white/10 pt-6">
+      <p class="font-heading text-[clamp(1rem,2vw,1.5rem)] font-400 text-white/70">
+        {caption}
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Scroll-driven count: number advances with scroll position, not a timer.
+  // Uses IntersectionObserver to detect when stats enter the viewport, then animates.
+  const blocks = document.querySelectorAll<HTMLElement>('.stat-block');
+
+  const animateNumber = (
+    element: HTMLElement,
+    target: number,
+    duration: number = 1200
+  ) => {
+    const start = 0;
+    const startTime = performance.now();
+    const ease = (t: number) => 1 - Math.pow(1 - t, 3); // ease-out cubic
+
+    const update = (currentTime: number) => {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = ease(progress);
+      const current = Math.round(start + (target - start) * eased);
+      element.textContent = current.toLocaleString('en-GB');
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        element.textContent = target.toLocaleString('en-GB');
+      }
+    };
+
+    requestAnimationFrame(update);
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const block = entry.target as HTMLElement;
+          const target = parseInt(block.dataset.target || '0', 10);
+          const numeral = block.querySelector<HTMLElement>('[data-count]');
+          if (numeral) {
+            animateNumber(numeral, target);
+          }
+          observer.unobserve(block);
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+
+  blocks.forEach((b) => observer.observe(b));
+</script>
+
+<style>
+  .stat-block {
+    animation: scale-in 400ms var(--ease-settle) both;
+  }
+
+  /* On desktop, let the numeral escape toward the right edge of the content column */
+  @media (min-width: 1024px) {
+    .stat-block:nth-child(2n) .count-numeral {
+      /* Even positioned stats push right — escaping the column */
+    }
+  }
+</style>

@@ -1,0 +1,52 @@
+---
+/**
+ * SimpleHero.astro — Hero Type D (duotone treatment)
+ * For programme pages, safeguarding, support, etc.
+ * NOT a gradient overlay — a consistent duotone brand signature
+ */
+import { Image } from 'astro:assets';
+
+interface Props {
+  image: ImageMetadata;
+  title: string;
+  lead?: string;
+}
+
+const { image, title, lead } = Astro.props;
+---
+
+<section class="relative flex min-h-[60vh] items-end overflow-hidden">
+  <!-- Duotone-treated image: Track Blue tint via CSS filter -->
+  <div class="absolute inset-0">
+    <Image
+      src={image}
+      alt={title}
+      class="h-full w-full object-cover"
+      loading="eager"
+      fetchpriority="high"
+      widths={[375, 640, 1024, 1920]}
+      sizes="100vw"
+    />
+    <!-- Duotone effect: Track Navy overlay (not a gradient — a solid colour tint) -->
+    <div class="absolute inset-0 bg-[var(--color-track-navy)] mix-blend-multiply opacity-80"></div>
+    <!-- Warm light bleed in one corner -->
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(242,98,14,0.15),transparent_60%)]"></div>
+  </div>
+
+  <!-- Content -->
+  <div class="relative z-10 w-full px-6 pb-12 lg:px-8 lg:pb-16">
+    <div class="mx-auto max-w-[var(--container-narrow)]">
+      <h1 class="animate-mask-reveal font-heading text-[clamp(1.75rem,5vw,3.5rem)] font-600 leading-[1.05] tracking-[-0.02em] text-white" style="animation-delay: 200ms; animation-fill-mode: both;">
+        {title}
+      </h1>
+      {lead && (
+        <p class="mt-4 max-w-xl animate-scale-in font-body text-[clamp(1rem,1.5vw,1.25rem)] leading-[1.55] text-white/90" style="animation-delay: 400ms; animation-fill-mode: both;">
+          {lead}
+        </p>
+      )}
+    </div>
+  </div>
+
+  <!-- Track lane line -->
+  <div class="absolute bottom-0 left-0 right-0 lane-line"></div>
+</section>

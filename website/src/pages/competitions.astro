@@ -1,0 +1,117 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SimpleHero from '../components/sections/SimpleHero.astro';
+import StepFlow from '../components/sections/StepFlow.astro';
+import CTABanner from '../components/sections/CTABanner.astro';
+import ReadyToRace from '../assets/programme/ready-to-race.jpg';
+
+const seo = {
+  title: 'Competitions & Fixtures — Track Academy',
+  description:
+    'How to get a Upland Registration Number (URN), compete for Track Academy and prepare for competition day.',
+};
+
+const urnSteps = [
+  { title: 'Complete the Competing Membership Form', description: 'Fill in the England Athletics Competing Membership Form via Spond. We\'ll guide you through it.' },
+  { title: 'Join Spond & make payment', description: 'Join our Spond group and complete the registration payment. This covers your England Athletics affiliation.' },
+  { title: 'We register you and confirm your URN', description: 'We submit your registration to England Athletics and confirm your Upland Registration Number — your ticket to compete.' },
+];
+
+const whoNeedsUrn = [
+  { summary: 'Athletes competing in open competitions', detail: 'If you want to enter open athletics meetings or league fixtures, you need a URN to register under Track Academy.' },
+  { summary: 'Athletes new to competition', detail: 'If this is your first season competing, we\'ll help you get registered from scratch — no prior membership needed.' },
+  { summary: 'Athletes transferring from another club', detail: 'If you\'re registered with another club, talk to us first — transfers can take time and follow England Athletics rules.' },
+  { summary: 'Athletes just training (not competing)', detail: 'You don\'t need a URN to train with us. URNs are only required for competing in open, county or national events.' },
+];
+
+const checklist = [
+  'Pack your Track Academy vest and shorts',
+  'Spike bag — with the right length spikes for the surface',
+  'Water bottle and light snack',
+  'Photo ID your first time competing',
+  'Your URN (we\'ll have it on file too)',
+  'Arrive 90 minutes before your event',
+  'Confirm your event time and warm-up slot on arrival',
+];
+---
+
+<BaseLayout {...seo}>
+  <SimpleHero
+    image={ReadyToRace}
+    title="Competitions & Fixtures"
+    lead="Everything you need to compete under the Track Academy name."
+  />
+
+  <StepFlow
+    label="The URN Process"
+    heading="Get your Upland Registration Number"
+    steps={urnSteps}
+  />
+
+  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        Who Needs a URN?
+      </p>
+      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        A quick guide.
+      </h2>
+
+      <div class="space-y-3">
+        {whoNeedsUrn.map((item) => (
+          <details class="group bg-white p-0">
+            <summary class="flex cursor-pointer items-center justify-between py-5 pl-6 pr-6 font-heading text-base font-500 text-[var(--color-grey-900)] marker:content-none">
+              <span>{item.summary}</span>
+              <span class="ml-4 font-body text-xl font-400 text-[var(--color-track-orange)] transition-transform duration-200 ease-[var(--ease-sprint)] group-open:rotate-45">+</span>
+            </summary>
+            <div class="px-6 pb-6">
+              <p class="font-body text-base leading-[1.6] text-[var(--color-grey-500)]">{item.detail}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        Fixtures
+      </p>
+      <h2 class="mb-6 font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        Upcoming fixtures
+      </h2>
+      <div class="border-2 border-dashed border-[var(--color-grey-300)] px-6 py-[clamp(3rem,8vw,5rem)] text-center">
+        <p class="mx-auto max-w-md font-body text-base leading-[1.6] text-[var(--color-grey-500)]">
+          No fixtures scheduled right now. Check back soon.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        Competition Day Checklist
+      </p>
+      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        Don't leave anything to chance.
+      </h2>
+      <ul class="space-y-3">
+        {checklist.map((item) => (
+          <li class="flex items-start gap-3 border-b border-[var(--color-grey-300)] py-3 font-body text-base leading-[1.5] text-[var(--color-grey-900)]">
+            <span class="mt-2 h-4 w-4 flex-shrink-0 border-2 border-[var(--color-track-blue)]"></span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CTABanner
+    heading="Ready to compete?"
+    body="Talk to your coach — we'll get your URN sorted and find your first event."
+    ctaPrimary={{ label: 'Register your child', href: '/register' }}
+    ctaSecondary={{ label: 'Contact us', href: '/contact' }}
+  />
+</BaseLayout>

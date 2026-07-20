@@ -1,0 +1,147 @@
+---
+/**
+ * PillarSequence.astro — The 360-degree approach
+ * Revised per client feedback: more visual, less text.
+ * Small custom icon + one sentence + learn more link per pillar.
+ * Keeps the asymmetric layout and scroll wipe.
+ */
+const pillars = [
+  {
+    no: '01',
+    title: 'On-Track Training',
+    oneLiner: 'Running, jumping, throwing — ages 5–21, three times a week.',
+    stat: '577',
+    statLabel: 'sessions in 2024',
+    href: '/athletics',
+    icon: 'track',
+  },
+  {
+    no: '02',
+    title: 'Off-Track Education',
+    oneLiner: 'Free tuition and ten life skills. The classroom is next to the track.',
+    stat: '10',
+    statLabel: 'life skills taught',
+    href: '/education',
+    icon: 'education',
+  },
+  {
+    no: '03',
+    title: 'One-to-One Mentoring',
+    oneLiner: 'One trusted adult changes everything.',
+    stat: '52',
+    statLabel: 'mentoring sessions in 2024',
+    href: '/mentoring',
+    icon: 'mentoring',
+  },
+];
+---
+
+<section class="bg-[var(--color-paper)] py-[clamp(4rem,10vw,9rem)]">
+  <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+    <div class="max-w-narrow">
+      <p class="mb-4 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        The 360-degree approach
+      </p>
+      <h2 class="font-heading text-[clamp(1.75rem,5vw,3rem)] font-600 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        We are the only athletics charity in the country to also offer education, mentoring and life-social skills sessions.
+      </h2>
+    </div>
+  </div>
+
+  <!-- Pillar sequence — visual: icon + one-liner + learn more -->
+  <div class="mt-[clamp(3rem,8vw,6rem)]">
+    {pillars.map((pillar, i) => (
+      <div
+        class="pillar group relative overflow-hidden border-t border-[var(--color-grey-300)] py-[clamp(2.5rem,6vw,5rem)]"
+        data-pillar-index={i}
+      >
+        <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+          <div class="grid grid-cols-1 gap-8 lg:grid-cols-[7fr_5fr] lg:gap-12">
+            <!-- Visual stack: icon + title (bold) + one-liner + learn more -->
+            <div class="pillar-text flex flex-col">
+              <!-- Icon + number row -->
+              <div class="mb-5 flex items-center gap-4">
+                <!-- Custom SVG icon — bespoke, NOT Lucide -->
+                {pillar.icon === 'track' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" class="h-10 w-10 text-[var(--color-track-orange)]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 34L18 6l5 11 5 2 -8 15z" />
+                    <circle cx="30" cy="13" r="2" fill="currentColor" stroke="none" />
+                  </svg>
+                )}
+                {pillar.icon === 'education' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" class="h-10 w-10 text-[var(--color-track-orange)]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 16l16-6 16 6-16 6z" />
+                    <path d="M10 20v8c0 2 6 4 10 4s10-2 10-4v-8" />
+                  </svg>
+                )}
+                {pillar.icon === 'mentoring' && (
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" class="h-10 w-10 text-[var(--color-track-orange)]" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="14" cy="13" r="4" />
+                    <circle cx="26" cy="13" r="4" />
+                    <path d="M6 32c0-5 4-8 8-8s8 3 8 8" />
+                    <path d="M18 32c0-5 4-8 8-8s8 3 8 8" />
+                  </svg>
+                )}
+                <span class="font-heading text-[clamp(1.5rem,3vw,2rem)] font-300 text-[var(--color-grey-300)] tabular-nums">
+                  {pillar.no}
+                </span>
+              </div>
+
+              <h3 class="font-heading text-[clamp(1.5rem,3vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+                {pillar.title}
+              </h3>
+              <p class="mt-2 max-w-md font-body text-[clamp(1rem,1.5vw,1.25rem)] leading-[1.5] text-[var(--color-grey-700)]">
+                {pillar.oneLiner}
+              </p>
+              <a
+                href={pillar.href}
+                class="mt-4 inline-flex items-center gap-2 font-body text-sm font-semibold uppercase tracking-wide text-[var(--color-track-orange)] transition-all duration-150 ease-[var(--ease-sprint)] hover:gap-4"
+              >
+                Learn more
+                <span aria-hidden="true" class="transition-transform">→</span>
+              </a>
+            </div>
+
+            <!-- Stat — visually dominant, escaping column -->
+            <div class="pillar-stat flex flex-col justify-end lg:border-l lg:border-[var(--color-grey-300)] lg:pl-12">
+              <span class="font-heading text-[clamp(4rem,10vw,8rem)] font-700 leading-[0.9] tracking-[-0.03em] text-[var(--color-track-orange)] tabular-nums">
+                {pillar.stat}
+              </span>
+              <span class="mt-2 font-body text-sm font-medium uppercase tracking-[0.05em] text-[var(--color-grey-500)]">
+                {pillar.statLabel}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Horizontal wipe transition line -->
+        <div class="pillar-wipe absolute bottom-0 left-0 h-0.5 w-0 bg-[var(--color-track-orange)] transition-all duration-500 ease-[var(--ease-settle)]" data-wipe={i}></div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  const pillars = document.querySelectorAll('[data-pillar-index]');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const index = (entry.target as HTMLElement).dataset.pillarIndex;
+          const wipe = document.querySelector(`[data-wipe="${index}"]`);
+          wipe?.setAttribute('style', 'width: 100%');
+        }
+      });
+    },
+    { threshold: 0.3 }
+  );
+  pillars.forEach((p) => observer.observe(p));
+</script>
+
+<style>
+  .pillar-text { animation: scale-in 400ms var(--ease-settle) both; }
+  .pillar-stat { animation: scale-in 400ms var(--ease-settle) both; animation-delay: 80ms; }
+  @media (min-width: 1024px) {
+    .pillar-stat span:first-child { margin-right: -2rem; }
+  }
+</style>

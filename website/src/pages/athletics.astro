@@ -1,0 +1,113 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SimpleHero from '../components/sections/SimpleHero.astro';
+import SplitFeature from '../components/sections/SplitFeature.astro';
+import CTABanner from '../components/sections/CTABanner.astro';
+import StudentsRacing from '../assets/hero/students-racing.webp';
+import Education from '../assets/programme/education.jpg';
+import ReadyToRace from '../assets/programme/ready-to-race.jpg';
+
+const seo = {
+  title: 'Athletics Training — Track Academy',
+  description:
+    'Coaching for young people aged 5-21, three times a week at Willesden Sports Centre. Multi-skills and athletics sessions from £25 per term.',
+};
+
+const included = [
+  'Qualified coaching from DBS-checked staff',
+  'Structured sessions split by age and ability',
+  'Access to education and mentoring programmes',
+  'Competition entry support and URN registration',
+  'SEND-specific sessions for ages 8-16',
+  'Kit and equipment provided',
+];
+---
+
+<BaseLayout {...seo}>
+  <SimpleHero
+    image={StudentsRacing}
+    title="Athletics Training"
+    lead="Coaching for young people aged 5-21, three times a week at Willesden Sports Centre."
+  />
+
+  <SplitFeature
+    image={Education}
+    imageSide="left"
+    label="Ages 5-10"
+    heading="Multi-skills"
+    body="FUNdamentals of movement — running, jumping, throwing. Sessions build coordination, confidence and a love of the sport. Tuesdays & Thursdays 4-5pm, Saturdays 10-11am."
+    cta={{ label: 'Register your child', href: '/register' }}
+  />
+
+  <SplitFeature
+    image={ReadyToRace}
+    imageSide="right"
+    label="Ages 10-21"
+    heading="Athletics"
+    body="Event-specific coaching across sprints, middle distance, jumps and throws. Young athletes develop technique, race craft and the discipline to compete. Tuesdays & Thursdays 5-6.30pm, Saturdays 11-12.30pm."
+    cta={{ label: 'Register your child', href: '/register' }}
+    background="grey"
+  />
+
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        Cost & Access
+      </p>
+      <h2 class="mb-[clamp(1.5rem,4vw,2.5rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        We keep the track open to everyone.
+      </h2>
+      <div class="flex flex-col items-start gap-4 border-l-4 border-[var(--color-track-orange)] bg-[var(--color-grey-100)] py-6 pl-6 pr-8">
+        <p class="font-heading text-[clamp(2.5rem,8vw,5rem)] font-700 leading-none text-[var(--color-track-blue)] tabular-nums">
+          £25<span class="font-body text-lg font-400 text-[var(--color-grey-500)]"> / child / term</span>
+        </p>
+        <p class="max-w-md font-body text-base leading-[1.6] text-[var(--color-grey-700)]">
+          Free if your family receives financial support or is on Universal Credit. We never turn a young person away because of cost — speak to us in confidence.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        What's Included
+      </p>
+      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        Three sessions a week. A lot more than running.
+      </h2>
+      <ul class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6">
+        {included.map((item) => (
+          <li class="flex items-start gap-3 font-body text-base leading-[1.6] text-[var(--color-grey-900)]">
+            <span class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[var(--color-track-orange)]"></span>
+            {item}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="tracked-surface bg-[var(--color-track-navy)] py-[clamp(2.5rem,5vw,4rem)]">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between lg:gap-12">
+        <div class="max-w-md">
+          <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+            SEND Sessions
+          </p>
+          <p class="font-body text-[clamp(1rem,1.5vw,1.25rem)] leading-[1.6] text-white">
+            Specialist coaching for young people with special educational needs and disabilities. Tuesdays 5-6pm, ages 8-16, free of charge.
+          </p>
+        </div>
+        <a href="mailto:matthew@trackacademy.co.uk?subject=SEND%20sessions" class="inline-flex font-body font-600 uppercase tracking-wide text-sm underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4 text-white hover:text-[var(--color-track-orange)]">
+          Contact matthew@trackacademy.co.uk
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <CTABanner
+    heading="Ready to get your child on the track?"
+    ctaPrimary={{ label: 'Register your child', href: '/register' }}
+    ctaSecondary={{ label: 'Contact us', href: '/contact' }}
+  />
+</BaseLayout>

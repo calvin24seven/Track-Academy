@@ -1,0 +1,48 @@
+---
+/**
+ * Button.astro — S-tier button with authored motion
+ * Variants: primary (Track Orange), secondary (outline), link (text only)
+ * Sizes: default, large
+ * Always has :active feedback (scale 0.98), never just :hover
+ */
+import { cn } from '../../lib/utils';
+
+interface Props {
+  href: string;
+  label: string;
+  variant?: 'primary' | 'secondary' | 'link';
+  size?: 'default' | 'large';
+  external?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  label,
+  variant = 'primary',
+  size = 'default',
+  external = false,
+  class: className,
+} = Astro.props;
+
+const base = 'inline-flex items-center justify-center font-body font-semibold transition-all duration-150 ease-[var(--ease-sprint)] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-track-orange)]';
+
+const variants = {
+  primary: 'bg-[var(--color-track-orange)] text-white hover:bg-[var(--color-accent-dark)] uppercase tracking-wide text-sm',
+  secondary: 'border-2 border-current text-[var(--color-track-blue)] hover:bg-[var(--color-track-blue)] hover:text-white uppercase tracking-wide text-sm',
+  link: 'text-[var(--color-track-blue)] underline-offset-4 hover:underline decoration-[var(--color-track-orange)] decoration-2 underline-thickness-2 font-normal',
+};
+
+const sizes = {
+  default: 'px-8 py-4',
+  large: 'px-10 py-5 text-base',
+};
+---
+
+<a
+  href={href}
+  class={cn(base, variants[variant], sizes[size], className)}
+  {...external ? { target: '_blank', rel: 'noopener noreferrer' } : {}}
+>
+  {label}
+</a>

@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SimpleHero from '../components/sections/SimpleHero.astro';
+import GroupPhoto from '../assets/stories/group-photo.jpg';
+
+const seo = {
+  title: 'Contact Track Academy',
+  description:
+    'Get in touch about coaching, education, mentoring, school partnerships, sponsorship or volunteering.',
+};
+
+const audienceButtons = [
+  { label: 'I\'m a parent', subject: 'Coaching question from a parent' },
+  { label: 'I\'m from a school', subject: 'School partnership enquiry' },
+  { label: 'I\'m a funder', subject: 'Funding conversation' },
+  { label: 'I\'d like to volunteer', subject: 'Volunteering enquiry' },
+];
+
+const contactDetails = [
+  { label: 'Email', value: 'admin@trackacademy.co.uk', href: 'mailto:admin@trackacademy.co.uk' },
+  { label: 'Phone', value: '07956 715052', href: 'tel:07956715052' },
+  { label: 'Where', value: 'Willesden Sports Centre, Donnington Road, NW10 3QX' },
+];
+---
+
+<BaseLayout {...seo}>
+  <SimpleHero
+    image={GroupPhoto}
+    title="Contact Track Academy"
+    lead="Whether it's coaching, education, mentoring, schools or sponsorship — start here."
+  />
+
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <div class="grid grid-cols-1 gap-[clamp(2rem,5vw,4rem)] lg:grid-cols-[7fr_5fr] lg:gap-12">
+        <div>
+          <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+            Get in Touch
+          </p>
+          <h2 class="mb-6 font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+            We'd love to hear from you.
+          </h2>
+          <p class="max-w-md font-body text-base leading-[1.65] text-[var(--color-grey-700)]">
+            Pick the option closest to you, and it'll open an email to us with the subject filled in. We aim to reply within two working days.
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            {audienceButtons.map((button) => (
+              <a
+                href={`mailto:admin@trackacademy.co.uk?subject=${encodeURIComponent(button.subject)}`}
+                class="border-2 border-[var(--color-track-blue)] px-5 py-3 font-body text-sm font-600 uppercase tracking-wide text-[var(--color-track-blue)] transition-all duration-150 ease-[var(--ease-sprint)] hover:bg-[var(--color-track-blue)] hover:text-white active:scale-[0.98]"
+              >
+                {button.label}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div class="bg-[var(--color-grey-100)] p-8">
+          <p class="font-body text-sm font-600 uppercase tracking-[0.05em] text-[var(--color-track-orange)]">Contact details</p>
+          <dl class="mt-6 space-y-6">
+            {contactDetails.map((item) => (
+              <div>
+                <dt class="font-body text-xs font-600 uppercase tracking-[0.05em] text-[var(--color-grey-500)]">{item.label}</dt>
+                <dd class="mt-1 font-body text-base text-[var(--color-grey-900)]">
+                  {item.href ? (
+                    <a href={item.href} class="underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4 hover:text-[var(--color-track-orange)]">
+                      {item.value}
+                    </a>
+                  ) : (
+                    item.value
+                  )}
+                </dd>
+              </div>
+            ))}
+            <div>
+              <dt class="font-body text-xs font-600 uppercase tracking-[0.05em] text-[var(--color-grey-500)]">When we're at the track</dt>
+              <dd class="mt-1 font-body text-base text-[var(--color-grey-900)]">
+                Tuesdays & Thursdays 4pm-6.30pm<br />Saturdays 10am-12.30pm
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-l-4 border-[var(--color-track-orange)] bg-[var(--color-grey-100)] py-[clamp(1.5rem,4vw,2.5rem)]">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <div class="lg:ml-6">
+        <p class="font-body text-sm font-600 uppercase tracking-[0.05em] text-[var(--color-track-orange)]">Safeguarding Concern</p>
+        <p class="mt-2 max-w-2xl font-body text-base leading-[1.6] text-[var(--color-grey-700)]">
+          If you have a safeguarding concern, please contact our DSL directly — not this inbox.
+        </p>
+        <p class="mt-4">
+          <a href="/safeguarding" class="font-body font-600 uppercase tracking-wide text-sm underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4 text-[var(--color-track-blue)] hover:text-[var(--color-track-orange)]">
+            Go to safeguarding →
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

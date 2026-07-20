@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SimpleHero from '../components/sections/SimpleHero.astro';
+import SplitFeature from '../components/sections/SplitFeature.astro';
+import CTABanner from '../components/sections/CTABanner.astro';
+import Button from '../components/ui/Button.astro';
+import StudentsLearning from '../assets/programme/students-learning.jpg';
+import Education from '../assets/programme/education.jpg';
+
+const seo = {
+  title: 'Education & Life Skills — Track Academy',
+  description:
+    'Academic support, tuition and 10 life skills that help young people thrive beyond the track.',
+};
+
+const lifeSkills = [
+  { name: 'Listening', description: 'Truly hearing others — a coach, a teammate, a teacher.' },
+  { name: 'Presenting', description: 'Standing up and speaking clearly in front of a group.' },
+  { name: 'Networking', description: 'Building real relationships that open doors.' },
+  { name: 'Problem Solving', description: 'Breaking a challenge down and finding a way through.' },
+  { name: 'Creativity', description: 'Imagining new solutions and new versions of yourself.' },
+  { name: 'Staying Positive', description: 'Keeping going when the race, or the week, is hard.' },
+  { name: 'Aiming High', description: 'Setting goals that stretch you beyond your comfort zone.' },
+  { name: 'Discipline', description: 'Showing up every session — the foundation of everything.' },
+  { name: 'Leadership', description: 'Stepping forward and bringing others with you.' },
+];
+---
+
+<BaseLayout {...seo}>
+  <SimpleHero
+    image={StudentsLearning}
+    title="Education & Life Skills"
+    lead="Off the track, we build the skills young people need to thrive in school, work and life."
+  />
+
+  <SplitFeature
+    image={Education}
+    imageSide="left"
+    label="Academic Support"
+    heading="Classroom-grade support, no added charge"
+    body="Tuesday Study Support (4-5pm) and Saturday Tuition (9-11am) cover Maths, English and Science. Delivered by qualified tutors, included in membership — no extra cost to families."
+    cta={{ label: 'Register your child', href: '/register' }}
+  />
+
+  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        10 Life Skills
+      </p>
+      <h2 class="mb-[clamp(2rem,5vw,3rem)] max-w-2xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        Skills the track can't teach alone.
+      </h2>
+
+      <div class="grid grid-cols-1 gap-x-12 gap-y-[clamp(1.5rem,4vw,2.5rem)] sm:grid-cols-2 lg:grid-cols-3">
+        {lifeSkills.map((skill, i) => (
+          <div class="flex items-start gap-5 border-b border-[var(--color-grey-300)] pb-[clamp(1.25rem,3vw,2rem)]">
+            <span class="font-heading text-[clamp(1.5rem,3vw,2.25rem)] font-300 leading-none text-[var(--color-track-orange)] tabular-nums">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <div>
+              <h3 class="font-heading text-lg font-500 text-[var(--color-grey-900)]">{skill.name}</h3>
+              <p class="mt-1 font-body text-sm leading-[1.5] text-[var(--color-grey-500)]">{skill.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+        Knowledge & Employability
+      </p>
+      <h2 class="mb-6 max-w-2xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        Beyond school — building futures.
+      </h2>
+      <div class="space-y-6">
+        {[
+          'CV writing and interview practice through our ELEVATE workshops',
+          'Work experience placements and employer visits',
+          'Mentoring from professionals across business and sport',
+          'Pathway guidance into college, apprenticeships and university',
+        ].map((point) => (
+          <div class="flex items-start gap-4 border-b border-[var(--color-grey-300)] pb-6">
+            <div class="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-[var(--color-track-orange)]"></div>
+            <p class="font-body text-[clamp(1rem,1.5vw,1.125rem)] leading-[1.6] text-[var(--color-grey-900)]">{point}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTABanner
+    heading="Education is part of the membership."
+    body="No extra cost, no separate sign-up."
+    ctaPrimary={{ label: 'Register your child', href: '/register' }}
+    ctaSecondary={{ label: 'Talk to us', href: '/contact' }}
+  />
+</BaseLayout>

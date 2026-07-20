@@ -1,0 +1,64 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const seo = {
+  title: 'Page Not Found — Track Academy',
+  description: 'The page you\'re looking for isn\'t here, but the track is still open.',
+};
+
+const links = [
+  { label: 'Homepage', href: '/' },
+  { label: 'Register', href: '/register' },
+  { label: 'Events', href: '/events' },
+  { label: 'Contact', href: '/contact' },
+];
+---
+
+<BaseLayout {...seo}>
+  <section class="tracked-surface relative flex min-h-[80vh] flex-col justify-center overflow-hidden bg-[var(--color-track-navy)]">
+    <!-- Track lane lines as decorative accents -->
+    <div class="pointer-events-none absolute inset-0 opacity-30">
+      <div class="absolute left-0 right-0 top-[35%] h-px bg-[var(--color-track-orange)]/40"></div>
+      <div class="absolute left-0 right-0 top-[50%] h-px bg-[var(--color-track-orange)]/20"></div>
+      <div class="absolute left-0 right-0 top-[65%] h-px bg-[var(--color-track-orange)]/15"></div>
+    </div>
+
+    <!-- Warm light bleed from corner -->
+    <div class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_75%_20%,rgba(242,98,14,0.15),transparent_55%)]"></div>
+
+    <div class="relative z-10 mx-auto w-full max-w-[var(--container-content)] px-6 py-[clamp(4rem,12vw,9rem)] lg:px-8">
+      <!-- Numeric error code — oversized, escapes toward right -->
+      <p class="font-heading text-[clamp(5rem,22vw,18rem)] font-700 leading-[0.85] tracking-[-0.04em] text-[var(--color-track-orange)] tabular-nums lg:text-right">
+        404
+      </p>
+
+      <!-- Lane line under the numeral -->
+      <div class="mt-2 h-0.5 w-full bg-[var(--color-track-orange)]"></div>
+
+      <!-- Headline -->
+      <div class="mt-8 max-w-2xl">
+        <h1 class="font-heading text-[clamp(2rem,6vw,4rem)] font-500 leading-[1.02] tracking-[-0.02em] text-white">
+          This track doesn't exist.
+        </h1>
+        <p class="mt-5 max-w-md font-body text-[clamp(1.125rem,1.5vw,1.25rem)] leading-[1.55] text-white/75">
+          The page you're looking for isn't here, but the track is still open.
+        </p>
+
+        <!-- Way off the page — left-aligned links, not a button grid -->
+        <nav class="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-6">
+          {links.map((link) => (
+            <a
+              href={link.href}
+              class="font-body text-sm font-600 uppercase tracking-wide text-white underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4 transition-colors duration-150 ease-[var(--ease-sprint)] hover:text-[var(--color-track-orange)]"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+
+    <!-- Bottom lane line — the signature 2px orange accent -->
+    <div class="absolute bottom-0 left-0 right-0 lane-line"></div>
+  </section>
+</BaseLayout>
