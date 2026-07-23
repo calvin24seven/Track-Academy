@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "trackacademy",
+  "compatibility_date": "2026-07-23",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "proposal"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
