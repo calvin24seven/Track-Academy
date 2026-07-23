@@ -6,22 +6,17 @@
  */
 interface Partner {
   name: string;
-  domain: string;
 }
 
 const partners: Partner[] = [
-  { name: "St Claudine's School", domain: 'stclaudines.co.uk' },
-  { name: 'Newman Catholic College', domain: 'ncc.brent.sch.uk' },
-  { name: 'England Athletics', domain: 'englandathletics.org' },
-  { name: 'Jack Petchey Foundation', domain: 'jackpetcheyfoundation.org.uk' },
-  { name: 'Sported', domain: 'sported.org.uk' },
-  { name: 'London Living Wage', domain: 'livingwage.org.uk' },
-  { name: 'Laureus', domain: 'laureus.com' },
+  { name: "St Claudine's School" },
+  { name: 'Newman Catholic College' },
+  { name: 'England Athletics' },
+  { name: 'Jack Petchey Foundation' },
+  { name: 'Sported' },
+  { name: 'London Living Wage' },
+  { name: 'Laureus' },
 ];
-
-function faviconUrl(domain: string) {
-  return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
-}
 ---
 
 <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,6vw,5rem)]">
@@ -33,18 +28,10 @@ function faviconUrl(domain: string) {
     </div>
 
     <!-- Partner logos — greyscale, colour on hover -->
-    <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-5 lg:gap-x-14">
+    <div class="flex flex-wrap items-center justify-center gap-3 lg:gap-4">
       {partners.map((partner) => (
-        <div class="group flex flex-col items-center gap-2 opacity-50 grayscale transition-all duration-200 ease-[var(--ease-sprint)] hover:opacity-100 hover:grayscale-0">
-          <img
-            src={faviconUrl(partner.domain)}
-            alt={partner.name}
-            class="h-12 w-12 object-contain lg:h-16 lg:w-16"
-            loading="lazy"
-            width="64"
-            height="64"
-          />
-          <span class="font-body text-xs text-[var(--color-grey-500)] group-hover:text-[var(--color-grey-700)]">
+        <div class="border border-[var(--color-grey-300)] bg-white px-4 py-3 text-center transition-colors duration-200 hover:border-[var(--color-track-orange)]">
+          <span class="font-body text-xs font-semibold uppercase tracking-[0.04em] text-[var(--color-grey-700)]">
             {partner.name}
           </span>
         </div>

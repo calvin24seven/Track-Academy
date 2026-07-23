@@ -28,7 +28,7 @@ const {
   stats = [
     { number: 577, label: 'sessions delivered', context: 'in 2024' },
     { number: 331, label: 'young people aged 5–23', context: 'in Brent' },
-    { number: 98, suffix: '%', label: 'would recommend' },
+    { number: 94, suffix: '%', label: 'believe they can achieve their goals' },
     { number: 200, suffix: '+', label: 'competition entries' },
   ],
   caption = 'In 2024. That\'s 17 years of showing up.',
@@ -51,9 +51,9 @@ const {
           <div class="flex items-baseline gap-1 overflow-hidden">
             <span
               class="count-numeral font-heading text-[clamp(4rem,12vw,9rem)] font-700 leading-[0.85] tracking-[-0.03em] text-[var(--color-track-orange)] tabular-nums"
-              data-count="0"
+              data-count={stat.number.toString()}
             >
-              0
+              {stat.number.toLocaleString('en-GB')}
             </span>
             {stat.suffix && (
               <span class="font-heading text-[clamp(2rem,5vw,4rem)] font-700 leading-[0.85] text-[var(--color-track-orange)]">
@@ -91,7 +91,7 @@ const {
     target: number,
     duration: number = 1200
   ) => {
-    const start = 0;
+    const start = target;
     const startTime = performance.now();
     const ease = (t: number) => 1 - Math.pow(1 - t, 3); // ease-out cubic
 

@@ -31,7 +31,7 @@ const {
     },
     {
       quote: "Her teacher called us shocked — said she's 'a different child.'",
-      attribution: "A parent",
+      attribution: "Parent of a Track Academy participant",
       context: "Track Academy family",
       image: (await import('../../assets/stories/coach-closeup.jpg')).default,
     },
@@ -66,6 +66,7 @@ const {
     {athletes.map((athlete, i) => (
       <article
         class="athlete-card relative flex-[0_0_85vw] snap-center overflow-hidden sm:flex-[0_0_60vw] lg:flex-[0_0_40vw]"
+        data-story-card={i}
         style={`animation-delay: ${i * 80}ms;`}
       >
         <!-- Full-bleed portrait — aspect-ratio 3/4 (taller than wide, faces read better) -->
@@ -98,16 +99,52 @@ const {
   </div>
 
   <!-- Dot indicators (not arrows, not progress bar) -->
-  <div class="mt-6 flex justify-center gap-2 lg:justify-start lg:px-[max(2rem,calc((100vw-var(--container-content))/2+2rem))]">
+  <div class="mx-auto mt-6 flex max-w-[var(--container-content)] justify-center gap-2 px-6 lg:justify-start lg:px-8">
     {athletes.map((_, i) => (
       <button
         class="h-1.5 w-1.5 rounded-full bg-white/30 transition-all duration-200 ease-[var(--ease-sprint)] hover:bg-[var(--color-track-orange)]"
         data-dot={i}
         aria-label={`Go to story ${i + 1}`}
+        aria-current={i === 0 ? 'true' : 'false'}
       ></button>
     ))}
   </div>
 </section>
+
+<script>
+  const storyScroller = document.querySelector<HTMLElement>('.athlete-scroll');
+  const storyCards = Array.from(document.querySelectorAll<HTMLElement>('[data-story-card]'));
+  const storyDots = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-dot]'));
+
+  function setActiveStory(index: number) {
+    storyDots.forEach((dot, dotIndex) => {
+      const active = dotIndex === index;
+      dot.setAttribute('aria-current', active ? 'true' : 'false');
+      dot.classList.toggle('bg-[var(--color-track-orange)]', active);
+      dot.classList.toggle('bg-white/30', !active);
+    });
+  }
+
+  storyDots.forEach((dot, index) => {
+    dot.addEventListener('click', () => {
+      storyCards[index]?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      setActiveStory(index);
+    });
+  });
+
+  if (storyScroller && storyCards.length) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const mostVisible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (mostVisible) setActiveStory(storyCards.indexOf(mostVisible.target as HTMLElement));
+      },
+      { root: storyScroller, threshold: [0.55, 0.7] },
+    );
+    storyCards.forEach((card) => observer.observe(card));
+  }
+</script>
 
 <style>
   .athlete-card {
