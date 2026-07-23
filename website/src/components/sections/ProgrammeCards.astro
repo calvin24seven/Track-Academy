@@ -12,6 +12,7 @@ interface Programme {
   description: string;
   href: string;
   image: ImageMetadata;
+  alt: string;
 }
 
 const programmes: Programme[] = [
@@ -20,24 +21,28 @@ const programmes: Programme[] = [
     description: 'Running, jumping, throwing — three sessions a week at Willesden Sports Centre. Ages 5–21.',
     href: '/athletics',
     image: (await import('../../assets/programme/ready-to-race.jpg')).default,
+    alt: 'Young athletes training together on an athletics track',
   },
   {
     title: 'Education & Life Skills',
     description: 'Free maths, English and science tuition every Saturday. Ten life skills that build confidence.',
     href: '/education',
     image: (await import('../../assets/programme/students-learning.jpg')).default,
+    alt: 'Young people working together during an education session',
   },
   {
     title: 'Mentoring',
     description: 'One-to-one support from a trained mentor. One trusted adult changes everything.',
     href: '/mentoring',
     image: (await import('../../assets/programme/education.jpg')).default,
+    alt: 'A young person receiving support during a learning session',
   },
   {
     title: 'Holiday Programmes',
     description: '45 workshops a year. Escape rooms, laser tag, CV skills — keeping young people active during school breaks.',
     href: '/holiday-programmes',
     image: (await import('../../assets/stories/group-photo.jpg')).default,
+    alt: 'Track Academy young people together at a holiday programme',
   },
 ];
 ---
@@ -49,7 +54,7 @@ const programmes: Programme[] = [
         What we do
       </p>
       <h2 class="max-w-2xl font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        The only athletics charity in the country to also offer education, mentoring and life skills.
+        Athletics is the start. Education, mentoring and life skills help young people go further.
       </h2>
     </div>
 
@@ -64,7 +69,7 @@ const programmes: Programme[] = [
           <div class="relative aspect-[4/3] w-full overflow-hidden">
             <Image
               src={programme.image}
-              alt={programme.title}
+              alt={programme.alt}
               class="h-full w-full object-cover transition-transform duration-[600ms] ease-[var(--ease-rest)] group-hover:scale-105"
               loading="lazy"
               widths={[300, 400, 600]}

@@ -161,12 +161,14 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    overflow-x: clip;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   body {
     background-color: var(--color-paper);
+    overflow-x: clip;
     color: var(--color-grey-900);
     font-family: var(--font-body);
     font-size: clamp(1rem, 1.1vw, 1.125rem);

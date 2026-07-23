@@ -27,8 +27,8 @@ const navItems = [
     ],
   },
   { label: 'Schools', href: '/schools' },
-  { label: 'Events', href: '/events' },
-  { label: 'Competitions', href: '/competitions' },
+  { label: 'Impact', href: '/impact' },
+  { label: 'Safeguarding', href: '/safeguarding' },
 ];
 ---
 
@@ -55,7 +55,7 @@ const navItems = [
             {item.label}
           </a>
           {item.children && (
-            <div class="invisible absolute left-0 top-full pt-2 opacity-0 transition-all duration-200 ease-[var(--ease-settle)] group-hover:visible group-hover:opacity-100">
+            <div class="invisible absolute left-0 top-full pt-2 opacity-0 transition-all duration-200 ease-[var(--ease-settle)] group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
               <div class="tracked-surface min-w-[220px] bg-[var(--color-track-blue)] py-2 shadow-xl">
                 {item.children.map((child) => (
                   <a
@@ -91,6 +91,7 @@ const navItems = [
       class="flex flex-col gap-1.5 p-2 lg:hidden"
       aria-label="Open menu"
       aria-expanded="false"
+      aria-controls="mobile-menu"
     >
       <span class="block h-0.5 w-6 bg-white transition-all duration-200 header-bar"></span>
       <span class="block h-0.5 w-6 bg-white transition-all duration-200 header-bar"></span>

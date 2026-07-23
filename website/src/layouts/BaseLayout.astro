@@ -15,6 +15,24 @@ interface Props {
 
 const { title, description, canonical } = Astro.props;
 const canonicalUrl = canonical || Astro.url.pathname;
+const siteUrl = `https://trackacademy.co.uk${canonicalUrl}`;
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'NGO',
+  name: 'Track Academy',
+  url: 'https://trackacademy.co.uk',
+  description: 'Athletics, education and mentoring for young people in Brent.',
+  nonprofitStatus: 'NonprofitType',
+  taxID: '1164222',
+  email: 'admin@trackacademy.co.uk',
+  telephone: '+447956715052',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Willesden Sports Centre',
+    postalCode: 'NW10 3QX',
+    addressCountry: 'GB',
+  },
+};
 ---
 
 <!DOCTYPE html>
@@ -23,7 +41,7 @@ const canonicalUrl = canonical || Astro.url.pathname;
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="icon" type="image/png" href="/logo.png" />
-  <link rel="canonical" href={`https://trackacademy.co.uk${canonicalUrl}`} />
+  <link rel="canonical" href={siteUrl} />
 
   <title>{title}</title>
   <meta name="description" content={description} />
@@ -32,7 +50,9 @@ const canonicalUrl = canonical || Astro.url.pathname;
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content={`https://trackacademy.co.uk${canonicalUrl}`} />
+  <meta property="og:url" content={siteUrl} />
+  <meta property="og:site_name" content="Track Academy" />
+  <meta property="og:locale" content="en_GB" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
@@ -46,6 +66,8 @@ const canonicalUrl = canonical || Astro.url.pathname;
 
   <!-- Feed -->
   <link rel="alternate" type="application/rss+xml" title="Track Academy" href="/feed.xml" />
+
+  <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)}></script>
 </head>
 <body>
   <!-- Skip link — accessibility -->
