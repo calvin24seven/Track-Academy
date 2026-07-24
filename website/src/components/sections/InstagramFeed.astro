@@ -1,29 +1,27 @@
 ---
 /**
- * InstagramFeed.astro — Elfsite Instagram embed for @trackacademy_
- * Lazy-loaded: iframe only loads when scrolled into view (data-elfsight-app-lazy)
- * Placed between AthleteStack (stories) and SchoolsTeaser per PRD spec
+ * InstagramFeed.astro — keep the richer visual feed for larger screens.
+ * On mobile, a single considered route performs better than tiny embedded posts.
  */
 ---
 
-<section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
+<section class="bg-[var(--color-paper)] py-[clamp(3rem,7vw,5.5rem)]">
   <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
     <div class="mb-[clamp(1.5rem,4vw,3rem)]">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Follow us
-      </p>
-      <h2 class="font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        From the track, every week.
-      </h2>
-      <p class="mt-3 max-w-lg font-body text-base text-[var(--color-grey-700)]">
-        Real moments from sessions, competitions, and community — follow <a href="https://instagram.com/trackacademy_" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-track-orange)] underline underline-offset-2 hover:text-[var(--color-track-orange)]">@trackacademy_</a> on Instagram.
-      </p>
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Follow us</p>
+      <h2 class="font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">From the track, every week.</h2>
+      <p class="mt-3 max-w-lg font-body text-base text-[var(--color-grey-700)]">Real moments from sessions, competitions and community — follow <a href="https://instagram.com/trackacademy_" target="_blank" rel="noopener noreferrer" class="font-semibold text-[var(--color-track-orange)] underline underline-offset-2 hover:text-[var(--color-accent-dark)]">@trackacademy_</a> on Instagram.</p>
     </div>
 
+    <a href="https://instagram.com/trackacademy_" target="_blank" rel="noopener noreferrer" class="tracked-surface flex min-h-40 flex-col justify-between bg-[var(--color-track-blue)] p-6 text-white lg:hidden">
+      <span class="font-body text-sm font-semibold uppercase tracking-wide text-[var(--color-track-orange)]">Instagram</span>
+      <span class="font-heading text-2xl font-500 leading-[1.1]">See what’s happening on the track.</span>
+      <span class="font-body text-sm font-semibold">Follow @trackacademy_ →</span>
+    </a>
   </div>
 
-  <!-- Elfsite Instagram Feed — full-bleed and lazy loaded -->
-  <div class="w-full">
+  <!-- Rich visual feed for larger screens only; mobile gets a direct, legible route. -->
+  <div class="hidden w-full lg:block">
     <script src="https://elfsightcdn.com/platform.js" async></script>
     <div class="elfsight-app-255f693f-326f-4bd5-ba0e-bd4306ee5683 w-full" data-elfsight-app-lazy></div>
   </div>

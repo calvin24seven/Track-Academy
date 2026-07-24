@@ -27,7 +27,7 @@ const {
 } = Astro.props;
 ---
 
-<section class="relative h-[100svh] w-full overflow-hidden">
+<section class="relative h-[88svh] min-h-[580px] w-full overflow-hidden lg:h-[100svh]">
   <!-- Full-bleed photo — NO gradient overlay. The photo is art-directed with negative space. -->
   <div class="absolute inset-0 animate-blur-in">
     <Image
@@ -80,7 +80,9 @@ const {
 
 <style>
   /* Ensure hero fills viewport including dynamic mobile toolbars */
-  section {
-    height: 100svh;
+  @media (min-width: 1024px) {
+    section {
+      height: 100svh;
+    }
   }
 </style>

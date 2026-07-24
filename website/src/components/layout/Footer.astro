@@ -39,7 +39,7 @@ const footerNav = {
 ---
 
 <footer class="tracked-surface bg-[var(--color-track-blue)] text-white">
-  <div class="mx-auto max-w-[var(--container-content)] px-6 py-16 lg:px-8 lg:py-20">
+  <div class="mx-auto max-w-[var(--container-content)] px-6 py-14 pb-24 lg:px-8 lg:py-20">
     <!-- Top row: brand + newsletter -->
     <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
       <!-- Brand -->
@@ -110,8 +110,41 @@ const footerNav = {
     <!-- Divider -->
     <div class="my-10 h-px bg-white/10"></div>
 
-    <!-- Bottom row: link columns -->
-    <div class="grid grid-cols-2 gap-8 sm:grid-cols-4">
+    <!-- Mobile: compact disclosure navigation keeps the footer useful without a long wall of links. -->
+    <div class="divide-y divide-white/10 lg:hidden">
+      <details>
+        <summary class="flex min-h-14 cursor-pointer items-center justify-between font-body text-sm font-semibold uppercase tracking-[0.05em] text-[var(--color-track-orange)]">Explore <span aria-hidden="true">+</span></summary>
+        <ul class="space-y-3 pb-5">
+          {footerNav.explore.map((l) => (<li><a href={l.href} class="block py-1 text-base text-white/75 hover:text-white">{l.label}</a></li>))}
+        </ul>
+      </details>
+      <details>
+        <summary class="flex min-h-14 cursor-pointer items-center justify-between font-body text-sm font-semibold uppercase tracking-[0.05em] text-[var(--color-track-orange)]">Programmes <span aria-hidden="true">+</span></summary>
+        <ul class="space-y-3 pb-5">
+          {footerNav.programmes.map((l) => (<li><a href={l.href} class="block py-1 text-base text-white/75 hover:text-white">{l.label}</a></li>))}
+        </ul>
+      </details>
+      <details>
+        <summary class="flex min-h-14 cursor-pointer items-center justify-between font-body text-sm font-semibold uppercase tracking-[0.05em] text-[var(--color-track-orange)]">Get involved <span aria-hidden="true">+</span></summary>
+        <ul class="space-y-3 pb-5">
+          {footerNav.involved.map((l) => (<li><a href={l.href} class="block py-1 text-base text-white/75 hover:text-white">{l.label}</a></li>))}
+        </ul>
+      </details>
+      <details>
+        <summary class="flex min-h-14 cursor-pointer items-center justify-between font-body text-sm font-semibold uppercase tracking-[0.05em] text-[var(--color-track-orange)]">Resources & contact <span aria-hidden="true">+</span></summary>
+        <ul class="space-y-3 pb-5">
+          {footerNav.resources.map((l) => (<li><a href={l.href} class="block py-1 text-base text-white/75 hover:text-white">{l.label}</a></li>))}
+        </ul>
+        <div class="space-y-2 pb-5 text-base text-white/60">
+          <a href="mailto:admin@trackacademy.co.uk" class="block hover:text-white">admin@trackacademy.co.uk</a>
+          <a href="tel:07956715052" class="block hover:text-white">07956 715052</a>
+          <p>Willesden Sports Centre, NW10 3QX</p>
+        </div>
+      </details>
+    </div>
+
+    <!-- Desktop: all four link groups remain visible at a glance. -->
+    <div class="hidden grid-cols-2 gap-8 sm:grid-cols-4 lg:grid">
       <nav aria-label="Explore">
         <h3 class="mb-4 font-body text-sm font-semibold uppercase tracking-[0.05em] text-[var(--color-track-orange)]">Explore</h3>
         <ul class="space-y-2.5">

@@ -4,246 +4,87 @@ import SimpleHero from '../components/sections/SimpleHero.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
 import CoachCloseup from '../assets/stories/coach-closeup.jpg';
 import { Image } from 'astro:assets';
+import StaffImage from '../assets/team/staff.jpg';
 import CoachesImage from '../assets/team/coaches.jpg';
-import TrusteesImage from '../assets/team/trustees.jpg';
 import MentorsImage from '../assets/team/mentors.jpg';
 import TutorsImage from '../assets/team/tutors.jpg';
-import StaffImage from '../assets/team/staff.jpg';
+import TrusteesImage from '../assets/team/trustees.jpg';
 
 const seo = {
   title: 'Meet the Team — Track Academy',
-  description:
-    '19+ staff, coaches, mentors and trustees showing up every session, every week. Meet the people behind Track Academy.',
+  description: 'Meet the staff, coaches, mentors, tutors and trustees behind Track Academy.',
 };
 
-const leadership = [
-  { name: 'Patrik Ewe', role: 'CEO' },
-  { name: 'Yvonne Simpson', role: 'Operations Manager / DSL' },
-  { name: 'Erick Sanchez', role: 'Education & Mentoring Co-ordinator / DSL' },
-  { name: 'Matthew Adum-Yeboah', role: 'Head of Sport' },
+const groups = [
+  {
+    label: 'Leadership',
+    heading: 'Setting the direction',
+    image: StaffImage,
+    alt: 'Track Academy leadership team: Patrik Ewe, Yvonne Simpson, Matthew Adum-Yeboah and Erick Sanchez',
+    members: 'Patrik Ewe — Chief Executive Officer · Yvonne Simpson — Head of Operations and Youth · Matthew Adum-Yeboah — Head of Sport · Erick Sanchez — Education and Mentoring Co-ordinator',
+    tone: 'paper',
+  },
+  {
+    label: 'Coaches',
+    heading: 'On the track every session',
+    image: CoachesImage,
+    alt: 'Track Academy coaches Beth, Dominique, Jimmy, Lumar, Martin, Mia, Nigel, Nilrem and Sam',
+    members: 'Beth · Dominique · Jimmy · Lumar · Martin · Mia · Nigel · Nilrem · Sam',
+    tone: 'grey',
+  },
+  {
+    label: 'Mentors',
+    heading: 'One-to-one guidance',
+    image: MentorsImage,
+    alt: 'Track Academy mentors Manar, Ngozi and Plamedie',
+    members: 'Manar · Ngozi · Plamedie',
+    tone: 'paper',
+  },
+  {
+    label: 'Tutors',
+    heading: 'Academic support',
+    image: TutorsImage,
+    alt: 'Track Academy tutors Babatunde and Elizabeth',
+    members: 'Babatunde · Elizabeth',
+    tone: 'grey',
+  },
+  {
+    label: 'Trustees',
+    heading: 'Our Board',
+    image: TrusteesImage,
+    alt: 'Track Academy trustees Frederik Reynaert, Amechi Okafor, Marion Delille, Michael Adams, Romain Ebanks, Rosie Beadle, Steve McCoy and Tayla Brade',
+    members: 'Frederik Reynaert — Chair · Amechi Okafor · Marion Delille · Michael Adams · Romain Ebanks · Rosie Beadle · Steve McCoy · Tayla Brade',
+    tone: 'paper',
+  },
 ];
-
-const coaches = [
-  'Mia', 'Nigel', 'Beth', 'Dominique', 'Jimmy', 'Lumar', 'Martin', 'Nilrem', 'Sam',
-];
-
-const mentors = ['Manar', 'Ngozi', 'Plamedie'];
-
-const tutors = ['Babatunde', 'Elizabeth'];
-
-const trustees = [
-  { name: 'Frederik Reynaert', role: 'Chair' },
-  { name: 'Michael Adams' },
-  { name: 'Tayla Brade' },
-  { name: 'Rosie Beadle' },
-  { name: 'Marion Delille' },
-  { name: 'Romain Ebanks' },
-  { name: 'Steve McKoy' },
-  { name: 'Amechi Okafor' },
-  { name: 'Alecia Blackford' },
-];
-
-const getInitials = (name: string) =>
-  name.split(' ').map((n) => n[0]).join('').slice(0, 2).toUpperCase();
 ---
 
 <BaseLayout {...seo}>
-  <SimpleHero
-    image={CoachCloseup}
-    title="Meet the Team"
-    lead="19+ staff, coaches, mentors and tutors showing up every session, every week."
-  />
+  <SimpleHero image={CoachCloseup} title="Meet the Team" lead="The staff, coaches, mentors, tutors and trustees who show up for young people every week." />
 
-  <!-- Leadership -->
-  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
-    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Leadership
-      </p>
-      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Setting the direction
-      </h2>
-      <div class="mb-[clamp(2rem,4vw,3rem)] overflow-hidden">
-        <Image
-          src={StaffImage}
-          alt="Track Academy staff at Willesden Sports Centre"
-          class="h-auto w-full object-cover"
-          loading="lazy"
-          widths={[400, 800, 1080]}
-          sizes="(max-width: 640px) 100vw, 800px"
-        />
+  {groups.map((group) => (
+    <section class:list={[
+      'py-[clamp(3rem,8vw,6rem)]',
+      group.tone === 'grey' ? 'bg-[var(--color-grey-100)]' : 'bg-[var(--color-paper)]',
+    ]}>
+      <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">{group.label}</p>
+        <h2 class="mb-[clamp(1.5rem,4vw,2.5rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">{group.heading}</h2>
+        <figure class="max-w-5xl overflow-hidden bg-white">
+          <Image src={group.image} alt={group.alt} class="h-auto w-full object-cover" loading="lazy" widths={[480, 800, 1200]} sizes="(max-width: 1024px) 100vw, 1080px" />
+          <figcaption class="border-t border-[var(--color-grey-200)] px-5 py-4 font-body text-sm leading-[1.6] text-[var(--color-grey-700)]">{group.members}</figcaption>
+        </figure>
       </div>
-      <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 lg:gap-6">
-        {leadership.map((person) => (
-          <div class="bg-white p-6">
-            <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-[var(--color-track-blue)]">
-              <span class="font-heading text-lg font-600 text-white">{getInitials(person.name)}</span>
-            </div>
-            <h3 class="font-heading text-lg font-500 text-[var(--color-grey-900)]">{person.name}</h3>
-            <p class="mt-1 font-body text-sm text-[var(--color-grey-500)]">{person.role}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+    </section>
+  ))}
 
-  <!-- Coaches — with group photo -->
-  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
-    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Coaches
-      </p>
-      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        On the track every session
-      </h2>
-      <!-- Group photo -->
-      <div class="mb-[clamp(2rem,4vw,3rem)] overflow-hidden">
-        <Image
-          src={CoachesImage}
-          alt="Track Academy coaches at Willesden Sports Centre"
-          class="h-auto w-full object-cover"
-          loading="lazy"
-          widths={[400, 800, 1080]}
-          sizes="(max-width: 640px) 100vw, 800px"
-        />
-      </div>
-      <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 lg:gap-6">
-        {coaches.map((name) => (
-          <div class="bg-white p-6">
-            <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-track-blue)]">
-              <span class="font-heading text-base font-600 text-white">{getInitials(name)}</span>
-            </div>
-            <h3 class="font-heading text-base font-500 text-[var(--color-grey-900)]">{name}</h3>
-            <p class="mt-1 font-body text-sm text-[var(--color-grey-500)]">Coach</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Mentors + Tutors — with group photos -->
-  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
-    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
-      <div class="grid grid-cols-1 gap-[clamp(2rem,5vw,4rem)] lg:grid-cols-2">
-        <!-- Mentors -->
-        <div>
-          <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-            Mentors
-          </p>
-          <h2 class="mb-[clamp(1.5rem,4vw,2.5rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-            One-to-one guidance
-          </h2>
-          <div class="mb-[clamp(1.5rem,3vw,2rem)] overflow-hidden">
-            <Image
-              src={MentorsImage}
-              alt="Track Academy mentors"
-              class="h-auto w-full object-cover"
-              loading="lazy"
-              widths={[400, 800, 1080]}
-              sizes="(max-width: 1024px) 100vw, 45vw"
-            />
-          </div>
-          <div class="grid grid-cols-2 gap-4 lg:gap-6">
-            {mentors.map((name) => (
-              <div class="bg-[var(--color-grey-100)] p-6">
-                <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-track-blue)]">
-                  <span class="font-heading text-base font-600 text-white">{getInitials(name)}</span>
-                </div>
-                <h3 class="font-heading text-base font-500 text-[var(--color-grey-900)]">{name}</h3>
-                <p class="mt-1 font-body text-sm text-[var(--color-grey-500)]">Mentor</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <!-- Tutors -->
-        <div>
-          <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-            Tutors
-          </p>
-          <h2 class="mb-[clamp(1.5rem,4vw,2.5rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-            Academic support
-          </h2>
-          <div class="mb-[clamp(1.5rem,3vw,2rem)] overflow-hidden">
-            <Image
-              src={TutorsImage}
-              alt="Track Academy tutors"
-              class="h-auto w-full object-cover"
-              loading="lazy"
-              widths={[400, 800, 1017]}
-              sizes="(max-width: 1024px) 100vw, 45vw"
-            />
-          </div>
-          <div class="grid grid-cols-2 gap-4 lg:gap-6">
-            {tutors.map((name) => (
-              <div class="bg-[var(--color-grey-100)] p-6">
-                <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-track-blue)]">
-                  <span class="font-heading text-base font-600 text-white">{getInitials(name)}</span>
-                </div>
-                <h3 class="font-heading text-base font-500 text-[var(--color-grey-900)]">{name}</h3>
-                <p class="mt-1 font-body text-sm text-[var(--color-grey-500)]">Tutor</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Trustees — with group photo -->
-  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
-    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Trustees
-      </p>
-      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Our Board
-      </h2>
-      <div class="mb-[clamp(2rem,4vw,3rem)] overflow-hidden">
-        <Image
-          src={TrusteesImage}
-          alt="Track Academy trustees"
-          class="h-auto w-full object-cover"
-          loading="lazy"
-          widths={[400, 800, 1050]}
-          sizes="(max-width: 640px) 100vw, 800px"
-        />
-      </div>
-      <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 lg:gap-6">
-        {trustees.map((person) => (
-          <div class="bg-white p-6">
-            <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-track-blue)]">
-              <span class="font-heading text-base font-600 text-white">{getInitials(person.name)}</span>
-            </div>
-            <h3 class="font-heading text-base font-500 text-[var(--color-grey-900)]">{person.name}</h3>
-            {person.role && (
-              <p class="mt-1 font-body text-sm font-600 text-[var(--color-track-orange)]">{person.role}</p>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Connie tribute -->
   <section class="tracked-surface bg-[var(--color-track-navy)] py-[clamp(3rem,8vw,6rem)]">
     <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Founder
-      </p>
-      <h2 class="mb-6 max-w-2xl font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.1] tracking-[-0.01em] text-white">
-        Connie Henry MBE
-      </h2>
-      <p class="max-w-xl font-body text-[clamp(1rem,1.5vw,1.25rem)] leading-[1.65] text-white/80">
-        Founder of Track Academy. Connie believed that athletics was more than a sport — it was a vehicle for profound social change. Her legacy lives on in every young person who steps onto the track.
-      </p>
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Founder</p>
+      <h2 class="mb-6 max-w-2xl font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.1] tracking-[-0.01em] text-white">Connie Henry MBE</h2>
+      <p class="max-w-xl font-body text-[clamp(1rem,1.5vw,1.25rem)] leading-[1.65] text-white/80">Founder of Track Academy. Connie believed that athletics was more than a sport — it was a vehicle for profound social change. Her legacy lives on in every young person who steps onto the track.</p>
     </div>
   </section>
 
-  <CTABanner
-    heading="Want to join the team?"
-    body="We're always looking for coaches, mentors and volunteers."
-    ctaPrimary={{ label: 'Get in touch', href: '/contact' }}
-    ctaSecondary={{ label: 'Support us', href: 'https://whydonate.com/fundraising/trackacademy' }}
-  />
+  <CTABanner heading="Want to join the team?" body="We're always looking for coaches, mentors and volunteers." ctaPrimary={{ label: 'Get in touch', href: '/contact' }} ctaSecondary={{ label: 'Support us', href: 'https://whydonate.com/fundraising/trackacademy' }} />
 </BaseLayout>

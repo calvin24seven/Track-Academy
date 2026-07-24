@@ -1,44 +1,31 @@
 ---
-/**
- * TrustStrip.astro — partner/funder/trust logos strip
- * Uses Google Favicon API to pull real logos for each organisation
- * Greyscale via CSS filter, colour on hover (per brand-guidelines.md)
- */
+/** TrustStrip.astro — authorised partner artwork and charity credentials. */
 interface Partner {
   name: string;
+  src: string;
 }
 
 const partners: Partner[] = [
-  { name: "St Claudine's School" },
-  { name: 'Newman Catholic College' },
-  { name: 'England Athletics' },
-  { name: 'Jack Petchey Foundation' },
-  { name: 'Sported' },
-  { name: 'London Living Wage' },
-  { name: 'Laureus' },
+  { name: 'Community Fund', src: '/images/partners/digital-white-background.png' },
+  { name: "Queen's Park Community School", src: '/images/partners/Queen_s Park Community School.jpeg' },
+  { name: "John Lyon's Charity", src: '/images/partners/John Lyon_s Charity.gif' },
 ];
 ---
 
 <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,6vw,5rem)]">
   <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
     <div class="mb-6 text-center">
-      <p class="font-body text-sm font-medium uppercase tracking-[0.05em] text-[var(--color-grey-500)]">
-        Trusted by schools, funders and partners across Brent and beyond
-      </p>
+      <p class="font-body text-sm font-medium uppercase tracking-[0.05em] text-[var(--color-grey-500)]">Trusted by schools, funders and partners across Brent and beyond</p>
     </div>
 
-    <!-- Partner logos — greyscale, colour on hover -->
-    <div class="flex flex-wrap items-center justify-center gap-3 lg:gap-4">
+    <div class="grid grid-cols-1 items-center justify-center gap-4 sm:grid-cols-3 lg:gap-6">
       {partners.map((partner) => (
-        <div class="border border-[var(--color-grey-300)] bg-white px-4 py-3 text-center transition-colors duration-200 hover:border-[var(--color-track-orange)]">
-          <span class="font-body text-xs font-semibold uppercase tracking-[0.04em] text-[var(--color-grey-700)]">
-            {partner.name}
-          </span>
+        <div class="flex h-28 items-center justify-center border border-[var(--color-grey-300)] bg-white p-5 transition-colors duration-200 hover:border-[var(--color-track-orange)]">
+          <img src={partner.src} alt={partner.name} class="max-h-16 max-w-[11rem] object-contain" loading="lazy" />
         </div>
       ))}
     </div>
 
-    <!-- Charity registration — trust signal -->
     <div class="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-[var(--color-grey-500)]">
       <span>Registered Charity 1164222</span>
       <span class="h-1 w-1 rounded-full bg-[var(--color-grey-300)]"></span>
