@@ -3,24 +3,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SimpleHero from '../components/sections/SimpleHero.astro';
 import NumeralsEscaping from '../components/sections/NumeralsEscaping.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
+import Button from '../components/ui/Button.astro';
 import GroupPhoto from '../assets/stories/group-photo.jpg';
+import { calendarLastReviewed, calendarLinks, holidayProgrammes } from '../data/programme-calendar';
 
 const seo = {
   title: 'Holiday Programmes — Track Academy',
-  description:
-    'Keeping young people active, safe and learning when school\'s out. Workshops, trips and activity days across the school holidays.',
+  description: 'Keeping young people active, safe and learning when school is out. Workshops, trips and activity days across the school holidays.',
 };
 
 const activities = [
-  'Escape room challenges',
-  'Go Ape high ropes',
-  'Laser tag',
-  'Dodgeball tournaments',
-  'Boxing sessions',
-  'Film screenings',
-  'Card games and board games',
-  'ELEVATE CV writing workshop',
-  'Thorpe Park trips',
+  'Escape room challenges', 'Go Ape high ropes', 'Laser tag', 'Dodgeball tournaments',
+  'Boxing sessions', 'Film screenings', 'Card games and board games',
+  'ELEVATE CV writing workshop', 'Thorpe Park trips',
 ];
 
 const stats = [
@@ -30,56 +25,51 @@ const stats = [
 ---
 
 <BaseLayout {...seo}>
-  <SimpleHero
-    image={GroupPhoto}
-    title="Holiday Programmes"
-    lead="Keeping young people active, safe and learning when school's out."
-  />
+  <SimpleHero image={GroupPhoto} title="Holiday Programmes" lead="Keeping young people active, safe and learning when school is out." />
 
   <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
     <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        What We've Done
-      </p>
-      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Holidays aren't a gap — they're a launchpad.
-      </h2>
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">What we have done</p>
+      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">Holidays are not a gap — they are a launchpad.</h2>
       <ul class="grid grid-cols-1 gap-y-3 sm:grid-cols-2 sm:gap-x-8 lg:grid-cols-3 lg:gap-x-12">
-        {activities.map((activity) => (
-          <li class="flex items-baseline gap-3 border-b border-[var(--color-grey-300)] py-3 font-body text-base text-[var(--color-grey-900)]">
-            <span class="font-heading text-sm font-600 text-[var(--color-track-orange)]">—</span>
-            {activity}
-          </li>
-        ))}
+        {activities.map((activity) => (<li class="flex items-baseline gap-3 border-b border-[var(--color-grey-300)] py-3 font-body text-base text-[var(--color-grey-900)]"><span class="font-heading text-sm font-600 text-[var(--color-track-orange)]">—</span>{activity}</li>))}
       </ul>
     </div>
   </section>
 
-  <NumeralsEscaping
-    stats={stats}
-    caption="Across summer, Easter, Christmas and half terms."
-  />
+  <NumeralsEscaping stats={stats} caption="Across summer, Easter, Christmas and half terms." />
 
-  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
-    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Upcoming
-      </p>
-      <h2 class="mb-6 font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        What's next
-      </h2>
-      <div class="border-2 border-dashed border-[var(--color-grey-300)] py-[clamp(3rem,8vw,5rem)] text-center">
-        <p class="mx-auto max-w-md font-body text-base leading-[1.6] text-[var(--color-grey-500)]">
-          No holiday programmes scheduled right now. Check back here when the next school break approaches — or follow us for announcements.
-        </p>
+  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]" aria-labelledby="holiday-calendar-heading">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <div class="mb-9 flex flex-col gap-4 border-b border-[var(--color-grey-300)] pb-7 sm:flex-row sm:items-end sm:justify-between">
+        <div><p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Upcoming</p><h2 id="holiday-calendar-heading" class="font-heading text-[clamp(1.75rem,4vw,3rem)] font-500 leading-[1.03] tracking-[-0.02em] text-[var(--color-track-blue)]">Holiday programme dates</h2></div>
+        <p class="font-body text-sm text-[var(--color-grey-500)]">Last reviewed: {new Date(`${calendarLastReviewed}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+      </div>
+      <div id="holiday-list" class="grid gap-5 md:grid-cols-2">
+        {holidayProgrammes.map((programme) => (
+          <article class="border-t-4 border-[var(--color-track-orange)] bg-white p-6" data-holiday-end={programme.endDate}>
+            <p class="font-body text-sm font-semibold uppercase tracking-wide text-[var(--color-track-orange)]">{new Date(`${programme.startDate}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long' })}–{new Date(`${programme.endDate}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+            <h3 class="mt-3 font-heading text-2xl font-500 leading-[1.05] text-[var(--color-track-blue)]">{programme.title}</h3>
+            <p class="mt-3 font-body leading-[1.6] text-[var(--color-grey-700)]">{programme.venue} · {programme.ages}</p>
+            <div class="mt-6"><Button href={programme.bookingUrl} label={programme.bookingLabel} variant="primary" external /></div>
+          </article>
+        ))}
+      </div>
+      <div id="holiday-empty" class="border-2 border-dashed border-[var(--color-grey-300)] px-6 py-[clamp(3rem,8vw,5rem)] text-center">
+        <p class="mx-auto max-w-xl font-body text-base leading-[1.6] text-[var(--color-grey-700)]">No holiday bookings are currently open. New programme dates and registration details are published here once they are confirmed. Join Spond for updates or contact us if you need support planning ahead.</p>
+        <div class="mt-6 flex flex-wrap justify-center gap-3"><Button href={calendarLinks.spond} label="Join Spond for updates" variant="primary" external /><Button href="/contact" label="Contact Track Academy" variant="secondary" /></div>
       </div>
     </div>
   </section>
 
-  <CTABanner
-    heading="Want to sponsor a holiday programme?"
-    body="Your support keeps workshops and trips free for young people."
-    ctaPrimary={{ label: 'Support us', href: '/support' }}
-    ctaSecondary={{ label: 'Contact us', href: '/contact' }}
-  />
+  <CTABanner heading="Want to sponsor a holiday programme?" body="Your support keeps workshops and trips free for young people." ctaPrimary={{ label: 'Support us', href: '/support' }} ctaSecondary={{ label: 'Contact us', href: '/contact' }} />
 </BaseLayout>
+
+<script>
+  const holidayRows = [...document.querySelectorAll<HTMLElement>('[data-holiday-end]')];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  holidayRows.filter((row) => new Date(`${row.dataset.holidayEnd}T23:59:59`) < today).forEach((row) => row.remove());
+  const empty = document.querySelector<HTMLElement>('#holiday-empty');
+  if (holidayRows.some((row) => row.isConnected) && empty) empty.hidden = true;
+</script>

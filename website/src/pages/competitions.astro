@@ -3,115 +3,135 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SimpleHero from '../components/sections/SimpleHero.astro';
 import StepFlow from '../components/sections/StepFlow.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
+import Button from '../components/ui/Button.astro';
 import ReadyToRace from '../assets/programme/ready-to-race.jpg';
+import { calendarLastReviewed, calendarLinks, clubFixtures } from '../data/programme-calendar';
 
 const seo = {
   title: 'Competitions & Fixtures — Track Academy',
-  description:
-    'How to get a Upland Registration Number (URN), compete for Track Academy and prepare for competition day.',
+  description: 'England Athletics URN guidance, Track Academy club fixtures and links to current competition information.',
 };
 
 const urnSteps = [
-  { title: 'Complete the Competing Membership Form', description: 'Fill in the England Athletics Competing Membership Form via Spond. We\'ll guide you through it.' },
-  { title: 'Join Spond & make payment', description: 'Join our Spond group and complete the registration payment. This covers your England Athletics affiliation.' },
-  { title: 'We register you and confirm your URN', description: 'We submit your registration to England Athletics and confirm your Upland Registration Number — your ticket to compete.' },
+  { title: 'Request the competing-membership form', description: 'Complete the Track Academy form and tell us whether you already have an England Athletics URN.' },
+  { title: 'Join Spond and make payment', description: 'Join the competing group for membership, payment and club updates.' },
+  { title: 'We confirm your URN', description: 'Track Academy completes the registration process and confirms your Unique Registration Number.' },
 ];
 
 const whoNeedsUrn = [
-  { summary: 'Athletes competing in open competitions', detail: 'If you want to enter open athletics meetings or league fixtures, you need a URN to register under Track Academy.' },
-  { summary: 'Athletes new to competition', detail: 'If this is your first season competing, we\'ll help you get registered from scratch — no prior membership needed.' },
-  { summary: 'Athletes transferring from another club', detail: 'If you\'re registered with another club, talk to us first — transfers can take time and follow England Athletics rules.' },
-  { summary: 'Athletes just training (not competing)', detail: 'You don\'t need a URN to train with us. URNs are only required for competing in open, county or national events.' },
+  { summary: 'Athletes competing for Track Academy', detail: 'You need an active England Athletics registration and URN to compete under Track Academy at licensed events.' },
+  { summary: 'Athletes entering open meetings, leagues, relays or championships', detail: 'Your organiser may require a URN when you enter. Ask a coach if you are unsure whether the event is right for you.' },
+  { summary: 'Athletes transferring from another club', detail: 'Tell us about an existing URN first. Transfers and renewals have their own England Athletics process.' },
+  { summary: 'Athletes training only', detail: 'You do not need a URN simply to train with us. It is for competition registration.' },
 ];
 
 const checklist = [
-  'Pack your Track Academy vest and shorts',
-  'Spike bag — with the right length spikes for the surface',
-  'Water bottle and light snack',
-  'Photo ID your first time competing',
-  'Your URN (we\'ll have it on file too)',
-  'Arrive 90 minutes before your event',
-  'Confirm your event time and warm-up slot on arrival',
+  'Track Academy vest or club kit, plus layers for before and after racing',
+  'Spikes or trainers suitable for the venue',
+  'Water and light snacks',
+  'Any required medication, such as an inhaler',
+  'Enough time for warm-up, registration and coach instructions',
 ];
 ---
 
 <BaseLayout {...seo}>
-  <SimpleHero
-    image={ReadyToRace}
-    title="Competitions & Fixtures"
-    lead="Everything you need to compete under the Track Academy name."
-  />
+  <SimpleHero image={ReadyToRace} title="Competitions & Fixtures" lead="Everything you need to compete under the Track Academy name." />
 
-  <StepFlow
-    label="The URN Process"
-    heading="Get your Upland Registration Number"
-    steps={urnSteps}
-  />
+  <section class="bg-[var(--color-track-blue)] py-[clamp(2.5rem,6vw,4.5rem)]">
+    <div class="mx-auto grid max-w-[var(--container-content)] gap-5 px-6 lg:grid-cols-[1.15fr_1fr] lg:px-8">
+      <div>
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Start here</p>
+        <h2 class="max-w-xl font-heading text-[clamp(1.8rem,4vw,3rem)] font-500 leading-[1.02] tracking-[-0.02em] text-white">Find the right route for your competition.</h2>
+      </div>
+      <div class="flex flex-wrap items-end gap-3 lg:justify-end">
+        <Button href={calendarLinks.competingMembership} label="Competing-club form" variant="primary" />
+        <Button href={calendarLinks.spond} label="Join Spond" variant="inverse" external />
+        <Button href={calendarLinks.powerOf10} label="Power of 10 fixtures" variant="inverse" external />
+      </div>
+    </div>
+  </section>
+
+  <StepFlow label="The URN process" heading="Get your Unique Registration Number" steps={urnSteps} />
 
   <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
     <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Who Needs a URN?
-      </p>
-      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        A quick guide.
-      </h2>
-
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Who needs a URN?</p>
+      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">A quick guide.</h2>
       <div class="space-y-3">
         {whoNeedsUrn.map((item) => (
           <details class="group bg-white p-0">
             <summary class="flex cursor-pointer items-center justify-between py-5 pl-6 pr-6 font-heading text-base font-500 text-[var(--color-grey-900)] marker:content-none">
-              <span>{item.summary}</span>
-              <span class="ml-4 font-body text-xl font-400 text-[var(--color-track-orange)] transition-transform duration-200 ease-[var(--ease-sprint)] group-open:rotate-45">+</span>
+              <span>{item.summary}</span><span class="ml-4 font-body text-xl font-400 text-[var(--color-track-orange)] transition-transform duration-200 ease-[var(--ease-sprint)] group-open:rotate-45">+</span>
             </summary>
-            <div class="px-6 pb-6">
-              <p class="font-body text-base leading-[1.6] text-[var(--color-grey-500)]">{item.detail}</p>
-            </div>
+            <div class="px-6 pb-6"><p class="font-body text-base leading-[1.6] text-[var(--color-grey-500)]">{item.detail}</p></div>
           </details>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
-    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Fixtures
-      </p>
-      <h2 class="mb-6 font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Upcoming fixtures
-      </h2>
-      <div class="border-2 border-dashed border-[var(--color-grey-300)] px-6 py-[clamp(3rem,8vw,5rem)] text-center">
-        <p class="mx-auto max-w-md font-body text-base leading-[1.6] text-[var(--color-grey-500)]">
-          No fixtures scheduled right now. Check back soon.
-        </p>
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]" aria-labelledby="fixture-heading">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <div class="mb-9 flex flex-col gap-5 border-b border-[var(--color-grey-300)] pb-7 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Track Academy calendar</p>
+          <h2 id="fixture-heading" class="font-heading text-[clamp(1.75rem,4vw,3rem)] font-500 leading-[1.03] tracking-[-0.02em] text-[var(--color-track-blue)]">Club fixtures and selections</h2>
+        </div>
+        <p class="font-body text-sm text-[var(--color-grey-500)]">Last reviewed: {new Date(`${calendarLastReviewed}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
       </div>
+
+      <div id="fixture-list" class="space-y-4">
+        {clubFixtures.map((fixture) => (
+          <article class="grid gap-4 border-l-4 border-[var(--color-track-orange)] bg-[var(--color-grey-100)] p-5 md:grid-cols-[10rem_1fr_auto] md:items-start" data-fixture-date={fixture.date}>
+            <p class="font-heading text-xl font-500 leading-[1.05] text-[var(--color-track-blue)]">{new Date(`${fixture.date}T12:00:00`).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+            <div>
+              <h3 class="font-heading text-xl font-500 leading-[1.05] text-[var(--color-track-blue)]">{fixture.title}</h3>
+              <p class="mt-1 font-body font-semibold text-[var(--color-grey-900)]">{fixture.competition}</p>
+              <p class="mt-2 font-body text-sm leading-[1.55] text-[var(--color-grey-700)]">{fixture.venue} · {fixture.ages}</p>
+              <p class="mt-3 font-body text-sm leading-[1.55] text-[var(--color-grey-700)]">{fixture.entry}</p>
+            </div>
+            <span class="w-fit bg-[var(--color-track-blue)] px-3 py-1.5 font-body text-xs font-semibold uppercase tracking-wide text-white">Selected squad</span>
+          </article>
+        ))}
+      </div>
+
+      <div id="fixture-empty" hidden class="border-2 border-dashed border-[var(--color-grey-300)] px-6 py-10 text-center">
+        <p class="mx-auto max-w-xl font-body text-base leading-[1.6] text-[var(--color-grey-700)]">No Track Academy club fixtures are currently published here. Join Spond for selected-squad updates, or use Power of 10 to find current open meetings.</p>
+      </div>
+      <div class="mt-8 flex flex-wrap gap-3"><Button href={calendarLinks.spond} label="Track Academy updates on Spond" variant="primary" external /><Button href={calendarLinks.powerOf10} label="Find open meetings" variant="secondary" external /></div>
     </div>
   </section>
 
   <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
-    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Competition Day Checklist
-      </p>
-      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Don't leave anything to chance.
-      </h2>
-      <ul class="space-y-3">
-        {checklist.map((item) => (
-          <li class="flex items-start gap-3 border-b border-[var(--color-grey-300)] py-3 font-body text-base leading-[1.5] text-[var(--color-grey-900)]">
-            <span class="mt-2 h-4 w-4 flex-shrink-0 border-2 border-[var(--color-track-blue)]"></span>
-            {item}
-          </li>
-        ))}
-      </ul>
+    <div class="mx-auto grid max-w-[var(--container-content)] gap-8 px-6 lg:grid-cols-2 lg:px-8">
+      <div>
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">How entries work</p>
+        <h2 class="font-heading text-[clamp(1.6rem,4vw,2.5rem)] font-500 leading-[1.06] tracking-[-0.015em] text-[var(--color-track-blue)]">Selected squad or self-entry?</h2>
+      </div>
+      <div class="grid gap-4 sm:grid-cols-2">
+        <article class="bg-white p-6"><h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">Club-selected fixtures</h3><p class="mt-3 font-body leading-[1.6] text-[var(--color-grey-700)]">Track Academy publishes the fixture, athletes register interest in Spond, and coaches confirm selections, events, call times and kit information.</p></article>
+        <article class="bg-white p-6"><h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">Open meetings</h3><p class="mt-3 font-body leading-[1.6] text-[var(--color-grey-700)]">Athletes enter directly through the organiser. Use Track Academy as your club and ask a coach for help choosing the right event.</p></article>
+      </div>
     </div>
   </section>
 
-  <CTABanner
-    heading="Ready to compete?"
-    body="Talk to your coach — we'll get your URN sorted and find your first event."
-    ctaPrimary={{ label: 'Register your child', href: '/register' }}
-    ctaSecondary={{ label: 'Contact us', href: '/contact' }}
-  />
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Competition day checklist</p>
+      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">Come prepared.</h2>
+      <ul class="space-y-3">{checklist.map((item) => (<li class="flex items-start gap-3 border-b border-[var(--color-grey-300)] py-3 font-body text-base leading-[1.5] text-[var(--color-grey-900)]"><span class="mt-2 h-4 w-4 flex-shrink-0 border-2 border-[var(--color-track-blue)]"></span>{item}</li>))}</ul>
+    </div>
+  </section>
+
+  <CTABanner heading="Need help choosing a competition?" body="Talk to a coach before you enter. We will help you choose an event, understand the route and prepare for the day." ctaPrimary={{ label: 'Join Spond', href: calendarLinks.spond }} ctaSecondary={{ label: 'Contact us', href: '/contact' }} />
 </BaseLayout>
+
+<script>
+  const rows = [...document.querySelectorAll<HTMLElement>('[data-fixture-date]')];
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const currentRows = rows.filter((row) => new Date(`${row.dataset.fixtureDate}T23:59:59`) >= today);
+  rows.filter((row) => !currentRows.includes(row)).forEach((row) => row.remove());
+  const empty = document.querySelector<HTMLElement>('#fixture-empty');
+  if (!currentRows.length && empty) empty.hidden = false;
+</script>
