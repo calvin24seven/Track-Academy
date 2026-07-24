@@ -8,34 +8,32 @@ import NumeralsEscaping from '../components/sections/NumeralsEscaping.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
 import Button from '../components/ui/Button.astro';
 import CoachBack from '../assets/stories/coach-back.jpg';
-import GroupPhoto from '../assets/stories/group-photo.jpg';
 import CoachCloseup from '../assets/stories/coach-closeup.jpg';
 
 const seo = {
   title: 'Bright Futures Through Sport — Track Academy for Schools',
-  description:
-    'A school partnership programme blending athletics, education and mentoring. Measurable impact on attendance, behaviour and aspiration.',
+  description: 'A school partnership programme blending athletics, education and mentoring. Measurable impact on attendance, behaviour and aspiration.',
 };
 
 const pillars = [
-  { label: '01', heading: 'Builds confidence that transfers to the classroom', description: 'Young people who believe in themselves on the track start to believe in themselves in school.' },
-  { label: '02', heading: 'Reaches pupils who mainstream sport doesn\'t', description: 'We specialise in the young people who get overlooked — the ones who need a different kind of coach.' },
-  { label: '03', heading: 'Measurable, reportable impact', description: 'Every partnership comes with data on attendance, behaviour, skills and wellbeing — ready for your SLT and governors.' },
+  { label: '01', heading: 'Character and leadership through sport', description: 'Future Leaders Through Sport sessions build teamwork, confidence and responsibility alongside physical activity.' },
+  { label: '02', heading: 'Inclusion and access', description: 'We help schools remove cost as a barrier and create a positive route into sport for pupils who can be overlooked.' },
+  { label: '03', heading: 'Measurable, reportable impact', description: 'Attendance, confidence, fitness, behaviour and engagement can be tracked for SLT, governors and school-improvement conversations.' },
 ];
 
 const deliver = [
-  'On-site athletics coaching at your school or our track',
-  'Small-group mentoring for targeted pupils',
-  'Study support, tuition and life-skills sessions',
-  'Holiday programmes and enrichment days',
-  'CV writing, employability and pathway support',
+  'Character and leadership blocks with mentoring check-ins',
+  'After-school or lunchtime athletics clubs',
+  'Athlete Passports tracking attendance, confidence, fitness and behaviour',
+  'Staff CPD and teacher shadowing where helpful',
+  'Competition, showcase and Talent ID opportunities',
   'Bespoke provision aligned to your school priorities',
 ];
 
 const steps = [
-  { title: 'Identify', description: 'Together we identify the pupils who\'ll benefit most and the outcomes your school is targeting.' },
-  { title: 'We deliver', description: 'Our coaches, mentors and tutors run sessions — on our track, at your school, or a mix — across the term.' },
-  { title: 'Review', description: 'We report back with attendance, engagement and impact data — and plan the next term together.' },
+  { title: 'Identify', description: 'Together we identify the pupils who will benefit most and the outcomes your school is targeting.' },
+  { title: 'We deliver', description: 'Our coaches, mentors and tutors run sessions at your school, at the track, or through a mix across the term.' },
+  { title: 'Review', description: 'We report attendance, engagement and agreed impact measures, then plan the next block together.' },
 ];
 
 const impactStats = [
@@ -45,149 +43,36 @@ const impactStats = [
   { number: 89, suffix: '%', label: 'feel more connected' },
 ];
 
-const testimonials = [
-  {
-    quote: 'We are grateful for the positive impact Track Academy has had on our students. The change is visible in their attendance and their confidence.',
-    attribution: 'Kayla Anderson',
-    context: 'St Claudine\'s School',
-    image: CoachCloseup,
-  },
-  {
-    quote: 'Our pupils who were disengaged from school are now turning up, taking part, and setting goals. It\'s exactly the partnership we hoped for.',
-    attribution: 'Mike Finnie',
-    context: 'Partner school',
-    image: GroupPhoto,
-  },
+const testimonials = [{
+  quote: 'We would like to express our sincere appreciation for all the work and support that Track Academy has provided. It has been a pleasure being part of a programme so dedicated to athletic development and excellence.',
+  attribution: 'Kayla Anderson',
+  context: 'Head of PE, St Claudine’s School for Girls',
+  image: CoachCloseup,
+}];
+
+const tiers = [
+  { name: 'Bronze', label: 'Community Partner', price: '£1,950', summary: 'Inclusion and community connection.', features: ['One after-school club each week', 'Free places prioritised for Pupil Premium pupils', 'Invitation to local meets and community events', 'Basic impact summary each term'] },
+  { name: 'Silver', label: 'Development Partner', price: '£3,950', summary: 'Leadership, wellbeing and data.', featured: true, features: ['Everything in Bronze', 'Character and Leadership block for KS2–KS4', 'Athlete Passports', 'Staff CPD or teacher shadowing each term', 'Termly impact report for SLT and Ofsted'] },
+  { name: 'Gold', label: 'Legacy Partner', price: '£6,950', summary: 'Whole-school impact and pathways.', features: ['Everything in Silver', 'Talent ID day and squad progression pathway', 'Hosted competition or showcase', 'Priority bursary access for disadvantaged pupils', 'Partner-school recognition'] },
 ];
 ---
 
 <BaseLayout {...seo}>
-  <SimpleHero
-    image={CoachBack}
-    title="Bright Futures Through Sport"
-    lead="A school partnership programme that changes attendance, behaviour and aspiration — measured and reportable."
-  />
+  <SimpleHero image={CoachBack} title="Bright Futures Through Sport" lead="A school partnership programme that changes attendance, behaviour and aspiration — measured and reportable." />
 
-  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
-    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Why Schools Partner
-      </p>
-      <h2 class="mb-[clamp(2rem,5vw,3rem)] max-w-2xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Three reasons your school should work with us.
-      </h2>
+  <section class="bg-[var(--color-track-blue)] py-7"><div class="mx-auto flex max-w-[var(--container-content)] flex-col gap-5 px-6 sm:flex-row sm:items-center sm:justify-between lg:px-8"><p class="max-w-2xl font-body text-lg leading-[1.5] text-white/90">A practical partnership for primary, secondary and further-education settings.</p><Button href="mailto:admin@trackacademy.co.uk?subject=School%20partnership%20enquiry" label="Book a partnership call" variant="primary" /></div></section>
 
-      <div class="grid grid-cols-1 gap-8 lg:grid-cols-[7fr_5fr] lg:gap-12">
-        <div class="space-y-[clamp(1.5rem,4vw,2.5rem)]">
-          <div class="flex items-start gap-6 border-b border-[var(--color-grey-300)] pb-[clamp(1.5rem,3vw,2rem)]">
-            <span class="font-heading text-[clamp(2rem,5vw,3.5rem)] font-300 leading-none text-[var(--color-track-orange)] tabular-nums">{pillars[0].label}</span>
-            <div>
-              <h3 class="font-heading text-lg font-500 text-[var(--color-grey-900)]">{pillars[0].heading}</h3>
-              <p class="mt-2 max-w-md font-body text-sm leading-[1.6] text-[var(--color-grey-500)]">{pillars[0].description}</p>
-            </div>
-          </div>
-          <div class="flex items-start gap-6 border-b border-[var(--color-grey-300)] pb-[clamp(1.5rem,3vw,2rem)]">
-            <span class="font-heading text-[clamp(2rem,5vw,3.5rem)] font-300 leading-none text-[var(--color-track-orange)] tabular-nums">{pillars[1].label}</span>
-            <div>
-              <h3 class="font-heading text-lg font-500 text-[var(--color-grey-900)]">{pillars[1].heading}</h3>
-              <p class="mt-2 max-w-md font-body text-sm leading-[1.6] text-[var(--color-grey-500)]">{pillars[1].description}</p>
-            </div>
-          </div>
-          <div class="flex items-start gap-6">
-            <span class="font-heading text-[clamp(2rem,5vw,3.5rem)] font-300 leading-none text-[var(--color-track-orange)] tabular-nums">{pillars[2].label}</span>
-            <div>
-              <h3 class="font-heading text-lg font-500 text-[var(--color-grey-900)]">{pillars[2].heading}</h3>
-              <p class="mt-2 max-w-md font-body text-sm leading-[1.6] text-[var(--color-grey-500)]">{pillars[2].description}</p>
-            </div>
-          </div>
-        </div>
-        <div class="bg-[var(--color-grey-100)] p-8">
-          <h3 class="font-heading text-lg font-500 text-[var(--color-track-blue)]">What we deliver</h3>
-          <ul class="mt-6 space-y-3">
-            {deliver.map((item) => (
-              <li class="flex items-start gap-3 font-body text-base leading-[1.5] text-[var(--color-grey-900)]">
-                <span class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[var(--color-track-orange)]"></span>
-                {item}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]"><div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8"><p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Why schools partner</p><h2 class="mb-[clamp(2rem,5vw,3rem)] max-w-2xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">A development partner, not just another activity provider.</h2><div class="grid grid-cols-1 gap-8 lg:grid-cols-[7fr_5fr] lg:gap-12"><div class="space-y-[clamp(1.5rem,4vw,2.5rem)]">{pillars.map((pillar) => (<div class="flex items-start gap-6 border-b border-[var(--color-grey-300)] pb-[clamp(1.5rem,3vw,2rem)]"><span class="font-heading text-[clamp(2rem,5vw,3.5rem)] font-300 leading-none text-[var(--color-track-orange)] tabular-nums">{pillar.label}</span><div><h3 class="font-heading text-lg font-500 text-[var(--color-grey-900)]">{pillar.heading}</h3><p class="mt-2 max-w-md font-body text-sm leading-[1.6] text-[var(--color-grey-500)]">{pillar.description}</p></div></div>))}</div><div class="bg-[var(--color-grey-100)] p-8"><h3 class="font-heading text-lg font-500 text-[var(--color-track-blue)]">What we deliver</h3><ul class="mt-6 space-y-3">{deliver.map((item) => (<li class="flex items-start gap-3 font-body text-base leading-[1.5] text-[var(--color-grey-900)]"><span class="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[var(--color-track-orange)]"></span>{item}</li>))}</ul></div></div></div></section>
 
-  <SplitFeature
-    image={CoachBack}
-    imageSide="right"
-    label="Funding Model"
-    heading="We help you find the funding."
-    body="School partnerships are typically funded through Pupil Premium, PE & Sport Premium, or alternative provision budgets. We'll work with you to build a proposal that fits your budget and your measurable outcomes — and we'll help you make the case to your SLT or governors."
-    cta={{ label: 'Start the conversation', href: '/contact' }}
-    background="grey"
-  />
+  <SplitFeature image={CoachBack} imageSide="right" label="Funding model" heading="Funding that works for your school." body="Partnerships can be funded through Pupil Premium, PE and Sport Premium, or alternative-provision budgets. We help schools define the outcomes, delivery model and evidence their SLT or governors need." cta={{ label: 'Start the conversation', href: 'mailto:admin@trackacademy.co.uk?subject=School%20partnership%20enquiry' }} background="grey" />
 
-  <StepFlow
-    label="How It Works"
-    heading="A partnership in three steps"
-    steps={steps}
-  />
+  <StepFlow label="How it works" heading="A partnership in three steps" steps={steps} />
+  <AthleteStack title="What schools say" athletes={testimonials} />
+  <NumeralsEscaping stats={impactStats} caption="Reported by young people on our school programmes. Data you can take to your governors." />
 
-  <AthleteStack
-    title="What schools say"
-    athletes={testimonials}
-  />
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]"><div class="mx-auto grid max-w-[var(--container-content)] gap-8 px-6 lg:grid-cols-[1fr_1.15fr] lg:px-8"><div><p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Built for school leaders</p><h2 class="font-heading text-[clamp(1.6rem,4vw,2.5rem)] font-500 leading-[1.06] tracking-[-0.015em] text-[var(--color-track-blue)]">Clear delivery. Clear evidence. Low admin.</h2></div><ul class="space-y-3">{['Clear outcomes across confidence, engagement, attendance and fitness.', 'Termly impact reporting ready for SLT, governors and Personal Development evidence.', 'Track Academy schedules, delivers and collects the agreed data; schools approve the pupil group and priorities.', 'A named partnership conversation before delivery starts, so the offer fits the school rather than a generic package.'].map((item) => (<li class="flex gap-3 border-b border-[var(--color-grey-300)] py-3 font-body leading-[1.55] text-[var(--color-grey-800)]"><span class="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-[var(--color-track-orange)]"></span>{item}</li>))}</ul></div></section>
 
-  <NumeralsEscaping
-    stats={impactStats}
-    caption="Reported by young people on our school programmes. Data you can take to your governors."
-  />
+  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]"><div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8"><p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Pricing</p><h2 class="mb-3 font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">Partnership tiers</h2><p class="mb-8 font-body text-sm text-[var(--color-grey-500)]">Prices are per school, per year. Multi-school MAT or cluster packages are available on request.</p><div class="grid grid-cols-1 gap-5 lg:grid-cols-3 lg:items-stretch lg:gap-6">{tiers.map((tier) => (<article class:list={['relative bg-white p-7 lg:p-8', tier.featured && 'border-2 border-[var(--color-track-orange)] lg:-translate-y-2']}>{tier.featured && <div class="absolute -top-3 left-6 bg-[var(--color-track-orange)] px-3 py-1 font-body text-xs font-600 uppercase tracking-wide text-white">Most popular</div>}<p class="font-body text-xs font-semibold uppercase tracking-wide text-[var(--color-track-orange)]">{tier.label}</p><h3 class="mt-2 font-heading text-2xl font-500 text-[var(--color-grey-900)]">{tier.name}</h3><p class="mt-4 flex items-baseline gap-1"><span class="font-heading text-[clamp(2.5rem,6vw,4rem)] font-700 leading-none text-[var(--color-track-blue)] tabular-nums">{tier.price}</span><span class="font-body text-sm text-[var(--color-grey-500)]">/ year</span></p><p class="mt-5 font-body leading-[1.55] text-[var(--color-grey-700)]">{tier.summary}</p><ul class="mt-6 space-y-3">{tier.features.map((feature) => (<li class="flex gap-3 font-body text-sm leading-[1.5] text-[var(--color-grey-800)]"><span class="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-[var(--color-track-orange)]"></span>{feature}</li>))}</ul><div class="mt-7"><Button href={`mailto:admin@trackacademy.co.uk?subject=${encodeURIComponent(`${tier.name} school partnership enquiry`)}`} label={`Ask about ${tier.name}`} variant={tier.featured ? 'primary' : 'secondary'} /></div></article>))}</div></div></section>
 
-  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
-    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Pricing
-      </p>
-      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Partnership tiers
-      </h2>
-
-      <div class="grid grid-cols-1 gap-5 lg:grid-cols-[5fr_4fr_3fr] lg:items-stretch lg:gap-6">
-        <div class="bg-white p-8">
-          <h3 class="font-heading text-xl font-500 text-[var(--color-grey-900)]">Bronze</h3>
-          <p class="mt-4 flex items-baseline gap-1">
-            <span class="font-heading text-[clamp(2.5rem,6vw,4rem)] font-700 leading-none text-[var(--color-track-blue)] tabular-nums">£1,950</span>
-            <span class="font-body text-sm text-[var(--color-grey-500)]">/ year</span>
-          </p>
-          <p class="mt-6 font-body text-base leading-[1.6] text-[var(--color-grey-700)]">A termly programme of sessions for a targeted group of up to 15 pupils.</p>
-        </div>
-
-        <div class="relative border-2 border-[var(--color-track-orange)] bg-white p-8 lg:-translate-y-2 lg:scale-[1.02]">
-          <div class="absolute -top-3 left-6 bg-[var(--color-track-orange)] px-3 py-1 font-body text-xs font-600 uppercase tracking-wide text-white">
-            Most popular
-          </div>
-          <h3 class="font-heading text-xl font-500 text-[var(--color-grey-900)]">Silver</h3>
-          <p class="mt-4 flex items-baseline gap-1">
-            <span class="font-heading text-[clamp(2.5rem,6vw,4rem)] font-700 leading-none text-[var(--color-track-blue)] tabular-nums">£3,950</span>
-            <span class="font-body text-sm text-[var(--color-grey-500)]">/ year</span>
-          </p>
-          <p class="mt-6 font-body text-base leading-[1.6] text-[var(--color-grey-700)]">Year-round coaching, mentoring and study support for up to 25 pupils.</p>
-        </div>
-
-        <div class="bg-white p-8">
-          <h3 class="font-heading text-xl font-500 text-[var(--color-grey-900)]">Gold</h3>
-          <p class="mt-4 flex items-baseline gap-1">
-            <span class="font-heading text-[clamp(2.5rem,6vw,4rem)] font-700 leading-none text-[var(--color-track-blue)] tabular-nums">£6,950</span>
-            <span class="font-body text-sm text-[var(--color-grey-500)]">/ year</span>
-          </p>
-          <p class="mt-6 font-body text-base leading-[1.6] text-[var(--color-grey-700)]">Full wraparound — athletics, mentoring, tuition, holiday programmes and bespoke provision.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <CTABanner
-    heading="Let's build a partnership."
-    body="Tell us your pupils and your outcomes — we'll build the programme."
-    ctaPrimary={{ label: 'Contact us', href: '/contact' }}
-  />
+  <CTABanner heading="Let’s build a partnership." body="Tell us about your pupils and outcomes; we will shape the right programme together." ctaPrimary={{ label: 'Book a partnership call', href: 'mailto:admin@trackacademy.co.uk?subject=School%20partnership%20enquiry' }} ctaSecondary={{ label: 'See safeguarding', href: '/safeguarding' }} />
 </BaseLayout>

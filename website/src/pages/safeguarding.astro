@@ -7,121 +7,90 @@ import GroupPhoto from '../assets/stories/group-photo.jpg';
 
 const seo = {
   title: 'Safeguarding — Track Academy',
-  description:
-    'Our safeguarding commitment. Every child and young person at Track Academy deserves to feel safe, heard and supported.',
+  description: 'How Track Academy keeps children and young people safe, and how to raise a concern.',
 };
 
 const dsls = [
-  { name: 'Yvonne Simpson', role: 'Operations Manager / DSL', email: 'yvonne@trackacademy.co.uk' },
-  { name: 'Erick Sanchez', role: 'Education & Mentoring Co-ordinator / DSL', email: 'erick@trackacademy.co.uk' },
-  { name: 'Patrik Ewe', role: 'CEO', email: 'patrik@trackacademy.co.uk' },
+  { name: 'Yvonne Simpson', role: 'Operations and Youth Manager / Designated Safeguarding Lead', email: 'yvonne@trackacademy.co.uk' },
+  { name: 'Erick Sanchez', role: 'Education and Mentoring Co-ordinator / Designated Safeguarding Lead', email: 'erick@trackacademy.co.uk' },
+  { name: 'Patrik Ewe', role: 'CEO / senior escalation contact', email: 'patrik@trackacademy.co.uk' },
 ];
 
 const steps = [
-  { title: 'Notice', description: 'If something feels wrong or a young person tells you something concerning, take it seriously. Don\'t ignore it.' },
-  { title: 'Report', description: 'Contact one of our Designated Safeguarding Leads directly — by email or in person. You don\'t need proof to raise a concern.' },
-  { title: 'We act', description: 'Our DSL will listen, record the concern, and follow our safeguarding policy and England Athletics procedures to ensure the young person is safe.' },
+  { title: 'Notice', description: 'If something feels wrong, or a young person tells you something concerning, take it seriously. You do not need proof to report a concern.' },
+  { title: 'Report', description: 'Contact a Designated Safeguarding Lead by email or in person. Share what you know: who, what, when and where. Do not investigate yourself.' },
+  { title: 'We act', description: 'The DSL records the concern and follows Track Academy policy and England Athletics procedures to help keep the young person safe.' },
 ];
 
 const externalContacts = [
-  { name: 'NSPCC', number: '0808 800 5000', detail: 'Adult helpline for child safety concerns' },
-  { name: 'Childline', number: '0800 1111', detail: 'Confidential support for under-19s' },
-  { name: 'Emergency', number: '999', detail: 'If a child is in immediate danger' },
+  { name: 'NSPCC', number: '0808 800 5000', detail: 'Adult helpline for child safety concerns', href: 'https://www.nspcc.org.uk/keeping-children-safe/reporting-abuse/' },
+  { name: 'Childline', number: '0800 1111', detail: 'Confidential support for children and young people', href: 'https://www.childline.org.uk/' },
+  { name: 'Brent Children’s Social Care', number: '020 8937 4300', detail: 'Office hours, Monday–Friday', href: 'https://www.brent.gov.uk/children-young-people-and-families/keeping-children-safe/report-a-concern-about-a-child' },
+  { name: 'Brent Emergency Duty Team', number: '020 8863 5250', detail: 'Out of office hours', href: 'https://www.brent.gov.uk/children-young-people-and-families/keeping-children-safe/report-a-concern-about-a-child' },
+  { name: 'Emergency', number: '999', detail: 'If a child is in immediate danger', href: 'tel:999' },
+];
+
+const policies = [
+  { title: 'Child Safeguarding Policy', detail: 'The current child safeguarding policy is reviewed annually. Request the verified copy from Track Academy.', subject: 'Child safeguarding policy request' },
+  { title: 'Volunteer Safeguarding Policy', detail: 'Guidance for volunteers working with children and young people.', subject: 'Volunteer safeguarding policy request' },
+  { title: 'Vulnerable Adults Safeguarding Policy', detail: 'Safeguarding responsibilities for adults at risk.', subject: 'Vulnerable adults safeguarding policy request' },
+  { title: 'Anti-harassment and Bullying Policy', detail: 'How we prevent and respond to bullying, harassment and discrimination.', subject: 'Anti-harassment and bullying policy request' },
+  { title: 'Complaints Policy', detail: 'How to raise a complaint or concern about Track Academy.', subject: 'Complaints policy request' },
 ];
 ---
 
 <BaseLayout {...seo}>
-  <SimpleHero
-    image={GroupPhoto}
-    title="Safeguarding at Track Academy"
-    lead="Every child and young person who trains, learns or is mentored with us deserves to feel safe, heard and supported."
-  />
+  <SimpleHero image={GroupPhoto} title="Safeguarding at Track Academy" lead="Every child and young person who trains, learns or is mentored with us deserves to feel safe, heard and supported." />
 
   <section id="policy" class="tracked-surface bg-[var(--color-track-blue)] py-[clamp(3rem,8vw,6rem)]">
     <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Our Commitment
-      </p>
-      <h2 class="mb-[clamp(2rem,5vw,3rem)] max-w-2xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-white">
-        We take safeguarding seriously.
-      </h2>
-      <div class="space-y-6">
-        {[
-          'Every young person has the right to take part in sport in a safe, supportive environment free from abuse, bullying and harm.',
-          'All staff, coaches, mentors and volunteers are DBS-checked and trained in safeguarding.',
-          'We follow England Athletics safeguarding policies and report concerns through official channels.',
-          'We listen. We act. We never assume someone else will handle it.',
-        ].map((point) => (
-          <div class="flex items-start gap-4 border-b border-white/10 pb-6">
-            <div class="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-[var(--color-track-orange)]"></div>
-            <p class="font-body text-[clamp(1rem,1.5vw,1.25rem)] leading-[1.6] text-white">{point}</p>
-          </div>
-        ))}
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Our commitment</p>
+      <h2 class="mb-[clamp(2rem,5vw,3rem)] max-w-2xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-white">We take safeguarding seriously.</h2>
+      <div class="space-y-6">{[
+        'Every young person has the right to take part in sport in a safe, supportive environment free from abuse, bullying and harm.',
+        'All staff, coaches, mentors and volunteers are DBS-checked and trained in safeguarding.',
+        'We follow England Athletics safeguarding policies and report concerns through official channels.',
+        'This applies to training, competitions, trips, holiday programmes, events and online communication.',
+      ].map((point) => (<div class="flex items-start gap-4 border-b border-white/10 pb-6"><div class="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-[var(--color-track-orange)]"></div><p class="font-body text-[clamp(1rem,1.5vw,1.25rem)] leading-[1.6] text-white">{point}</p></div>))}</div>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Designated Safeguarding Leads</p>
+      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">Speak to someone who can help.</h2>
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">{dsls.map((dsl) => (<div class="bg-[var(--color-grey-100)] p-6 lg:p-8"><h3 class="font-heading text-xl font-500 text-[var(--color-grey-900)]">{dsl.name}</h3><p class="mt-2 font-body text-sm leading-[1.5] text-[var(--color-grey-500)]">{dsl.role}</p><p class="mt-3 font-body text-sm text-[var(--color-grey-700)]">{dsl.email}</p><div class="mt-6"><Button href={`mailto:${dsl.email}?subject=Safeguarding%20concern`} label="Raise a concern" variant="primary" /></div></div>))}</div>
+      <p class="mt-6 max-w-3xl border-l-2 border-[var(--color-track-orange)] pl-5 font-body leading-[1.6] text-[var(--color-grey-700)]">If both Designated Safeguarding Leads are unavailable, contact the most senior Track Academy staff member available or use an external reporting route below. In an emergency, call 999.</p>
+    </div>
+  </section>
+
+  <div id="reporting"><StepFlow label="Reporting route" heading="How to raise a concern" steps={steps} /></div>
+
+  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <div class="grid gap-8 lg:grid-cols-[1fr_1.1fr]">
+        <div><p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">If a child tells you something</p><h2 class="font-heading text-[clamp(1.6rem,4vw,2.5rem)] font-500 leading-[1.06] tracking-[-0.015em] text-[var(--color-track-blue)]">Listen. Do not investigate.</h2><p class="mt-5 max-w-lg font-body leading-[1.65] text-[var(--color-grey-700)]">Stay calm, listen carefully and reassure the child that they did the right thing by speaking up. Do not promise to keep it secret or ask leading questions. Record their words, dates and times, then report the concern immediately.</p></div>
+        <div class="space-y-3"><details class="group bg-white"><summary class="flex cursor-pointer items-center justify-between px-6 py-5 font-heading text-lg font-500 text-[var(--color-track-blue)] marker:content-none"><span>What safeguarding covers</span><span class="text-[var(--color-track-orange)] group-open:rotate-45">+</span></summary><p class="px-6 pb-6 font-body leading-[1.6] text-[var(--color-grey-700)]">Physical, emotional or sexual abuse; neglect; bullying, harassment and discrimination; exploitation; inappropriate behaviour; and online or social-media risks.</p></details><details class="group bg-white"><summary class="flex cursor-pointer items-center justify-between px-6 py-5 font-heading text-lg font-500 text-[var(--color-track-blue)] marker:content-none"><span>Online safety and boundaries</span><span class="text-[var(--color-track-orange)] group-open:rotate-45">+</span></summary><p class="px-6 pb-6 font-body leading-[1.6] text-[var(--color-grey-700)]">Track Academy uses approved communication channels and professional boundaries. Concerns about online contact, images or digital behaviour should be reported in the same way as any other safeguarding concern.</p></details></div>
       </div>
     </div>
   </section>
 
   <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
     <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        DSLs
-      </p>
-      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Our Designated Safeguarding Leads
-      </h2>
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
-        {dsls.map((dsl) => (
-          <div class="bg-[var(--color-grey-100)] p-6 lg:p-8">
-            <h3 class="font-heading text-xl font-500 text-[var(--color-grey-900)]">{dsl.name}</h3>
-            <p class="mt-2 font-body text-sm text-[var(--color-grey-500)]">{dsl.role}</p>
-            <p class="mt-3 font-body text-sm text-[var(--color-grey-700)]">{dsl.email}</p>
-            <div class="mt-6">
-              <Button href={`mailto:${dsl.email}?subject=Safeguarding%20concern`} label="Contact about a concern" variant="primary" />
-            </div>
-          </div>
-        ))}
-      </div>
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">External reporting</p>
+      <h2 class="mb-8 font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">Outside Track Academy</h2>
+      <div class="grid gap-x-8 sm:grid-cols-2">{externalContacts.map((contact) => (<a href={contact.href} target={contact.href.startsWith('http') ? '_blank' : undefined} rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined} class="group border-b border-[var(--color-grey-300)] py-5"><p class="font-heading text-lg font-500 text-[var(--color-track-blue)] group-hover:text-[var(--color-track-orange)]">{contact.name}</p><p class="mt-1 font-body text-sm text-[var(--color-grey-500)]">{contact.detail}</p><p class="mt-3 font-heading text-xl font-600 tabular-nums text-[var(--color-track-blue)]">{contact.number}</p></a>))}</div>
     </div>
   </section>
-
-  <div id="reporting">
-    <StepFlow
-      label="Reporting route"
-      heading="How to raise a concern"
-      steps={steps}
-    />
-  </div>
 
   <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
-    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        External Contacts
-      </p>
-      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Outside Track Academy
-      </h2>
-      <div class="space-y-[clamp(1rem,3vw,1.5rem)]">
-        {externalContacts.map((contact) => (
-          <div class="flex flex-col gap-2 border-b border-[var(--color-grey-300)] pb-[clamp(1rem,2vw,1.5rem)] sm:flex-row sm:items-baseline sm:justify-between">
-            <div>
-              <h3 class="font-heading text-lg font-500 text-[var(--color-grey-900)]">{contact.name}</h3>
-              <p class="mt-1 font-body text-sm text-[var(--color-grey-500)]">{contact.detail}</p>
-            </div>
-            <span class="font-heading text-xl font-600 text-[var(--color-track-blue)] tabular-nums sm:text-2xl">{contact.number}</span>
-          </div>
-        ))}
-      </div>
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Policies and guidance</p>
+      <h2 class="mb-4 font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">Request a current policy copy.</h2>
+      <p class="mb-8 max-w-2xl font-body leading-[1.6] text-[var(--color-grey-700)]">We are verifying the downloadable documents from the previous website before hosting them here. Request the current approved version directly from Track Academy in the meantime.</p>
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{policies.map((policy) => (<article class="bg-white p-6"><h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">{policy.title}</h3><p class="mt-3 font-body text-sm leading-[1.6] text-[var(--color-grey-700)]">{policy.detail}</p><div class="mt-5"><Button href={`mailto:admin@trackacademy.co.uk?subject=${encodeURIComponent(policy.subject)}`} label="Request policy" variant="link" /></div></article>))}</div>
     </div>
   </section>
 
-  <section class="tracked-surface bg-[var(--color-track-navy)] py-[clamp(2.5rem,5vw,4rem)]">
-    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
-      <div class="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p class="font-body text-sm font-600 uppercase tracking-[0.05em] text-white/60">Accreditation & Registration</p>
-          <p class="mt-1 font-heading text-lg font-400 text-white/90">England Athletics · Charity 1164222 · London Living Wage Employer</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <section class="tracked-surface bg-[var(--color-track-navy)] py-[clamp(2.5rem,5vw,4rem)]"><div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8"><p class="font-body text-sm font-600 uppercase tracking-[0.05em] text-white/60">Accreditation and registration</p><p class="mt-1 font-heading text-lg font-400 text-white/90">England Athletics · Charity 1164222 · London Living Wage Employer</p></div></section>
 </BaseLayout>

@@ -19,6 +19,18 @@ export type HolidayProgramme = {
   bookingLabel: string;
 };
 
+export type TrackEvent = {
+  startDate: string;
+  endDate?: string;
+  title: string;
+  type: 'open-meet' | 'community' | 'schools';
+  venue: string;
+  audience: string;
+  details: string;
+  actionUrl: string;
+  actionLabel: string;
+};
+
 // This is the public Track Academy calendar. Staff update this file (or its future CMS
 // equivalent); the website automatically hides completed items in the visitor's browser.
 // Do not add every open meeting here: Power of 10 remains the authoritative live finder.
@@ -46,3 +58,7 @@ export const clubFixtures: ClubFixture[] = [
 // Add confirmed school-holiday offers here only once the registration route, dates,
 // venue and age range are approved. An empty calendar is intentional and truthful.
 export const holidayProgrammes: HolidayProgramme[] = [];
+
+// Only confirmed public events belong here. Completed events are automatically
+// hidden in the browser, so the page never presents last season's dates as current.
+export const trackEvents: TrackEvent[] = [];

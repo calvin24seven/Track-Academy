@@ -16,8 +16,8 @@ interface Props {
 const { title, description, canonical } = Astro.props;
 const canonicalUrl = canonical || Astro.url.pathname;
 const siteUrl = `https://trackacademy.co.uk${canonicalUrl}`;
-// Temporary client-presentation mode. Set to false before the full site launch.
-const presentationHomeOnly = true;
+// Full-site navigation is enabled for client review and launch.
+const presentationHomeOnly = false;
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'NGO',
