@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://trackacademy.co.uk/sitemap.xml
