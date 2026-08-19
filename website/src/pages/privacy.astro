@@ -4,26 +4,96 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const seo = {
   title: 'Privacy Policy — Track Academy',
   description:
-    'Track Academy is a registered charity in Brent. Our privacy policy is being prepared and will be available before launch.',
+    'How Track Academy collects, uses, stores and shares personal information, including information about children and young people.',
 };
+
+const updated = '19 August 2026';
 ---
 
 <BaseLayout {...seo}>
-  <section class="bg-[var(--color-paper)] py-[clamp(4rem,10vw,9rem)]">
+  <section class="bg-[var(--color-paper)] py-[clamp(4rem,10vw,8rem)]">
     <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Privacy
-      </p>
-      <h1 class="mb-6 font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Privacy Policy
-      </h1>
-      <p class="max-w-xl font-body text-[clamp(1.125rem,1.5vw,1.25rem)] leading-[1.65] text-[var(--color-grey-700)]">
-        This page is being prepared. Our privacy policy will be available here before launch.
-      </p>
-      <div class="mt-[clamp(2rem,5vw,3rem)] border-t border-[var(--color-grey-300)] pt-6">
-        <p class="font-body text-sm text-[var(--color-grey-500)]">
-          Questions before then? <a href="/contact" class="font-body text-sm font-600 underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4 text-[var(--color-track-blue)] hover:text-[var(--color-track-orange)]">Contact us</a>.
-        </p>
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Privacy</p>
+      <h1 class="font-heading text-[clamp(2rem,6vw,3.5rem)] font-500 leading-[1.05] tracking-[-0.02em] text-[var(--color-track-blue)]">Privacy Policy</h1>
+      <p class="mt-4 font-body text-sm text-[var(--color-grey-500)]">Last updated: {updated}</p>
+
+      <div class="mt-10 space-y-10 font-body text-base leading-[1.75] text-[var(--color-grey-700)]">
+        <section>
+          <h2 class="font-heading text-2xl font-500 text-[var(--color-track-blue)]">Who we are</h2>
+          <p class="mt-3">Track Academy is a registered charity in England and Wales (charity number 1164222). We provide athletics, education, mentoring and related youth programmes in Brent. For the personal information we collect for our own purposes, Track Academy is the data controller.</p>
+          <p class="mt-3">You can contact us at <a href="mailto:admin@trackacademy.co.uk" class="underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4">admin@trackacademy.co.uk</a>, by phone on <a href="tel:07956715052" class="underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4">07956 715052</a>, or at Willesden Sports Centre, Donnington Road, London, NW10 3QX.</p>
+        </section>
+
+        <section>
+          <h2 class="font-heading text-2xl font-500 text-[var(--color-track-blue)]">Information we collect</h2>
+          <p class="mt-3">Depending on how you interact with Track Academy, we may collect information about a child or young person and their parent, guardian or emergency contacts. This can include names, dates of birth, addresses, contact details, school or education information, demographic information, attendance and participation records, membership and payment information, communication preferences, photographs or video where permission has been given, and information you provide when contacting or supporting us.</p>
+          <p class="mt-3">Where it is needed to keep a young person safe and provide appropriate support, we may also collect more sensitive information such as health, medical, disability, neurodiversity, dietary, ethnicity, faith or other special category information. We only ask for information that is relevant to the services or support being provided.</p>
+        </section>
+
+        <section>
+          <h2 class="font-heading text-2xl font-500 text-[var(--color-track-blue)]">Why we use personal information</h2>
+          <p class="mt-3">We use personal information to register and support participants; manage memberships, sessions, competitions, events and payments; communicate with parents, guardians, young people, schools and partners; make appropriate safeguarding, health and reasonable-adjustment decisions; provide education and mentoring support; measure and report the impact of our charitable work; manage volunteers, supporters and donors; keep records required for governance, funding, insurance or legal purposes; and improve our programmes and website.</p>
+          <p class="mt-3">Where you choose to receive marketing or newsletter updates, we use your contact details for those communications and you can unsubscribe at any time.</p>
+        </section>
+
+        <section>
+          <h2 class="font-heading text-2xl font-500 text-[var(--color-track-blue)]">Our lawful bases</h2>
+          <p class="mt-3">Under UK data protection law, we rely on the lawful basis that is appropriate to the activity. These may include consent, performance of a contract or steps requested before entering one, compliance with a legal obligation, and our legitimate interests in operating and improving a safe and effective charitable service. Where we process special category information, we also identify an additional condition permitted by law, such as explicit consent, safeguarding or substantial public interest where applicable.</p>
+          <p class="mt-3">If we rely on consent, you can withdraw that consent at any time. Withdrawing consent does not affect processing that was lawful before it was withdrawn.</p>
+        </section>
+
+        <section>
+          <h2 class="font-heading text-2xl font-500 text-[var(--color-track-blue)]">Children and young people</h2>
+          <p class="mt-3">A large part of Track Academy’s work involves children and young people. We take extra care with their information and aim to explain how information is used in a way that is appropriate to the person’s age and understanding. Parents or guardians may provide information and permissions on behalf of younger participants. We only share information internally or externally where there is a genuine need to do so.</p>
+          <p class="mt-3">Safeguarding comes first. If we believe a child or young person is at risk, we may need to share relevant information with safeguarding leads, statutory services, police, healthcare professionals or other appropriate organisations even where consent has not been given, where the law permits or requires this.</p>
+        </section>
+
+        <section>
+          <h2 class="font-heading text-2xl font-500 text-[var(--color-track-blue)]">Registration and service providers</h2>
+          <p class="mt-3">Track Academy currently uses Upshot for youth registration and programme information. The registration form may collect identity, contact, demographic, emergency, medical, education, membership and consent information needed to manage participation safely.</p>
+          <p class="mt-3">We also use third-party service providers where necessary to operate Track Academy. These can include Sender for newsletter communications, Spond for member communications and programme administration, payment and fundraising providers such as PayPal and WhyDonate, website hosting and technology providers, and professional advisers. These organisations process information under their own terms and privacy arrangements or on our instructions, depending on the service.</p>
+          <p class="mt-3">We do not sell personal information.</p>
+        </section>
+
+        <section>
+          <h2 class="font-heading text-2xl font-500 text-[var(--color-track-blue)]">Schools, funders and partners</h2>
+          <p class="mt-3">Where a programme is delivered with a school, funder or partner, we may need to receive or share limited information to arrange participation, provide appropriate support, safeguard young people or report programme outcomes. We aim to use anonymised or aggregated information for reporting wherever individual identification is not necessary.</p>
+        </section>
+
+        <section>
+          <h2 class="font-heading text-2xl font-500 text-[var(--color-track-blue)]">How long we keep information</h2>
+          <p class="mt-3">We keep personal information only for as long as it is reasonably needed for the purpose it was collected, and to meet safeguarding, legal, accounting, insurance, governance, funding or reporting requirements. Different records may therefore be kept for different periods. When information is no longer required, we take reasonable steps to delete it securely or anonymise it.</p>
+        </section>
+
+        <section>
+          <h2 class="font-heading text-2xl font-500 text-[var(--color-track-blue)]">Security and international transfers</h2>
+          <p class="mt-3">We take reasonable organisational and technical measures to protect personal information from loss, misuse, unauthorised access or disclosure. Some technology providers may process information outside the United Kingdom. Where that happens, we expect appropriate safeguards to be used in accordance with UK data protection law.</p>
+        </section>
+
+        <section>
+          <h2 class="font-heading text-2xl font-500 text-[var(--color-track-blue)]">Website, cookies and analytics</h2>
+          <p class="mt-3">Our website may use necessary technologies required for core functionality and, where enabled, analytics or third-party content to understand how the site is used. Where consent is required for non-essential cookies or similar technologies, they should only be activated after the appropriate choice has been made. Third-party services may also set their own cookies when you interact with embedded or external content.</p>
+        </section>
+
+        <section>
+          <h2 class="font-heading text-2xl font-500 text-[var(--color-track-blue)]">Your rights</h2>
+          <p class="mt-3">Depending on the circumstances, UK data protection law gives you rights including access to your personal information, correction of inaccurate information, deletion, restriction of processing, objection to certain processing, data portability and withdrawal of consent.</p>
+          <p class="mt-3">To exercise a privacy right or ask a question about how your information is used, contact <a href="mailto:admin@trackacademy.co.uk" class="underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4">admin@trackacademy.co.uk</a>. We may need to confirm your identity before acting on a request.</p>
+        </section>
+
+        <section>
+          <h2 class="font-heading text-2xl font-500 text-[var(--color-track-blue)]">Complaints</h2>
+          <p class="mt-3">If you have a concern about how Track Academy has handled personal information, please contact us first so we can try to resolve it. You also have the right to complain to the UK Information Commissioner’s Office.</p>
+        </section>
+
+        <section>
+          <h2 class="font-heading text-2xl font-500 text-[var(--color-track-blue)]">Changes to this policy</h2>
+          <p class="mt-3">We may update this policy when our services, systems or legal obligations change. The latest version will be published on this page with its revision date.</p>
+        </section>
+      </div>
+
+      <div class="mt-12 border-l-4 border-[var(--color-track-orange)] bg-[var(--color-grey-100)] p-6">
+        <p class="font-body text-sm leading-[1.65] text-[var(--color-grey-700)]"><strong class="text-[var(--color-grey-900)]">Client approval before launch:</strong> this policy reflects the systems and practices currently visible in Track Academy’s website and registration flow. Track Academy should confirm its actual retention schedule, processor arrangements and any additional internal systems before final publication.</p>
       </div>
     </div>
   </section>
