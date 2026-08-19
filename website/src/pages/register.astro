@@ -1,23 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SimpleHero from '../components/sections/SimpleHero.astro';
-import RegistrationWizard from '../components/forms/RegistrationWizard.astro';
 import GirlSmiling from '../assets/stories/girl-smiling.jpg';
+
+const UPSHOT_SIGNUP_URL = 'https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/';
 
 const seo = {
   title: 'Register Your Child — Track Academy',
   description:
-    'Register your child for athletics, education, and mentoring at Track Academy in Brent. Aged 5-21, three times a week. £25 per term, free on financial support.',
+    'Register your child for athletics, education and mentoring at Track Academy in Brent using our secure Upshot registration form.',
 };
 
-const wizardSteps = [
-  "Your child's details",
-  'Your contact details',
-  'Medical and emergency contacts',
-  'Education and background',
-  'Membership and fees',
-  'Consent and agreements',
-  'Review and submit',
+const registrationSections = [
+  'Your child’s identity and contact details',
+  'Address and demographic information',
+  'Emergency contacts and medical information',
+  'Education and additional support information',
+  'Membership, fees and communication preferences',
+  'Consent, Track Academy terms and data protection',
 ];
 ---
 
@@ -25,39 +25,54 @@ const wizardSteps = [
   <SimpleHero
     image={GirlSmiling}
     title="Register Your Child"
-    lead="£25 per term. Free if on financial support."
+    lead="Complete Track Academy’s official registration securely through Upshot."
   />
 
-  <!-- Registration wizard -->
-  <RegistrationWizard />
-
-  <!-- What to expect -->
-  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
     <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
       <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Before you start
+        Official registration
       </p>
-      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        What you’ll need to register.
+      <h2 class="max-w-2xl font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
+        Register through Upshot.
       </h2>
+      <p class="mt-5 max-w-2xl font-body text-[clamp(1rem,1.5vw,1.125rem)] leading-[1.65] text-[var(--color-grey-700)]">
+        Track Academy uses Upshot to manage youth registrations and programme information. Your registration is only complete once the Upshot form has been submitted successfully.
+      </p>
 
-      <p class="mb-8 max-w-xl font-body text-base leading-[1.65] text-[var(--color-grey-700)]">It takes about 10 minutes, and you can save your progress as you go.</p>
-
-      <ol class="space-y-[clamp(1rem,3vw,1.5rem)]">
-        {wizardSteps.map((step, i) => (
-          <li class="flex items-start gap-5 border-b border-[var(--color-grey-300)] pb-[clamp(1rem,3vw,1.5rem)]">
-            <span class="font-heading text-[clamp(1.5rem,3vw,2.25rem)] font-300 leading-none text-[var(--color-track-orange)] tabular-nums">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <p class="pt-1 font-body text-[clamp(1rem,1.5vw,1.125rem)] leading-[1.5] text-[var(--color-grey-900)]">{step}</p>
-          </li>
-        ))}
-      </ol>
-
-      <div class="mt-10 border-l-2 border-[var(--color-track-orange)] bg-white p-6">
-        <h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">After you submit</h3>
-        <p class="mt-2 font-body leading-[1.6] text-[var(--color-grey-700)]">We’ll review your details and email the next steps and session information.</p>
+      <div class="mt-8 border-l-4 border-[var(--color-track-orange)] bg-white p-6 sm:p-8">
+        <p class="font-body text-sm font-semibold uppercase tracking-[0.05em] text-[var(--color-track-orange)]">Before you start</p>
+        <p class="mt-3 font-body leading-[1.65] text-[var(--color-grey-700)]">
+          The form asks for information Track Academy needs to support young people safely, including emergency contacts, medical information, education details, membership choices and consent.
+        </p>
+        <ul class="mt-5 space-y-2">
+          {registrationSections.map((item) => (
+            <li class="flex items-start gap-3 font-body text-sm leading-[1.55] text-[var(--color-grey-700)]">
+              <span class="mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-track-orange)]"></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
       </div>
+
+      <div class="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+        <a
+          href={UPSHOT_SIGNUP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex min-h-12 items-center justify-center bg-[var(--color-track-orange)] px-8 py-3.5 font-body text-sm font-semibold uppercase tracking-wide text-white transition-all duration-150 ease-[var(--ease-sprint)] hover:bg-[var(--color-accent-dark)] focus-visible:outline-offset-4 active:scale-[0.98]"
+        >
+          Start registration on Upshot
+          <span aria-hidden="true" class="ml-2">↗</span>
+        </a>
+        <a href="/privacy" class="font-body text-sm font-semibold text-[var(--color-track-blue)] underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4 hover:text-[var(--color-track-orange)]">
+          Read our Privacy Policy
+        </a>
+      </div>
+
+      <p class="mt-5 max-w-2xl font-body text-sm leading-[1.6] text-[var(--color-grey-500)]">
+        Upshot opens in a new tab. If you have difficulty completing the form, contact Track Academy at <a href="mailto:admin@trackacademy.co.uk" class="underline underline-offset-2 hover:text-[var(--color-track-blue)]">admin@trackacademy.co.uk</a> or <a href="tel:07956715052" class="underline underline-offset-2 hover:text-[var(--color-track-blue)]">07956 715052</a>.
+      </p>
     </div>
   </section>
 </BaseLayout>
