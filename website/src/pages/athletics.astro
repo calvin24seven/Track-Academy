@@ -4,7 +4,7 @@ import SimpleHero from '../components/sections/SimpleHero.astro';
 import SplitFeature from '../components/sections/SplitFeature.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
 import StudentsRacing from '../assets/hero/students-racing.webp';
-import Education from '../assets/programme/education.jpg';
+import TwoCoachesPlanning from '../assets/website-2026/two-coaches-planning.jpg';
 import ReadyToRace from '../assets/programme/ready-to-race.jpg';
 
 const seo = {
@@ -31,12 +31,12 @@ const included = [
   />
 
   <SplitFeature
-    image={Education}
+    image={TwoCoachesPlanning}
     imageSide="left"
     label="Ages 5-10"
     heading="Multi-skills"
     body="FUNdamentals of movement — running, jumping, throwing. Sessions build coordination, confidence and a love of the sport. Tuesdays & Thursdays 4-5pm, Saturdays 10-11am."
-    cta={{ label: 'Register your child', href: '/register' }}
+    cta={{ label: 'Register your child', href: 'https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/' }}
   />
 
   <SplitFeature
@@ -45,7 +45,7 @@ const included = [
     label="Ages 10-21"
     heading="Athletics"
     body="Event-specific coaching across sprints, middle distance, jumps and throws. Young athletes develop technique, race craft and the discipline to compete. Tuesdays & Thursdays 5-6.30pm, Saturdays 11-12.30pm."
-    cta={{ label: 'Register your child', href: '/register' }}
+    cta={{ label: 'Register your child', href: 'https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/' }}
     background="grey"
   />
 
@@ -91,14 +91,14 @@ const included = [
     <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
       <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between lg:gap-12">
         <div class="max-w-md">
-          <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+          <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-gold)]">
             SEND Sessions
           </p>
           <p class="font-body text-[clamp(1rem,1.5vw,1.25rem)] leading-[1.6] text-white">
             Specialist coaching for young people with special educational needs and disabilities. Tuesdays 5-6pm, ages 8-16, free of charge.
           </p>
         </div>
-        <a href="mailto:matthew@trackacademy.co.uk?subject=SEND%20sessions" class="inline-flex font-body font-600 uppercase tracking-wide text-sm underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4 text-white hover:text-[var(--color-track-orange)]">
+        <a href="mailto:matthew@trackacademy.co.uk?subject=SEND%20sessions" class="inline-flex font-body font-600 uppercase tracking-wide text-sm underline decoration-[var(--color-track-gold)] decoration-2 underline-offset-4 text-white hover:text-[var(--color-track-gold)]">
           Contact matthew@trackacademy.co.uk
         </a>
       </div>
@@ -107,7 +107,7 @@ const included = [
 
   <CTABanner
     heading="Ready to get your child on the track?"
-    ctaPrimary={{ label: 'Register your child', href: '/register' }}
+    ctaPrimary={{ label: 'Register your child', href: 'https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/' }}
     ctaSecondary={{ label: 'Contact us', href: '/contact' }}
   />
 </BaseLayout>

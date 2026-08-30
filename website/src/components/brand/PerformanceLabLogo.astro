@@ -1,0 +1,49 @@
+---
+/**
+ * PerformanceLabLogo.astro — The Performance Lab brand mark
+ * A distinct logo for the performance pathway, "powered by Track Academy".
+ * Options: full (mark + wordmark + powered-by), mark (icon only)
+ */
+interface Props {
+  variant?: 'full' | 'mark';
+  tone?: 'dark' | 'light';
+}
+
+const { variant = 'full', tone = 'light' } = Astro.props;
+
+const wordmark = tone === 'dark' ? 'text-[var(--color-track-navy)]' : 'text-white';
+const powered = tone === 'dark' ? 'text-[var(--color-grey-500)]' : 'text-white/70';
+const accent = tone === 'dark' ? 'text-[var(--color-track-orange)]' : 'text-[var(--color-track-gold)]';
+---
+
+{variant === 'full' ? (
+  <div class="flex flex-col items-start gap-4">
+    <!-- Mark + wordmark -->
+    <div class="flex items-center gap-4">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" class="h-14 w-14 flex-shrink-0" aria-hidden="true">
+        <!-- Track surface -->
+        <rect x="2" y="2" width="52" height="52" rx="10" fill="var(--color-track-navy)" />
+        <!-- Flask / performance icon -->
+        <path d="M19 38l5-10V16h-2v-2h12v2h-2v12l5 10c1 2 0 4-3 4H22c-3 0-4-2-3-4z" fill="var(--color-track-gold)" />
+        <path d="M21 38h14" stroke="var(--color-track-orange)" stroke-width="1.5" stroke-linecap="round" />
+        <!-- Lane lines -->
+        <path d="M14 46h28" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round" />
+      </svg>
+      <div>
+        <p class="font-heading text-2xl font-600 leading-none tracking-[-0.02em] text-[var(--color-track-gold)]">
+          The Performance Lab
+        </p>
+        <p class={`mt-1 font-body text-xs font-600 uppercase tracking-[0.18em] ${powered}`}>
+          Powered by Track Academy
+        </p>
+      </div>
+    </div>
+  </div>
+) : (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" class="h-12 w-12" role="img" aria-label="The Performance Lab powered by Track Academy">
+    <rect x="2" y="2" width="52" height="52" rx="10" fill="var(--color-track-navy)" />
+    <path d="M19 38l5-10V16h-2v-2h12v2h-2v12l5 10c1 2 0 4-3 4H22c-3 0-4-2-3-4z" fill="var(--color-track-gold)" />
+    <path d="M21 38h14" stroke="var(--color-track-orange)" stroke-width="1.5" stroke-linecap="round" />
+    <path d="M14 46h28" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round" />
+  </svg>
+)}

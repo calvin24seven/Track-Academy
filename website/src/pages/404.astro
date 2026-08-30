@@ -8,7 +8,7 @@ const seo = {
 
 const links = [
   { label: 'Homepage', href: '/' },
-  { label: 'Register', href: '/register' },
+  { label: 'Register', href: 'https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/' },
   { label: 'Events', href: '/events' },
   { label: 'Contact', href: '/contact' },
 ];
@@ -28,12 +28,12 @@ const links = [
 
     <div class="relative z-10 mx-auto w-full max-w-[var(--container-content)] px-6 py-[clamp(4rem,12vw,9rem)] lg:px-8">
       <!-- Numeric error code — oversized, escapes toward right -->
-      <p class="font-heading text-[clamp(5rem,22vw,18rem)] font-700 leading-[0.85] tracking-[-0.04em] text-[var(--color-track-orange)] tabular-nums lg:text-right">
+      <p class="font-heading text-[clamp(5rem,22vw,18rem)] font-700 leading-[0.85] tracking-[-0.04em] text-[var(--color-track-gold)] tabular-nums lg:text-right">
         404
       </p>
 
       <!-- Lane line under the numeral -->
-      <div class="mt-2 h-0.5 w-full bg-[var(--color-track-orange)]"></div>
+      <div class="mt-2 h-0.5 w-full bg-[var(--color-track-gold)]"></div>
 
       <!-- Headline -->
       <div class="mt-8 max-w-2xl">
@@ -49,7 +49,7 @@ const links = [
           {links.map((link) => (
             <a
               href={link.href}
-              class="font-body text-sm font-600 uppercase tracking-wide text-white underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4 transition-colors duration-150 ease-[var(--ease-sprint)] hover:text-[var(--color-track-orange)]"
+              class="font-body text-sm font-600 uppercase tracking-wide text-white underline decoration-[var(--color-track-gold)] decoration-2 underline-offset-4 transition-colors duration-150 ease-[var(--ease-sprint)] hover:text-[var(--color-track-gold)]"
             >
               {link.label}
             </a>

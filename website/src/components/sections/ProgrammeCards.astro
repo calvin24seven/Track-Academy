@@ -6,6 +6,7 @@
  * Places between AudienceRouter and PillarSequence
  */
 import { Image } from 'astro:assets';
+import MentoringConversation from '../../assets/programme/mentoring-conversation.jpg';
 
 interface Programme {
   title: string;
@@ -34,8 +35,8 @@ const programmes: Programme[] = [
     title: 'Mentoring',
     description: 'One-to-one support from a trained mentor. One trusted adult changes everything.',
     href: '/mentoring',
-    image: (await import('../../assets/programme/education.jpg')).default,
-    alt: 'A young person receiving support during a learning session',
+    image: MentoringConversation,
+    alt: 'A Track Academy mentor and young person talking together',
   },
   {
     title: 'Holiday Programmes',

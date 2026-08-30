@@ -73,7 +73,8 @@
   /* --- Brand Colours --- */
   --color-track-blue: hsl(230, 78%, 30%);
   --color-track-orange: hsl(25, 90%, 50%);
-  --color-track-gold: hsl(43, 89%, 50%);
+  /* Gold is a supporting highlight: use for editorial emphasis, not primary actions. */
+  --color-track-gold: #f2b90e;
   --color-track-navy: hsl(230, 79%, 21%);
   --color-track-pink: hsl(338, 99%, 43%);
 
@@ -87,7 +88,7 @@
 
   /* --- Semantic Colours --- */
   --color-success: hsl(140, 60%, 38%);
-  --color-warning: hsl(43, 89%, 50%);
+  --color-warning: #f2b90e;
   --color-error: hsl(338, 99%, 43%);
 
   /* --- Brand tints for use as Tailwind classes --- */

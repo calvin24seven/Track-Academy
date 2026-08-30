@@ -33,7 +33,7 @@ const {
       quote: "Her teacher called us shocked — said she's 'a different child.'",
       attribution: "Parent of a Track Academy participant",
       context: "Track Academy family",
-      image: (await import('../../assets/stories/coach-closeup.jpg')).default,
+      image: (await import('../../assets/website-2026/parent-and-child.jpg')).default,
     },
     {
       quote: "We are grateful for the positive impact Track Academy has had on our students.",
@@ -49,7 +49,7 @@ const {
 <section class="bg-[var(--color-grey-900)] py-[clamp(4rem,10vw,9rem)]">
   <!-- Section header — left-aligned, not centred -->
   <div class="mx-auto mb-[clamp(2rem,5vw,4rem)] max-w-[var(--container-content)] px-6 lg:px-8">
-    <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+    <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-gold)]">
       Stories
     </p>
     <h2 class="max-w-2xl font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.1] tracking-[-0.01em] text-white">
@@ -102,7 +102,7 @@ const {
   <div class="mx-auto mt-6 flex max-w-[var(--container-content)] justify-center gap-2 px-6 lg:justify-start lg:px-8">
     {athletes.map((_, i) => (
       <button
-        class="h-1.5 w-1.5 rounded-full bg-white/30 transition-all duration-200 ease-[var(--ease-sprint)] hover:bg-[var(--color-track-orange)]"
+        class="h-1.5 w-1.5 rounded-full bg-white/30 transition-all duration-200 ease-[var(--ease-sprint)] hover:bg-[var(--color-track-gold)]"
         data-dot={i}
         aria-label={`Go to story ${i + 1}`}
         aria-current={i === 0 ? 'true' : 'false'}
@@ -120,7 +120,7 @@ const {
     storyDots.forEach((dot, dotIndex) => {
       const active = dotIndex === index;
       dot.setAttribute('aria-current', active ? 'true' : 'false');
-      dot.classList.toggle('bg-[var(--color-track-orange)]', active);
+      dot.classList.toggle('bg-[var(--color-track-gold)]', active);
       dot.classList.toggle('bg-white/30', !active);
     });
   }

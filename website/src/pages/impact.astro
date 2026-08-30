@@ -12,11 +12,11 @@ import Button from '../components/ui/Button.astro';
 import { Image } from 'astro:assets';
 import GirlSmiling from '../assets/stories/girl-smiling.jpg';
 import GroupPhoto from '../assets/stories/group-photo.jpg';
-import CoachCloseup from '../assets/stories/coach-closeup.jpg';
+import ParentAndChild from '../assets/website-2026/parent-and-child.jpg';
 
 const seo = {
-  title: 'Our Impact — Track Academy: 577 Sessions, 331 Young People in 2024',
-  description: '577 sessions, 331 young people, 98% recommendation rate. 66% improved school performance. Track Academy\'s 2024 impact in Brent.',
+  title: 'Our Impact — Track Academy',
+  description: 'The difference Track Academy makes for young people in Brent: participation, confidence, connection and stronger futures.',
 };
 
 const outcomeStats = [
@@ -42,13 +42,17 @@ const demoStats = [
   <!-- HERO TYPE C: The Data Hero — one number IS the hero -->
   <section class="tracked-surface relative flex h-[100svh] items-center justify-center overflow-hidden bg-[var(--color-track-navy)]">
     <div class="text-center">
-      <p class="mb-4 font-body text-sm font-medium uppercase tracking-[0.1em] text-white/50">In 2024</p>
+      <p class="mb-4 font-body text-sm font-medium uppercase tracking-[0.1em] text-[var(--color-track-gold)]">In the past year</p>
       <p class="font-heading text-[clamp(8rem,22vw,20rem)] font-300 leading-[0.85] tracking-[-0.03em] text-[var(--color-track-orange)] tabular-nums">
-        577
+        356
       </p>
       <p class="mx-auto mt-4 max-w-md font-body text-lg text-white/70">
-        sessions delivered across 52 weeks, to 331 young people aged 5–23 in Brent.
+        young people supported through athletics, education and mentoring in Brent.
       </p>
+      <a href="/pdfs/annual-report-2024.pdf" class="mx-auto mt-7 inline-flex items-center gap-2 border-b-2 border-[var(--color-track-gold)] pb-1 font-body text-sm font-semibold text-white transition-all duration-150 hover:gap-4 hover:text-[var(--color-track-gold)]">
+        Download our latest Annual Report <span aria-hidden="true">→</span>
+      </a>
+      <p class="mt-2 font-body text-xs text-white/50">PDF · approximately 4MB</p>
     </div>
     <!-- Scroll indicator -->
     <div class="absolute bottom-12 left-1/2 -translate-x-1/2 font-body text-xs uppercase tracking-[0.1em] text-white/30">
@@ -61,22 +65,22 @@ const demoStats = [
   <!-- Core impact stats — scroll-scrubbed numerals -->
   <NumeralsEscaping
     stats={[
-      { number: 331, label: 'young people aged 5–23' },
+      { number: 356, label: 'young people supported' },
       { number: 215, label: 'girls & young women' },
       { number: 200, suffix: '+', label: 'competition entries' },
       { number: 98, suffix: '%', label: 'would recommend' },
     ]}
-    caption="In 2024. That's 17 years of showing up."
+    caption="In the past year, this is what showing up has looked like."
   />
 
   <!-- Five key outcomes -->
   <section class="bg-[var(--color-paper)] py-[clamp(4rem,10vw,9rem)]">
     <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
       <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Five key outcomes
+        How we measure progress
       </p>
       <h2 class="mb-[clamp(2rem,5vw,4rem)] max-w-2xl font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Every stat behind a young person who decided to try again.
+        Our five key outcomes for young people.
       </h2>
 
       <!-- Outcomes as 5 inline entries — NOT a card grid -->
@@ -119,7 +123,7 @@ const demoStats = [
   <!-- Who we reach — demographics -->
   <section class="tracked-surface bg-[var(--color-track-blue)] py-[clamp(4rem,10vw,9rem)]">
     <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-gold)]">
         Who we reach
       </p>
       <h2 class="mb-[clamp(2rem,5vw,4rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-white">
@@ -132,7 +136,7 @@ const demoStats = [
             <p class="font-heading text-[clamp(3rem,8vw,6rem)] font-700 leading-[0.85] tracking-[-0.02em] text-white tabular-nums">
               {stat.number}
             </p>
-            <p class="mt-2 font-body text-sm font-medium uppercase tracking-[0.05em] text-white/60">
+            <p class="mt-2 font-body text-sm font-medium uppercase tracking-[0.05em] text-[var(--color-track-gold)]/90">
               {stat.label}
             </p>
           </div>
@@ -155,7 +159,7 @@ const demoStats = [
         quote: "Her teacher called us shocked — said she's 'a different child.' At home, she's happier. She even cooks dinner now to 'train like an athlete.'",
         attribution: "A parent",
         context: "Track Academy family",
-        image: CoachCloseup,
+        image: ParentAndChild,
       },
       {
         quote: "Track Academy has been life changing for some of these boys. Couple were on the verge of going to prison before joining the squad.",
@@ -173,16 +177,16 @@ const demoStats = [
         The evidence
       </p>
       <h2 class="mx-auto mb-6 max-w-2xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Read the full 2024 Annual Report.
+        Read our latest Annual Report.
       </h2>
       <p class="mx-auto mb-8 max-w-md font-body text-base text-[var(--color-grey-700)]">
-        Every number, every face, every story. The complete record of what Track Academy delivered in 2024.
+        Every number, every face, every story. The full picture of the difference Track Academy makes.
       </p>
       <a
         href="/pdfs/annual-report-2024.pdf"
         class="inline-flex items-center gap-3 border-b-2 border-[var(--color-track-orange)] pb-1 font-body text-base font-600 text-[var(--color-track-blue)] transition-all duration-150 ease-[var(--ease-sprint)] hover:gap-5"
       >
-        Download the 2024 Annual Report
+        Download our latest Annual Report
         <span aria-hidden="true">→</span>
       </a>
       <p class="mt-3 font-body text-xs text-[var(--color-grey-500)]">PDF · approximately 4MB</p>

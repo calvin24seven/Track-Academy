@@ -4,8 +4,8 @@ import SimpleHero from '../components/sections/SimpleHero.astro';
 import SplitFeature from '../components/sections/SplitFeature.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
 import Button from '../components/ui/Button.astro';
-import StudentsLearning from '../assets/programme/students-learning.jpg';
-import Education from '../assets/programme/education.jpg';
+import StudentsLearning from '../assets/website-2026/tutor-and-student-front.jpg';
+import ChildrenLearningWithTutor from '../assets/website-2026/children-learning-with-tutor.jpg';
 
 const seo = {
   title: 'Education & Life Skills — Track Academy',
@@ -34,12 +34,12 @@ const lifeSkills = [
   />
 
   <SplitFeature
-    image={Education}
+    image={ChildrenLearningWithTutor}
     imageSide="left"
     label="Academic Support"
     heading="Classroom-grade support, no added charge"
     body="Tuesday Study Support (4-5pm) and Saturday Tuition (9-11am) cover Maths, English and Science. Delivered by qualified tutors, included in membership — no extra cost to families."
-    cta={{ label: 'Register your child', href: '/register' }}
+    cta={{ label: 'Register your child', href: 'https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/' }}
   />
 
   <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
@@ -94,7 +94,7 @@ const lifeSkills = [
   <CTABanner
     heading="Education is part of the membership."
     body="No extra cost, no separate sign-up."
-    ctaPrimary={{ label: 'Register your child', href: '/register' }}
+    ctaPrimary={{ label: 'Register your child', href: 'https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/' }}
     ctaSecondary={{ label: 'Talk to us', href: '/contact' }}
   />
 </BaseLayout>

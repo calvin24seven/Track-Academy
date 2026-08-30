@@ -26,12 +26,12 @@ interface Props {
 
 const {
   stats = [
-    { number: 577, label: 'sessions delivered', context: 'in 2024' },
+    { number: 577, label: 'sessions delivered', context: 'in a year' },
     { number: 331, label: 'young people aged 5–23', context: 'in Brent' },
     { number: 94, suffix: '%', label: 'believe they can achieve their goals' },
     { number: 200, suffix: '+', label: 'competition entries' },
   ],
-  caption = 'In 2024. That\'s 17 years of showing up.',
+  caption = 'In a year, we give young people more reasons to show up.',
 } = Astro.props;
 ---
 
@@ -66,15 +66,15 @@ const {
             {stat.label}
           </p>
           {stat.context && (
-            <p class="mt-1 font-body text-xs text-white/60">{stat.context}</p>
+            <p class="mt-1 font-body text-xs text-[var(--color-track-gold)]/80">{stat.context}</p>
           )}
         </div>
       ))}
     </div>
 
     <!-- Caption — below the stats, not inside the grid -->
-    <div class="mt-[clamp(2rem,5vw,3rem)] border-t border-white/10 pt-6">
-      <p class="font-heading text-[clamp(1rem,2vw,1.5rem)] font-400 text-white/70">
+    <div class="mt-[clamp(2rem,5vw,3rem)] border-t border-[var(--color-track-gold)]/30 pt-6">
+      <p class="font-heading text-[clamp(1rem,2vw,1.5rem)] font-400 text-[var(--color-track-gold)]">
         {caption}
       </p>
     </div>

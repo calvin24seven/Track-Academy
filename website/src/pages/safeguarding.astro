@@ -11,8 +11,8 @@ const seo = {
 };
 
 const dsls = [
-  { name: 'Yvonne Simpson', role: 'Operations and Youth Manager / Designated Safeguarding Lead', email: 'yvonne@trackacademy.co.uk' },
-  { name: 'Erick Sanchez', role: 'Education and Mentoring Co-ordinator / Designated Safeguarding Lead', email: 'erick@trackacademy.co.uk' },
+  { name: 'Yvonne Simpson', role: 'Operations and Youth Manager / Designated Safeguarding Lead', email: 'yvonne@trackacademy.co.uk', phone: '07956 715052', tel: 'tel:07956715052' },
+  { name: 'Erick Sanchez', role: 'Education and Mentoring Co-ordinator / Designated Safeguarding Lead', email: 'erick@trackacademy.co.uk', phone: '07399 229665', tel: 'tel:07399229665' },
   { name: 'Patrik Ewe', role: 'CEO / senior escalation contact', email: 'patrik@trackacademy.co.uk' },
 ];
 
@@ -23,10 +23,10 @@ const steps = [
 ];
 
 const externalContacts = [
-  { name: 'NSPCC', number: '0808 800 5000', detail: 'Adult helpline for child safety concerns', href: 'https://www.nspcc.org.uk/keeping-children-safe/reporting-abuse/' },
-  { name: 'Childline', number: '0800 1111', detail: 'Confidential support for children and young people', href: 'https://www.childline.org.uk/' },
-  { name: 'Brent Children’s Social Care', number: '020 8937 4300', detail: 'Office hours, Monday–Friday', href: 'https://www.brent.gov.uk/children-young-people-and-families/keeping-children-safe/report-a-concern-about-a-child' },
-  { name: 'Brent Emergency Duty Team', number: '020 8863 5250', detail: 'Out of office hours', href: 'https://www.brent.gov.uk/children-young-people-and-families/keeping-children-safe/report-a-concern-about-a-child' },
+  { name: 'NSPCC', number: '0808 800 5000', detail: 'Adult helpline for child safety concerns', href: 'tel:08088005000' },
+  { name: 'Childline', number: '0800 1111', detail: 'Confidential support for children and young people', href: 'tel:08001111' },
+  { name: 'Brent Children’s Social Care', number: '020 8937 4300', detail: 'Office hours, Monday–Friday', href: 'tel:02089374300' },
+  { name: 'Brent Emergency Duty Team', number: '020 8863 5250', detail: 'Out of office hours', href: 'tel:02088635250' },
   { name: 'Emergency', number: '999', detail: 'If a child is in immediate danger', href: 'tel:999' },
 ];
 
@@ -44,7 +44,7 @@ const policies = [
 
   <section id="policy" class="tracked-surface bg-[var(--color-track-blue)] py-[clamp(3rem,8vw,6rem)]">
     <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Our commitment</p>
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-gold)]">Our commitment</p>
       <h2 class="mb-[clamp(2rem,5vw,3rem)] max-w-2xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-white">We take safeguarding seriously.</h2>
       <div class="space-y-6">{[
         'Every young person has the right to take part in sport in a safe, supportive environment free from abuse, bullying and harm.',
@@ -59,7 +59,7 @@ const policies = [
     <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
       <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Designated Safeguarding Leads</p>
       <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">Speak to someone who can help.</h2>
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">{dsls.map((dsl) => (<div class="bg-[var(--color-grey-100)] p-6 lg:p-8"><h3 class="font-heading text-xl font-500 text-[var(--color-grey-900)]">{dsl.name}</h3><p class="mt-2 font-body text-sm leading-[1.5] text-[var(--color-grey-500)]">{dsl.role}</p><p class="mt-3 font-body text-sm text-[var(--color-grey-700)]">{dsl.email}</p><div class="mt-6"><Button href={`mailto:${dsl.email}?subject=Safeguarding%20concern`} label="Raise a concern" variant="primary" /></div></div>))}</div>
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">{dsls.map((dsl) => (<div class="bg-[var(--color-grey-100)] p-6 lg:p-8"><h3 class="font-heading text-xl font-500 text-[var(--color-grey-900)]">{dsl.name}</h3><p class="mt-2 font-body text-sm leading-[1.5] text-[var(--color-grey-500)]">{dsl.role}</p><a href={`mailto:${dsl.email}?subject=Safeguarding%20concern`} class="mt-3 block font-body text-sm text-[var(--color-grey-700)] underline decoration-[var(--color-track-orange)] underline-offset-4">{dsl.email}</a>{dsl.phone && <a href={dsl.tel} class="mt-2 block font-heading text-xl font-600 text-[var(--color-track-blue)] underline decoration-[var(--color-track-orange)] underline-offset-4">{dsl.phone}</a>}<div class="mt-6"><Button href={dsl.phone ? dsl.tel : `mailto:${dsl.email}?subject=Safeguarding%20concern`} label={dsl.phone ? 'Call about a concern' : 'Raise a concern'} variant="primary" /></div></div>))}</div>
       <p class="mt-6 max-w-3xl border-l-2 border-[var(--color-track-orange)] pl-5 font-body leading-[1.6] text-[var(--color-grey-700)]">If both Designated Safeguarding Leads are unavailable, contact the most senior Track Academy staff member available or use an external reporting route below. In an emergency, call 999.</p>
     </div>
   </section>
@@ -79,7 +79,7 @@ const policies = [
     <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
       <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">External reporting</p>
       <h2 class="mb-8 font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">Outside Track Academy</h2>
-      <div class="grid gap-x-8 sm:grid-cols-2">{externalContacts.map((contact) => (<a href={contact.href} target={contact.href.startsWith('http') ? '_blank' : undefined} rel={contact.href.startsWith('http') ? 'noopener noreferrer' : undefined} class="group border-b border-[var(--color-grey-300)] py-5"><p class="font-heading text-lg font-500 text-[var(--color-track-blue)] group-hover:text-[var(--color-track-orange)]">{contact.name}</p><p class="mt-1 font-body text-sm text-[var(--color-grey-500)]">{contact.detail}</p><p class="mt-3 font-heading text-xl font-600 tabular-nums text-[var(--color-track-blue)]">{contact.number}</p></a>))}</div>
+      <div class="grid gap-x-8 sm:grid-cols-2">{externalContacts.map((contact) => (<a href={contact.href} class="group border-b border-[var(--color-grey-300)] py-5"><p class="font-heading text-lg font-500 text-[var(--color-track-blue)] group-hover:text-[var(--color-track-orange)]">{contact.name}</p><p class="mt-1 font-body text-sm text-[var(--color-grey-500)]">{contact.detail}</p><p class="mt-3 font-heading text-xl font-600 tabular-nums text-[var(--color-track-blue)] underline decoration-[var(--color-track-orange)] underline-offset-4">{contact.number}</p></a>))}</div>
     </div>
   </section>
 
@@ -88,9 +88,9 @@ const policies = [
       <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Policies and guidance</p>
       <h2 class="mb-4 font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">Request a current policy copy.</h2>
       <p class="mb-8 max-w-2xl font-body leading-[1.6] text-[var(--color-grey-700)]">We are verifying the downloadable documents from the previous website before hosting them here. Request the current approved version directly from Track Academy in the meantime.</p>
-      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{policies.map((policy) => (<article class="bg-white p-6"><h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">{policy.title}</h3><p class="mt-3 font-body text-sm leading-[1.6] text-[var(--color-grey-700)]">{policy.detail}</p><div class="mt-5"><Button href={`mailto:admin@trackacademy.co.uk?subject=${encodeURIComponent(policy.subject)}`} label="Request policy" variant="link" /></div></article>))}</div>
+      <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">{policies.map((policy) => (<article class="bg-white p-6"><h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">{policy.title}</h3><p class="mt-3 font-body text-sm leading-[1.6] text-[var(--color-grey-700)]">{policy.detail}</p><div class="mt-5"><Button href={`mailto:admin@trackacademy.co.uk?subject=${encodeURIComponent(policy.subject)}`} label="Request policy" variant="link" /></div></article>))}      </div>
     </div>
   </section>
 
-  <section class="tracked-surface bg-[var(--color-track-navy)] py-[clamp(2.5rem,5vw,4rem)]"><div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8"><p class="font-body text-sm font-600 uppercase tracking-[0.05em] text-white/60">Accreditation and registration</p><p class="mt-1 font-heading text-lg font-400 text-white/90">England Athletics · Charity 1164222 · London Living Wage Employer</p></div></section>
+  <section class="tracked-surface bg-[var(--color-track-navy)] py-[clamp(2.5rem,5vw,4rem)]"><div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8"><p class="font-body text-sm font-600 uppercase tracking-[0.05em] text-[var(--color-track-gold)]">Accreditation and registration</p><p class="mt-1 font-heading text-lg font-400 text-white/90">England Athletics · Charity 1164222 · London Living Wage Employer</p></div></section>
 </BaseLayout>

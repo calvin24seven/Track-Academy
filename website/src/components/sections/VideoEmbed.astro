@@ -11,7 +11,7 @@ interface Props {
 
 const {
   videoId = 'Wu1qvPAgoXM',
-  title = "Annie's story — Track Academy",
+  title = 'Bright Futures Through Sport',
 } = Astro.props;
 
 const thumbnailUrl = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
@@ -21,7 +21,7 @@ const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}`;
 <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
   <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
     <div class="mx-auto mb-[clamp(1.5rem,4vw,3rem)] max-w-[var(--container-narrow)] text-center">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-gold)]">
         Watch
       </p>
       <h2 class="font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
@@ -51,8 +51,8 @@ const embedUrl = `https://www.youtube-nocookie.com/embed/${videoId}`;
           <div class="absolute inset-0 bg-[var(--color-track-navy)]/40"></div>
           <!-- Play button -->
           <div class="absolute inset-0 flex items-center justify-center">
-            <div class="flex h-20 w-20 items-center justify-center rounded-full bg-[var(--color-track-orange)] transition-transform duration-200 ease-[var(--ease-sprint)] hover:scale-110 active:scale-95">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="ml-1 h-8 w-8">
+            <div class="flex h-20 w-20 items-center justify-center rounded-full bg-[var(--color-track-gold)] transition-transform duration-200 ease-[var(--ease-sprint)] hover:scale-110 active:scale-95">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="ml-1 h-8 w-8 text-[var(--color-track-navy)]">
                 <path d="M8 5v14l11-7z" />
               </svg>
             </div>

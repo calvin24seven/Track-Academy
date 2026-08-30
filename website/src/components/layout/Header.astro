@@ -39,11 +39,11 @@ const navItems = [
   class="fixed top-0 left-0 right-0 z-50 transition-all duration-200 ease-[var(--ease-sprint)]"
   data-state="top"
 >
-  <div class="mx-auto flex max-w-[var(--container-content)] items-center justify-between px-6 py-4 lg:px-8">
+  <div class="mx-auto flex max-w-[var(--container-content)] items-center justify-between px-6 py-3 lg:px-8">
     <!-- Logo -->
     <a href="/" class="flex items-center" aria-label="Track Academy home">
-      <img src="/logo-white.png" alt="Track Academy" class="h-12 w-auto transition-opacity duration-200 header-logo-light" />
-      <img src="/logo.png" alt="Track Academy" class="hidden h-12 w-auto transition-opacity duration-200 header-logo-dark" />
+      <img src="/logo-white.png" alt="Track Academy" class="h-14 w-auto transition-opacity duration-200 header-logo-light lg:h-16" />
+      <img src="/logo.png" alt="Track Academy" class="hidden h-14 w-auto transition-opacity duration-200 header-logo-dark lg:h-16" />
     </a>
 
     <!-- Desktop nav -->
@@ -77,10 +77,12 @@ const navItems = [
     <!-- CTAs -->
     <div class="hidden items-center gap-4 lg:flex">
       <a href="https://whydonate.com/fundraising/trackacademy" target="_blank" rel="noopener noreferrer" class="font-body text-sm font-semibold text-white/90 transition-colors hover:text-white header-nav-link">
-        Get involved
+        Support us
       </a>
       <a
-        href="/register"
+        href="https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/"
+        target="_blank"
+        rel="noopener noreferrer"
         class="bg-[var(--color-track-orange)] px-6 py-2.5 font-body text-sm font-semibold uppercase tracking-wide text-white transition-all duration-150 ease-[var(--ease-sprint)] hover:bg-[var(--color-accent-dark)] active:scale-[0.98]"
       >
         Register
@@ -125,11 +127,11 @@ const navItems = [
       </div>
     ))}
     <div class="mt-6 flex gap-4">
-      <a href="/register" class="flex-1 bg-[var(--color-track-orange)] px-6 py-4 text-center font-body text-sm font-semibold uppercase tracking-wide text-white">
+      <a href="https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/" target="_blank" rel="noopener noreferrer" class="flex-1 bg-[var(--color-track-orange)] px-6 py-4 text-center font-body text-sm font-semibold uppercase tracking-wide text-white">
         Register
       </a>
       <a href="/support" class="flex-1 border-2 border-white px-6 py-4 text-center font-body text-sm font-semibold uppercase tracking-wide text-white">
-        Get involved
+        Support us
       </a>
     </div>
   </div>

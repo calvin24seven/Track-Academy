@@ -5,13 +5,14 @@ import SplitFeature from '../components/sections/SplitFeature.astro';
 import StepFlow from '../components/sections/StepFlow.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
 import Button from '../components/ui/Button.astro';
+import PerformanceLabLogo from '../components/brand/PerformanceLabLogo.astro';
 import ReadyToRace from '../assets/programme/ready-to-race.jpg';
 import StudentRunning from '../assets/hero/student-running.jpg';
 
 const seo = {
-  title: '1-to-1 Performance Coaching — Track Academy',
+  title: 'The Performance Lab — 1-to-1 Performance Coaching, powered by Track Academy',
   description:
-    'Tailored 1-to-1 coaching for track athletes AND footballers. Assessment, coaching blocks, performance work and action plans.',
+    'The Performance Lab, powered by Track Academy. Tailored 1-to-1 coaching for track athletes AND footballers. Assessment, coaching blocks, performance work and action plans.',
 };
 
 const steps = [
@@ -23,6 +24,15 @@ const steps = [
 ---
 
 <BaseLayout {...seo}>
+  <section class="tracked-surface bg-[var(--color-track-navy)] py-[clamp(2.5rem,5vw,4rem)]">
+    <div class="mx-auto flex max-w-[var(--container-content)] flex-col gap-6 px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+      <PerformanceLabLogo variant="full" />
+      <p class="max-w-sm font-body text-[clamp(0.9375rem,1.3vw,1.0625rem)] leading-[1.6] text-white/70">
+        Individualised one-to-one performance coaching for track athletes and footballers who want that extra edge.
+      </p>
+    </div>
+  </section>
+
   <SimpleHero
     image={ReadyToRace}
     title="1-to-1 Performance Coaching"

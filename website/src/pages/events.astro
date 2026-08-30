@@ -61,7 +61,7 @@ const audiences = [
 
   <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
     <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Get involved</p>
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Support us</p>
       <h2 class="mb-9 font-heading text-[clamp(1.75rem,4vw,3rem)] font-500 leading-[1.03] tracking-[-0.02em] text-[var(--color-track-blue)]">There is a route for everyone.</h2>
       <div class="grid gap-5 lg:grid-cols-3">{audiences.map((audience) => (<article class="border-t-2 border-[var(--color-track-orange)] bg-[var(--color-grey-100)] p-6"><h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">{audience.heading}</h3><p class="mt-3 font-body leading-[1.6] text-[var(--color-grey-700)]">{audience.body}</p><div class="mt-6"><Button href={audience.action.href} label={audience.action.label} variant="primary" external={audience.action.external} /></div></article>))}</div>
     </div>
