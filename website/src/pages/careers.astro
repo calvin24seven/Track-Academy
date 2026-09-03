@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SimpleHero from '../components/sections/SimpleHero.astro';
+import CTABanner from '../components/sections/CTABanner.astro';
+import Button from '../components/ui/Button.astro';
+import TwoStaffWelcoming from '../assets/website-2026/two-staff-welcoming.jpg';
+
+const seo = {
+  title: 'Careers & Join the Team — Track Academy',
+  description: 'Join Track Academy in Brent. We are always keen to hear from brilliant coaches, mentors, tutors, youth workers and volunteers.',
+};
+
+const opportunities = [
+  {
+    number: '01',
+    title: 'Coaches',
+    body: 'Help young people build confidence, discipline and joy through athletics sessions at the track.',
+  },
+  {
+    number: '02',
+    title: 'Mentors',
+    body: 'Be a consistent adult in a young person’s corner: listen, encourage and help them take their next step.',
+  },
+  {
+    number: '03',
+    title: 'Tutors & youth workers',
+    body: 'Bring learning, life skills and real-world guidance alongside the energy of the track.',
+  },
+  {
+    number: '04',
+    title: 'Volunteers',
+    body: 'Support sessions, events and the behind-the-scenes work that keeps the Track Academy community moving.',
+  },
+];
+
+const qualities = [
+  'A genuine belief in the potential of young people.',
+  'Warmth, reliability and the ability to show up consistently.',
+  'Relevant experience or a willingness to learn in your role.',
+  'A commitment to our safeguarding-first culture.',
+];
+
+const enquiryUrl = 'mailto:admin@trackacademy.co.uk?subject=Joining%20the%20Track%20Academy%20team';
+---
+
+<BaseLayout {...seo}>
+  <SimpleHero
+    image={TwoStaffWelcoming}
+    title="Careers & Join the Team"
+    lead="The track is built by people who turn up, care deeply and help young people see what is possible."
+  />
+
+  <section class="bg-[var(--color-paper)] py-[clamp(4rem,10vw,8rem)]">
+    <div class="mx-auto grid max-w-[var(--container-content)] gap-10 px-6 lg:grid-cols-[7fr_5fr] lg:gap-16 lg:px-8">
+      <div>
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Work with us</p>
+        <h2 class="max-w-2xl font-heading text-[clamp(2rem,5vw,3.5rem)] font-500 leading-[1.02] tracking-[-0.025em] text-[var(--color-track-blue)]">Your work can change what a young person believes is possible.</h2>
+      </div>
+      <div class="lg:pt-2">
+        <p class="font-body text-lg leading-[1.65] text-[var(--color-grey-700)]">We are always interested in meeting thoughtful, skilled people who share our belief that sport can open doors. If you think you could strengthen Track Academy, we would love to hear from you — even when a specific role is not listed.</p>
+        <div class="mt-7"><Button href={enquiryUrl} label="Tell us about yourself" variant="primary" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-grey-100)] py-[clamp(4rem,9vw,7rem)]">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <div class="mb-10 max-w-2xl lg:mb-14">
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Where you could make a difference</p>
+        <h2 class="font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.05] tracking-[-0.02em] text-[var(--color-track-blue)]">There is more than one way to stand at the track edge.</h2>
+      </div>
+      <div class="grid gap-x-10 gap-y-0 sm:grid-cols-2">
+        {opportunities.map((opportunity) => (
+          <article class="border-t border-[var(--color-grey-300)] py-7 lg:py-8">
+            <span class="font-heading text-2xl font-500 text-[var(--color-track-gold)] tabular-nums">{opportunity.number}</span>
+            <h3 class="mt-4 font-heading text-2xl font-500 leading-[1.05] text-[var(--color-track-blue)]">{opportunity.title}</h3>
+            <p class="mt-3 max-w-md font-body leading-[1.6] text-[var(--color-grey-700)]">{opportunity.body}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="tracked-surface bg-[var(--color-track-navy)] py-[clamp(4rem,9vw,7rem)]">
+    <div class="mx-auto grid max-w-[var(--container-content)] gap-10 px-6 lg:grid-cols-[5fr_7fr] lg:gap-16 lg:px-8">
+      <div>
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-gold)]">What matters here</p>
+        <h2 class="font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.05] tracking-[-0.02em] text-white">The qualities we look for.</h2>
+      </div>
+      <ul class="space-y-4">
+        {qualities.map((quality) => (
+          <li class="flex gap-4 border-b border-white/15 pb-4 font-body text-lg leading-[1.5] text-white/85">
+            <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-[var(--color-track-gold)]"></span>
+            {quality}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-paper)] py-[clamp(4rem,9vw,7rem)]">
+    <div class="mx-auto max-w-[var(--container-narrow)] px-6 text-center lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Start a conversation</p>
+      <h2 class="mx-auto max-w-2xl font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.05] tracking-[-0.02em] text-[var(--color-track-blue)]">Not sure where you fit? That is a good place to start.</h2>
+      <p class="mx-auto mt-5 max-w-xl font-body text-lg leading-[1.65] text-[var(--color-grey-700)]">Send us a short introduction and a CV or link to your experience. Tell us what you would like to contribute and why Track Academy matters to you.</p>
+      <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row"><Button href={enquiryUrl} label="Email the team" variant="primary" /><Button href="/contact" label="Contact details" variant="secondary" /></div>
+    </div>
+  </section>
+
+  <CTABanner heading="A team effort, every week." body="Meet the people behind Track Academy and see the difference we make together." ctaPrimary={{ label: 'Meet the team', href: '/team' }} ctaSecondary={{ label: 'See our impact', href: '/impact' }} />
+</BaseLayout>

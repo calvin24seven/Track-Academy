@@ -56,13 +56,22 @@ const stats = [
         ))}
       </div>
       <div id="holiday-empty" class="border-2 border-dashed border-[var(--color-grey-300)] px-6 py-[clamp(3rem,8vw,5rem)] text-center">
-        <p class="mx-auto max-w-xl font-body text-base leading-[1.6] text-[var(--color-grey-700)]">No holiday bookings are currently open. New programme dates and registration details are published here once they are confirmed. Join Spond for updates or contact us if you need support planning ahead.</p>
-        <div class="mt-6 flex flex-wrap justify-center gap-3"><Button href={calendarLinks.spond} label="Join Spond for updates" variant="primary" external /><Button href="/contact" label="Contact Track Academy" variant="secondary" /></div>
+        <p class="mx-auto max-w-xl font-body text-base leading-[1.6] text-[var(--color-grey-700)]">No holiday bookings are currently open. New programme dates and registration details are published here once they are confirmed. Join Spond for updates or contact Erick if you need support planning ahead.</p>
+        <div class="mt-6 flex flex-wrap justify-center gap-3"><Button href={calendarLinks.spond} label="Join Spond for updates" variant="primary" external /><Button href="mailto:erick@trackacademy.co.uk?subject=Holiday%20programme%20enquiry" label="Email Erick" variant="secondary" /></div>
       </div>
     </div>
   </section>
 
-  <CTABanner heading="Want to sponsor a holiday programme?" body="Your support keeps workshops and trips free for young people." ctaPrimary={{ label: 'Support us', href: '/support' }} ctaSecondary={{ label: 'Contact us', href: '/contact' }} />
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,7vw,5rem)]">
+    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Holiday programme enquiries</p>
+      <h2 class="font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">Planning ahead or have an activity idea?</h2>
+      <p class="mt-5 max-w-2xl font-body text-base leading-[1.65] text-[var(--color-grey-700)]">Erick co-ordinates our holiday programmes. Get in touch about upcoming places, activity ideas or partnership opportunities.</p>
+      <p class="mt-5 font-body text-base font-semibold text-[var(--color-track-blue)]"><a href="mailto:erick@trackacademy.co.uk?subject=Holiday%20programme%20enquiry" class="underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4 hover:text-[var(--color-track-orange)]">erick@trackacademy.co.uk</a><span class="mx-2 text-[var(--color-grey-400)]">·</span><a href="tel:07399229665" class="underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4 hover:text-[var(--color-track-orange)]">07399 229665</a></p>
+    </div>
+  </section>
+
+  <CTABanner heading="Want to sponsor a holiday programme?" body="Your support keeps workshops and trips free for young people." ctaPrimary={{ label: 'Support us', href: '/support' }} ctaSecondary={{ label: 'Email Erick', href: 'mailto:erick@trackacademy.co.uk?subject=Holiday%20programme%20partnership' }} />
 </BaseLayout>
 
 <script>

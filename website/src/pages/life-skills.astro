@@ -1,0 +1,105 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SimpleHero from '../components/sections/SimpleHero.astro';
+import CTABanner from '../components/sections/CTABanner.astro';
+import Button from '../components/ui/Button.astro';
+import ChildrenLearningWithTutor from '../assets/website-2026/children-learning-with-tutor.jpg';
+import ParentAndChild from '../assets/website-2026/parent-and-child.jpg';
+import { Image } from 'astro:assets';
+
+const seo = {
+  title: 'Life Skills — Track Academy',
+  description: 'Practical life skills that build confidence, communication and readiness for school, work and life beyond the track.',
+};
+
+const skills = [
+  { number: '01', name: 'Listening', prompt: 'Hear the point behind the words.', example: 'Being able to take feedback from a coach, listen to a teammate and ask a useful follow-up question.' },
+  { number: '02', name: 'Presenting', prompt: 'Say what you mean with confidence.', example: 'Sharing an idea, introducing yourself or speaking up in a room without shrinking back.' },
+  { number: '03', name: 'Networking', prompt: 'Build relationships that open doors.', example: 'Knowing how to start a conversation, follow it up and learn from people with different experience.' },
+  { number: '04', name: 'Problem solving', prompt: 'Break a challenge into a next step.', example: 'Looking at what is in your control, exploring options and deciding what to try first.' },
+  { number: '05', name: 'Creativity', prompt: 'Imagine another way forward.', example: 'Using curiosity to develop an idea, adapt a plan and create a solution that is your own.' },
+  { number: '06', name: 'Staying positive', prompt: 'Keep going when it gets hard.', example: 'Recognising a setback, finding support and returning to the task with perspective.' },
+  { number: '07', name: 'Aiming high', prompt: 'Set a goal worth working towards.', example: 'Turning a big ambition into an achievable plan, then checking in on the progress.' },
+  { number: '08', name: 'Discipline', prompt: 'Do the small things consistently.', example: 'Showing up prepared, following through and learning that effort compounds over time.' },
+  { number: '09', name: 'Leadership', prompt: 'Bring other people with you.', example: 'Taking responsibility, encouraging a teammate and making a group stronger because you are in it.' },
+];
+
+const moments = [
+  { number: '01', title: 'At the track', body: 'A group task, a difficult session or a conversation with a coach becomes a chance to practise a skill in real time.' },
+  { number: '02', title: 'In the room', body: 'Workshops make space for reflection, discussion and practical scenarios that young people recognise from everyday life.' },
+  { number: '03', title: 'Beyond Track Academy', body: 'The habits travel: into school, interviews, relationships, work experience and the choices young people make for themselves.' },
+];
+---
+
+<BaseLayout {...seo}>
+  <SimpleHero
+    image={ChildrenLearningWithTutor}
+    title="Life Skills"
+    lead="The practical skills that help young people communicate, make decisions and take their next step with confidence."
+  />
+
+  <section class="tracked-surface overflow-hidden bg-[var(--color-track-navy)] py-[clamp(4rem,10vw,9rem)] text-white">
+    <div class="mx-auto grid max-w-[var(--container-content)] gap-10 px-6 lg:grid-cols-[5fr_7fr] lg:items-end lg:gap-16 lg:px-8">
+      <div>
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-gold)]">The work beyond the whistle</p>
+        <h2 class="max-w-lg font-heading text-[clamp(2.15rem,5vw,4rem)] font-500 leading-[1] tracking-[-0.03em]">Skills for the moments that matter.</h2>
+      </div>
+      <div class="border-l-2 border-[var(--color-track-gold)] pl-6 lg:pb-2">
+        <p class="max-w-2xl font-body text-[clamp(1.05rem,1.8vw,1.35rem)] leading-[1.65] text-white/80">Life Skills gives young people a language for the things they are already navigating: speaking up, handling pressure, making choices and showing up for themselves and others.</p>
+      </div>
+    </div>
+    <div class="mx-auto mt-14 grid max-w-[var(--container-content)] grid-cols-3 gap-3 px-6 lg:mt-20 lg:px-8">
+      <span class="h-1 bg-[var(--color-track-gold)]"></span><span class="h-1 bg-[var(--color-track-orange)]"></span><span class="h-1 bg-white/35"></span>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-paper)] py-[clamp(4rem,9vw,8rem)]" aria-labelledby="skills-heading">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <div class="mb-[clamp(2.5rem,5vw,4rem)] grid gap-5 lg:grid-cols-[5fr_7fr] lg:items-end">
+        <p class="font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Nine skills, practised for real</p>
+        <div><h2 id="skills-heading" class="max-w-3xl font-heading text-[clamp(1.9rem,5vw,3.4rem)] font-500 leading-[1.04] tracking-[-0.025em] text-[var(--color-track-blue)]">The things young people can take with them anywhere.</h2><p class="mt-4 max-w-2xl font-body leading-[1.65] text-[var(--color-grey-700)]">Open a skill to see how it shows up in everyday life.</p></div>
+      </div>
+      <div class="grid border-t border-[var(--color-grey-300)] md:grid-cols-2 lg:grid-cols-3">
+        {skills.map((skill) => (
+          <details class="group border-b border-[var(--color-grey-300)] p-0 md:[&:not(:nth-child(2n))]:border-r lg:[&:not(:nth-child(3n))]:border-r">
+            <summary class="flex min-h-56 cursor-pointer flex-col justify-between p-6 marker:content-none sm:p-7">
+              <div class="flex items-start justify-between gap-4"><span class="font-heading text-xl font-500 text-[var(--color-track-gold)]">{skill.number}</span><span class="flex h-8 w-8 items-center justify-center rounded-full border border-[var(--color-grey-300)] font-body text-xl font-300 text-[var(--color-track-orange)] transition-transform duration-200 group-open:rotate-45">+</span></div>
+              <div><h3 class="font-heading text-2xl font-500 leading-[1.05] text-[var(--color-track-blue)]">{skill.name}</h3><p class="mt-3 font-body text-sm leading-[1.5] text-[var(--color-grey-700)]">{skill.prompt}</p></div>
+            </summary>
+            <div class="border-t border-[var(--color-grey-200)] bg-[var(--color-grey-100)] px-6 pb-7 pt-5 sm:px-7"><p class="font-body text-sm leading-[1.65] text-[var(--color-grey-800)]">{skill.example}</p></div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-grey-100)] py-[clamp(4rem,9vw,8rem)]">
+    <div class="mx-auto grid max-w-[var(--container-content)] gap-10 px-6 lg:grid-cols-[5fr_7fr] lg:gap-16 lg:px-8">
+      <div>
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">How it lands</p>
+        <h2 class="max-w-lg font-heading text-[clamp(1.9rem,4vw,3.2rem)] font-500 leading-[1.04] tracking-[-0.025em] text-[var(--color-track-blue)]">Not a lecture. Something to use.</h2>
+      </div>
+      <div class="space-y-0 border-t border-[var(--color-grey-300)]">
+        {moments.map((moment) => (<article class="grid gap-4 border-b border-[var(--color-grey-300)] py-6 sm:grid-cols-[4rem_1fr]"><span class="font-heading text-2xl font-500 text-[var(--color-track-gold)]">{moment.number}</span><div><h3 class="font-heading text-2xl font-500 leading-[1.06] text-[var(--color-track-blue)]">{moment.title}</h3><p class="mt-3 max-w-xl font-body leading-[1.65] text-[var(--color-grey-700)]">{moment.body}</p></div></article>))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-paper)] py-[clamp(4rem,9vw,8rem)]">
+    <div class="mx-auto grid max-w-[var(--container-content)] gap-8 px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
+      <div class="flex flex-col justify-center">
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Alongside education</p>
+        <h2 class="font-heading text-[clamp(1.9rem,4vw,3.2rem)] font-500 leading-[1.04] tracking-[-0.025em] text-[var(--color-track-blue)]">The classroom and real life should strengthen each other.</h2>
+        <p class="mt-5 max-w-xl font-body text-lg leading-[1.65] text-[var(--color-grey-700)]">Academic support helps young people with the work in front of them. Life Skills helps them feel equipped for the conversation, decision or opportunity beyond it.</p>
+        <div class="mt-8"><Button href="/education" label="Explore Education" variant="link" /></div>
+      </div>
+      <div class="relative overflow-hidden bg-[var(--color-track-blue)]">
+        <div class="aspect-[5/4]"><Image src={ParentAndChild} alt="A parent and child together at Track Academy" class="h-full w-full object-cover" loading="lazy" widths={[500, 800, 1100]} sizes="(max-width: 1024px) 100vw, 50vw" /></div>
+        <div class="absolute inset-0 bg-[var(--color-track-navy)]/25"></div>
+        <p class="absolute bottom-0 left-0 max-w-md p-6 font-heading text-2xl font-500 leading-[1.08] text-white sm:p-8">What happens here stays with young people long after the session ends.</p>
+      </div>
+    </div>
+  </section>
+
+  <CTABanner heading="Give your child more than a place to train." body="Life Skills sits alongside athletics, education and mentoring at Track Academy." ctaPrimary={{ label: 'Register your child', href: 'https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/' }} ctaSecondary={{ label: 'Talk to us', href: '/contact' }} />
+</BaseLayout>

@@ -20,7 +20,7 @@ const needStats = [
 
 const waysToSupport = [
   { label: 'Donate', heading: 'Keep the track open', description: 'A one-off or regular gift through Whydonate goes straight to running sessions, buying kit and supporting young people.', cta: { label: 'Donate on Whydonate', href: 'https://whydonate.com/fundraising/trackacademy' }, primary: true },
-  { label: 'Sponsor', heading: 'Sponsor an event or programme', description: 'Back a holiday programme, a competition season or a school partnership. Your brand alongside real impact in Brent.', cta: { label: 'Talk to us about sponsorship', href: '/contact' } },
+  { label: 'Sponsor', heading: 'Sponsor an event or programme', description: 'Back a holiday programme, a competition season or a school partnership. Your brand alongside real impact in Brent.', cta: { label: 'Explore sponsorship', href: 'https://www.snapsponsorship.com/rights-owners/athletics/track-academy' } },
   { label: 'Volunteer', heading: 'Give your time', description: 'Coaches, mentors, tutors and event-day helpers — if you\'ve got time and care, we\'ll find your role.', cta: { label: 'Get in touch', href: '/contact' } },
 ];
 
@@ -68,7 +68,7 @@ const whereMoneyGoes = [
           <h3 class="mt-4 font-heading text-[clamp(1.25rem,3vw,1.75rem)] font-500 leading-[1.1] text-[var(--color-grey-900)]">{waysToSupport[1].heading}</h3>
           <p class="mt-4 font-body text-base leading-[1.6] text-[var(--color-grey-700)]">{waysToSupport[1].description}</p>
           <div class="mt-8">
-            <Button href={waysToSupport[1].cta.href} label={waysToSupport[1].cta.label} variant="secondary" />
+            <Button href={waysToSupport[1].cta.href} label={waysToSupport[1].cta.label} variant="secondary" external />
           </div>
         </div>
 
@@ -96,7 +96,7 @@ const whereMoneyGoes = [
         We work with companies who want more than a logo. Your sponsorship directly funds a programme, a group of young people or a season — and we tell that story with you.
       </p>
       <div class="mt-8">
-        <Button href="/contact" label="Talk to us about partnership" variant="primary" />
+        <Button href="https://www.snapsponsorship.com/rights-owners/athletics/track-academy" label="Explore sponsorship" variant="primary" external />
       </div>
     </div>
   </section>

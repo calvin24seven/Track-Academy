@@ -65,12 +65,15 @@ const {
   >
     {athletes.map((athlete, i) => (
       <article
-        class="athlete-card relative flex-[0_0_85vw] snap-center overflow-hidden sm:flex-[0_0_60vw] lg:flex-[0_0_40vw]"
+        class:list={[
+          'athlete-card relative flex-[0_0_85vw] snap-center overflow-hidden sm:flex-[0_0_60vw]',
+          i === 0 ? 'lg:flex-[0_0_56vw]' : 'lg:flex-[0_0_28vw]',
+        ]}
         data-story-card={i}
         style={`animation-delay: ${i * 80}ms;`}
       >
-        <!-- Full-bleed portrait — aspect-ratio 3/4 (taller than wide, faces read better) -->
-        <div class="relative aspect-[3/4] w-full overflow-hidden">
+        <!-- The lead story becomes an editorial feature; the rest are a supporting rail. -->
+        <div class:list={['relative w-full overflow-hidden', i === 0 ? 'aspect-[3/4] lg:aspect-[16/10]' : 'aspect-[3/4]']}>
           <Image
             src={athlete.image}
             alt={athlete.attribution}
@@ -85,6 +88,7 @@ const {
 
         <!-- Pull-quote set into the negative space of the photo -->
         <div class="absolute bottom-0 left-0 right-0 p-6 lg:p-8">
+          {i === 0 && <p class="mb-4 font-body text-xs font-semibold uppercase tracking-[0.1em] text-[var(--color-track-gold)]">Featured story</p>}
           <blockquote class="font-body text-[clamp(1.125rem,1.8vw,1.5rem)] font-300 italic leading-[1.4] text-white">
             "{athlete.quote}"
           </blockquote>

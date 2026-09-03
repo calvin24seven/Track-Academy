@@ -22,8 +22,8 @@ interface Props {
 
 const {
   image: img = HeroImage,
-  headline = 'Every young person deserves somewhere to belong.',
-  lead = 'Through athletics, education and mentoring in Brent, we\'re a launchpad for young people to break down barriers, unlock their potential and thrive. Since 2007.',
+  headline = 'A place to train. A place to belong.',
+  lead = 'Three times a week in Brent, young people come to train, get help with school and find adults who keep showing up.',
 } = Astro.props;
 ---
 
@@ -50,15 +50,19 @@ const {
        justify-center keeps text in the middle of safe zone — never hits header, never clipped -->
   <div class="absolute top-[7rem] right-0 bottom-0 left-0 flex flex-col justify-center px-6 pb-16 lg:px-8 lg:pb-20">
     <div class="mx-auto w-full max-w-[var(--container-content)]">
-      <div class="max-w-[var(--container-content)]">
+      <div class="max-w-3xl">
+        <p class="mb-5 flex items-center gap-3 font-body text-xs font-semibold uppercase tracking-[0.13em] text-white/85">
+          <span class="h-2 w-2 rounded-full bg-[var(--color-track-gold)]"></span>
+          Willesden Sports Centre · Brent · Since 2007
+        </p>
         <h1
-          class="animate-mask-reveal font-heading text-[clamp(2.5rem,7vw,5rem)] font-semibold leading-[1.05] tracking-[-0.02em] text-white"
+          class="animate-mask-reveal font-heading text-[clamp(3rem,7vw,5.75rem)] font-500 leading-[0.98] tracking-[-0.035em] text-white"
           style="animation-delay: 300ms; animation-fill-mode: both;"
         >
           {headline}
         </h1>
         <p
-          class="mt-6 max-w-xl animate-scale-in font-body text-[clamp(1rem,1.5vw,1.25rem)] leading-[1.55] text-white/90"
+          class="mt-7 max-w-xl animate-scale-in font-body text-[clamp(1.05rem,1.5vw,1.3rem)] leading-[1.55] text-white/90"
           style="animation-delay: 500ms; animation-fill-mode: both;"
         >
           {lead}
@@ -67,8 +71,8 @@ const {
           class="mt-8 flex flex-col gap-4 animate-scale-in sm:flex-row sm:items-center"
           style="animation-delay: 700ms; animation-fill-mode: both;"
         >
-          <Button href="https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/" label="Register your child" variant="primary" size="default" external />
-          <Button href="/schools" label="Partner with us" variant="inverse" size="default" />
+          <Button href="https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/" label="Register a child" variant="primary" size="default" external />
+          <a href="/schools" class="font-body text-sm font-semibold text-white underline decoration-[var(--color-track-gold)] decoration-2 underline-offset-8 transition-colors hover:text-[var(--color-track-gold)]">For schools and funders →</a>
         </div>
       </div>
     </div>

@@ -2,8 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TrackEntranceHero from '../components/sections/TrackEntranceHero.astro';
 import AudienceRouter from '../components/sections/AudienceRouter.astro';
-import ProgrammeCards from '../components/sections/ProgrammeCards.astro';
-import PillarSequence from '../components/sections/PillarSequence.astro';
+import ProgrammeEditorial from '../components/sections/ProgrammeEditorial.astro';
 import VideoEmbed from '../components/sections/VideoEmbed.astro';
 import NumeralsEscaping from '../components/sections/NumeralsEscaping.astro';
 import AthleteStack from '../components/sections/AthleteStack.astro';
@@ -11,36 +10,38 @@ import InstagramFeed from '../components/sections/InstagramFeed.astro';
 import SchoolsTeaser from '../components/sections/SchoolsTeaser.astro';
 import TrustStrip from '../components/sections/TrustStrip.astro';
 import TrustBar from '../components/sections/TrustBar.astro';
-import CTABanner from '../components/sections/CTABanner.astro';
+import FinalDecision from '../components/sections/FinalDecision.astro';
 
 const seo = {
   title: 'Track Academy — Athletics, Education & Mentoring in Brent',
   description:
-    'Athletics, education and mentoring for young people aged 5–21 in Brent. £25 per term, with free places available through financial support.',
+    'Athletics, education and mentoring for young people aged 5–23 in Brent. £25 per term, with free places available through financial support.',
 };
 ---
 
 <BaseLayout {...seo}>
   <TrackEntranceHero
-    headline="Every young person deserves somewhere to belong."
-    lead="Through athletics, education and mentoring in Brent, we're a launchpad for young people to break down barriers, unlock their potential and thrive. Since 2007."
+    headline="A place to train. A place to belong."
+    lead="Three times a week in Brent, young people come to train, get help with school and find adults who keep showing up."
   />
 
   <TrustBar />
   <AudienceRouter />
-  <VideoEmbed videoId="RVxiOzJPtAc" title="Bright Futures Through Sport" />
+  <VideoEmbed videoId="RVxiOzJPtAc" title="See what the track means to young people." />
   <InstagramFeed />
-  <ProgrammeCards />
-  <PillarSequence />
-  <NumeralsEscaping />
+  <ProgrammeEditorial />
+  <NumeralsEscaping
+    stats={[
+      { number: 356, label: 'young people supported', context: 'in the past year' },
+      { number: 577, label: 'sessions delivered', context: 'every year' },
+      { number: 94, suffix: '%', label: 'believe they can achieve their goals' },
+      { number: 200, suffix: '+', label: 'competition entries' },
+    ]}
+    caption="In the past year, this is what showing up has looked like."
+  />
   <AthleteStack />
 
   <SchoolsTeaser />
   <TrustStrip />
-  <CTABanner
-    heading="Ready to support Track Academy?"
-    body="Register a child or talk to our schools team about bringing Track Academy to more young people."
-    ctaPrimary={{ label: 'Register your child', href: 'https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/' }}
-    ctaSecondary={{ label: 'Partner with us', href: '/schools' }}
-  />
+  <FinalDecision />
 </BaseLayout>

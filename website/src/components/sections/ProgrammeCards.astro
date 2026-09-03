@@ -19,17 +19,24 @@ interface Programme {
 const programmes: Programme[] = [
   {
     title: 'Athletics',
-    description: 'Running, jumping, throwing — three sessions a week at Willesden Sports Centre. Ages 5–21.',
+    description: 'Running, jumping, throwing — three sessions a week at Willesden Sports Centre. Ages 5–23.',
     href: '/athletics',
     image: (await import('../../assets/programme/ready-to-race.jpg')).default,
     alt: 'Young athletes training together on an athletics track',
   },
   {
-    title: 'Education & Life Skills',
-    description: 'Free maths, English and science tuition every Saturday. Ten life skills that build confidence.',
+    title: 'Education',
+    description: 'Free maths, English and science tuition every Saturday, built around confidence in learning.',
     href: '/education',
     image: (await import('../../assets/programme/students-learning.jpg')).default,
     alt: 'Young people working together during an education session',
+  },
+  {
+    title: 'Life Skills',
+    description: 'Practical skills for communication, resilience and taking the next step with confidence.',
+    href: '/life-skills',
+    image: (await import('../../assets/website-2026/children-learning-with-tutor.jpg')).default,
+    alt: 'A young person learning alongside a tutor at Track Academy',
   },
   {
     title: 'Mentoring',
@@ -60,7 +67,7 @@ const programmes: Programme[] = [
     </div>
 
     <div class="mb-4 flex items-center justify-between lg:hidden">
-      <p class="font-body text-sm font-medium text-[var(--color-grey-500)]">Explore all four programmes</p>
+      <p class="font-body text-sm font-medium text-[var(--color-grey-500)]">Explore all five programmes</p>
       <span class="font-body text-xs font-semibold uppercase tracking-wide text-[var(--color-track-orange)]">Swipe →</span>
     </div>
 

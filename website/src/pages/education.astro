@@ -8,29 +8,23 @@ import StudentsLearning from '../assets/website-2026/tutor-and-student-front.jpg
 import ChildrenLearningWithTutor from '../assets/website-2026/children-learning-with-tutor.jpg';
 
 const seo = {
-  title: 'Education & Life Skills — Track Academy',
+  title: 'Education — Track Academy',
   description:
-    'Academic support, tuition and 10 life skills that help young people thrive beyond the track.',
+    'Academic support and tuition that help young people build confidence in school, learning and what comes next.',
 };
 
-const lifeSkills = [
-  { name: 'Listening', description: 'Truly hearing others — a coach, a teammate, a teacher.' },
-  { name: 'Presenting', description: 'Standing up and speaking clearly in front of a group.' },
-  { name: 'Networking', description: 'Building real relationships that open doors.' },
-  { name: 'Problem Solving', description: 'Breaking a challenge down and finding a way through.' },
-  { name: 'Creativity', description: 'Imagining new solutions and new versions of yourself.' },
-  { name: 'Staying Positive', description: 'Keeping going when the race, or the week, is hard.' },
-  { name: 'Aiming High', description: 'Setting goals that stretch you beyond your comfort zone.' },
-  { name: 'Discipline', description: 'Showing up every session — the foundation of everything.' },
-  { name: 'Leadership', description: 'Stepping forward and bringing others with you.' },
+const learningPrinciples = [
+  { number: '01', title: 'Start where the young person is', body: 'We build confidence before pressure, taking time to understand the subject, goal or hurdle in front of them.' },
+  { number: '02', title: 'Make progress visible', body: 'Small wins matter. We help young people recognise what is improving and take the next step with purpose.' },
+  { number: '03', title: 'Connect learning to life', body: 'School, work and the track all ask for the same things: focus, resilience and the confidence to ask for help.' },
 ];
 ---
 
 <BaseLayout {...seo}>
   <SimpleHero
     image={StudentsLearning}
-    title="Education & Life Skills"
-    lead="Off the track, we build the skills young people need to thrive in school, work and life."
+    title="Education"
+    lead="Practical academic support that helps young people feel more confident in school and ambitious about what comes next."
   />
 
   <SplitFeature
@@ -42,58 +36,45 @@ const lifeSkills = [
     cta={{ label: 'Register your child', href: 'https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/' }}
   />
 
-  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
+  <section class="bg-[var(--color-grey-100)] py-[clamp(4rem,9vw,8rem)]">
     <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        10 Life Skills
-      </p>
-      <h2 class="mb-[clamp(2rem,5vw,3rem)] max-w-2xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Skills the track can't teach alone.
-      </h2>
-
-      <div class="grid grid-cols-1 gap-x-12 gap-y-[clamp(1.5rem,4vw,2.5rem)] sm:grid-cols-2 lg:grid-cols-3">
-        {lifeSkills.map((skill, i) => (
-          <div class="flex items-start gap-5 border-b border-[var(--color-grey-300)] pb-[clamp(1.25rem,3vw,2rem)]">
-            <span class="font-heading text-[clamp(1.5rem,3vw,2.25rem)] font-300 leading-none text-[var(--color-track-orange)] tabular-nums">
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            <div>
-              <h3 class="font-heading text-lg font-500 text-[var(--color-grey-900)]">{skill.name}</h3>
-              <p class="mt-1 font-body text-sm leading-[1.5] text-[var(--color-grey-500)]">{skill.description}</p>
-            </div>
-          </div>
+      <div class="mb-[clamp(2.5rem,5vw,4rem)] grid gap-5 lg:grid-cols-[5fr_7fr] lg:items-end">
+        <p class="font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">How we learn</p>
+        <h2 class="max-w-3xl font-heading text-[clamp(1.9rem,5vw,3.4rem)] font-500 leading-[1.04] tracking-[-0.025em] text-[var(--color-track-blue)]">The confidence to say, “I can work this out.”</h2>
+      </div>
+      <div class="grid gap-0 border-y border-[var(--color-grey-300)] lg:grid-cols-3 lg:divide-x lg:divide-[var(--color-grey-300)]">
+        {learningPrinciples.map((principle) => (
+          <article class="border-b border-[var(--color-grey-300)] py-7 last:border-b-0 lg:border-b-0 lg:px-8 lg:first:pl-0 lg:last:pr-0">
+            <span class="font-heading text-2xl font-500 text-[var(--color-track-gold)]">{principle.number}</span>
+            <h3 class="mt-7 font-heading text-2xl font-500 leading-[1.08] text-[var(--color-track-blue)]">{principle.title}</h3>
+            <p class="mt-4 max-w-sm font-body leading-[1.65] text-[var(--color-grey-700)]">{principle.body}</p>
+          </article>
         ))}
       </div>
     </div>
   </section>
 
-  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
-    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Knowledge & Employability
-      </p>
-      <h2 class="mb-6 max-w-2xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Beyond school — building futures.
-      </h2>
-      <div class="space-y-6">
-        {[
-          'CV writing and interview practice through our ELEVATE workshops',
-          'Work experience placements and employer visits',
-          'Mentoring from professionals across business and sport',
-          'Pathway guidance into college, apprenticeships and university',
-        ].map((point) => (
-          <div class="flex items-start gap-4 border-b border-[var(--color-grey-300)] pb-6">
-            <div class="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-[var(--color-track-orange)]"></div>
-            <p class="font-body text-[clamp(1rem,1.5vw,1.125rem)] leading-[1.6] text-[var(--color-grey-900)]">{point}</p>
-          </div>
-        ))}
+  <section class="bg-[var(--color-paper)] py-[clamp(4rem,9vw,8rem)]">
+    <div class="mx-auto grid max-w-[var(--container-content)] gap-10 px-6 lg:grid-cols-[5fr_7fr] lg:items-start lg:gap-16 lg:px-8">
+      <div>
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Beyond the lesson</p>
+        <h2 class="font-heading text-[clamp(1.8rem,4vw,3rem)] font-500 leading-[1.05] tracking-[-0.02em] text-[var(--color-track-blue)]">Learning is bigger than a worksheet.</h2>
+      </div>
+      <div>
+        <p class="font-body text-lg leading-[1.65] text-[var(--color-grey-700)]">Education at Track Academy sits alongside training, mentoring and the everyday conversations that help young people feel ready for the world beyond school.</p>
+        <div class="mt-8 grid gap-4 sm:grid-cols-2">
+          {['CV writing and interview practice through ELEVATE workshops', 'Work experience placements and employer visits', 'Mentoring from professionals across business and sport', 'Guidance into college, apprenticeships and university'].map((point) => (
+            <div class="border-l-2 border-[var(--color-track-gold)] bg-[var(--color-grey-100)] p-5 font-body text-sm leading-[1.55] text-[var(--color-grey-800)]">{point}</div>
+          ))}
+        </div>
+        <div class="mt-8"><Button href="/life-skills" label="Explore Life Skills" variant="link" /></div>
       </div>
     </div>
   </section>
 
   <CTABanner
     heading="Education is part of the membership."
-    body="No extra cost, no separate sign-up."
+    body="No extra cost. No separate sign-up."
     ctaPrimary={{ label: 'Register your child', href: 'https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/' }}
     ctaSecondary={{ label: 'Talk to us', href: '/contact' }}
   />
