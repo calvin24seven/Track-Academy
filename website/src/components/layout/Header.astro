@@ -1,8 +1,6 @@
 ---
 /**
- * Header.astro — Navigation with scroll-aware state change
- * Solid nav that changes background on scroll-past-hero
- * NOT backdrop-blur glassmorphism (anti-pattern from art-direction-pro.md)
+ * Header.astro — clear primary navigation with accessible desktop dropdowns and mobile menu.
  */
 const navItems = [
   {
@@ -11,8 +9,8 @@ const navItems = [
     children: [
       { label: 'About Us', href: '/about' },
       { label: 'Our Impact', href: '/impact' },
-      { label: 'Safeguarding', href: '/safeguarding' },
       { label: 'Meet the Team', href: '/team' },
+      { label: 'Safeguarding', href: '/safeguarding' },
     ],
   },
   {
@@ -31,7 +29,7 @@ const navItems = [
   { label: 'Schools', href: '/schools' },
   { label: 'Events', href: '/events' },
   { label: 'Impact', href: '/impact' },
-  { label: 'Safeguarding', href: '/safeguarding' },
+  { label: 'Contact', href: '/contact' },
 ];
 ---
 
@@ -47,24 +45,17 @@ const navItems = [
       <img src="/logo.png" alt="Track Academy" class="hidden h-14 w-auto transition-opacity duration-200 header-logo-dark lg:h-16" />
     </a>
 
-    <!-- Desktop nav -->
     <nav class="hidden items-center gap-8 lg:flex" aria-label="Main navigation">
       {navItems.map((item) => (
         <div class="group relative">
-          <a
-            href={item.href}
-            class="font-body text-sm font-semibold text-white/90 transition-colors duration-150 hover:text-white header-nav-link"
-          >
+          <a href={item.href} class="header-nav-link font-body text-sm font-semibold text-white/90 transition-colors duration-150 hover:text-white">
             {item.label}
           </a>
           {item.children && (
             <div class="invisible absolute left-0 top-full pt-2 opacity-0 transition-all duration-200 ease-[var(--ease-settle)] group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-              <div class="tracked-surface min-w-[220px] bg-[var(--color-track-blue)] py-2 shadow-xl">
+              <div class="tracked-surface min-w-[230px] bg-[var(--color-track-blue)] py-2 shadow-xl">
                 {item.children.map((child) => (
-                  <a
-                    href={child.href}
-                    class="block px-5 py-2.5 font-body text-sm text-white/80 transition-colors duration-150 hover:bg-white/10 hover:text-white"
-                  >
+                  <a href={child.href} class="block px-5 py-2.5 font-body text-sm text-white/80 transition-colors duration-150 hover:bg-white/10 hover:text-white focus:bg-white/10 focus:text-white">
                     {child.label}
                   </a>
                 ))}
@@ -75,80 +66,80 @@ const navItems = [
       ))}
     </nav>
 
-    <!-- CTAs -->
     <div class="hidden items-center gap-4 lg:flex">
-      <a href="https://whydonate.com/fundraising/trackacademy" target="_blank" rel="noopener noreferrer" class="font-body text-sm font-semibold text-white/90 transition-colors hover:text-white header-nav-link">
-        Support us
-      </a>
-      <a
-        href="https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/"
-        target="_blank"
-        rel="noopener noreferrer"
-        class="bg-[var(--color-track-orange)] px-6 py-2.5 font-body text-sm font-semibold uppercase tracking-wide text-white transition-all duration-150 ease-[var(--ease-sprint)] hover:bg-[var(--color-accent-dark)] active:scale-[0.98]"
-      >
-        Register
-      </a>
+      <a href="/support" class="header-nav-link font-body text-sm font-semibold text-white/90 transition-colors hover:text-white">Support</a>
+      <a href="/register" class="bg-[var(--color-track-orange)] px-6 py-2.5 font-body text-sm font-semibold uppercase tracking-wide text-white transition-all duration-150 ease-[var(--ease-sprint)] hover:bg-[var(--color-accent-dark)] active:scale-[0.98]">Register</a>
     </div>
 
-    <!-- Mobile hamburger -->
     <button
       id="mobile-menu-toggle"
-      class="flex flex-col gap-1.5 p-2 lg:hidden"
+      type="button"
+      class="flex min-h-11 min-w-11 flex-col items-center justify-center gap-1.5 lg:hidden"
       aria-label="Open menu"
       aria-expanded="false"
       aria-controls="mobile-menu"
     >
-      <span class="block h-0.5 w-6 bg-white transition-all duration-200 header-bar"></span>
-      <span class="block h-0.5 w-6 bg-white transition-all duration-200 header-bar"></span>
-      <span class="block h-0.5 w-6 bg-white transition-all duration-200 header-bar"></span>
+      <span class="header-bar block h-0.5 w-6 bg-white transition-all duration-200"></span>
+      <span class="header-bar block h-0.5 w-6 bg-white transition-all duration-200"></span>
+      <span class="header-bar block h-0.5 w-6 bg-white transition-all duration-200"></span>
     </button>
   </div>
 </header>
 
-<!-- Mobile menu drawer -->
-<div
-  id="mobile-menu"
-  class="fixed inset-0 z-40 hidden bg-[var(--color-track-blue)] tracked-surface"
->
-  <div class="flex h-full flex-col overflow-y-auto px-6 py-20">
+<div id="mobile-menu" class="tracked-surface fixed inset-0 z-40 hidden bg-[var(--color-track-blue)]" aria-hidden="true">
+  <nav class="flex h-full flex-col overflow-y-auto px-6 pb-10 pt-24" aria-label="Mobile navigation">
     {navItems.map((item) => (
-      <div class="py-2">
-        <a href={item.href} class="font-heading text-2xl font-medium text-white">
-          {item.label}
-        </a>
+      <div class="border-b border-white/10 py-4">
+        <a href={item.href} class="font-heading text-2xl font-medium text-white">{item.label}</a>
         {item.children && (
-          <div class="mt-1 pl-4">
+          <div class="mt-2 pl-4">
             {item.children.map((child) => (
-              <a href={child.href} class="block py-1.5 font-body text-base text-white/70 hover:text-white">
-                {child.label}
-              </a>
+              <a href={child.href} class="block py-2 font-body text-base text-white/70 hover:text-white focus:text-white">{child.label}</a>
             ))}
           </div>
         )}
       </div>
     ))}
-    <div class="mt-6 flex gap-4">
-      <a href="https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/" target="_blank" rel="noopener noreferrer" class="flex-1 bg-[var(--color-track-orange)] px-6 py-4 text-center font-body text-sm font-semibold uppercase tracking-wide text-white">
-        Register
-      </a>
-      <a href="/support" class="flex-1 border-2 border-white px-6 py-4 text-center font-body text-sm font-semibold uppercase tracking-wide text-white">
-        Support us
-      </a>
+    <div class="mt-8 flex gap-4">
+      <a href="/register" class="flex-1 bg-[var(--color-track-orange)] px-6 py-4 text-center font-body text-sm font-semibold uppercase tracking-wide text-white">Register</a>
+      <a href="/support" class="flex-1 border-2 border-white px-6 py-4 text-center font-body text-sm font-semibold uppercase tracking-wide text-white">Support</a>
     </div>
-  </div>
+  </nav>
 </div>
 
 <script>
-  // Scroll-aware header: changes from transparent (over hero) to solid (past hero)
   const header = document.getElementById('site-header');
   const mobileToggle = document.getElementById('mobile-menu-toggle');
   const mobileMenu = document.getElementById('mobile-menu');
+  let previousFocus = null;
 
   function updateHeader() {
-    if (window.scrollY > 80) {
-      header?.setAttribute('data-state', 'scrolled');
+    header?.setAttribute('data-state', window.scrollY > 80 ? 'scrolled' : 'top');
+  }
+
+  function getFocusableElements() {
+    if (!mobileMenu) return [];
+    return Array.from(mobileMenu.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'));
+  }
+
+  function setMenu(open) {
+    if (!mobileMenu || !mobileToggle) return;
+    if (open) {
+      previousFocus = document.activeElement;
+      mobileMenu.classList.remove('hidden');
+      mobileMenu.setAttribute('aria-hidden', 'false');
+      mobileToggle.setAttribute('aria-expanded', 'true');
+      mobileToggle.setAttribute('aria-label', 'Close menu');
+      document.body.style.overflow = 'hidden';
+      const first = getFocusableElements()[0];
+      if (first instanceof HTMLElement) first.focus();
     } else {
-      header?.setAttribute('data-state', 'top');
+      mobileMenu.classList.add('hidden');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      mobileToggle.setAttribute('aria-expanded', 'false');
+      mobileToggle.setAttribute('aria-label', 'Open menu');
+      document.body.style.overflow = '';
+      if (previousFocus instanceof HTMLElement) previousFocus.focus();
     }
   }
 
@@ -156,36 +147,47 @@ const navItems = [
   updateHeader();
 
   mobileToggle?.addEventListener('click', () => {
-    const isOpen = mobileMenu?.classList.contains('hidden') === false;
-    if (isOpen) {
-      mobileMenu?.classList.add('hidden');
-      mobileToggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    } else {
-      mobileMenu?.classList.remove('hidden');
-      mobileToggle.setAttribute('aria-expanded', 'true');
-      document.body.style.overflow = 'hidden';
+    const isOpen = mobileToggle.getAttribute('aria-expanded') === 'true';
+    setMenu(!isOpen);
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (!mobileToggle || mobileToggle.getAttribute('aria-expanded') !== 'true') return;
+
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      setMenu(false);
+      return;
     }
+
+    if (event.key === 'Tab') {
+      const focusable = getFocusableElements();
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        if (last instanceof HTMLElement) last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        if (first instanceof HTMLElement) first.focus();
+      }
+    }
+  });
+
+  mobileMenu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setMenu(false));
   });
 </script>
 
 <style>
-  /* Header state: transparent over hero, solid when scrolled */
-  #site-header[data-state='top'] {
-    background-color: transparent;
-  }
+  #site-header[data-state='top'] { background-color: transparent; }
   #site-header[data-state='scrolled'] {
     background-color: var(--color-track-blue);
     box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.1);
   }
 
-  /* Logo visibility: white over hero, dark when scrolled — actually keep white for simplicity on blue header */
-  .header-logo-dark { display: none; }
-
-  /* Nav link underline grow from left on hover */
-  .header-nav-link {
-    position: relative;
-  }
+  .header-nav-link { position: relative; }
   .header-nav-link::after {
     content: '';
     position: absolute;
@@ -196,7 +198,6 @@ const navItems = [
     background-color: var(--color-track-orange);
     transition: width 200ms var(--ease-sprint);
   }
-  .header-nav-link:hover::after {
-    width: 100%;
-  }
+  .header-nav-link:hover::after,
+  .header-nav-link:focus-visible::after { width: 100%; }
 </style>
