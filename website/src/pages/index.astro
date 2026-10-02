@@ -11,6 +11,7 @@ import SchoolsTeaser from '../components/sections/SchoolsTeaser.astro';
 import TrustStrip from '../components/sections/TrustStrip.astro';
 import TrustBar from '../components/sections/TrustBar.astro';
 import FinalDecision from '../components/sections/FinalDecision.astro';
+import { latestReportedYoungPeople } from '../data/impact';
 
 const seo = {
   title: 'Track Academy — Athletics, Education & Mentoring in Brent',
@@ -32,12 +33,9 @@ const seo = {
   <ProgrammeEditorial />
   <NumeralsEscaping
     stats={[
-      { number: 356, label: 'young people supported', context: 'in the past year' },
-      { number: 577, label: 'sessions delivered', context: 'every year' },
-      { number: 94, suffix: '%', label: 'believe they can achieve their goals' },
-      { number: 200, suffix: '+', label: 'competition entries' },
+      { number: latestReportedYoungPeople, label: 'young people impacted', context: 'in the past year' },
     ]}
-    caption="In the past year, this is what showing up has looked like."
+    caption="One place to train, learn and belong."
   />
   <AthleteStack />
 

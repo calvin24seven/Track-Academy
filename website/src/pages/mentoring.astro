@@ -3,7 +3,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SimpleHero from '../components/sections/SimpleHero.astro';
 import SplitFeature from '../components/sections/SplitFeature.astro';
 import StepFlow from '../components/sections/StepFlow.astro';
-import NumeralsEscaping from '../components/sections/NumeralsEscaping.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
 import CoachDemonstrating from '../assets/hero/coach-demonstrating.jpg';
 import NgoziWithMilly from '../assets/website-2026/ngozi-with-milly.jpg';
@@ -29,11 +28,6 @@ const helpWith = [
   'Transitions — primary to secondary, school to work',
 ];
 
-const stats = [
-  { number: 52, label: 'sessions delivered', context: 'in a year' },
-  { number: 12, label: 'young people matched', context: 'with a mentor' },
-  { number: 3, label: 'new mentors', context: 'trained this year' },
-];
 ---
 
 <BaseLayout {...seo}>
@@ -76,11 +70,6 @@ const stats = [
       </ul>
     </div>
   </section>
-
-  <NumeralsEscaping
-    stats={stats}
-    caption="Every match is a relationship built to last."
-  />
 
   <CTABanner
     heading="Know a young person who'd benefit from a mentor?"

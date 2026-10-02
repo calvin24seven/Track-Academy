@@ -3,9 +3,9 @@
  * Footer.astro — site footer with navigation, trust information and Sender newsletter trigger.
  *
  * Sender integration:
- * - Install Track Academy's existing Sender universal JS snippet in BaseLayout <head>.
- * - Configure the existing Sender popup's click selector as #newsletter-signup-trigger.
- * - Until that account-specific snippet is supplied, the CTA falls back to emailing Track Academy.
+ * - BaseLayout loads the Sender universal JS snippet once for every page.
+ * - Configure the Sender popup's click selector as #newsletter-signup-trigger.
+ * - The mailto href remains a graceful fallback if the popup is unavailable.
  */
 const footerNav = {
   explore: [
@@ -26,7 +26,7 @@ const footerNav = {
     { label: 'Events', href: '/events' },
   ],
   involved: [
-    { label: 'Register your child', href: 'https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/' },
+    { label: 'Register your child', href: '/register' },
     { label: 'Partner with your school', href: '/schools' },
     { label: 'Careers & join the team', href: '/careers' },
     { label: 'Donate', href: 'https://whydonate.com/fundraising/trackacademy' },

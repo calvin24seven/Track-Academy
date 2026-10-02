@@ -5,15 +5,13 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SimpleHero from '../components/sections/SimpleHero.astro';
-import NumeralsEscaping from '../components/sections/NumeralsEscaping.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
-import Button from '../components/ui/Button.astro';
 import { Image } from 'astro:assets';
 import OlderStudents from '../assets/hero/older-students.jpg';
 import CoachDemo from '../assets/hero/coach-demonstrating.jpg';
 
 const seo = {
-  title: 'About Track Academy — 17 Years of Changing Lives in Brent',
+  title: 'About Track Academy — Changing Lives in Brent',
   description: 'Founded in 2007 by Connie Henry MBE, Track Academy blends athletics, education and mentoring in Brent. Meet the team, read our story.',
 };
 ---
@@ -23,8 +21,28 @@ const seo = {
   <SimpleHero
     image={OlderStudents}
     title="About Track Academy"
-    lead="Blending athletics, education, and mentoring, Track Academy is a launchpad for young people to break down barriers, unlock their potential and thrive."
+    lead="Blending athletics, education and mentoring, Track Academy is a launchpad for young people to break down barriers, unlock their potential and thrive."
   />
+
+  <!-- Vision and mission -->
+  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]" aria-labelledby="vision-mission-heading">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <div class="mb-10 max-w-2xl lg:mb-14">
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Why we exist</p>
+        <h2 id="vision-mission-heading" class="font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.05] tracking-[-0.02em] text-[var(--color-track-blue)]">A brighter future is built together.</h2>
+      </div>
+      <div class="grid gap-px bg-[var(--color-grey-300)] md:grid-cols-2">
+        <article class="bg-[var(--color-track-blue)] p-8 text-white lg:p-10">
+          <p class="font-body text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-track-gold)]">Our vision</p>
+          <p class="mt-6 max-w-xl font-heading text-[clamp(1.35rem,2.5vw,2rem)] font-400 leading-[1.2]">A world where every young person, regardless of background, has the opportunity, support and belief to achieve their full potential — on the track, in the classroom and in life.</p>
+        </article>
+        <article class="bg-white p-8 lg:p-10">
+          <p class="font-body text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-track-orange)]">Our mission</p>
+          <p class="mt-6 max-w-xl font-heading text-[clamp(1.35rem,2.5vw,2rem)] font-400 leading-[1.2] text-[var(--color-track-blue)]">We blend athletics, education and mentoring to create a launchpad for young people to break down barriers, unlock their potential and thrive.</p>
+        </article>
+      </div>
+    </div>
+  </section>
 
   <!-- Founder's Track — Signature Moment 5: pinned image, scrolling text, cross-fade -->
   <section class="bg-[var(--color-paper)] py-[clamp(4rem,10vw,9rem)]">
@@ -33,7 +51,7 @@ const seo = {
         The Founder's Track
       </p>
       <h2 class="mb-[clamp(2rem,5vw,4rem)] max-w-2xl font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        2007. One coach. One track.
+        Founded in 2007. One coach. One track.
       </h2>
 
       <!-- Pinned image + scrolling text -->
@@ -59,25 +77,22 @@ const seo = {
         <div class="space-y-8">
           <div>
             <p class="font-body text-[clamp(1.125rem,1.5vw,1.375rem)] leading-[1.6] text-[var(--color-grey-900)]">
-              <strong>Connie Henry MBE</strong> grew up in Brent. She honed her craft at Willesden Sports Centre. She believed that athletics was more than a sport — it was a vehicle for profound social change.
+              We empower young people facing challenges to build confidence, resilience and skills — equipping them with the tools to shape their own futures.
             </p>
           </div>
           <div>
             <p class="font-body text-[clamp(1.125rem,1.5vw,1.375rem)] leading-[1.6] text-[var(--color-grey-900)]">
-              In 2007, she founded Track Academy on a single belief: that a coach who stands at the track edge every Tuesday and Saturday, believing in kids who've been told they can't, can change the trajectory of those kids' lives.
-            </p>
-          </div>
-          <div>
-            <blockquote class="border-l-2 border-[var(--color-track-orange)] pl-6 font-body text-xl font-300 italic leading-[1.4] text-[var(--color-grey-700)]">
-              "I'm benefitting from a very well-oiled machine. Connie left Track Academy in the most stable position it's ever had financially."
-            </blockquote>
-            <p class="mt-3 font-body text-sm font-600 uppercase tracking-[0.05em] text-[var(--color-grey-500)]">
-              — Patrik Ewe, CEO
+              Track Academy was founded in 2007 by former athlete Connie Henry MBE, who grew up in Brent and trained at Willesden Sports Centre. Connie led the charity until 2024, when she stepped back to pursue other projects. Acutely aware that sport gave her opportunities she may not otherwise have had, she created Track Academy so young people in Brent could fulfil their own potential.
             </p>
           </div>
           <div>
             <p class="font-body text-[clamp(1.125rem,1.5vw,1.375rem)] leading-[1.6] text-[var(--color-grey-900)]">
-              17 years later, Track Academy has delivered <strong>577 sessions</strong> to <strong>331 young people</strong>. Connie stepped back in 2024. Patrik Ewe now stands at the track edge. The track is still open.
+              For over 17 years, we've been embedded in the Brent community, founded on the belief that athletics is a vehicle for profound social change. We provide a safe, supportive community for young people from some of London's most under-resourced areas.
+            </p>
+          </div>
+          <div>
+            <p class="font-body text-[clamp(1.125rem,1.5vw,1.375rem)] leading-[1.6] text-[var(--color-grey-900)]">
+              We understand the challenges our young people face: educational inequality, a lack of safe spaces and a mental health crisis. In response, our holistic model blends high-level athletics with academic support, mentoring, life skills, youth enrichment, and holiday and food programmes — all underpinned by trusted adults.
             </p>
           </div>
         </div>
@@ -92,17 +107,53 @@ const seo = {
         Our Model
       </p>
       <h2 class="mx-auto mb-6 max-w-3xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        We are more than a sports club. We are a lifeline, a confidence-builder and a community.
+        We are more than a sports club.
       </h2>
       <p class="mx-auto max-w-2xl font-body text-base leading-[1.65] text-[var(--color-grey-700)]">
-        Our unique, holistic model blends on-track athletic training with off-track academic support and life-skills mentoring. We don't just train athletes; we develop positive youth, role models and leaders.
+        We are a lifeline, a confidence-builder and a community. We don't just train athletes; we develop positive young people, role models and future leaders.
       </p>
 
-      <!-- Three pillars as inline badges, not cards -->
-      <div class="mt-8 flex flex-wrap justify-center gap-3 text-sm">
-        <span class="border border-[var(--color-track-blue)] px-4 py-2 font-body font-600 uppercase tracking-wide text-[var(--color-track-blue)]">On-track training</span>
-        <span class="border border-[var(--color-track-blue)] px-4 py-2 font-body font-600 uppercase tracking-wide text-[var(--color-track-blue)]">Off-track education</span>
-        <span class="border border-[var(--color-track-blue)] px-4 py-2 font-body font-600 uppercase tracking-wide text-[var(--color-track-blue)]">One-to-one mentoring</span>
+      <div class="mt-12 grid gap-4 text-left sm:grid-cols-2 lg:grid-cols-5">
+        <article class="border-t-2 border-[var(--color-track-orange)] pt-4">
+          <h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">Athletics</h3>
+          <p class="mt-2 font-body text-sm leading-[1.6] text-[var(--color-grey-700)]">Training that builds fitness, discipline, teamwork and belief.</p>
+        </article>
+        <article class="border-t-2 border-[var(--color-track-orange)] pt-4">
+          <h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">Education</h3>
+          <p class="mt-2 font-body text-sm leading-[1.6] text-[var(--color-grey-700)]">Study support and tuition in maths, English and science.</p>
+        </article>
+        <article class="border-t-2 border-[var(--color-track-orange)] pt-4">
+          <h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">Mentoring</h3>
+          <p class="mt-2 font-body text-sm leading-[1.6] text-[var(--color-grey-700)]">Trusted adult relationships that help young people navigate challenges.</p>
+        </article>
+        <article class="border-t-2 border-[var(--color-track-orange)] pt-4">
+          <h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">Life skills</h3>
+          <p class="mt-2 font-body text-sm leading-[1.6] text-[var(--color-grey-700)]">Workshops on communication, problem-solving, resilience and teamwork.</p>
+        </article>
+        <article class="border-t-2 border-[var(--color-track-orange)] pt-4">
+          <h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">Holiday programmes</h3>
+          <p class="mt-2 font-body text-sm leading-[1.6] text-[var(--color-grey-700)]">Activities, enrichment and food when school is closed.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- What makes us different and our values -->
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]" aria-labelledby="values-heading">
+    <div class="mx-auto grid max-w-[var(--container-content)] gap-12 px-6 lg:grid-cols-[5fr_7fr] lg:gap-16 lg:px-8">
+      <div>
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">What makes us different</p>
+        <h2 class="font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.05] tracking-[-0.02em] text-[var(--color-track-blue)]">We know what it means to show up.</h2>
+        <p class="mt-5 max-w-md font-body text-lg leading-[1.65] text-[var(--color-grey-700)]">Our team reflects the community we serve. Many of our coaches, mentors and trustees are former participants or local residents. We understand the challenges our young people face because we've faced them too.</p>
+      </div>
+      <div>
+        <p id="values-heading" class="mb-5 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Our values</p>
+        <div class="grid gap-4 sm:grid-cols-2">
+          <article class="border-t border-[var(--color-grey-300)] pt-4"><h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">Youth-led</h3><p class="mt-2 font-body leading-[1.6] text-[var(--color-grey-700)]">We listen first.</p></article>
+          <article class="border-t border-[var(--color-grey-300)] pt-4"><h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">Strive for excellence</h3><p class="mt-2 font-body leading-[1.6] text-[var(--color-grey-700)]">We push ourselves and each other.</p></article>
+          <article class="border-t border-[var(--color-grey-300)] pt-4"><h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">Empathetic</h3><p class="mt-2 font-body leading-[1.6] text-[var(--color-grey-700)]">We lead with kindness and understanding.</p></article>
+          <article class="border-t border-[var(--color-grey-300)] pt-4"><h3 class="font-heading text-xl font-500 text-[var(--color-track-blue)]">Committed</h3><p class="mt-2 font-body leading-[1.6] text-[var(--color-grey-700)]">We show up every day.</p></article>
+        </div>
       </div>
     </div>
   </section>

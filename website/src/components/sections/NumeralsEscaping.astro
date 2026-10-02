@@ -20,17 +20,12 @@ interface Stat {
 }
 
 interface Props {
-  stats?: Stat[];
+  stats: Stat[];
   caption?: string;
 }
 
 const {
-  stats = [
-    { number: 577, label: 'sessions delivered', context: 'in a year' },
-    { number: 331, label: 'young people aged 5–23', context: 'in Brent' },
-    { number: 94, suffix: '%', label: 'believe they can achieve their goals' },
-    { number: 200, suffix: '+', label: 'competition entries' },
-  ],
+  stats,
   caption = 'In a year, we give young people more reasons to show up.',
 } = Astro.props;
 ---
@@ -39,7 +34,7 @@ const {
   <!-- Stats grid: NOT 4 equal columns. Two wide rows, each stat takes half the width.
        Numerals are oversized and escape toward the right edge. -->
   <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
-    <div class="grid grid-cols-2 gap-x-5 gap-y-9 sm:gap-x-8 sm:gap-y-[clamp(2.5rem,6vw,4rem)]">
+    <div class:list={['grid gap-x-5 gap-y-9 sm:gap-x-8 sm:gap-y-[clamp(2.5rem,6vw,4rem)]', stats.length === 1 ? 'grid-cols-1' : 'grid-cols-2']}>
       {stats.map((stat, i) => (
         <div
           class="stat-block"

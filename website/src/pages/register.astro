@@ -2,24 +2,70 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SimpleHero from '../components/sections/SimpleHero.astro';
 import Button from '../components/ui/Button.astro';
+import { Image } from 'astro:assets';
+import StudentsRacing from '../assets/hero/students-racing.webp';
+import OlderStudents from '../assets/hero/older-students.jpg';
 import SignupDesk from '../assets/website-2026/signup-desk-welcoming.jpg';
 
-const registrationUrl = 'https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/';
+const registrationOptions = [
+  {
+    title: 'Under 16s',
+    eyebrow: 'Parent or guardian registration',
+    body: 'For a parent or guardian registering a young person under 16 for Track Academy.',
+    image: StudentsRacing,
+    alt: 'Young people racing together on the track',
+    href: 'https://app.upshot.org.uk/signup/c1ac4dca/39e743a525f9f4b5/',
+    cta: 'Register an under 16',
+  },
+  {
+    title: 'Over 16s',
+    eyebrow: 'Participant registration',
+    body: 'For young people aged 16 and over registering themselves with Track Academy.',
+    image: OlderStudents,
+    alt: 'Older young people at Track Academy',
+    href: 'https://app.upshot.org.uk/signup/c1ac4dca/1da1e3b64e9c16f7/',
+    cta: 'Register as an over 16',
+  },
+];
+
 const seo = {
-  title: 'Register Your Child — Track Academy',
-  description: 'Register your child for Track Academy through our secure Upshot registration system.',
+  title: 'Register — Track Academy',
+  description: 'Choose the right secure Upshot registration form for Track Academy.',
 };
 ---
 
 <BaseLayout {...seo}>
-  <SimpleHero image={SignupDesk} title="Register Your Child" lead="£25 per term. Free if on financial support." />
-  <section class="bg-[var(--color-paper)] py-[clamp(4rem,10vw,8rem)]">
-    <div class="mx-auto max-w-[var(--container-narrow)] px-6 text-center lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Secure registration</p>
-      <h2 class="font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.05] tracking-[-0.02em] text-[var(--color-track-blue)]">Continue to our registration system.</h2>
-      <p class="mx-auto mt-5 max-w-xl font-body text-lg leading-[1.6] text-[var(--color-grey-700)]">Registration is completed securely in Upshot. You will be able to provide your child’s details, contact information, medical and emergency contacts, and consent information there.</p>
-      <div class="mt-9"><Button href={registrationUrl} label="Register your child in Upshot" variant="primary" size="large" external /></div>
-      <p class="mt-5 font-body text-sm text-[var(--color-grey-500)]">The registration form opens in a new tab.</p>
+  <SimpleHero image={SignupDesk} title="Register with Track Academy" lead="Choose the form that matches the person registering." />
+
+  <section class="bg-[var(--color-paper)] py-[clamp(4rem,10vw,8rem)]" aria-labelledby="registration-options-heading">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <div class="mx-auto mb-[clamp(2.5rem,6vw,4rem)] max-w-2xl text-center">
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Secure registration</p>
+        <h2 id="registration-options-heading" class="font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.05] tracking-[-0.02em] text-[var(--color-track-blue)]">Which form do you need?</h2>
+        <p class="mt-5 font-body text-lg leading-[1.65] text-[var(--color-grey-700)]">Registration is completed securely in Upshot. Select the route below and the correct form will open in a new tab.</p>
+      </div>
+
+      <div class="grid gap-6 lg:grid-cols-2 lg:gap-8">
+        {registrationOptions.map((option) => (
+          <article class="group overflow-hidden border border-[var(--color-grey-300)] bg-white shadow-[0_12px_35px_rgba(17,29,136,0.08)] transition-transform duration-200 hover:-translate-y-1">
+            <a href={option.href} target="_blank" rel="noopener noreferrer" aria-label={`${option.title}: open registration form`}>
+              <div class="aspect-[16/9] overflow-hidden bg-[var(--color-track-blue)]">
+                <Image src={option.image} alt={option.alt} width={1200} height={675} fit="cover" class="h-full w-full object-cover transition-transform duration-500 ease-[var(--ease-rest)] group-hover:scale-105" loading="lazy" />
+              </div>
+            </a>
+            <div class="p-7 lg:p-9">
+              <p class="font-body text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-track-orange)]">{option.eyebrow}</p>
+              <h3 class="mt-3 font-heading text-[clamp(1.75rem,3vw,2.5rem)] font-500 leading-[1.05] text-[var(--color-track-blue)]">{option.title}</h3>
+              <p class="mt-4 max-w-lg font-body text-base leading-[1.65] text-[var(--color-grey-700)]">{option.body}</p>
+              <div class="mt-7">
+                <Button href={option.href} label={option.cta} variant="primary" external />
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <p class="mx-auto mt-8 max-w-2xl text-center font-body text-sm leading-[1.6] text-[var(--color-grey-500)]">Not sure which route to choose? Under 16s registration is completed by a parent or guardian. The Over 16s form is completed by the participant.</p>
     </div>
   </section>
 </BaseLayout>

@@ -5,7 +5,6 @@
  * Per art-direction-pro.md Section 3.1: scroll choreography with scenes
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
-import NumeralsEscaping from '../components/sections/NumeralsEscaping.astro';
 import AthleteStack from '../components/sections/AthleteStack.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
 import Button from '../components/ui/Button.astro';
@@ -13,29 +12,13 @@ import { Image } from 'astro:assets';
 import GirlSmiling from '../assets/stories/girl-smiling.jpg';
 import GroupPhoto from '../assets/stories/group-photo.jpg';
 import ParentAndChild from '../assets/website-2026/parent-and-child.jpg';
+import { latestAnnualReport, latestReportedYoungPeople } from '../data/impact';
 
 const seo = {
   title: 'Our Impact — Track Academy',
   description: 'The difference Track Academy makes for young people in Brent: participation, confidence, connection and stronger futures.',
 };
 
-const outcomeStats = [
-  { number: 66, suffix: '%', label: 'improved school performance' },
-  { number: 87, suffix: '%', label: 'gained new skills' },
-  { number: 94, suffix: '%', label: 'believe they can achieve their goals' },
-  { number: 89, suffix: '%', label: 'feel more connected to community' },
-  { number: 76, suffix: '%', label: 'improved confidence' },
-  { number: 78, suffix: '%', label: 'can manage stress and setbacks' },
-  { number: 89, suffix: '%', label: 'feel belonging' },
-  { number: 83, suffix: '%', label: 'feel supported by teammates and coaches' },
-];
-
-const demoStats = [
-  { number: '64%', label: 'girls & young women' },
-  { number: '85%', label: 'ethnic minorities' },
-  { number: '85%', label: 'from Brent' },
-  { number: '5–23', label: 'age range' },
-];
 ---
 
 <BaseLayout {...seo}>
@@ -44,13 +27,13 @@ const demoStats = [
     <div class="text-center">
       <p class="mb-4 font-body text-sm font-medium uppercase tracking-[0.1em] text-[var(--color-track-gold)]">In the past year</p>
       <p class="font-heading text-[clamp(8rem,22vw,20rem)] font-300 leading-[0.85] tracking-[-0.03em] text-[var(--color-track-orange)] tabular-nums">
-        356
+        {latestReportedYoungPeople}
       </p>
       <p class="mx-auto mt-4 max-w-md font-body text-lg text-white/70">
-        young people supported through athletics, education and mentoring in Brent.
+        young people impacted through athletics, education and mentoring in Brent.
       </p>
-      <a href="/pdfs/annual-report-2024.pdf" class="mx-auto mt-7 inline-flex items-center gap-2 border-b-2 border-[var(--color-track-gold)] pb-1 font-body text-sm font-semibold text-white transition-all duration-150 hover:gap-4 hover:text-[var(--color-track-gold)]">
-        Download our latest Annual Report <span aria-hidden="true">→</span>
+      <a href={latestAnnualReport.href} class="mx-auto mt-7 inline-flex items-center gap-2 border-b-2 border-[var(--color-track-gold)] pb-1 font-body text-sm font-semibold text-white transition-all duration-150 hover:gap-4 hover:text-[var(--color-track-gold)]">
+        Download our {latestAnnualReport.year} Annual Report <span aria-hidden="true">→</span>
       </a>
       <p class="mt-2 font-body text-xs text-white/50">PDF · approximately 4MB</p>
     </div>
@@ -61,17 +44,6 @@ const demoStats = [
     <!-- Track lane line -->
     <div class="absolute bottom-0 left-0 right-0 lane-line"></div>
   </section>
-
-  <!-- Core impact stats — scroll-scrubbed numerals -->
-  <NumeralsEscaping
-    stats={[
-      { number: 356, label: 'young people supported' },
-      { number: 215, label: 'girls & young women' },
-      { number: 200, suffix: '+', label: 'competition entries' },
-      { number: 98, suffix: '%', label: 'would recommend' },
-    ]}
-    caption="In the past year, this is what showing up has looked like."
-  />
 
   <!-- Five key outcomes -->
   <section class="bg-[var(--color-paper)] py-[clamp(4rem,10vw,9rem)]">
@@ -95,76 +67,26 @@ const demoStats = [
     </div>
   </section>
 
-  <!-- Outcome stats — numeral escaping column -->
-  <section class="bg-[var(--color-grey-100)] py-[clamp(4rem,10vw,9rem)]">
-    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
-      <div class="mx-auto mb-[clamp(2rem,5vw,4rem)] max-w-[var(--container-narrow)]">
-        <h2 class="font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-          The numbers behind the change.
-        </h2>
-      </div>
-
-      <!-- Two columns of stats — asymmetric, NOT 4-up grid -->
-      <div class="grid grid-cols-1 gap-y-[clamp(2.5rem,6vw,4rem)] gap-x-8 sm:grid-cols-2 lg:grid-cols-4">
-        {outcomeStats.map((stat, i) => (
-          <div class="border-t border-[var(--color-grey-300)] pt-6" style={`animation-delay: ${i * 80}ms;`}>
-            <p class="font-heading text-[clamp(2.5rem,6vw,4.5rem)] font-700 leading-[0.85] tracking-[-0.02em] text-[var(--color-track-orange)] tabular-nums">
-              {stat.number}{stat.suffix}
-            </p>
-            <p class="mt-2 font-body text-sm font-medium uppercase tracking-[0.05em] text-[var(--color-grey-500)]">
-              {stat.label}
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Who we reach — demographics -->
-  <section class="tracked-surface bg-[var(--color-track-blue)] py-[clamp(4rem,10vw,9rem)]">
-    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-gold)]">
-        Who we reach
-      </p>
-      <h2 class="mb-[clamp(2rem,5vw,4rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-white">
-        A community in Brent, not London-anonymous.
-      </h2>
-
-      <div class="grid grid-cols-2 gap-y-[clamp(2rem,5vw,3rem)] gap-x-8 lg:grid-cols-4">
-        {demoStats.map((stat) => (
-          <div>
-            <p class="font-heading text-[clamp(3rem,8vw,6rem)] font-700 leading-[0.85] tracking-[-0.02em] text-white tabular-nums">
-              {stat.number}
-            </p>
-            <p class="mt-2 font-body text-sm font-medium uppercase tracking-[0.05em] text-[var(--color-track-gold)]/90">
-              {stat.label}
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
   <!-- Stories — Athlete Stack -->
   <AthleteStack
     title="Voices from the track."
     athletes={[
       {
-        quote: "They taught me to fight — for myself. Now when I say 'I can't,' I hear Coach Nigel say, 'Try again'.",
-        attribution: "Ra'elle",
-        context: "Age 14, Jack Petchey winner",
+        quote: 'Track Academy is a place that allows your authenticity to bloom, bringing out the best version of yourself.',
+        attribution: 'Abigail',
+        context: 'Track Academy athlete',
         image: GirlSmiling,
       },
       {
-        quote: "Her teacher called us shocked — said she's 'a different child.' At home, she's happier. She even cooks dinner now to 'train like an athlete.'",
-        attribution: "A parent",
-        context: "Track Academy family",
+        quote: 'Track Academy has provided her with a safe and positive outlet outside of school and home.',
+        attribution: "Rhea's parent",
+        context: 'Track Academy family',
         image: ParentAndChild,
       },
       {
-        quote: "Track Academy has been life changing for some of these boys. Couple were on the verge of going to prison before joining the squad.",
-        attribution: "Mike Finnie",
-        context: "Newman Catholic College",
+        quote: 'He is autistic and can struggle to be included, but he has come alive at Track Academy — he hates to miss a session.',
+        attribution: 'Parent',
+        context: 'Track Academy family',
         image: GroupPhoto,
       },
     ]}
@@ -177,16 +99,16 @@ const demoStats = [
         The evidence
       </p>
       <h2 class="mx-auto mb-6 max-w-2xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Read our latest Annual Report.
+        Read our {latestAnnualReport.year} Annual Report.
       </h2>
       <p class="mx-auto mb-8 max-w-md font-body text-base text-[var(--color-grey-700)]">
         Every number, every face, every story. The full picture of the difference Track Academy makes.
       </p>
       <a
-        href="/pdfs/annual-report-2024.pdf"
+        href={latestAnnualReport.href}
         class="inline-flex items-center gap-3 border-b-2 border-[var(--color-track-orange)] pb-1 font-body text-base font-600 text-[var(--color-track-blue)] transition-all duration-150 ease-[var(--ease-sprint)] hover:gap-5"
       >
-        Download our latest Annual Report
+        Download our {latestAnnualReport.year} Annual Report
         <span aria-hidden="true">→</span>
       </a>
       <p class="mt-3 font-body text-xs text-[var(--color-grey-500)]">PDF · approximately 4MB</p>

@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SimpleHero from '../components/sections/SimpleHero.astro';
-import NumeralsEscaping from '../components/sections/NumeralsEscaping.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
 import Button from '../components/ui/Button.astro';
 import GroupPhoto from '../assets/stories/group-photo.jpg';
@@ -18,10 +17,6 @@ const activities = [
   'ELEVATE CV writing workshop', 'Thorpe Park trips',
 ];
 
-const stats = [
-  { number: 45, label: 'workshops delivered', context: 'across all holidays' },
-  { number: 250, suffix: '+', label: 'students took part', context: 'in the past year' },
-];
 ---
 
 <BaseLayout {...seo}>
@@ -36,8 +31,6 @@ const stats = [
       </ul>
     </div>
   </section>
-
-  <NumeralsEscaping stats={stats} caption="Across summer, Easter, Christmas and half terms." />
 
   <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]" aria-labelledby="holiday-calendar-heading">
     <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">

@@ -14,22 +14,50 @@ const opportunities = [
   {
     number: '01',
     title: 'Coaches',
+    eyebrow: 'Expression of interest · Sessional',
     body: 'Help young people build confidence, discipline and joy through athletics sessions at the track.',
+    details: [
+      'Lead or support engaging athletics sessions for children and young people across a range of ages and abilities.',
+      'Create a welcoming, safe environment where every young person can develop their skills and confidence.',
+      'Work alongside the wider Track Academy team, sharing observations and helping young people progress.',
+    ],
+    lookingFor: 'Coaches with relevant experience, a warm approach and a genuine belief in the potential of young people.',
   },
   {
     number: '02',
     title: 'Mentors',
+    eyebrow: 'Expression of interest · Sessional',
     body: 'Be a consistent adult in a young person’s corner: listen, encourage and help them take their next step.',
+    details: [
+      'Build a trusted, consistent relationship with a young person who would benefit from extra support.',
+      'Listen carefully, encourage progress and help them navigate school, relationships and future goals.',
+      'Work within Track Academy’s safeguarding-first approach and keep clear communication with the team.',
+    ],
+    lookingFor: 'Thoughtful, reliable people who can show up consistently and bring patience, boundaries and care.',
   },
   {
     number: '03',
     title: 'Tutors & youth workers',
+    eyebrow: 'Expression of interest · Flexible',
     body: 'Bring learning, life skills and real-world guidance alongside the energy of the track.',
+    details: [
+      'Support academic learning, life skills and practical development alongside athletics.',
+      'Make sessions relevant, encouraging and accessible for young people with different needs and starting points.',
+      'Help connect learning with confidence, aspiration and the next step beyond Track Academy.',
+    ],
+    lookingFor: 'People who can combine subject knowledge or youth-work experience with energy, clarity and empathy.',
   },
   {
     number: '04',
     title: 'Volunteers',
+    eyebrow: 'Expression of interest · Flexible',
     body: 'Support sessions, events and the behind-the-scenes work that keeps the Track Academy community moving.',
+    details: [
+      'Support sessions, competitions, events, trips or practical projects behind the scenes.',
+      'Help make the Track Academy experience welcoming, organised and memorable for young people and families.',
+      'Bring a skill, a few hours or a willingness to get stuck in where the team needs support.',
+    ],
+    lookingFor: 'People who are dependable, positive and ready to contribute to a safeguarding-first community.',
   },
 ];
 
@@ -57,7 +85,7 @@ const enquiryUrl = 'mailto:admin@trackacademy.co.uk?subject=Joining%20the%20Trac
         <h2 class="max-w-2xl font-heading text-[clamp(2rem,5vw,3.5rem)] font-500 leading-[1.02] tracking-[-0.025em] text-[var(--color-track-blue)]">Your work can change what a young person believes is possible.</h2>
       </div>
       <div class="lg:pt-2">
-        <p class="font-body text-lg leading-[1.65] text-[var(--color-grey-700)]">We are always interested in meeting thoughtful, skilled people who share our belief that sport can open doors. If you think you could strengthen Track Academy, we would love to hear from you — even when a specific role is not listed.</p>
+        <p class="font-body text-lg leading-[1.65] text-[var(--color-grey-700)]">We are always interested in meeting thoughtful, skilled people who share our belief that sport can open doors. Explore the areas where we welcome expressions of interest, then tell us where you could make the biggest difference.</p>
         <div class="mt-7"><Button href={enquiryUrl} label="Tell us about yourself" variant="primary" /></div>
       </div>
     </div>
@@ -66,18 +94,40 @@ const enquiryUrl = 'mailto:admin@trackacademy.co.uk?subject=Joining%20the%20Trac
   <section class="bg-[var(--color-grey-100)] py-[clamp(4rem,9vw,7rem)]">
     <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
       <div class="mb-10 max-w-2xl lg:mb-14">
-        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Where you could make a difference</p>
-        <h2 class="font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.05] tracking-[-0.02em] text-[var(--color-track-blue)]">There is more than one way to stand at the track edge.</h2>
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Opportunities</p>
+        <h2 class="font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.05] tracking-[-0.02em] text-[var(--color-track-blue)]">Find your place at the track edge.</h2>
       </div>
-      <div class="grid gap-x-10 gap-y-0 sm:grid-cols-2">
+      <div class="border-t border-[var(--color-grey-300)]">
         {opportunities.map((opportunity) => (
-          <article class="border-t border-[var(--color-grey-300)] py-7 lg:py-8">
-            <span class="font-heading text-2xl font-500 text-[var(--color-track-gold)] tabular-nums">{opportunity.number}</span>
-            <h3 class="mt-4 font-heading text-2xl font-500 leading-[1.05] text-[var(--color-track-blue)]">{opportunity.title}</h3>
-            <p class="mt-3 max-w-md font-body leading-[1.6] text-[var(--color-grey-700)]">{opportunity.body}</p>
-          </article>
+          <details class="group border-b border-[var(--color-grey-300)]">
+            <summary class="flex cursor-pointer list-none items-center gap-5 px-1 py-6 marker:hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--color-track-orange)] sm:py-7 lg:py-8">
+              <span class="font-heading text-2xl font-500 text-[var(--color-track-gold)] tabular-nums sm:text-3xl">{opportunity.number}</span>
+              <span class="min-w-0 flex-1">
+                <span class="block font-body text-xs font-semibold uppercase tracking-[0.05em] text-[var(--color-grey-500)]">{opportunity.eyebrow}</span>
+                <span class="mt-2 block font-heading text-2xl font-500 leading-[1.05] text-[var(--color-track-blue)] sm:text-3xl">{opportunity.title}</span>
+                <span class="mt-2 block max-w-2xl font-body leading-[1.6] text-[var(--color-grey-700)]">{opportunity.body}</span>
+              </span>
+              <span class="flex h-10 w-10 shrink-0 items-center justify-center border border-[var(--color-track-blue)] font-body text-2xl leading-none text-[var(--color-track-blue)] transition-transform duration-200 group-open:rotate-45" aria-hidden="true">+</span>
+            </summary>
+            <div class="grid gap-8 pb-8 pl-12 pr-1 sm:grid-cols-[1.2fr_0.8fr] sm:pl-16 lg:gap-16">
+              <div>
+                <p class="mb-3 font-body text-xs font-semibold uppercase tracking-[0.05em] text-[var(--color-track-orange)]">What you could do</p>
+                <ul class="space-y-3">
+                  {opportunity.details.map((detail) => (
+                    <li class="flex items-start gap-3 font-body leading-[1.6] text-[var(--color-grey-700)]"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--color-track-orange)]"></span>{detail}</li>
+                  ))}
+                </ul>
+              </div>
+              <div class="border-l-2 border-[var(--color-track-gold)] pl-5">
+                <p class="mb-3 font-body text-xs font-semibold uppercase tracking-[0.05em] text-[var(--color-track-orange)]">We are looking for</p>
+                <p class="font-body leading-[1.6] text-[var(--color-grey-700)]">{opportunity.lookingFor}</p>
+                <div class="mt-6"><Button href={`${enquiryUrl}&role=${encodeURIComponent(opportunity.title)}`} label={`Ask about ${opportunity.title}`} variant="secondary" /></div>
+              </div>
+            </div>
+          </details>
         ))}
       </div>
+      <p class="mt-6 font-body text-sm leading-[1.6] text-[var(--color-grey-500)]">These are expressions-of-interest routes rather than advertised vacancies. Specific paid roles, hours and closing dates will be added here when confirmed.</p>
     </div>
   </section>
 
@@ -109,3 +159,9 @@ const enquiryUrl = 'mailto:admin@trackacademy.co.uk?subject=Joining%20the%20Trac
 
   <CTABanner heading="A team effort, every week." body="Meet the people behind Track Academy and see the difference we make together." ctaPrimary={{ label: 'Meet the team', href: '/team' }} ctaSecondary={{ label: 'See our impact', href: '/impact' }} />
 </BaseLayout>
+
+<style>
+  summary::-webkit-details-marker {
+    display: none;
+  }
+</style>
