@@ -3,7 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SimpleHero from '../components/sections/SimpleHero.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
 import Button from '../components/ui/Button.astro';
+import { Image } from 'astro:assets';
 import GroupPhoto from '../assets/stories/group-photo.jpg';
+import HolidayProgrammeTrip from '../assets/website-2026/holiday-programme-trip.jpg';
+import HolidayProgrammeActivities from '../assets/website-2026/holiday-programme-activities.jpg';
+import HolidayProgrammeVisit from '../assets/website-2026/holiday-programme-visit.jpg';
 import { calendarLastReviewed, calendarLinks, holidayProgrammes } from '../data/programme-calendar';
 
 const seo = {
@@ -29,6 +33,30 @@ const activities = [
       <ul class="grid grid-cols-1 gap-y-3 sm:grid-cols-2 sm:gap-x-8 lg:grid-cols-3 lg:gap-x-12">
         {activities.map((activity) => (<li class="flex items-baseline gap-3 border-b border-[var(--color-grey-300)] py-3 font-body text-base text-[var(--color-grey-900)]"><span class="font-heading text-sm font-600 text-[var(--color-track-orange)]">—</span>{activity}</li>))}
       </ul>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-grey-100)] py-[clamp(4rem,9vw,7rem)]" aria-labelledby="holiday-moments-heading">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <div class="mb-[clamp(2rem,5vw,3.5rem)] max-w-2xl">
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Holiday moments</p>
+        <h2 id="holiday-moments-heading" class="font-heading text-[clamp(1.9rem,5vw,3.4rem)] font-500 leading-[1.04] tracking-[-0.025em] text-[var(--color-track-blue)]">More than a place to go when school is closed.</h2>
+        <p class="mt-5 font-body text-lg leading-[1.65] text-[var(--color-grey-700)]">Our holiday programmes give young people space to explore, learn, build friendships and experience something new together.</p>
+      </div>
+      <div class="grid gap-4 md:grid-cols-12 md:gap-5">
+        <figure class="group overflow-hidden bg-[var(--color-track-blue)] md:col-span-6">
+          <div class="aspect-[4/3] overflow-hidden"><Image src={HolidayProgrammeTrip} alt="Track Academy young people visiting the Sky attraction" class="h-full w-full object-cover transition duration-500 motion-safe:group-hover:scale-[1.025]" loading="lazy" widths={[600, 1000, 1400]} sizes="(max-width: 768px) 100vw, 50vw" /></div>
+          <figcaption class="px-5 py-4 font-body text-sm leading-[1.5] text-white/80">Trips that open up new places and possibilities.</figcaption>
+        </figure>
+        <figure class="group overflow-hidden bg-[var(--color-track-blue)] md:col-span-3">
+          <div class="aspect-[3/4] overflow-hidden"><Image src={HolidayProgrammeActivities} alt="Track Academy young people taking part in an indoor holiday activity" class="h-full w-full object-cover transition duration-500 motion-safe:group-hover:scale-[1.025]" loading="lazy" widths={[500, 800, 1100]} sizes="(max-width: 768px) 100vw, 25vw" /></div>
+          <figcaption class="px-5 py-4 font-body text-sm leading-[1.5] text-white/80">Active sessions that bring people together.</figcaption>
+        </figure>
+        <figure class="group overflow-hidden bg-[var(--color-track-blue)] md:col-span-3">
+          <div class="aspect-[3/4] overflow-hidden"><Image src={HolidayProgrammeVisit} alt="Track Academy young people on a group visit" class="h-full w-full object-cover transition duration-500 motion-safe:group-hover:scale-[1.025]" loading="lazy" widths={[500, 800, 1100]} sizes="(max-width: 768px) 100vw, 25vw" /></div>
+          <figcaption class="px-5 py-4 font-body text-sm leading-[1.5] text-white/80">Shared experiences and memories beyond the track.</figcaption>
+        </figure>
+      </div>
     </div>
   </section>
 

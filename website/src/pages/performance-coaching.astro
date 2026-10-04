@@ -1,122 +1,121 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SimpleHero from '../components/sections/SimpleHero.astro';
-import SplitFeature from '../components/sections/SplitFeature.astro';
-import StepFlow from '../components/sections/StepFlow.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
 import Button from '../components/ui/Button.astro';
-import PerformanceLabLogo from '../components/brand/PerformanceLabLogo.astro';
 import ReadyToRace from '../assets/programme/ready-to-race.jpg';
 import StudentRunning from '../assets/hero/student-running.jpg';
+import Matthew from '../assets/team/people/team/matthew.jpg';
+import Josh from '../assets/team/people/coaches/josh-kelly.jpg';
+import PerformancePathwayLogo from '../assets/website-2026/performance-pathway-logo.png';
 
 const seo = {
-  title: 'The Performance Lab — 1-to-1 Performance Coaching, powered by Track Academy',
-  description:
-    'The Performance Lab, powered by Track Academy. Tailored 1-to-1 coaching for track athletes AND footballers. Assessment, coaching blocks, performance work and action plans.',
+  title: 'The Performance Pathway — Track Academy',
+  description: 'Performance coaching, testing, physiotherapy and movement support for athletes and adults, powered by Track Academy.',
 };
 
-const steps = [
-  { title: 'Assessment', description: 'We start with a full movement, technical and tactical assessment — your goals, your history, your baseline.' },
-  { title: 'Coaching block', description: 'Structured sessions focused on technique, mechanics and event-specific drills tailored to your sport.' },
-  { title: 'Performance work', description: 'Race-pace reps, competition simulation and the physical prep that turns training into results.' },
-  { title: 'Action plan', description: 'You leave with a written plan — what to work on, when, and how to track your progress between sessions.' },
+const services = [
+  {
+    number: '01',
+    title: 'Speed',
+    summary: 'Develop the ability to move faster and more efficiently.',
+    items: ['Acceleration', 'Maximum velocity', 'Sprint mechanics', 'Change of direction', 'Sport-specific speed', 'Speed endurance', 'Running efficiency'],
+  },
+  {
+    number: '02',
+    title: 'Strength & Power',
+    summary: 'Build athletes who can produce and tolerate force.',
+    items: ['Strength & conditioning', 'Power development', 'Plyometrics', 'Jump development', 'Core and trunk strength', 'General physical preparation'],
+  },
+  {
+    number: '03',
+    title: 'Performance Testing',
+    summary: 'Know where you are. Know what to work on.',
+    items: ['10m / 20m / 30m acceleration testing', 'Flying sprint testing', 'Jump and power testing', 'Strength testing', 'Movement screening', 'Progress monitoring'],
+  },
+  {
+    number: '04',
+    title: 'Physiotherapy & Movement',
+    summary: 'Clinical support alongside performance development.',
+    items: ['Injury assessment', 'Movement assessment', 'Mobility and range of motion', 'Rehabilitation', 'Return to sport', 'Return to performance'],
+  },
+  {
+    number: '05',
+    title: 'Injury Prevention',
+    summary: 'Build bodies capable of tolerating the demands of sport.',
+    items: ['Strength and movement capacity', 'Tendon and tissue robustness', 'Mobility where required', 'Landing and jumping ability', 'Training-load tolerance', 'Good movement habits'],
+  },
+];
+
+const audiences = [
+  { title: 'Athletics', body: 'Sprint development, acceleration, maximum velocity, strength, power and long-term athlete development.' },
+  { title: 'Football', body: 'Acceleration, top speed, change of direction, repeat efforts, strength, power and physical robustness.' },
+  { title: 'Basketball', body: 'Acceleration, jumping, landing, multidirectional movement, strength, power and repeat high-intensity actions.' },
+  { title: 'Other sports', body: 'Tailored support where speed, movement, strength and power contribute to performance.' },
+  { title: 'Adults', body: 'Physiotherapy, injury assessment, movement assessment, mobility testing, strength assessment and rehabilitation - no competitive background required.' },
+];
+
+const pathwaySteps = [
+  { number: '01', title: 'Assess', body: 'Understand where the athlete is now through testing, movement assessment, sporting demands, injury history and performance goals.' },
+  { number: '02', title: 'Plan', body: 'Identify what matters most and create an individual development plan around the athlete rather than giving everybody the same programme.' },
+  { number: '03', title: 'Develop', body: 'Train the qualities required: speed, strength, power, movement, conditioning and robustness.' },
+  { number: '04', title: 'Review', body: 'Measure progress and adjust using testing and coaching feedback to identify the next focus.' },
+];
+
+const team = [
+  { name: 'Matthew Adum-Yeboah', role: 'Director - The Performance Pathway', image: Matthew, body: 'Matthew leads the pathway, overseeing athlete development, performance programming and the overall direction of the service. His background spans competitive athletics, strength and conditioning, football development and youth sport.' },
+  { name: 'Josh', role: 'Physiotherapist & Movement Specialist', image: Josh, body: 'Josh connects rehabilitation and injury management with wider performance development, supporting injury assessment, movement assessment, mobility, injury prevention and return to sport.' },
+  { name: 'Coach Paulo', role: 'Level 3 Speed Coach', body: 'Paulo provides specialist speed coaching across acceleration, sprint mechanics, maximum velocity, running efficiency, speed development and speed endurance.' },
 ];
 ---
 
 <BaseLayout {...seo}>
-  <section class="tracked-surface bg-[var(--color-track-navy)] py-[clamp(2.5rem,5vw,4rem)]">
-    <div class="mx-auto flex max-w-[var(--container-content)] flex-col gap-6 px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
-      <PerformanceLabLogo variant="full" />
-      <p class="max-w-sm font-body text-[clamp(0.9375rem,1.3vw,1.0625rem)] leading-[1.6] text-white/70">
-        Individualised one-to-one performance coaching for track athletes and footballers who want that extra edge.
-      </p>
-    </div>
-  </section>
+  <SimpleHero image={ReadyToRace} title="The Performance Pathway" lead="Perform better. Move better. Stay stronger. Powered by Track Academy." />
 
-  <SimpleHero
-    image={ReadyToRace}
-    title="1-to-1 Performance Coaching"
-    lead="Tailored coaching for track athletes AND footballers."
-  />
-
-  <SplitFeature
-    image={StudentRunning}
-    imageSide="left"
-    label="What It Is"
-    heading="Private coaching that flexes around you."
-    body="One-to-one sessions with our head coaches — built around your goals, your sport and your schedule. Whether you're chasing a PB on the track or sharper pace and movement on the pitch, we build a programme that gets you there."
-    cta={{ label: 'Enquire about coaching', href: '#enquire' }}
-  />
-
-  <StepFlow
-    label="Session Structure"
-    heading="How a session works"
-    steps={steps}
-  />
-
-  <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
-    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Pricing
-      </p>
-      <h2 class="mb-[clamp(2rem,5vw,3rem)] font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Choose your cadence.
-      </h2>
-
-      <div class="grid grid-cols-1 gap-5 lg:grid-cols-[5fr_4fr_3fr] lg:items-stretch lg:gap-6">
-        <div class="bg-white p-8">
-          <h3 class="font-heading text-xl font-500 text-[var(--color-grey-900)]">Starter</h3>
-          <p class="mt-4 flex items-baseline gap-1">
-            <span class="font-heading text-[clamp(2.5rem,6vw,4rem)] font-700 leading-none text-[var(--color-track-blue)] tabular-nums">£30</span>
-            <span class="font-body text-sm text-[var(--color-grey-500)]">/ week</span>
-          </p>
-          <p class="mt-6 font-body text-base leading-[1.6] text-[var(--color-grey-700)]">1 session per week. Perfect for maintaining technique alongside club training.</p>
-        </div>
-
-        <div class="relative border-2 border-[var(--color-track-orange)] bg-white p-8 lg:-translate-y-2 lg:scale-[1.02]">
-          <div class="absolute -top-3 left-6 bg-[var(--color-track-orange)] px-3 py-1 font-body text-xs font-600 uppercase tracking-wide text-white">
-            Most popular
-          </div>
-          <h3 class="font-heading text-xl font-500 text-[var(--color-grey-900)]">Standard</h3>
-          <p class="mt-4 flex items-baseline gap-1">
-            <span class="font-heading text-[clamp(2.5rem,6vw,4rem)] font-700 leading-none text-[var(--color-track-blue)] tabular-nums">£50</span>
-            <span class="font-body text-sm text-[var(--color-grey-500)]">/ week</span>
-          </p>
-          <p class="mt-6 font-body text-base leading-[1.6] text-[var(--color-grey-700)]">2 sessions per week. The sweet spot for steady, visible progress.</p>
-        </div>
-
-        <div class="bg-white p-8">
-          <h3 class="font-heading text-xl font-500 text-[var(--color-grey-900)]">Pro</h3>
-          <p class="mt-4 flex items-baseline gap-1">
-            <span class="font-heading text-[clamp(2.5rem,6vw,4rem)] font-700 leading-none text-[var(--color-track-blue)] tabular-nums">£80</span>
-            <span class="font-body text-sm text-[var(--color-grey-500)]">/ week</span>
-          </p>
-          <p class="mt-6 font-body text-base leading-[1.6] text-[var(--color-grey-700)]">3 sessions per week. Full-immersion coaching for serious athletes.</p>
-        </div>
+  <section class="bg-[var(--color-track-navy)] py-8 lg:py-10">
+    <div class="mx-auto flex max-w-[var(--container-content)] flex-col gap-8 px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+      <div class="w-full max-w-[16rem] overflow-hidden rounded-sm bg-white shadow-[0_12px_35px_rgba(0,0,0,0.18)] sm:max-w-[20rem]"><Image src={PerformancePathwayLogo} alt="The Performance Pathway - Develop, Perform, Progress" class="h-auto w-full object-contain" /></div>
+      <div class="max-w-2xl">
+        <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-track-gold)]">Powered by Track Academy</p>
+        <p class="font-body text-lg leading-[1.65] text-white/80">The Performance Pathway brings together speed development, strength and conditioning, performance testing, physiotherapy, movement assessment and injury prevention to help athletes and adults understand their bodies and reach their potential.</p>
+        <div class="mt-6 flex flex-wrap gap-3"><Button href="mailto:admin@trackacademy.co.uk?subject=Performance%20Pathway%20enquiry" label="Join the Pathway" variant="primary" /><Button href="#enquire" label="Book an Assessment" variant="inverse" /></div>
+        <p class="mt-5 font-body text-sm text-white/55">Athletics · Football · Basketball · Multi-Sport · Adult Movement & Rehab</p>
       </div>
     </div>
   </section>
 
-  <section id="enquire" class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]">
-    <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">
-        Enquire
-      </p>
-      <h2 class="mb-6 max-w-2xl font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]">
-        Contact us about performance coaching.
-      </h2>
-      <p class="max-w-md font-body text-base leading-[1.6] text-[var(--color-grey-700)]">
-        Tell us your sport, your goals and your availability. We'll match you with the right coach and get you started.
-      </p>
-      <div class="mt-8">
-        <Button href="mailto:patrik@trackacademy.co.uk?subject=Performance%20coaching%20enquiry" label="Contact us about performance coaching" variant="primary" />
+  <section class="bg-[var(--color-paper)] py-[clamp(4rem,9vw,8rem)]">
+    <div class="mx-auto grid max-w-[var(--container-content)] gap-10 px-6 lg:grid-cols-[5fr_7fr] lg:items-end lg:gap-16 lg:px-8">
+      <div><p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">More than training</p><h2 class="max-w-xl font-heading text-[clamp(2rem,5vw,3.5rem)] font-500 leading-[1.02] tracking-[-0.025em] text-[var(--color-track-blue)]">A pathway for development.</h2></div>
+      <div class="border-l-2 border-[var(--color-track-gold)] pl-6"><p class="font-body text-lg leading-[1.7] text-[var(--color-grey-700)]">Every athlete has different demands. A sprinter does not need the same programme as a footballer, and a footballer does not have the same physical demands as a basketball player. We develop the qualities that matter for the athlete in front of us - speed, acceleration, change of direction, strength, power, movement quality, conditioning and physical robustness.</p><p class="mt-5 font-heading text-2xl font-500 text-[var(--color-track-blue)]">Understand the athlete. Develop what matters. Measure the progress.</p></div>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-grey-100)] py-[clamp(4rem,9vw,8rem)]" aria-labelledby="services-heading">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <div class="mb-10 flex flex-col gap-4 border-b border-[var(--color-grey-300)] pb-7 sm:flex-row sm:items-end sm:justify-between"><div><p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">What we offer</p><h2 id="services-heading" class="font-heading text-[clamp(2rem,5vw,3.5rem)] font-500 leading-[1.02] tracking-[-0.025em] text-[var(--color-track-blue)]">One pathway. Multiple areas of support.</h2></div><p class="max-w-sm font-body text-sm leading-[1.6] text-[var(--color-grey-600)]">Testing should not just produce numbers. It should help us understand your strengths, what is limiting you and what to train next.</p></div>
+      <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+        {services.map((service) => (<article class="flex flex-col border-t-4 border-[var(--color-track-gold)] bg-white p-6"><span class="font-heading text-xl font-500 text-[var(--color-track-orange)]">{service.number}</span><h3 class="mt-8 font-heading text-2xl font-500 leading-[1.04] text-[var(--color-track-blue)]">{service.title}</h3><p class="mt-4 font-body text-sm leading-[1.6] text-[var(--color-grey-700)]">{service.summary}</p><ul class="mt-6 space-y-2 border-t border-[var(--color-grey-200)] pt-5">{service.items.map((item) => (<li class="flex gap-2 font-body text-xs leading-[1.45] text-[var(--color-grey-700)]"><span class="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[var(--color-track-orange)]"></span>{item}</li>))}</ul></article>))}
       </div>
     </div>
   </section>
 
-  <CTABanner
-    heading="Ready to train like it matters?"
-    ctaPrimary={{ label: 'Enquire now', href: '#enquire' }}
-    ctaSecondary={{ label: 'See athletics sessions', href: '/athletics' }}
-  />
+  <section class="bg-[var(--color-track-blue)] py-[clamp(4rem,9vw,8rem)] text-white" aria-labelledby="audience-heading">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8"><div class="mb-10 max-w-2xl"><p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-gold)]">Who it is for</p><h2 id="audience-heading" class="font-heading text-[clamp(2rem,5vw,3.5rem)] font-500 leading-[1.02] tracking-[-0.025em]">Built around the athlete - not one sport.</h2></div><div class="grid gap-px bg-white/20 sm:grid-cols-2 lg:grid-cols-5">{audiences.map((audience) => (<article class="bg-[var(--color-track-blue)] p-6 lg:p-7"><h3 class="font-heading text-2xl font-500 text-[var(--color-track-gold)]">{audience.title}</h3><p class="mt-4 font-body text-sm leading-[1.65] text-white/75">{audience.body}</p></article>))}</div></div>
+  </section>
+
+  <section class="bg-[var(--color-paper)] py-[clamp(4rem,9vw,8rem)]" aria-labelledby="process-heading">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8"><div class="mb-10 max-w-2xl"><p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">The Performance Pathway process</p><h2 id="process-heading" class="font-heading text-[clamp(2rem,5vw,3.5rem)] font-500 leading-[1.02] tracking-[-0.025em] text-[var(--color-track-blue)]">A clear route from assessment to progress.</h2></div><div class="grid gap-0 border-y border-[var(--color-grey-300)] md:grid-cols-2 lg:grid-cols-4">{pathwaySteps.map((step) => (<article class="border-b border-[var(--color-grey-300)] p-6 last:border-b-0 md:[&:nth-child(odd)]:border-r lg:border-b-0 lg:border-r lg:last:border-r-0 lg:p-8"><span class="font-heading text-3xl font-500 text-[var(--color-track-gold)]">{step.number}</span><h3 class="mt-8 font-heading text-2xl font-500 text-[var(--color-track-blue)]">{step.title}</h3><p class="mt-4 font-body text-sm leading-[1.65] text-[var(--color-grey-700)]">{step.body}</p></article>))}</div></div>
+  </section>
+
+  <section class="bg-[var(--color-grey-100)] py-[clamp(4rem,9vw,8rem)]" aria-labelledby="team-heading">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8"><div class="mb-10 max-w-2xl"><p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Meet the Performance Team</p><h2 id="team-heading" class="font-heading text-[clamp(2rem,5vw,3.5rem)] font-500 leading-[1.02] tracking-[-0.025em] text-[var(--color-track-blue)]">Coaching, testing and clinical support in one pathway.</h2></div><div class="grid gap-5 lg:grid-cols-3">{team.map((member) => (<article class="bg-white">{member.image && <div class="aspect-[4/3] overflow-hidden bg-[var(--color-track-blue)]"><Image src={member.image} alt={`Portrait of ${member.name}`} class="h-full w-full object-cover" loading="lazy" widths={[500, 800]} sizes="(max-width: 1024px) 100vw, 33vw" /></div>}<div class="p-7"><p class="font-body text-xs font-semibold uppercase tracking-[0.06em] text-[var(--color-track-orange)]">{member.role}</p><h3 class="mt-3 font-heading text-2xl font-500 leading-[1.04] text-[var(--color-track-blue)]">{member.name}</h3><p class="mt-4 font-body text-sm leading-[1.65] text-[var(--color-grey-700)]">{member.body}</p></div></article>))}</div></div>
+  </section>
+
+  <section class="bg-[var(--color-track-navy)] py-[clamp(4rem,10vw,9rem)] text-white"><div class="mx-auto grid max-w-[var(--container-content)] gap-8 px-6 lg:grid-cols-[5fr_7fr] lg:items-center lg:px-8"><div><p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-gold)]">Performance with a purpose</p><h2 class="font-heading text-[clamp(2.3rem,6vw,4.5rem)] font-500 leading-[0.98] tracking-[-0.03em]">Your performance. Their opportunity.</h2></div><div class="border-l-2 border-[var(--color-track-gold)] pl-6"><p class="font-body text-lg leading-[1.7] text-white/80">The Performance Pathway is powered by Track Academy, a youth-development charity working with young people in the community. All profits generated through the pathway are reinvested into Track Academy's charitable work.</p><p class="mt-5 font-body text-base leading-[1.7] text-white/70">Every session, assessment and programme purchased helps support opportunities through athletics, education, mentoring, youth development and community programmes.</p><p class="mt-6 font-heading text-2xl font-500 text-[var(--color-track-gold)]">Better performance. Bigger purpose.</p></div></div></section>
+
+  <section id="enquire" class="bg-[var(--color-paper)] py-[clamp(4rem,9vw,8rem)]"><div class="mx-auto max-w-[var(--container-narrow)] px-6 text-center lg:px-8"><p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Ready to start your pathway?</p><h2 class="font-heading text-[clamp(2rem,5vw,3.5rem)] font-500 leading-[1.02] tracking-[-0.025em] text-[var(--color-track-blue)]">Start with a conversation.</h2><p class="mx-auto mt-5 max-w-xl font-body text-lg leading-[1.65] text-[var(--color-grey-700)]">Whether you are an athlete looking to improve performance or an adult looking for physiotherapy or movement support, our team can help identify the right next step.</p><div class="mt-8 flex flex-wrap justify-center gap-3"><Button href="mailto:admin@trackacademy.co.uk?subject=Join%20The%20Performance%20Pathway" label="Join the Performance Pathway" variant="primary" /><Button href="mailto:admin@trackacademy.co.uk?subject=Performance%20assessment%20enquiry" label="Book an Assessment" variant="secondary" /><Button href="mailto:admin@trackacademy.co.uk?subject=Physiotherapy%20or%20movement%20assessment" label="Book Physiotherapy / Movement Assessment" variant="secondary" /></div></div></section>
+
+  <CTABanner heading="Perform with purpose." body="Build better performance while helping create more opportunities for young people." ctaPrimary={{ label: 'Speak to the team', href: 'mailto:admin@trackacademy.co.uk?subject=Performance%20Pathway%20enquiry' }} ctaSecondary={{ label: 'See Track Academy', href: '/about' }} />
 </BaseLayout>

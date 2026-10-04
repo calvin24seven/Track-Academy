@@ -4,7 +4,10 @@ import SimpleHero from '../components/sections/SimpleHero.astro';
 import StepFlow from '../components/sections/StepFlow.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
 import Button from '../components/ui/Button.astro';
+import { Image } from 'astro:assets';
 import ReadyToRace from '../assets/programme/ready-to-race.jpg';
+import SummerCalendar from '../assets/website-2026/summer-calendar-2027.png';
+import WinterCalendar from '../assets/website-2026/winter-calendar-2026-27.png';
 import { calendarLastReviewed, calendarLinks, clubFixtures } from '../data/programme-calendar';
 
 const seo = {
@@ -52,6 +55,19 @@ const checklist = [
   </section>
 
   <StepFlow label="The URN process" heading="Get your Unique Registration Number" steps={urnSteps} />
+
+  <section class="bg-[var(--color-paper)] py-[clamp(4rem,9vw,7rem)]" aria-labelledby="season-calendar-heading">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <div class="mb-10 flex flex-col gap-4 border-b border-[var(--color-grey-300)] pb-7 sm:flex-row sm:items-end sm:justify-between">
+        <div><p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Season calendars</p><h2 id="season-calendar-heading" class="font-heading text-[clamp(1.9rem,5vw,3.4rem)] font-500 leading-[1.02] tracking-[-0.025em] text-[var(--color-track-blue)]">Your next start line.</h2></div>
+        <p class="max-w-sm font-body text-sm leading-[1.6] text-[var(--color-grey-500)]">Use these seasonal guides alongside Spond and official organisers for final entry details.</p>
+      </div>
+      <div class="grid gap-6 lg:grid-cols-2">
+        <article class="overflow-hidden border border-[var(--color-grey-300)] bg-white shadow-[0_12px_35px_rgba(17,29,136,0.08)]"><a href={WinterCalendar.src} target="_blank" rel="noopener noreferrer" aria-label="Open the Winter 2026/27 competition calendar"><Image src={WinterCalendar} alt="Track Academy Winter 2026/27 competition calendar" class="h-auto w-full" loading="lazy" widths={[800, 1200, 1600]} sizes="(max-width: 1024px) 100vw, 50vw" /></a><div class="flex items-center justify-between gap-4 p-5"><div><p class="font-body text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-track-orange)]">December 2026 - February 2027</p><h3 class="mt-2 font-heading text-2xl font-500 text-[var(--color-track-blue)]">Winter competition calendar</h3></div><a href={WinterCalendar.src} target="_blank" rel="noopener noreferrer" class="shrink-0 font-body text-sm font-semibold text-[var(--color-track-blue)] underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4">Open flyer</a></div></article>
+        <article class="overflow-hidden border border-[var(--color-grey-300)] bg-white shadow-[0_12px_35px_rgba(17,29,136,0.08)]"><a href={SummerCalendar.src} target="_blank" rel="noopener noreferrer" aria-label="Open the Summer 2027 competition calendar"><Image src={SummerCalendar} alt="Track Academy Summer 2027 competition calendar" class="h-auto w-full" loading="lazy" widths={[800, 1200, 1600]} sizes="(max-width: 1024px) 100vw, 50vw" /></a><div class="flex items-center justify-between gap-4 p-5"><div><p class="font-body text-xs font-semibold uppercase tracking-[0.08em] text-[var(--color-track-orange)]">May - September 2027</p><h3 class="mt-2 font-heading text-2xl font-500 text-[var(--color-track-blue)]">Summer competition calendar</h3></div><a href={SummerCalendar.src} target="_blank" rel="noopener noreferrer" class="shrink-0 font-body text-sm font-semibold text-[var(--color-track-blue)] underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4">Open flyer</a></div></article>
+      </div>
+    </div>
+  </section>
 
   <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,8vw,6rem)]">
     <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
