@@ -11,9 +11,13 @@ interface Props {
   title: string;
   description: string;
   canonical?: string;
+  /** Skip the Sender newsletter popup (e.g. on campaign pages, where it blocks the action form). */
+  hideNewsletterPopup?: boolean;
+  /** Skip the mobile "Register your child" bar. */
+  hideMobileCta?: boolean;
 }
 
-const { title, description, canonical } = Astro.props;
+const { title, description, canonical, hideNewsletterPopup = false, hideMobileCta = false } = Astro.props;
 const canonicalUrl = canonical || Astro.url.pathname;
 const siteUrl = `https://trackacademy.co.uk${canonicalUrl}`;
 const socialImage = 'https://trackacademy.co.uk/logo.png';
@@ -74,7 +78,7 @@ const organizationSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)}></script>
 
   <!-- Sender newsletter popup: loaded once globally for every page. -->
-  <script>
+  {!hideNewsletterPopup && <script is:inline>
     (function (s, e, n, d, er) {
       s['Sender'] = er;
       s[er] = s[er] || function () {
@@ -91,7 +95,7 @@ const organizationSchema = {
       m.parentNode.insertBefore(a, m);
     })(window, document, 'script', 'https://cdn.sender.net/accounts_resources/universal.js', 'sender');
     sender('69be3198171408');
-  </script>
+  </script>}
 </head>
 <body>
   <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-[var(--color-track-blue)] focus:px-4 focus:py-2 focus:text-white">
@@ -105,7 +109,7 @@ const organizationSchema = {
   </main>
 
   <Footer />
-  <MobileStickyCTA />
+  {!hideMobileCta && <MobileStickyCTA />}
 
 </body>
 </html>
