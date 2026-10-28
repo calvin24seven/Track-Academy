@@ -1,13 +1,16 @@
 ---
 /**
- * /protect-the-track — Protect Brent Athletics campaign hub.
+ * /protect-brent-athletics — Protect Brent Athletics campaign hub.
  * Action ladder: sign (easy) -> email councillors (pre-filled from signing) -> share.
  * Then: story / skills / survey. Details typed once are carried into every later form.
  * Copy lives in src/data/campaign.ts. Data goes to Supabase (see supabase/migrations).
  */
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SimpleHero from '../../components/sections/SimpleHero.astro';
+import { Image } from 'astro:assets';
 import HeroImage from '../../assets/hero/indoor-track-willesden.webp';
+import GroupPhoto from '../../assets/campaign/group-photo-track.jpg';
+import ContactPhoto from '../../assets/team/people/trustees/patrik-ewe.jpg';
 import { campaign, context, facts, asks, primaryTargets, relationships, skillOptions } from '../../data/campaign';
 
 const seo = {
@@ -206,6 +209,26 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
     </div>
   </section>
 
+  <!-- What's being removed: a real winter session (muted, plays only when on screen) -->
+  <section class="bg-[var(--color-track-navy)] text-white">
+    <figure class="relative mx-auto max-w-[var(--container-content)]">
+      <video
+        class="aspect-video w-full object-cover"
+        src="/videos/indoor-winter-session.mp4#t=0.3"
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-label="Young people training together on the indoor track at Willesden Sports Centre on a winter evening"
+        data-campaign-video
+      ></video>
+      <figcaption class="px-6 py-5 lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:bg-gradient-to-t lg:from-[var(--color-track-navy)] lg:to-transparent lg:px-8 lg:pb-8 lg:pt-20">
+        <p class="font-heading text-[clamp(1.4rem,3.5vw,2.4rem)] font-500 leading-[1.1]">This is what Brent Council is removing.</p>
+        <p class="mt-2 font-body text-white/80">A winter session on the indoor track at Willesden Sports Centre.</p>
+      </figcaption>
+    </figure>
+  </section>
+
   <!-- Why it matters (for people who want the detail) -->
   <section class="bg-white py-[clamp(3rem,7vw,5rem)]">
     <div class="mx-auto grid max-w-[var(--container-content)] gap-10 px-6 lg:grid-cols-[3fr_2fr] lg:px-8">
@@ -231,6 +254,10 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
             <dd class="mt-2 font-body text-sm leading-[1.4] text-white/80">{f.label}</dd>
           </div>
         ))}
+        <figure class="col-span-2 mt-2">
+          <Image src={GroupPhoto} alt="Track Academy young people and coaches sitting together on the track, smiling and waving" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 40vw, 100vw" class="h-auto w-full" />
+          <figcaption class="mt-2 font-body text-sm text-[var(--color-grey-500)]">Some of the young people and coaches who train with Track Academy.</figcaption>
+        </figure>
       </dl>
     </div>
   </section>
@@ -436,6 +463,25 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
               </form>
           </div>
         </details>
+        <a href={campaign.donateUrl} target="_blank" rel="noopener" class="group flex items-start justify-between gap-4 border border-[var(--color-grey-300)] bg-white p-5 hover:border-[var(--color-track-blue)] lg:p-6" data-donate>
+          <span>
+            <span class="block font-heading text-[1.25rem] font-500 leading-[1.2] text-[var(--color-track-blue)]">Donate to Track Academy</span>
+            <span class="mt-1 block font-body text-sm text-[var(--color-grey-700)]">Helps keep sessions running for young people while we campaign. Opens our donation page.</span>
+          </span>
+          <span class="mt-1 font-heading text-2xl leading-none text-[var(--color-track-orange)]" aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Campaign contact -->
+  <section class="bg-white py-[clamp(2.5rem,6vw,4rem)]">
+    <div class="mx-auto flex max-w-[var(--container-narrow)] flex-col gap-6 px-6 sm:flex-row sm:items-center lg:px-8">
+      <Image src={ContactPhoto} alt={campaign.contactName} width={160} height={160} class="h-24 w-24 shrink-0 rounded-full object-cover" />
+      <div class="flex-1">
+        <p class={eyebrow}>Campaign contact</p>
+        <p class="font-heading text-[clamp(1.3rem,3vw,1.8rem)] font-500 leading-[1.15] text-[var(--color-track-blue)]">Questions, press or want to help? Talk to {campaign.contactName}.</p>
+        <a href={`mailto:${campaign.contactEmail}?subject=${encodeURIComponent('Protect Brent Athletics')}`} class="mt-3 inline-block font-body text-lg font-600 text-[var(--color-track-blue)] underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4">{campaign.contactEmail}</a>
       </div>
     </div>
   </section>
@@ -445,7 +491,6 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
     <div class="mx-auto max-w-[var(--container-narrow)] space-y-3 px-6 font-body text-sm leading-[1.6] text-[var(--color-grey-500)] lg:px-8">
       <p>Track Academy is a registered charity (1164222). This campaign is about a facility for young people. It is not party political, and we are asking councillors from every party for support.</p>
       <p>How we use your information: petition names and postcodes are given to Brent Council. Emails to councillors are sent from your own email account. Ward lookups use postcodes.io. To save you retyping, this page remembers your details on this device only. Use “Clear my details” to remove them. The membership survey is anonymous. We delete campaign data six months after the campaign ends. See our <a class="underline" href="/privacy">privacy policy</a>.</p>
-      <p>Questions? Email <a class="underline" href={`mailto:${campaign.contactEmail}`}>{campaign.contactEmail}</a>.</p>
     </div>
   </section>
 </BaseLayout>
@@ -806,7 +851,7 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
   // Survey (date-gated, anonymous: deliberately not pre-filled)
   const surveyOpen = new Date() >= new Date(`${campaign.surveyOpensOn}T00:00:00`) || new URLSearchParams(location.search).has('survey');
   if (surveyOpen) $('[data-survey]').hidden = false;
-  // Links like /protect-the-track#survey open that item.
+  // Links like /protect-brent-athletics#survey open that item.
   const openFromHash = () => {
     if (!/^#(survey|story|skills)$/.test(location.hash)) return;
     const d = document.querySelector<HTMLDetailsElement>(`details${location.hash}`);
@@ -904,6 +949,16 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
         $('[data-stories-wall]').classList.remove('hidden');
       }
     } catch { /* numbers are a bonus */ }
+  }
+
+  // ================= Video =================
+  const video = document.querySelector<HTMLVideoElement>('[data-campaign-video]');
+  if (video) {
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce) video.controls = true;
+    else if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([e]) => (e.isIntersecting ? video.play().catch(() => {}) : video.pause()), { threshold: 0.4 }).observe(video);
+    }
   }
 
   // ================= Start-up =================

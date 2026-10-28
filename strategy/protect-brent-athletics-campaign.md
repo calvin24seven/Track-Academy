@@ -21,7 +21,7 @@ Ask for A in public. Be ready to accept B in private. Get C quickly.
 
 The plan is good: clear ask, sensible tone, careful survey language. These changes make it stronger.
 
-**1. Host on our site, not Sender.net.** Sender can't tell us *who* acted, *from which ward*, or *which partner sent them*. The new page at `/protect-the-track` records every action in Supabase. That gives you a live count for the press and a ward-by-ward breakdown for councillors.
+**1. Host on our site, not Sender.net.** Sender can't tell us *who* acted, *from which ward*, or *which partner sent them*. The new page at `/protect-brent-athletics` records every action in Supabase. That gives you a live count for the press and a ward-by-ward breakdown for councillors.
 
 **2. Email each supporter's own ward councillors, not just the two Cabinet members.** Councillors respond to their own residents. The page looks up the supporter's postcode and automatically copies in their ward councillors. The two Cabinet members still receive every email.
 - **Willesden Sports Centre (NW10 3QX) is in Roundwood ward, Cllr Rubin's own ward.** He is both the Cabinet target *and* the ward councillor for the site. Use that.
@@ -62,7 +62,7 @@ Owner: CEO and Chair.
 
 ### Track 2: Outside (making the cost visible)
 Owner: comms.
-- Supporter email → `/protect-the-track` (sign → email councillors → share).
+- Supporter email → `/protect-brent-athletics` (sign → email councillors → share).
 - Each partner gets its own link (`?ref=qph`, `?ref=ea`, `?ref=advocacy`), so you can see who actually delivered.
 - Press: the "glossy gym email doesn't mention the track" angle is strong. Add a live number ("1,200 residents have written to councillors in 5 days") and one family story (consent and DSL check required).
 - **WhatsApp beats Instagram for parents.** Ask every coach to post the link in their parent groups, with the ref code `?ref=coach-<name>`.
@@ -94,13 +94,13 @@ Then, further down the page: story, skills (pre-filled with their name and email
 
 The page remembers details on the supporter's device. A return visit opens on the next step they haven't done, and "Clear my details" removes them.
 
-**Reminder email (do this ~24 hours after each big push):** in Sender, email the people who signed and opted in to updates (dashboard export "Opted-in supporters"). Subject: "One more minute for the track?". Link: `https://trackacademy.co.uk/protect-the-track?ref=reminder#email`. On the same device, the email step opens already filled in.
+**Reminder email (do this ~24 hours after each big push):** in Sender, email the people who signed and opted in to updates (dashboard export "Opted-in supporters"). Subject: "One more minute for the track?". Link: `https://trackacademy.co.uk/protect-brent-athletics?ref=reminder#email`. On the same device, the email step opens already filled in.
 
 **What to watch:** on the dashboard, compare emails sent with signatures. That share is the number to improve. If it's low, make the email step easier; don't change the order.
 
 ## 6. Tracking responses (the dashboard)
 
-`/protect-the-track/dashboard`. Sign in by email link; admins only.
+`/protect-brent-athletics/dashboard`. Sign in by email link; admins only.
 
 - **Totals:** signatures, Brent signatures, emails sent, shares, opt-ins, stories waiting, offers, survey responses.
 - **Daily chart:** whether the campaign is gaining or losing pace.
@@ -128,13 +128,13 @@ The page remembers details on the supporter's device. A return visit opens on th
 2. ✅ Migration applied, security checks run, public access rules tested.
 3. ✅ Admins added to `campaign_admins`: calvin@partneredgrowth.com, patrik@trackacademy.co.uk.
 4. ⬜ Invite the same admins in Supabase → Authentication → Users → **Invite user**. Sign-in links are only sent to existing users.
-5. ⬜ Authentication → URL configuration: set Site URL to `https://trackacademy.co.uk`, and add `https://trackacademy.co.uk/protect-the-track/dashboard/` and `http://localhost:4321/protect-the-track/dashboard/` to the redirect URLs.
+5. ⬜ Authentication → URL configuration: set Site URL to `https://trackacademy.co.uk`, and add `https://trackacademy.co.uk/protect-brent-athletics/dashboard/` and `http://localhost:4321/protect-brent-athletics/dashboard/` to the redirect URLs.
 6. ⬜ Add these two values to the Cloudflare build env, then redeploy. (Local `.env` is done.)
    - `PUBLIC_SUPABASE_URL=https://ddgchywxajftqdukcjbv.supabase.co`
    - `PUBLIC_SUPABASE_ANON_KEY=sb_publishable_FPIt9s1iy96nbU6p5JNHUw_S5xo1G9R` (publishable key, safe to be public)
 7. Optional: create the campaign inbox and set `bccInbox`.
 8. ✅ Hero swapped to the Willesden indoor track photo.
-9. Add a site-wide banner or nav link to `/protect-the-track` for the campaign period.
+9. Add a site-wide banner or nav link to `/protect-brent-athletics` for the campaign period.
 10. Before launch, test on a phone: email (mailto and Gmail), petition, story, skills, survey (`?survey=1`).
 11. If spam appears, add Cloudflare Turnstile to the forms. There is a basic bot trap already.
 

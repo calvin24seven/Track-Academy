@@ -1,0 +1,5 @@
+# Old campaign address -> new one (query string and #hash are kept)
+/protect-the-track /protect-brent-athletics 301
+/protect-the-track/ /protect-brent-athletics 301
+/protect-the-track/dashboard /protect-brent-athletics/dashboard 301
+/protect-the-track/dashboard/ /protect-brent-athletics/dashboard 301

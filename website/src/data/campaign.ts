@@ -4,7 +4,7 @@
  */
 
 export const campaign = {
-  slug: '/protect-the-track',
+  slug: '/protect-brent-athletics',
   hashtag: '#ProtectBrentAthletics',
   headline: 'Tell Brent Council: save athletics in Brent',
   shareText:
@@ -12,7 +12,10 @@ export const campaign = {
   // Inbox that gets a blind copy of every supporter email so sends can be verified.
   // Create this mailbox first, then fill it in. Leave '' to turn the blind copy off.
   bccInbox: '',
+  contactName: 'Patrik Ewe',
   contactEmail: 'patrik@trackacademy.co.uk',
+  // Same donation page the main site's Support page uses.
+  donateUrl: 'https://whydonate.com/fundraising/trackacademy',
   // Survey opens on this date (YYYY-MM-DD). Add ?survey=1 to the URL to preview it early.
   surveyOpensOn: '2026-11-02',
   petitionTarget: 1000,
