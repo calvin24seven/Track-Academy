@@ -62,7 +62,7 @@ Owner: CEO and Chair.
 
 ### Track 2: Outside (making the cost visible)
 Owner: comms.
-- Supporter email → `/protect-the-track` (email councillors → sign → share).
+- Supporter email → `/protect-the-track` (sign → email councillors → share).
 - Each partner gets its own link (`?ref=qph`, `?ref=ea`, `?ref=advocacy`), so you can see who actually delivered.
 - Press: the "glossy gym email doesn't mention the track" angle is strong. Add a live number ("1,200 residents have written to councillors in 5 days") and one family story (consent and DSL check required).
 - **WhatsApp beats Instagram for parents.** Ask every coach to post the link in their parent groups, with the ref code `?ref=coach-<name>`.
@@ -82,7 +82,23 @@ Owner: comms.
 | **Mon 9 Nov** | Survey closes. Send results to officers, councillors, EA and Sport England. | Press story on the survey ("consider", "suggest"). |
 | Next Full Council | Petition debate or public question. Bring families to the gallery. | Press at the meeting. |
 
-## 5. Tracking responses (the dashboard)
+## 5. The page flow: sign → email → share
+
+**Why this order:** signing is the easiest step, so nearly everyone does it, and it gives us name, email and postcode even if they stop there. Emailing a councillor has more impact but more people drop out. Asking straight after a "yes", with everything already filled in, gets the most people to do it.
+
+1. **Sign** (30 seconds). Name, email, postcode, who they are, council consent.
+2. **Email councillors** (1 minute). Pre-filled from step 1: "From [name] · [ward]", the councillors shown by name (Cabinet members plus their own ward councillors), and the email already written. They add one line and press send. The page then asks "Did it send?", which is how emails get counted.
+3. **Share** (10 seconds). WhatsApp first.
+
+Then, further down the page: story, skills (pre-filled with their name and email) and the survey (deliberately not pre-filled, because it's anonymous).
+
+The page remembers details on the supporter's device. A return visit opens on the next step they haven't done, and "Clear my details" removes them.
+
+**Reminder email (do this ~24 hours after each big push):** in Sender, email the people who signed and opted in to updates (dashboard export "Opted-in supporters"). Subject: "One more minute for the track?". Link: `https://trackacademy.co.uk/protect-the-track?ref=reminder#email`. On the same device, the email step opens already filled in.
+
+**What to watch:** on the dashboard, compare emails sent with signatures. That share is the number to improve. If it's low, make the email step easier; don't change the order.
+
+## 6. Tracking responses (the dashboard)
 
 `/protect-the-track/dashboard`. Sign in by email link; admins only.
 
@@ -98,7 +114,7 @@ Owner: comms.
 
 **How "emails sent" is counted:** supporters click "Yes, I sent it" after their email app opens. To verify against real sends, create a campaign inbox (e.g. protect@trackacademy.co.uk) and set `bccInbox` in `src/data/campaign.ts`. Every email then blind-copies that inbox. The page tells people how their data is used. Add a line about the blind copy if you turn it on.
 
-## 6. Safeguarding and data
+## 7. Safeguarding and data
 
 - Stories about under-18s need a parent/carer consent tick before they can be submitted, and the DSL must approve them before they show on the page.
 - Names are first name only. Press contact always goes through Track Academy.
@@ -106,7 +122,7 @@ Owner: comms.
 - The survey is anonymous: no name, no email, first half of postcode only.
 - **Update `/privacy`** to cover the campaign (Supabase as processor, postcodes.io lookup, 6-month deletion).
 
-## 7. Setup checklist (for Calvin)
+## 8. Setup checklist (for Calvin)
 
 1. ✅ Supabase project `ddgchywxajftqdukcjbv` (eu-west-1) connected.
 2. ✅ Migration applied, security checks run, public access rules tested.
@@ -122,6 +138,6 @@ Owner: comms.
 10. Before launch, test on a phone: email (mailto and Gmail), petition, story, skills, survey (`?survey=1`).
 11. If spam appears, add Cloudflare Turnstile to the forms. There is a basic bot trap already.
 
-## 8. What to say and not say
+## 9. What to say and not say
 
 Keep the plan's discipline. "Consider", "suggest", "the council's own assessment says". Never "will cancel", "proves", "destroy". Don't attack named officers. (Brent's petition rules also reject petitions that name officers.) Stay non-party.
