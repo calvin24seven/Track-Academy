@@ -27,7 +27,7 @@ The plan is good: clear ask, sensible tone, careful survey language. These chang
 - **Willesden Sports Centre (NW10 3QX) is in Roundwood ward, Cllr Rubin's own ward.** He is both the Cabinet target *and* the ward councillor for the site. Use that.
 - Cllr Dixon represents Dollis Hill.
 
-**3. Collect our own petition signatures; don't rely on 38 Degrees alone.** Brent's petition scheme ([guidance](https://democracy.brent.gov.uk/documents/s148390/02t%20Appendix%2020%20-%20Brent%20petition%20guidance.pdf)) says:
+**3. One petition: ours, on the campaign page. No 38 Degrees petition.** *(Decided 28 Oct 2026.)* Brent's petition scheme ([guidance](https://democracy.brent.gov.uk/documents/s148390/02t%20Appendix%2020%20-%20Brent%20petition%20guidance.pdf)) says:
 - **51+ valid signatures** → notified to the chair of scrutiny and the strategic director.
 - **200+ valid signatures** → the organiser can request a **debate at Full Council** (5 days' notice).
 - E-petitions need name, postcode and email. **Our form collects exactly that.** 38 Degrees doesn't give you that list in a form the council will accept.
@@ -36,7 +36,7 @@ The plan is good: clear ask, sensible tone, careful survey language. These chang
   - (b) Ask committee@brent.gov.uk in writing *now* whether the exclusion applies.
   - (c) Submit once the complaint is answered.
 
-  Either way, collect the signatures in a council-ready format from day one. If you want 38 Degrees for reach, link to our page from it rather than running two counts.
+  Either way, collect the signatures in a council-ready format from day one. **Decision: don't launch a 38 Degrees petition.** Two petitions would split the count, and only ours leads straight into emailing councillors and meets Brent's rules. Partners, press and social posts all link to `trackacademy.co.uk/protect-brent-athletics`.
 
 **4. Make the survey hit the money, not just the mood.** "X% would consider cancelling" is easy to dismiss. "£X a year of existing membership income is linked to families who would consider leaving" talks to the council's own business case. The survey now also asks membership type, the number of members in the household and rough monthly spend, and the dashboard turns that into an annual figure. It also asks whether parents use the gym or café while their child trains, which is footfall the council's model probably doesn't count.
 - The wording is softened from "revoking in protest" to "would you consider cancelling", in line with the plan's own "asking, not inciting" principle.
@@ -73,7 +73,7 @@ Owner: comms.
 | Date | Inside | Outside |
 |---|---|---|
 | **Wed 28 Oct** | Find the decision date (JR clock). Email committee@brent.gov.uk about the petition exclusion. Contact a public-law solicitor. | Wire up Supabase and deploy the page. Make partner ref links. Swap the hero for an indoor photo. |
-| **Thu 29 Oct** | Request a meeting with Cllr Rubin as ward member. | Supporter email out. Coaches post in parent WhatsApp groups. Open meeting at 6pm: show the page on screen and get people to act *in the room*. |
+| **Thu 29 Oct** | Request a meeting with Cllr Rubin as ward member. | Supporter email out (the petition is on the campaign page; **no 38 Degrees launch**). Coaches post in parent WhatsApp groups. Open meeting at 6pm: show the page on screen and get people to act *in the room*. |
 | **Fri 30 Oct** | Send the one-page offer to Eugene Minogue and Ruth du Plessis. | Press letter with the live numbers. Social post. Partner pack with ref links. |
 | **Sun 1 Nov** | Chase the complaint response. | Check the dashboard: which refs are working? Push the slow ones. |
 | **Mon 2 Nov** | Brief opposition and ward councillors with signatures from their wards. | Survey opens automatically. Email it to families. |
