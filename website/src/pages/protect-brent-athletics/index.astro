@@ -812,6 +812,7 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
       consent_council: fd.get('consent_council') === 'on',
       consent_updates: fd.get('consent_updates') === 'on',
       ref,
+      session_id: sid, // lets the dashboard show whether this signer also emailed councillors
     });
     if (r.ok || r.duplicate) {
       me.signed = true;

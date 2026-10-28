@@ -51,6 +51,27 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
     <!-- Totals -->
     <section class="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-8" data-totals></section>
 
+    <!-- Who has signed -->
+    <section class={card}>
+      <div class="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h2 class={h}>Who has signed</h2>
+          <p class="mt-1 text-xs text-[var(--color-grey-500)]">“Emailed” means they also confirmed sending the councillor email from the same device. Councillor emails themselves are anonymous: we only count them.</p>
+        </div>
+        <p class="text-sm text-[var(--color-grey-700)]" data-signers-count></p>
+      </div>
+      <form id="signer-filters" class="mt-4 flex flex-wrap items-center gap-3 text-sm">
+        <input class={`${input} max-w-xs`} type="search" name="q" placeholder="Search name, email, postcode or ward" />
+        <label class="flex items-center gap-1.5"><input type="checkbox" name="only_brent" /> Brent only</label>
+        <label class="flex items-center gap-1.5"><input type="checkbox" name="only_optin" /> Opted in to updates</label>
+        <label class="flex items-center gap-1.5"><input type="checkbox" name="only_not_emailed" /> Not emailed yet</label>
+      </form>
+      <div class="mt-4 overflow-x-auto">
+        <table class="w-full min-w-[820px] text-sm" data-signers></table>
+      </div>
+      <button type="button" class={`${btnGhost} mt-3`} data-signers-more hidden>Show more</button>
+    </section>
+
     <div class="grid gap-6 lg:grid-cols-3">
       <section class={card}>
         <h2 class={h}>Daily actions</h2>
@@ -115,14 +136,19 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
 
     <section class={card}>
       <h2 class={h}>Exports</h2>
-      <p class="mt-1 text-sm text-[var(--color-grey-700)]">The petition export has the name, postcode and ward of each signer, as Brent’s petition scheme asks for.</p>
-      <div class="mt-3 flex flex-wrap gap-2">
-        <button class={btnGhost} data-export="petition_signatures?select=created_at,full_name,postcode,ward,in_brent,relationship,ref&consent_council=eq.true&order=created_at">Petition (for council)</button>
-        <button class={btnGhost} data-export="petition_signatures?select=full_name,email,ward,relationship&consent_updates=eq.true&order=created_at">Opted-in supporters (for Sender)</button>
-        <button class={btnGhost} data-export="membership_survey?select=*&order=created_at">Survey</button>
-        <button class={btnGhost} data-export="stakeholder_log?select=*&order=created_at">Stakeholder log</button>
-        <button class={btnGhost} data-export="campaign_offers?select=*&order=created_at">Offers</button>
+      <p class="mt-1 text-sm text-[var(--color-grey-700)]">CSV files that open in Excel or Google Sheets. Every row is included, however many there are.</p>
+      <div class="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+        <button class={`${btnGhost} text-left`} data-export="council">Petition for Brent Council<br><span class="font-400">Name, postcode, ward, date</span></button>
+        <button class={`${btnGhost} text-left`} data-export="signers">All signatures<br><span class="font-400">Every detail, including email</span></button>
+        <button class={`${btnGhost} text-left`} data-export="reminder">Reminder list<br><span class="font-400">Signed, opted in, not emailed yet</span></button>
+        <button class={`${btnGhost} text-left`} data-export="sender">Opted-in supporters<br><span class="font-400">For importing into Sender</span></button>
+        <button class={`${btnGhost} text-left`} data-export="survey">Membership survey<br><span class="font-400">Anonymous answers</span></button>
+        <button class={`${btnGhost} text-left`} data-export="stories">Stories<br><span class="font-400">All, with review status</span></button>
+        <button class={`${btnGhost} text-left`} data-export="offers">Offers of help</button>
+        <button class={`${btnGhost} text-left`} data-export="log">Stakeholder log</button>
+        <button class={`${btnGhost} text-left`} data-export="emails">Email log<br><span class="font-400">Alerts sent through Resend</span></button>
       </div>
+      <p class="mt-2 text-xs text-[var(--color-grey-500)]" data-export-msg aria-live="polite"></p>
     </section>
   </main>
 
@@ -220,7 +246,7 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
         renderRefs(s);
         renderWards(s);
         renderSurvey(s);
-        await Promise.all([renderLog(), renderStories(), renderOffers()]);
+        await Promise.all([renderSigners(), renderLog(), renderStories(), renderOffers()]);
       } catch (e) {
         $('[data-error]').textContent = `Couldn’t load data: ${e}. If this says "not authorised", ask for your email to be added to campaign_admins.`;
       }
@@ -306,9 +332,11 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
         const f = e.target as HTMLFormElement;
         const fd = Object.fromEntries(new FormData(f));
         for (const k of Object.keys(fd)) if (fd[k] === '') delete fd[k];
-        await insertAuthed('stakeholder_log', fd, token!);
-        f.reset();
-        renderLog();
+        try {
+          await insertAuthed('stakeholder_log', fd, token!);
+          f.reset();
+          await renderLog();
+        } catch (err) { showLoadError(err); }
       };
     }
 
@@ -327,8 +355,10 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
         const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-act]');
         if (!b) return;
         const id = b.closest<HTMLElement>('[data-id]')!.dataset.id;
-        await patch(`campaign_stories?id=eq.${id}`, { status: b.dataset.act, reviewed_by: c.email, reviewed_at: new Date().toISOString() }, token!);
-        renderStories();
+        try {
+          await patch(`campaign_stories?id=eq.${id}`, { status: b.dataset.act, reviewed_by: c.email, reviewed_at: new Date().toISOString() }, token!);
+          await renderStories();
+        } catch (err) { showLoadError(err); }
       };
     }
 
@@ -345,23 +375,144 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
       wrap.onchange = async (e) => {
         const sel = e.target as HTMLSelectElement;
         if (!sel.matches('[data-status]')) return;
-        await patch(`campaign_offers?id=eq.${sel.closest<HTMLElement>('[data-id]')!.dataset.id}`, { status: sel.value }, token!);
+        try {
+          await patch(`campaign_offers?id=eq.${sel.closest<HTMLElement>('[data-id]')!.dataset.id}`, { status: sel.value }, token!);
+          sel.insertAdjacentHTML('afterend', '<span class="ml-2 text-xs text-[var(--color-success)]" data-saved>Saved</span>');
+          setTimeout(() => sel.parentElement?.querySelector('[data-saved]')?.remove(), 1500);
+        } catch (err) { showLoadError(err); }
       };
     }
 
+    // ---- Who has signed ----
+    type Signer = {
+      created_at: string; full_name: string; email: string; postcode: string; ward: string | null; in_brent: boolean | null;
+      relationship: string; consent_council: boolean; consent_updates: boolean; ref: string | null; emailed: boolean;
+    };
+    const REL: Record<string, string> = {
+      parent: 'Parent/carer', athlete: 'Athlete', alumni: 'Former athlete', coach_volunteer: 'Coach/volunteer',
+      club_member: 'Club member', resident: 'Resident', other: 'Other',
+    };
+    const PAGE = 50;
+    let signerOffset = 0;
+    function signerArgs(lim: number, off: number) {
+      const fd = new FormData($<HTMLFormElement>('#signer-filters'));
+      return {
+        q: String(fd.get('q') || '').trim() || null,
+        only_brent: fd.get('only_brent') === 'on',
+        only_optin: fd.get('only_optin') === 'on',
+        only_not_emailed: fd.get('only_not_emailed') === 'on',
+        lim, off,
+      };
+    }
+    const when = (d: string) => new Date(d).toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+    async function renderSigners(append = false) {
+      if (!append) signerOffset = 0;
+      const res = await rpc<{ total: number; rows: Signer[] }>('campaign_signers', signerArgs(PAGE, signerOffset), token!);
+      if (!res) return;
+      const table = $('[data-signers]');
+      const head = '<tr class="text-left text-xs text-[var(--color-grey-500)]"><th class="py-1">Signed</th><th>Name</th><th>Email</th><th>Postcode</th><th>Ward</th><th>Who</th><th>Updates</th><th>Emailed</th><th>Source</th></tr>';
+      const rows = res.rows.map((r) => `<tr class="border-t border-[var(--color-grey-100)]">
+          <td class="py-1.5 pr-3 text-xs whitespace-nowrap text-[var(--color-grey-500)]">${esc(when(r.created_at))}</td>
+          <td class="pr-3 font-600">${esc(r.full_name)}</td>
+          <td class="pr-3"><a class="underline" href="mailto:${esc(r.email)}">${esc(r.email)}</a></td>
+          <td class="pr-3 whitespace-nowrap">${esc(r.postcode)}</td>
+          <td class="pr-3">${r.in_brent ? esc(r.ward) : '<span class="text-[var(--color-grey-500)]">Outside Brent</span>'}</td>
+          <td class="pr-3 text-xs">${esc(REL[r.relationship] ?? r.relationship)}</td>
+          <td class="pr-3">${r.consent_updates ? 'Yes' : '<span class="text-[var(--color-grey-500)]">No</span>'}</td>
+          <td class="pr-3">${r.emailed ? '<span class="text-[var(--color-success)] font-600">✓</span>' : '<span class="text-[var(--color-grey-500)]">Not yet</span>'}</td>
+          <td class="text-xs">${esc(r.ref ?? 'direct')}</td></tr>`).join('');
+      if (append) table.insertAdjacentHTML('beforeend', rows);
+      else table.innerHTML = res.total ? head + rows : '<tr><td class="py-2 text-[var(--color-grey-500)]">No signatures match.</td></tr>';
+      signerOffset += res.rows.length;
+      $('[data-signers-count]').textContent = `Showing ${fmt(signerOffset)} of ${fmt(res.total)}`;
+      $('[data-signers-more]').hidden = signerOffset >= res.total;
+    }
+    let filterTimer: number | undefined;
+    $<HTMLFormElement>('#signer-filters').addEventListener('input', () => {
+      clearTimeout(filterTimer);
+      filterTimer = window.setTimeout(() => renderSigners().catch(showLoadError), 300);
+    });
+    $<HTMLFormElement>('#signer-filters').addEventListener('submit', (e) => e.preventDefault());
+    $('[data-signers-more]').addEventListener('click', () => renderSigners(true).catch(showLoadError));
+    function showLoadError(e: unknown) { $('[data-error]').textContent = `Couldn’t load data: ${e}`; }
+
     // ---- CSV export ----
+    // Fetches every row (in pages of 1,000), names columns plainly, and is safe to open in Excel.
+    async function selectAll(path: string) {
+      const out: Record<string, unknown>[] = [];
+      for (let off = 0; ; off += 1000) {
+        const page = await select<Record<string, unknown>[]>(`${path}&limit=1000&offset=${off}`, token!);
+        out.push(...page);
+        if (page.length < 1000) return out;
+      }
+    }
+    async function allSigners(filters: Partial<ReturnType<typeof signerArgs>> = {}) {
+      const res = await rpc<{ total: number; rows: Signer[] }>('campaign_signers',
+        { q: null, only_brent: false, only_optin: false, only_not_emailed: false, lim: 50000, off: 0, ...filters }, token!);
+      return (res?.rows ?? []).slice().reverse(); // oldest first
+    }
+    const yn = (v: unknown) => (v === true ? 'Yes' : v === false ? 'No' : '');
+    const day = (v: unknown) => (v ? new Date(String(v)).toLocaleString('en-GB') : '');
+    type Export = { file: string; load: () => Promise<Record<string, unknown>[]> };
+    const exports: Record<string, Export> = {
+      council: { file: 'petition-for-brent-council', load: async () => (await allSigners()).filter((r) => r.consent_council).map((r) => ({
+        'Signed': day(r.created_at), 'Name': r.full_name, 'Postcode': r.postcode, 'Ward': r.in_brent ? r.ward : 'Outside Brent' })) },
+      signers: { file: 'all-signatures', load: async () => (await allSigners()).map((r) => ({
+        'Signed': day(r.created_at), 'Name': r.full_name, 'Email': r.email, 'Postcode': r.postcode, 'Ward': r.ward ?? '',
+        'In Brent': yn(r.in_brent), 'Who': REL[r.relationship] ?? r.relationship, 'Council consent': yn(r.consent_council),
+        'Updates opt-in': yn(r.consent_updates), 'Emailed councillors': yn(r.emailed), 'Source': r.ref ?? 'direct' })) },
+      reminder: { file: 'reminder-list-signed-not-emailed', load: async () => (await allSigners({ only_optin: true, only_not_emailed: true })).map((r) => ({
+        'Name': r.full_name, 'First name': String(r.full_name).split(/\s+/)[0], 'Email': r.email, 'Ward': r.ward ?? '' })) },
+      sender: { file: 'opted-in-supporters', load: async () => (await allSigners({ only_optin: true })).map((r) => ({
+        'Email': r.email, 'First name': String(r.full_name).split(/\s+/)[0], 'Last name': String(r.full_name).split(/\s+/).slice(1).join(' '), 'Ward': r.ward ?? '' })) },
+      survey: { file: 'membership-survey', load: async () => (await selectAll('membership_survey?select=*&order=created_at')).map((r) => ({
+        'Answered': day(r.created_at), 'Member': yn(r.is_member), 'Membership type': r.membership_type ?? '', 'Members in household': r.members_in_household ?? '',
+        'Monthly spend': r.monthly_spend_band ?? '', 'Would consider cancelling': r.would_consider_cancelling ?? '', 'Would consider joining': r.would_consider_joining ?? '',
+        'Uses centre during sessions': yn(r.uses_centre_during_sessions), 'Postcode area': r.postcode_district ?? '', 'Comment': r.comment ?? '' })) },
+      stories: { file: 'stories', load: async () => (await selectAll('campaign_stories?select=*&order=created_at')).map((r) => ({
+        'Received': day(r.created_at), 'First name': r.display_name, 'Who': REL[String(r.relationship)] ?? r.relationship, 'About someone aged': r.age_band,
+        'Story': r.story, 'Publish OK': yn(r.consent_publish), 'Parent consent': yn(r.parent_consent), 'Press OK': yn(r.media_ok),
+        'Contact email': r.contact_email ?? '', 'Status': r.status, 'Reviewed by': r.reviewed_by ?? '', 'Reviewed': day(r.reviewed_at), 'Source': r.ref ?? 'direct' })) },
+      offers: { file: 'offers-of-help', load: async () => (await selectAll('campaign_offers?select=*&order=created_at')).map((r) => ({
+        'Received': day(r.created_at), 'Name': r.full_name, 'Email': r.email, 'Phone': r.phone ?? '', 'Can help with': r.skills,
+        'Details': r.details ?? '', 'Status': r.status, 'Source': r.ref ?? 'direct' })) },
+      log: { file: 'stakeholder-log', load: async () => (await selectAll('stakeholder_log?select=*&order=created_at')).map((r) => ({
+        'Logged': day(r.created_at), 'By': r.logged_by ?? '', 'Who': r.stakeholder, 'Organisation': r.organisation ?? '', 'Channel': r.channel ?? '',
+        'Stance': String(r.stance).replace('_', ' '), 'What they said': r.summary ?? '', 'Next step': r.next_step ?? '', 'Due': r.next_step_due ?? '' })) },
+      emails: { file: 'email-log', load: async () => (await selectAll('email_log?select=*&order=created_at')).map((r) => ({
+        'Sent': day(r.created_at), 'Type': r.kind, 'To': r.to_addresses, 'Subject': r.subject, 'Status': r.status, 'Error': r.error ?? '', 'Resend id': r.resend_id ?? '' })) },
+    };
+    function toCsv(rows: Record<string, unknown>[]) {
+      const cols = Object.keys(rows[0]);
+      const cell = (v: unknown) => {
+        let s = String(Array.isArray(v) ? v.join('; ') : v ?? '');
+        if (/^[=+\-@\t\r]/.test(s)) s = `'${s}`; // stop spreadsheet formulas in public-submitted text
+        return `"${s.replace(/"/g, '""')}"`;
+      };
+      return '﻿' + [cols.map(cell).join(','), ...rows.map((r) => cols.map((k) => cell(r[k])).join(','))].join('\r\n');
+    }
     document.addEventListener('click', async (e) => {
       const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-export]');
       if (!b) return;
-      const rows = await select<any[]>(b.dataset.export!, token!);
-      if (!rows.length) return alert('Nothing to export yet.');
-      const cols = Object.keys(rows[0]);
-      const cell = (v: unknown) => `"${String(Array.isArray(v) ? v.join('; ') : v ?? '').replace(/"/g, '""')}"`;
-      const csv = [cols.join(','), ...rows.map((r) => cols.map((k) => cell(r[k])).join(','))].join('\n');
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-      a.download = `${b.dataset.export!.split('?')[0]}-${new Date().toISOString().slice(0, 10)}.csv`;
-      a.click();
+      const ex = exports[b.dataset.export!];
+      const msg = $('[data-export-msg]');
+      b.disabled = true;
+      msg.textContent = 'Preparing file…';
+      try {
+        const rows = await ex.load();
+        if (!rows.length) { msg.textContent = 'Nothing to export yet.'; return; }
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([toCsv(rows)], { type: 'text/csv;charset=utf-8' }));
+        a.download = `${ex.file}-${new Date().toISOString().slice(0, 10)}.csv`;
+        document.body.append(a);
+        a.click();
+        a.remove();
+        msg.textContent = `Downloaded ${fmt(rows.length)} row${rows.length === 1 ? '' : 's'}.`;
+      } catch (err) {
+        msg.textContent = `Export failed: ${err}`;
+      } finally {
+        b.disabled = false;
+      }
     });
   </script>
 </body>
