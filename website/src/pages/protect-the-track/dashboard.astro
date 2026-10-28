@@ -275,7 +275,7 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
 
     async function renderStories() {
       const rows = await select<any[]>('campaign_stories?select=*&status=eq.pending&order=created_at', token!);
-      const age: Record<string, string> = { under_13: 'Under 13', '13_17': '13–17', '18_plus': '18+' };
+      const age: Record<string, string> = { under_13: 'Under 13', '13_17': '13–17', '18_plus': '18+', unknown: 'Child, age not given' };
       const wrap = $('[data-stories]');
       wrap.innerHTML = rows.length ? rows.map((r) => `
         <div class="border border-[var(--color-grey-300)] p-3 text-sm" data-id="${r.id}">

@@ -96,6 +96,7 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
           </label>
           <div class="sm:col-span-2">
             <button type="submit" class={`${btn} w-full sm:w-auto`}>Add my name</button>
+            <p class="mt-3 font-body text-xs text-white/60">Your signature goes to Track Academy’s campaign team, and your name and postcode go to Brent Council with the petition.</p>
             <p class="mt-3 font-body text-sm text-[var(--color-track-gold)]" data-form-msg aria-live="polite"></p>
           </div>
         </form>
@@ -148,17 +149,23 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
         </div>
 
         <div>
-          <label class={labelCls} for="em-personal">Your line <span class="font-400 text-[var(--color-grey-500)]">(makes it count)</span></label>
-          <textarea class={input} id="em-personal" name="personal" rows="2" maxlength="600" placeholder="e.g. My daughter started at 11. Winter sessions on the indoor track are the only time she trains with her friends."></textarea>
+          <label class="block font-heading text-[1.2rem] font-500 leading-[1.25] text-[var(--color-track-blue)]" for="em-personal">Tell Brent how Track Academy has helped your child or family</label>
+          <p class="mt-1 mb-3 font-body text-sm text-[var(--color-grey-700)]">One or two sentences in your own words. This goes into the middle of your email. Councillors read personal emails and skip copied ones.</p>
+          <textarea class={input} id="em-personal" name="personal" rows="3" maxlength="600" placeholder="e.g. My daughter started at 11. Training on the indoor track every winter gave her confidence, friends and a mentor she trusts."></textarea>
+          <label class="mt-3 flex gap-3 font-body text-sm leading-[1.5] text-[var(--color-grey-700)]">
+            <input type="checkbox" id="em-story-ok" class="mt-1 h-4 w-4 shrink-0" />
+            <span>Track Academy can also use this as evidence for the council, and on this page with my first name only. If it’s about my child, I’m their parent or carer. Our safeguarding lead checks everything first.</span>
+          </label>
         </div>
 
         <details class="border border-[var(--color-grey-300)] bg-[var(--color-grey-50)]">
-          <summary class="cursor-pointer px-5 py-3 font-body text-sm font-600 text-[var(--color-track-blue)]">Read the email · <span class="font-400 text-[var(--color-grey-700)]" data-subject></span></summary>
+          <summary class="cursor-pointer px-5 py-3 font-body text-sm font-600 text-[var(--color-track-blue)]">Preview the full email · <span class="font-400 text-[var(--color-grey-700)]" data-subject></span></summary>
           <pre class="max-h-[22rem] overflow-auto whitespace-pre-wrap border-t border-[var(--color-grey-300)] px-5 py-4 font-body text-[0.95rem] leading-[1.6] text-[var(--color-grey-900)]" data-body></pre>
         </details>
       </form>
 
-      <div class="mt-6 grid gap-3 sm:flex sm:flex-wrap sm:items-center">
+      <p class="mt-6 font-body text-sm text-[var(--color-grey-700)]">This opens your own email with everything filled in. Check it, then press send. It goes from you, straight to the councillors above.</p>
+      <div class="mt-3 grid gap-3 sm:flex sm:flex-wrap sm:items-center">
         <a href="#" class={btn} data-send="mailto">Send from my email app</a>
         <a href="#" class={btnGhost} data-send="gmail" target="_blank" rel="noopener">Gmail</a>
         <a href="#" class={btnGhost} data-send="outlook" target="_blank" rel="noopener">Outlook</a>
@@ -237,179 +244,199 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
     </div>
   </section>
 
-  <!-- Go further: story + skills (pre-filled) -->
+  <!-- Want to do more? One accordion, one item open at a time. -->
   <section class="bg-[var(--color-grey-100)] py-[clamp(3rem,7vw,5rem)]">
-    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
-      <p class={eyebrow}>Want to do more?</p>
-      <div class="grid gap-8 lg:grid-cols-2">
-        <div id="story" class="scroll-mt-36 bg-white p-7 lg:p-9">
-          <h2 class="font-heading text-[clamp(1.35rem,3vw,1.9rem)] font-500 leading-[1.1] text-[var(--color-track-blue)]">Share your story</h2>
-          <p class="mt-3 font-body text-[var(--color-grey-700)]">Stories go into our evidence for the council. Our safeguarding lead checks every one before anything is published.</p>
-          <form id="story-form" class="mt-6 grid gap-4" novalidate>
-            <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
-            <div>
-              <label class={labelCls} for="st-story">What has Track Academy meant to you or your family?</label>
-              <textarea class={input} id="st-story" name="story" rows="5" required minlength="20" maxlength="3000"></textarea>
-            </div>
-            <div class="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label class={labelCls} for="st-name">First name to show</label>
-                <input class={input} id="st-name" name="display_name" required maxlength="60" data-me="first_name" />
-              </div>
-              <div>
-                <label class={labelCls} for="st-age">The story is about someone aged</label>
-                <select class={input} id="st-age" name="age_band">
-                  <option value="18_plus">18 or over</option>
-                  <option value="13_17">13–17</option>
-                  <option value="under_13">Under 13</option>
-                </select>
-              </div>
-            </div>
-            <input type="hidden" name="relationship" data-me="relationship" value="other" />
-            <input type="hidden" name="contact_email" data-me="email" value="" />
-            <label class="flex gap-3 font-body text-sm text-[var(--color-grey-700)]" data-parent-consent hidden>
-              <input type="checkbox" name="parent_consent" class="mt-1 h-4 w-4 shrink-0" />
-              <span>I’m their parent or carer and I consent to this story being shared.</span>
-            </label>
-            <label class="flex gap-3 font-body text-sm text-[var(--color-grey-700)]">
-              <input type="checkbox" name="consent_publish" class="mt-1 h-4 w-4 shrink-0" />
-              <span>Track Academy may publish it (first name only) and share it with the council.</span>
-            </label>
-            <label class="flex gap-3 font-body text-sm text-[var(--color-grey-700)]">
-              <input type="checkbox" name="media_ok" class="mt-1 h-4 w-4 shrink-0" />
-              <span>I’m happy to be asked about speaking to the press.</span>
-            </label>
-            <p class="font-body text-xs text-[var(--color-grey-500)]" data-story-contact></p>
-            <button type="submit" class={`${btn} justify-self-start`}>Send my story</button>
-            <p class="font-body text-sm text-[var(--color-track-blue)]" data-form-msg aria-live="polite"></p>
-          </form>
-        </div>
-
-        <div id="skills" class="scroll-mt-36 bg-white p-7 lg:p-9">
-          <h2 class="font-heading text-[clamp(1.35rem,3vw,1.9rem)] font-500 leading-[1.1] text-[var(--color-track-blue)]">Offer your skills or contacts</h2>
-          <p class="mt-3 font-body text-[var(--color-grey-700)]">Lawyers, journalists, organisers, people who know councillors. One right contact can change this.</p>
-          <form id="skills-form" class="mt-6 grid gap-4" novalidate>
-            <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
-            <fieldset>
-              <legend class={labelCls}>I can help with</legend>
-              <div class="grid gap-2 sm:grid-cols-2">
-                {skillOptions.map((s) => (
-                  <label class="flex gap-2 font-body text-sm text-[var(--color-grey-700)]">
-                    <input type="checkbox" name="skills" value={s.value} class="mt-0.5 h-4 w-4" /> {s.label}
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-            <div>
-              <label class={labelCls} for="sk-details">Tell us more</label>
-              <textarea class={input} id="sk-details" name="details" rows="3" maxlength="2000"></textarea>
-            </div>
-            <div class="grid gap-4 sm:grid-cols-2" data-skills-identity>
-              <div>
-                <label class={labelCls} for="sk-name">Name</label>
-                <input class={input} id="sk-name" name="full_name" autocomplete="name" required maxlength="120" data-me="name" />
-              </div>
-              <div>
-                <label class={labelCls} for="sk-email">Email</label>
-                <input class={input} id="sk-email" name="email" type="email" inputmode="email" autocomplete="email" required maxlength="200" data-me="email" />
-              </div>
-            </div>
-            <div>
-              <label class={labelCls} for="sk-phone">Phone <span class="font-400 text-[var(--color-grey-500)]">(optional)</span></label>
-              <input class={input} id="sk-phone" name="phone" type="tel" autocomplete="tel" maxlength="30" />
-            </div>
-            <button type="submit" class={`${btn} justify-self-start`}>Offer help</button>
-            <p class="font-body text-sm text-[var(--color-track-blue)]" data-form-msg aria-live="polite"></p>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Membership survey (opens on campaign.surveyOpensOn; anonymous, so nothing is pre-filled) -->
-  <section id="survey" class="hidden scroll-mt-36 bg-white py-[clamp(3rem,7vw,5rem)]" data-survey>
     <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class={eyebrow}>Anonymous · 1 minute</p>
-      <h2 class={h2}>Willesden Sports Centre membership survey</h2>
-      <p class="mt-4 max-w-2xl font-body text-lg leading-[1.6] text-[var(--color-grey-700)]">The council’s plan is built on gym membership numbers. Help us check whether it has counted families like yours. We don’t record your name or email.</p>
-      <form id="survey-form" class="mt-8 grid gap-6" novalidate>
-        <fieldset>
-          <legend class={labelCls}>Do you or your family hold a Willesden Sports Centre membership?</legend>
-          <div class="flex gap-6 font-body">
-            <label class="flex items-center gap-2"><input type="radio" name="is_member" value="yes" required /> Yes</label>
-            <label class="flex items-center gap-2"><input type="radio" name="is_member" value="no" /> No</label>
-          </div>
-        </fieldset>
+      <p class={eyebrow}>Optional</p>
+      <h2 class={h2}>Want to do more?</h2>
+      <p class="mt-3 font-body text-lg leading-[1.6] text-[var(--color-grey-700)]">Pick one. Each takes a minute or two.</p>
+      <div class="mt-8 grid gap-3">
+        <details id="survey" name="more" class="group scroll-mt-36 border border-[var(--color-grey-300)] bg-white open:border-[var(--color-track-blue)]" data-survey hidden>
+          <summary class="flex cursor-pointer list-none items-start justify-between gap-4 p-5 lg:p-6 [&::-webkit-details-marker]:hidden">
+            <span>
+              <span class="block font-heading text-[1.25rem] font-500 leading-[1.2] text-[var(--color-track-blue)]">Answer the membership survey</span>
+              <span class="mt-1 block font-body text-sm text-[var(--color-grey-700)]">Anonymous, 1 minute. Helps us test the council’s financial case.</span>
+            </span>
+            <span class="mt-1 font-heading text-2xl leading-none text-[var(--color-track-orange)] transition-transform duration-200 group-open:rotate-45" aria-hidden="true">+</span>
+          </summary>
+          <div class="border-t border-[var(--color-grey-300)] p-5 lg:p-6">
+            <form id="survey-form" class="mt-8 grid gap-6" novalidate>
+                <fieldset>
+                  <legend class={labelCls}>Do you or your family hold a Willesden Sports Centre membership?</legend>
+                  <div class="flex gap-6 font-body">
+                    <label class="flex items-center gap-2"><input type="radio" name="is_member" value="yes" required /> Yes</label>
+                    <label class="flex items-center gap-2"><input type="radio" name="is_member" value="no" /> No</label>
+                  </div>
+                </fieldset>
 
-        <div class="hidden grid gap-6" data-branch="member">
-          <div class="grid gap-4 sm:grid-cols-3">
-            <div>
-              <label class={labelCls} for="sv-type">Membership type</label>
-              <select class={input} id="sv-type" name="membership_type">
-                <option value="individual">Individual</option>
-                <option value="family">Family</option>
-                <option value="junior">Junior</option>
-                <option value="concession">Concession</option>
-                <option value="pay_as_you_go">Pay as you go</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div>
-              <label class={labelCls} for="sv-count">People in your household with a membership</label>
-              <input class={input} id="sv-count" name="members_in_household" type="number" inputmode="numeric" min="1" max="12" value="1" />
-            </div>
-            <div>
-              <label class={labelCls} for="sv-spend">Roughly what your household pays per month</label>
-              <select class={input} id="sv-spend" name="monthly_spend_band">
-                <option value="under_20">Under £20</option>
-                <option value="20_39">£20–£39</option>
-                <option value="40_59">£40–£59</option>
-                <option value="60_99">£60–£99</option>
-                <option value="100_plus">£100+</option>
-                <option value="not_sure">Not sure</option>
-              </select>
-            </div>
-          </div>
-          <fieldset>
-            <legend class={labelCls}>If the indoor track is removed, would you consider cancelling your membership?</legend>
-            <div class="flex gap-6 font-body">
-              <label class="flex items-center gap-2"><input type="radio" name="would_consider_cancelling" value="yes" /> Yes</label>
-              <label class="flex items-center gap-2"><input type="radio" name="would_consider_cancelling" value="maybe" /> Maybe</label>
-              <label class="flex items-center gap-2"><input type="radio" name="would_consider_cancelling" value="no" /> No</label>
-            </div>
-          </fieldset>
-        </div>
+                <div class="hidden grid gap-6" data-branch="member">
+                  <div class="grid gap-4 sm:grid-cols-3">
+                    <div>
+                      <label class={labelCls} for="sv-type">Membership type</label>
+                      <select class={input} id="sv-type" name="membership_type">
+                        <option value="individual">Individual</option>
+                        <option value="family">Family</option>
+                        <option value="junior">Junior</option>
+                        <option value="concession">Concession</option>
+                        <option value="pay_as_you_go">Pay as you go</option>
+                        <option value="other">Other</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class={labelCls} for="sv-count">People in your household with a membership</label>
+                      <input class={input} id="sv-count" name="members_in_household" type="number" inputmode="numeric" min="1" max="12" value="1" />
+                    </div>
+                    <div>
+                      <label class={labelCls} for="sv-spend">Roughly what your household pays per month</label>
+                      <select class={input} id="sv-spend" name="monthly_spend_band">
+                        <option value="under_20">Under £20</option>
+                        <option value="20_39">£20–£39</option>
+                        <option value="40_59">£40–£59</option>
+                        <option value="60_99">£60–£99</option>
+                        <option value="100_plus">£100+</option>
+                        <option value="not_sure">Not sure</option>
+                      </select>
+                    </div>
+                  </div>
+                  <fieldset>
+                    <legend class={labelCls}>If the indoor track is removed, would you consider cancelling your membership?</legend>
+                    <div class="flex gap-6 font-body">
+                      <label class="flex items-center gap-2"><input type="radio" name="would_consider_cancelling" value="yes" /> Yes</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="would_consider_cancelling" value="maybe" /> Maybe</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="would_consider_cancelling" value="no" /> No</label>
+                    </div>
+                  </fieldset>
+                </div>
 
-        <div class="hidden" data-branch="non-member">
-          <fieldset>
-            <legend class={labelCls}>If the indoor track were kept and the facilities improved, would you consider getting a membership?</legend>
-            <div class="flex gap-6 font-body">
-              <label class="flex items-center gap-2"><input type="radio" name="would_consider_joining" value="yes" /> Yes</label>
-              <label class="flex items-center gap-2"><input type="radio" name="would_consider_joining" value="maybe" /> Maybe</label>
-              <label class="flex items-center gap-2"><input type="radio" name="would_consider_joining" value="no" /> No</label>
-            </div>
-          </fieldset>
-        </div>
+                <div class="hidden" data-branch="non-member">
+                  <fieldset>
+                    <legend class={labelCls}>If the indoor track were kept and the facilities improved, would you consider getting a membership?</legend>
+                    <div class="flex gap-6 font-body">
+                      <label class="flex items-center gap-2"><input type="radio" name="would_consider_joining" value="yes" /> Yes</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="would_consider_joining" value="maybe" /> Maybe</label>
+                      <label class="flex items-center gap-2"><input type="radio" name="would_consider_joining" value="no" /> No</label>
+                    </div>
+                  </fieldset>
+                </div>
 
-        <label class="flex gap-3 font-body text-sm text-[var(--color-grey-700)]">
-          <input type="checkbox" name="uses_centre_during_sessions" class="mt-1 h-4 w-4 shrink-0" />
-          <span>I use the centre (gym, pool, café) while my child is at Track Academy.</span>
-        </label>
-        <div class="grid gap-4 sm:grid-cols-[1fr_3fr]">
-          <div>
-            <label class={labelCls} for="sv-pc">First half of postcode <span class="font-400 text-[var(--color-grey-500)]">(optional)</span></label>
-            <input class={input} id="sv-pc" name="postcode_district" maxlength="4" autocapitalize="characters" placeholder="NW10" />
+                <label class="flex gap-3 font-body text-sm text-[var(--color-grey-700)]">
+                  <input type="checkbox" name="uses_centre_during_sessions" class="mt-1 h-4 w-4 shrink-0" />
+                  <span>I use the centre (gym, pool, café) while my child is at Track Academy.</span>
+                </label>
+                <div class="grid gap-4 sm:grid-cols-[1fr_3fr]">
+                  <div>
+                    <label class={labelCls} for="sv-pc">First half of postcode <span class="font-400 text-[var(--color-grey-500)]">(optional)</span></label>
+                    <input class={input} id="sv-pc" name="postcode_district" maxlength="4" autocapitalize="characters" placeholder="NW10" />
+                  </div>
+                  <div>
+                    <label class={labelCls} for="sv-comment">Anything to add? <span class="font-400 text-[var(--color-grey-500)]">(optional)</span></label>
+                    <input class={input} id="sv-comment" name="comment" maxlength="1500" />
+                  </div>
+                </div>
+                <div>
+                  <p class="mb-3 font-body text-xs text-[var(--color-grey-500)]">Anonymous. Goes to Track Academy’s campaign team, and only the totals are shared.</p>
+                  <button type="submit" class={btn}>Submit</button>
+                  <p class="mt-3 font-body text-sm text-[var(--color-track-blue)]" data-form-msg aria-live="polite"></p>
+                </div>
+              </form>
           </div>
-          <div>
-            <label class={labelCls} for="sv-comment">Anything to add? <span class="font-400 text-[var(--color-grey-500)]">(optional)</span></label>
-            <input class={input} id="sv-comment" name="comment" maxlength="1500" />
+        </details>
+        <details id="story" name="more" class="group scroll-mt-36 border border-[var(--color-grey-300)] bg-white open:border-[var(--color-track-blue)]">
+          <summary class="flex cursor-pointer list-none items-start justify-between gap-4 p-5 lg:p-6 [&::-webkit-details-marker]:hidden">
+            <span>
+              <span class="block font-heading text-[1.25rem] font-500 leading-[1.2] text-[var(--color-track-blue)]">Share a longer story</span>
+              <span class="mt-1 block font-body text-sm text-[var(--color-grey-700)]">What Track Academy has meant to you. Used as evidence for the council.</span>
+            </span>
+            <span class="mt-1 font-heading text-2xl leading-none text-[var(--color-track-orange)] transition-transform duration-200 group-open:rotate-45" aria-hidden="true">+</span>
+          </summary>
+          <div class="border-t border-[var(--color-grey-300)] p-5 lg:p-6">
+            <form id="story-form" class="mt-6 grid gap-4" novalidate>
+                <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+                <div>
+                  <label class={labelCls} for="st-story">What has Track Academy meant to you or your family?</label>
+                  <textarea class={input} id="st-story" name="story" rows="5" required minlength="20" maxlength="3000"></textarea>
+                </div>
+                <div class="grid gap-4 sm:grid-cols-2">
+                  <div>
+                    <label class={labelCls} for="st-name">First name to show</label>
+                    <input class={input} id="st-name" name="display_name" required maxlength="60" data-me="first_name" />
+                  </div>
+                  <div>
+                    <label class={labelCls} for="st-age">The story is about someone aged</label>
+                    <select class={input} id="st-age" name="age_band">
+                      <option value="18_plus">18 or over</option>
+                      <option value="13_17">13–17</option>
+                      <option value="under_13">Under 13</option>
+                    </select>
+                  </div>
+                </div>
+                <input type="hidden" name="relationship" data-me="relationship" value="other" />
+                <input type="hidden" name="contact_email" data-me="email" value="" />
+                <label class="flex gap-3 font-body text-sm text-[var(--color-grey-700)]" data-parent-consent hidden>
+                  <input type="checkbox" name="parent_consent" class="mt-1 h-4 w-4 shrink-0" />
+                  <span>I’m their parent or carer and I consent to this story being shared.</span>
+                </label>
+                <label class="flex gap-3 font-body text-sm text-[var(--color-grey-700)]">
+                  <input type="checkbox" name="consent_publish" class="mt-1 h-4 w-4 shrink-0" />
+                  <span>Track Academy may publish it (first name only) and share it with the council.</span>
+                </label>
+                <label class="flex gap-3 font-body text-sm text-[var(--color-grey-700)]">
+                  <input type="checkbox" name="media_ok" class="mt-1 h-4 w-4 shrink-0" />
+                  <span>I’m happy to be asked about speaking to the press.</span>
+                </label>
+                <p class="font-body text-xs text-[var(--color-grey-500)]" data-story-contact></p>
+            <p class="font-body text-xs text-[var(--color-grey-500)]">Goes to Track Academy’s campaign team. Nothing is published until our safeguarding lead approves it.</p>
+                <button type="submit" class={`${btn} justify-self-start`}>Send my story</button>
+                <p class="font-body text-sm text-[var(--color-track-blue)]" data-form-msg aria-live="polite"></p>
+              </form>
           </div>
-        </div>
-        <div>
-          <button type="submit" class={btn}>Submit</button>
-          <p class="mt-3 font-body text-sm text-[var(--color-track-blue)]" data-form-msg aria-live="polite"></p>
-        </div>
-      </form>
+        </details>
+        <details id="skills" name="more" class="group scroll-mt-36 border border-[var(--color-grey-300)] bg-white open:border-[var(--color-track-blue)]">
+          <summary class="flex cursor-pointer list-none items-start justify-between gap-4 p-5 lg:p-6 [&::-webkit-details-marker]:hidden">
+            <span>
+              <span class="block font-heading text-[1.25rem] font-500 leading-[1.2] text-[var(--color-track-blue)]">Offer your skills or contacts</span>
+              <span class="mt-1 block font-body text-sm text-[var(--color-grey-700)]">Legal, media, campaigning, or you know a councillor.</span>
+            </span>
+            <span class="mt-1 font-heading text-2xl leading-none text-[var(--color-track-orange)] transition-transform duration-200 group-open:rotate-45" aria-hidden="true">+</span>
+          </summary>
+          <div class="border-t border-[var(--color-grey-300)] p-5 lg:p-6">
+            <form id="skills-form" class="mt-6 grid gap-4" novalidate>
+                <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
+                <fieldset>
+                  <legend class={labelCls}>I can help with</legend>
+                  <div class="grid gap-2 sm:grid-cols-2">
+                    {skillOptions.map((s) => (
+                      <label class="flex gap-2 font-body text-sm text-[var(--color-grey-700)]">
+                        <input type="checkbox" name="skills" value={s.value} class="mt-0.5 h-4 w-4" /> {s.label}
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+                <div>
+                  <label class={labelCls} for="sk-details">Tell us more</label>
+                  <textarea class={input} id="sk-details" name="details" rows="3" maxlength="2000"></textarea>
+                </div>
+                <div class="grid gap-4 sm:grid-cols-2" data-skills-identity>
+                  <div>
+                    <label class={labelCls} for="sk-name">Name</label>
+                    <input class={input} id="sk-name" name="full_name" autocomplete="name" required maxlength="120" data-me="name" />
+                  </div>
+                  <div>
+                    <label class={labelCls} for="sk-email">Email</label>
+                    <input class={input} id="sk-email" name="email" type="email" inputmode="email" autocomplete="email" required maxlength="200" data-me="email" />
+                  </div>
+                </div>
+                <div>
+                  <label class={labelCls} for="sk-phone">Phone <span class="font-400 text-[var(--color-grey-500)]">(optional)</span></label>
+                  <input class={input} id="sk-phone" name="phone" type="tel" autocomplete="tel" maxlength="30" />
+                </div>
+                <p class="font-body text-xs text-[var(--color-grey-500)]">Goes to Track Academy’s campaign team only. Someone will contact you.</p>
+                <button type="submit" class={`${btn} justify-self-start`}>Offer help</button>
+                <p class="font-body text-sm text-[var(--color-track-blue)]" data-form-msg aria-live="polite"></p>
+              </form>
+          </div>
+        </details>
+      </div>
     </div>
   </section>
 
@@ -609,6 +636,27 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
     }
   }
 
+  /** If they ticked the box, their email line also becomes a story (once per wording), pending DSL review. */
+  let savedStory = '';
+  function saveLineAsStory() {
+    const line = ($('#em-personal') as HTMLTextAreaElement).value.trim();
+    if (!($('#em-story-ok') as HTMLInputElement).checked || line.length < 20 || line === savedStory) return;
+    savedStory = line;
+    const isParent = me.relationship === 'parent';
+    insert('campaign_stories', {
+      display_name: firstName(me.name) || 'Supporter',
+      relationship: me.relationship || 'other',
+      // A parent's line is usually about their child, so it is flagged for a safeguarding check.
+      age_band: isParent ? 'unknown' : '18_plus',
+      parent_consent: isParent,
+      consent_publish: true,
+      media_ok: false,
+      story: line,
+      contact_email: me.email?.toLowerCase() || null,
+      ref: ref ? `${ref}:email-line` : 'email-line',
+    });
+  }
+
   let lastMethod = 'mailto';
   for (const el of $$('[data-send]')) {
     el.addEventListener('click', async (e) => {
@@ -637,12 +685,13 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
       }
       lastMethod = method;
       logEmail('email_opened', method);
+      saveLineAsStory();
       setTimeout(() => $('[data-confirm-sent]').classList.remove('hidden'), 1500);
       if (method === 'copy') {
         const ok = await copyText(`To: ${to.join(', ')}${cc.length ? `\nCc: ${cc.join(', ')}` : ''}\nSubject: ${subject}\n\n${body}`);
         $('[data-copy-note]').textContent = ok
           ? 'Copied, with the addresses. Paste into a new email and send.'
-          : 'Couldn’t copy automatically. Open “Read the email” and copy it from there.';
+          : 'Couldn’t copy automatically. Open “Preview the full email” and copy it from there.';
       } else {
         $('[data-copy-note]').textContent = '';
       }
@@ -756,7 +805,15 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
 
   // Survey (date-gated, anonymous: deliberately not pre-filled)
   const surveyOpen = new Date() >= new Date(`${campaign.surveyOpensOn}T00:00:00`) || new URLSearchParams(location.search).has('survey');
-  if (surveyOpen) $('[data-survey]').classList.remove('hidden');
+  if (surveyOpen) $('[data-survey]').hidden = false;
+  // Links like /protect-the-track#survey open that item.
+  const openFromHash = () => {
+    if (!/^#(survey|story|skills)$/.test(location.hash)) return;
+    const d = document.querySelector<HTMLDetailsElement>(`details${location.hash}`);
+    if (d && !d.hidden) { d.open = true; d.scrollIntoView({ behavior: 'smooth' }); }
+  };
+  openFromHash();
+  window.addEventListener('hashchange', openFromHash);
   const sForm = $<HTMLFormElement>('#survey-form');
   for (const r of $$<HTMLInputElement>('input[name=is_member]', sForm)) {
     r.addEventListener('change', () => {
