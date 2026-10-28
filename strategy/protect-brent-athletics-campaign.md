@@ -133,6 +133,15 @@ The page remembers details on the supporter's device. A return visit opens on th
    - `PUBLIC_SUPABASE_URL=https://ddgchywxajftqdukcjbv.supabase.co`
    - `PUBLIC_SUPABASE_ANON_KEY=sb_publishable_FPIt9s1iy96nbU6p5JNHUw_S5xo1G9R` (publishable key, safe to be public)
 7. Optional: create the campaign inbox and set `bccInbox`.
+7b. ⬜ **Email alerts to Patrik** for new skills offers and stories (built and tested; waiting on a Resend key):
+   1. Sign up free at resend.com. Under Domains, add `trackacademy.co.uk` and add the DNS records it shows to the domain's DNS. Until the domain is verified, Resend only sends to the email address the Resend account was created with.
+   2. Create an API key in Resend (sending access only).
+   3. In Supabase → Edge Functions → Secrets, add:
+      - `RESEND_API_KEY` = the key
+      - `ALERT_FROM` = `Protect Brent Athletics <campaign@trackacademy.co.uk>` (after the domain is verified)
+      - `ALERT_TO` = `patrik@trackacademy.co.uk` (comma-separate to add more people)
+   4. Anything submitted before the key was added is sent with the next new entry.
+   How it works: a database trigger pings the `campaign-alert` function, which emails anything not yet sent and marks it as sent. A reply to a single offer goes straight to the person who offered.
 8. ✅ Hero swapped to the Willesden indoor track photo.
 9. Add a site-wide banner or nav link to `/protect-brent-athletics` for the campaign period.
 10. Before launch, test on a phone: email (mailto and Gmail), petition, story, skills, survey (`?survey=1`).
