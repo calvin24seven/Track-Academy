@@ -22,16 +22,34 @@ export const campaign = {
 };
 
 export const context = [
-  'Brent Council has approved removing the indoor track at Willesden Sports Centre.',
-  "The council's own Equality Impact Assessment admits this will adversely affect girls, disabled young people and ethnically diverse communities, and that the proposed alternatives are not like-for-like.",
-  'We are not asking the council to stop investing. We are asking it to keep the track open until a funded, year-round alternative is agreed in writing.',
+  "Brent Council has approved removing the indoor track at Willesden Sports Centre, and has given Track Academy and other youth providers two weeks' notice to leave without adequate support in place.",
+  "The council's own Equality Impact Assessment admits this will adversely affect girls, disabled young people and ethnically diverse communities. It also admits the proposed alternatives are not like-for-like, and that SEN provision is unresolved.",
+  "We are not asking the council to break any contracts or change its plans. We are asking it to help find a fair, sustainable solution that saves the future of athletics in Brent.",
 ];
 
 export const facts = [
-  { number: '400+', label: 'young people use the track each year' },
-  { number: '259', label: 'young people trained there last January' },
+  { number: '400+', label: 'young people a year, using athletics as the hook for mentoring and education' },
+  { number: '259', label: 'young people on the indoor track in January alone' },
   { number: '60%', label: 'are girls, mostly teenagers' },
+  { number: '90%', label: 'are from ethnically diverse communities' },
+  { number: '45%', label: 'are from low-income families' },
   { number: '29%', label: 'have a disability or long-term condition' },
+];
+
+/** Quotes from the campaign plan (consent confirmed by Track Academy). Approved page stories are added after these. */
+export const testimonials = [
+  {
+    quote:
+      'My 3 children (aged between 7 and 11 years old) have participated in Track Academy and used the indoor track extensively. It would truly be an absolute shame to lose the indoor track. Please keep it! It is such an added value to young children. My 3 children do different sports (Football, Tennis and Rhythmic Gymnastics) and running / track is such an important part of their sport development. Please keep it! It is the primary reason why we go to Willesden Sports Centre.',
+    name: 'Ana Perez',
+    role: 'Parent',
+  },
+  {
+    quote:
+      "The indoor track is important to me because we use it for winter season which is the most important time for training and losing it would mean we lose essential training we need. If we don't have the indoor track we lose a whole season which as athletes we cannot afford. Track is a place of safety to me, there's no pressures from school and I'm staying active while having fun with friends.",
+    name: 'Nyah',
+    role: 'Athlete, age 12',
+  },
 ];
 
 export const asks = [

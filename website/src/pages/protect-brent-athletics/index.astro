@@ -13,7 +13,7 @@ import GroupPhoto from '../../assets/campaign/indoor-christmas-session.jpg';
 import RaceGirl from '../../assets/campaign/indoor-race-girl.jpg';
 import RaceSprint from '../../assets/campaign/indoor-race-sprint.jpg';
 import ContactPhoto from '../../assets/team/people/trustees/patrik-ewe.jpg';
-import { campaign, context, facts, asks, primaryTargets, relationships, skillOptions } from '../../data/campaign';
+import { campaign, context, facts, asks, primaryTargets, relationships, skillOptions, testimonials } from '../../data/campaign';
 
 const seo = {
   title: 'Protect Brent Athletics | Save the indoor track',
@@ -275,12 +275,19 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
     </div>
   </section>
 
-  <!-- Stories wall (approved only) -->
-  <section class="hidden bg-[var(--color-paper)] py-[clamp(3rem,7vw,5rem)]" data-stories-wall>
+  <!-- In their words: fixed quotes from the campaign plan, then approved supporter stories -->
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,7vw,5rem)]" data-stories-wall>
     <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
       <p class={eyebrow}>In their words</p>
       <h2 class={h2}>What the track means</h2>
-      <div class="mt-8 grid gap-5 md:grid-cols-3" data-stories></div>
+      <div class="mt-8 grid gap-5 md:grid-cols-2" data-stories>
+        {testimonials.map((t) => (
+          <blockquote class="border-l-4 border-[var(--color-track-orange)] bg-white p-6 font-body text-[var(--color-grey-900)] lg:p-8">
+            <p class="text-lg leading-[1.6]">“{t.quote}”</p>
+            <footer class="mt-4 text-sm font-600 text-[var(--color-track-blue)]">— {t.name}, {t.role}</footer>
+          </blockquote>
+        ))}
+      </div>
     </div>
   </section>
 
@@ -945,10 +952,13 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
         $('[data-progress-bar]').style.width = `${Math.min(100, (s.petition / campaign.petitionTarget) * 100)}%`;
       }
       if (s.stories?.length) {
-        $('[data-stories]').replaceChildren(
+        // Approved supporter stories go after the fixed quotes, replacing any added on an earlier load.
+        $$('[data-approved-story]').forEach((el) => el.remove());
+        $('[data-stories]').append(
           ...s.stories.map((st) => {
             const card = document.createElement('blockquote');
             card.className = 'bg-white p-6 font-body text-[var(--color-grey-900)]';
+            card.dataset.approvedStory = '';
             const p = document.createElement('p');
             p.className = 'leading-[1.6]';
             p.textContent = `“${st.story}”`;
@@ -959,7 +969,6 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
             return card;
           }),
         );
-        $('[data-stories-wall]').classList.remove('hidden');
       }
     } catch { /* numbers are a bonus */ }
   }
