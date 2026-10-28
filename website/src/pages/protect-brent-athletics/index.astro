@@ -9,7 +9,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import SimpleHero from '../../components/sections/SimpleHero.astro';
 import { Image } from 'astro:assets';
 import HeroImage from '../../assets/hero/indoor-track-willesden.webp';
-import GroupPhoto from '../../assets/campaign/group-photo-track.jpg';
+import GroupPhoto from '../../assets/campaign/indoor-christmas-session.jpg';
 import RaceGirl from '../../assets/campaign/indoor-race-girl.jpg';
 import RaceSprint from '../../assets/campaign/indoor-race-sprint.jpg';
 import ContactPhoto from '../../assets/team/people/trustees/patrik-ewe.jpg';
@@ -268,8 +268,8 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
           </div>
         ))}
         <figure class="col-span-2 mt-2">
-          <Image src={GroupPhoto} alt="Track Academy young people and coaches sitting together on the track, smiling and waving" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 40vw, 100vw" class="h-auto w-full" />
-          <figcaption class="mt-2 font-body text-sm text-[var(--color-grey-500)]">Some of the young people and coaches who train with Track Academy.</figcaption>
+          <Image src={GroupPhoto} alt="Track Academy girls and coaches in tinsel at a Christmas session on the indoor track at Willesden Sports Centre" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 40vw, 100vw" class="aspect-[3/2] h-auto w-full object-cover object-[50%_75%]" />
+          <figcaption class="mt-2 font-body text-sm text-[var(--color-grey-500)]">A Christmas session on the indoor track. Most of the young people who train here are girls.</figcaption>
         </figure>
       </dl>
     </div>
