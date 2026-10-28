@@ -136,32 +136,71 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
     const gbp = (n: number) => `£${Math.round(n || 0).toLocaleString('en-GB')}`;
 
     // ---- Auth (token from magic-link redirect hash) ----
+    const TOKEN_KEY = 'ptt_admin_token';
+    const store = {
+      get: () => { try { return localStorage.getItem(TOKEN_KEY); } catch { return null; } },
+      set: (t: string) => { try { localStorage.setItem(TOKEN_KEY, t); } catch {} },
+      clear: () => { try { localStorage.removeItem(TOKEN_KEY); } catch {} },
+    };
     const hash = new URLSearchParams(location.hash.slice(1));
+    let linkError = '';
     if (hash.get('access_token')) {
-      sessionStorage.setItem('ptt_token', hash.get('access_token')!);
-      history.replaceState(null, '', location.pathname);
+      store.set(hash.get('access_token')!);
+    } else if (hash.get('error')) {
+      linkError = hash.get('error_code') === 'otp_expired'
+        ? 'That sign-in link has expired or was already used. Request a new one below.'
+        : `Sign-in failed: ${hash.get('error_description') ?? hash.get('error')}`;
     }
-    const token = sessionStorage.getItem('ptt_token');
+    if (location.hash) history.replaceState(null, '', location.pathname);
+
+    const token = store.get();
     function claims(t: string) { try { return JSON.parse(atob(t.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))); } catch { return null; } }
     const c = token ? claims(token) : null;
     const valid = c && c.exp * 1000 > Date.now();
 
-    if (!supabaseReady) {
-      document.body.insertAdjacentHTML('beforeend', '<p class="p-6">Supabase is not configured. Set PUBLIC_SUPABASE_URL and PUBLIC_SUPABASE_ANON_KEY.</p>');
-    } else if (!valid) {
+    function showSignIn(message = '') {
       $('[data-signin]').hidden = false;
+      $('[data-app]').hidden = true;
+      $('[data-msg]').textContent = message;
+    }
+
+    if (!supabaseReady) {
+      document.body.insertAdjacentHTML('beforeend', '<p class="p-6">Supabase is not configured.</p>');
+    } else if (!valid) {
+      if (token) store.clear();
+      showSignIn(linkError || (token ? 'Your session has ended. Sign in again.' : ''));
       $<HTMLFormElement>('#signin').addEventListener('submit', async (e) => {
         e.preventDefault();
-        const email = String(new FormData(e.target as HTMLFormElement).get('email'));
-        try { await sendMagicLink(email, location.origin + location.pathname); $('[data-msg]').textContent = 'Check your inbox.'; }
-        catch (err) { $('[data-msg]').textContent = String(err); }
+        const form = e.target as HTMLFormElement;
+        const button = $<HTMLButtonElement>('button', form);
+        const email = String(new FormData(form).get('email')).trim().toLowerCase();
+        button.disabled = true;
+        $('[data-msg]').textContent = 'Sending…';
+        try {
+          await sendMagicLink(email, location.origin + location.pathname);
+          $('[data-msg]').textContent = `Link sent to ${email}. Open it on this device. It works once and expires after an hour.`;
+        } catch (err) {
+          const m = String(err);
+          $('[data-msg]').textContent = /signups not allowed|user not found/i.test(m)
+            ? 'That email isn’t set up for the dashboard. Ask a campaign admin to invite you.'
+            : /security purposes|rate limit/i.test(m)
+              ? 'A link was just sent. Wait a minute before asking for another.'
+              : `Couldn’t send the link: ${m}`;
+        } finally {
+          button.disabled = false;
+        }
       });
     } else {
       $('[data-app]').hidden = false;
       $('[data-who]').textContent = c.email;
       $('[data-signout]').hidden = false;
-      $('[data-signout]').addEventListener('click', () => { sessionStorage.removeItem('ptt_token'); location.reload(); });
-      load();
+      $('[data-signout]').addEventListener('click', () => { store.clear(); location.reload(); });
+      rpc<boolean>('campaign_is_admin', {}, token!)
+        .then((isAdmin) => {
+          if (isAdmin) load();
+          else showSignIn(`You’re signed in as ${c.email}, but that email isn’t a campaign admin. Ask an admin to add you.`);
+        })
+        .catch(() => { store.clear(); showSignIn('Your session has ended. Sign in again.'); });
     }
 
     type Admin = {

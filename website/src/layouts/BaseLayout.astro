@@ -77,6 +77,16 @@ const organizationSchema = {
 
   <script type="application/ld+json" set:html={JSON.stringify(organizationSchema)}></script>
 
+  <!-- If a dashboard sign-in link lands on another page (Supabase falls back to the Site URL), forward it. -->
+  <script is:inline>
+    (function () {
+      var h = location.hash;
+      if (/[#&](access_token|error_code)=/.test(h) && /type=(magiclink|invite|signup)|error_code=/.test(h)) {
+        location.replace('/protect-brent-athletics/dashboard/' + h);
+      }
+    })();
+  </script>
+
   <!-- Sender newsletter popup: loaded once globally for every page. -->
   {!hideNewsletterPopup && <script is:inline>
     (function (s, e, n, d, er) {

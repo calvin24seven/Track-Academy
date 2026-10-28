@@ -1,11 +1,13 @@
 /**
  * Tiny Supabase REST client for the campaign pages (no SDK needed).
- * Set PUBLIC_SUPABASE_URL and PUBLIC_SUPABASE_ANON_KEY at build time.
- * If they are missing, the page still works; nothing is recorded.
+ * Uses the Track Academy project by default; PUBLIC_SUPABASE_URL / PUBLIC_SUPABASE_ANON_KEY can override it.
+ * The publishable key is safe in the browser: row-level security controls access.
  */
 
-const URL_ = import.meta.env.PUBLIC_SUPABASE_URL as string | undefined;
-const KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY as string | undefined;
+// The project URL and publishable key are public by design (access is enforced by RLS),
+// so they are built in as defaults. Build env vars can still override them (e.g. a test project).
+const URL_ = (import.meta.env.PUBLIC_SUPABASE_URL as string | undefined) || 'https://ddgchywxajftqdukcjbv.supabase.co';
+const KEY = (import.meta.env.PUBLIC_SUPABASE_ANON_KEY as string | undefined) || 'sb_publishable_FPIt9s1iy96nbU6p5JNHUw_S5xo1G9R';
 
 export const supabaseReady = Boolean(URL_ && KEY);
 
@@ -77,7 +79,10 @@ export async function sendMagicLink(email: string, redirectTo: string) {
     headers: headers(),
     body: JSON.stringify({ email, create_user: false, options: { email_redirect_to: redirectTo } }),
   });
-  if (!res.ok) throw new Error((await res.json().catch(() => ({})))?.msg ?? res.statusText);
+  if (!res.ok) {
+    const b = await res.json().catch(() => ({}));
+    throw new Error(b?.msg ?? b?.message ?? b?.error_description ?? res.statusText);
+  }
 }
 
 /** Attribution: ?ref=qph is remembered for the visit and attached to every action. */
