@@ -10,6 +10,8 @@ import SimpleHero from '../../components/sections/SimpleHero.astro';
 import { Image } from 'astro:assets';
 import HeroImage from '../../assets/hero/indoor-track-willesden.webp';
 import GroupPhoto from '../../assets/campaign/group-photo-track.jpg';
+import RaceGirl from '../../assets/campaign/indoor-race-girl.jpg';
+import RaceSprint from '../../assets/campaign/indoor-race-sprint.jpg';
 import ContactPhoto from '../../assets/team/people/trustees/patrik-ewe.jpg';
 import { campaign, context, facts, asks, primaryTargets, relationships, skillOptions } from '../../data/campaign';
 
@@ -227,6 +229,17 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
         <p class="mt-2 font-body text-white/80">A winter session on the indoor track at Willesden Sports Centre.</p>
       </figcaption>
     </figure>
+  </section>
+
+  <!-- Indoor competition photos -->
+  <section class="bg-[var(--color-track-navy)] pb-[clamp(2rem,5vw,3.5rem)] text-white">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <div class="grid gap-3 sm:grid-cols-2">
+        <Image src={RaceGirl} alt="A young athlete sprints down the indoor track during a competition, with families watching" widths={[480, 800, 1200]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-[3/2] h-auto w-full object-cover" />
+        <Image src={RaceSprint} alt="Young athletes racing on the indoor track at Willesden Sports Centre in front of a crowd" widths={[480, 800, 1200]} sizes="(min-width: 640px) 50vw, 100vw" class="aspect-[3/2] h-auto w-full object-cover" />
+      </div>
+      <p class="mt-3 font-body text-sm text-white/70">Indoor competitions at Willesden Sports Centre. Photos: NKT Photography.</p>
+    </div>
   </section>
 
   <!-- Why it matters (for people who want the detail) -->

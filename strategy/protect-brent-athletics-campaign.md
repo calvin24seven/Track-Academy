@@ -133,15 +133,16 @@ The page remembers details on the supporter's device. A return visit opens on th
    - `PUBLIC_SUPABASE_URL=https://ddgchywxajftqdukcjbv.supabase.co`
    - `PUBLIC_SUPABASE_ANON_KEY=sb_publishable_FPIt9s1iy96nbU6p5JNHUw_S5xo1G9R` (publishable key, safe to be public)
 7. Optional: create the campaign inbox and set `bccInbox`.
-7b. ⬜ **Email alerts to Patrik** for new skills offers and stories (built and tested; waiting on a Resend key):
-   1. Sign up free at resend.com. Under Domains, add `trackacademy.co.uk` and add the DNS records it shows to the domain's DNS. Until the domain is verified, Resend only sends to the email address the Resend account was created with.
-   2. Create an API key in Resend (sending access only).
-   3. In Supabase → Edge Functions → Secrets, add:
-      - `RESEND_API_KEY` = the key
-      - `ALERT_FROM` = `Protect Brent Athletics <campaign@trackacademy.co.uk>` (after the domain is verified)
-      - `ALERT_TO` = `patrik@trackacademy.co.uk` (comma-separate to add more people)
-   4. Anything submitted before the key was added is sent with the next new entry.
-   How it works: a database trigger pings the `campaign-alert` function, which emails anything not yet sent and marks it as sent. A reply to a single offer goes straight to the person who offered.
+7b. ⬜ **Resend (email alerts now, phase 1B+ emails later).** Built and tested; waiting on the account and key.
+   - **Why a subdomain:** Track Academy's inbox is Google Workspace, and Sender.net and MailerLite already send newsletters from `trackacademy.co.uk`. Sending Resend email (alerts now; welcome, reminder, receipt and trial emails later) from `mail.trackacademy.co.uk` keeps those transactional emails' reputation separate. Inbox and newsletters are untouched.
+   1. Sign up at resend.com with a Track Academy address (e.g. webmaster@).
+   2. Domains → Add domain → `mail.trackacademy.co.uk`, region **EU (Ireland)**. DNS is on Cloudflare, so use Resend's **Auto configure / Sign in to Cloudflare** option; otherwise copy its DKIM, SPF and MX records into Cloudflare DNS (set to "DNS only"). Don't change the existing MX, SPF or DMARC records for `trackacademy.co.uk`.
+   3. Wait for the domain to show **Verified**.
+   4. API Keys → create a key with **Sending access**, limited to `mail.trackacademy.co.uk`.
+   5. Supabase → Edge Functions → Secrets → add `RESEND_API_KEY`. Optional: `ALERT_TO` (comma-separated, default patrik@trackacademy.co.uk) and `ALERT_FROM` (default `Protect Brent Athletics <campaign@mail.trackacademy.co.uk>`).
+   6. Test: submit a skills offer on the live page and check that it arrives. Every send appears in the `email_log` table.
+   - Anything submitted before the key was added goes out with the next new entry.
+   - Later (phase 1B): add a Resend webhook for bounces and complaints that writes into `email_log`, and tighten DMARC from `p=none` once all senders pass.
 8. ✅ Hero swapped to the Willesden indoor track photo.
 9. Add a site-wide banner or nav link to `/protect-brent-athletics` for the campaign period.
 10. Before launch, test on a phone: email (mailto and Gmail), petition, story, skills, survey (`?survey=1`).
