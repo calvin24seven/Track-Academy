@@ -18,7 +18,6 @@ export const campaign = {
   donateUrl: 'https://whydonate.com/fundraising/trackacademy',
   // Survey opens on this date (YYYY-MM-DD). Add ?survey=1 to the URL to preview it early.
   surveyOpensOn: '2026-11-02',
-  petitionTarget: 1000,
 };
 
 export const context = [

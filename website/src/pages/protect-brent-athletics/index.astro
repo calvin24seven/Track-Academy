@@ -46,10 +46,10 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
         <a href="#email" class="bg-[var(--color-grey-100)] px-3 py-2 text-[var(--color-track-blue)]" data-step-link="email">2 · Email</a>
         <a href="#share" class="bg-[var(--color-grey-100)] px-3 py-2 text-[var(--color-track-blue)]" data-step-link="share">3 · Share</a>
       </nav>
-      <p class="font-body text-sm text-[var(--color-grey-700)]" data-live-counter hidden>
-        <strong class="font-heading text-lg text-[var(--color-track-blue)] tabular-nums" data-stat="petition">0</strong> signed ·
-        <strong class="font-heading text-lg text-[var(--color-track-blue)] tabular-nums" data-stat="emails_sent">0</strong> emails sent
-      </p>
+      <a href="#sign" class="flex items-center gap-3 font-body text-sm text-[var(--color-grey-700)]" data-live-counter hidden>
+        <span class="hidden h-1.5 w-28 overflow-hidden bg-[var(--color-grey-100)] sm:block" aria-hidden="true"><span class="block h-full bg-[var(--color-track-orange)] transition-[width] duration-1000" style="width:0%" data-bar></span></span>
+        <span><strong class="font-heading text-lg text-[var(--color-track-blue)] tabular-nums" data-count>0</strong> signatures</span>
+      </a>
     </div>
   </section>
 
@@ -63,9 +63,25 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
           Keep the indoor track at Willesden Sports Centre open until Brent Council agrees in writing a funded, year-round alternative with Track Academy and Queen’s Park Harriers, including Saturday provision.
         </p>
         <p class="mt-4 hidden font-body text-base leading-[1.6] text-white/70 lg:block">{context[1]}</p>
-        <div class="mt-6" data-petition-progress hidden>
-          <div class="h-2.5 w-full bg-white/15"><div class="h-2.5 bg-[var(--color-track-orange)] transition-all duration-700" style="width:0%" data-progress-bar></div></div>
-          <p class="mt-2 font-body text-sm text-white/80"><strong class="tabular-nums text-white" data-stat="petition">0</strong> of {campaign.petitionTarget.toLocaleString('en-GB')} signatures · <span data-stat="wards_reached">0</span> Brent wards</p>
+        <div class="mt-8 bg-white p-5 text-[var(--color-grey-900)] lg:p-6" data-counter hidden>
+          <p class="flex flex-wrap items-baseline gap-x-2">
+            <strong class="font-heading text-[clamp(2.25rem,6vw,3.25rem)] font-600 leading-none tracking-[-0.02em] text-[var(--color-track-blue)] tabular-nums" data-count>0</strong>
+            <span class="font-body text-base text-[var(--color-grey-700)]" data-count-label>people have signed</span>
+          </p>
+          <div class="mt-4 h-2.5 overflow-hidden bg-[var(--color-grey-100)]" role="progressbar" aria-label="Signatures towards the next goal" aria-valuemin="0" data-progressbar>
+            <div class="h-full bg-[var(--color-track-orange)] transition-[width] duration-1000 ease-out" style="width:0%" data-bar></div>
+          </div>
+          <p class="mt-2 flex flex-wrap justify-between gap-x-4 font-body text-sm text-[var(--color-grey-700)]">
+            <span data-goal-text></span>
+            <span class="font-600 text-[var(--color-track-blue)]" data-today></span>
+          </p>
+          <p class="mt-4 flex items-center gap-2 border-t border-[var(--color-grey-100)] pt-3 font-body text-sm text-[var(--color-grey-700)]" data-recent hidden>
+            <span class="relative flex h-2 w-2 shrink-0" aria-hidden="true">
+              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-success)] opacity-60 motion-reduce:animate-none"></span>
+              <span class="relative inline-flex h-2 w-2 rounded-full bg-[var(--color-success)]"></span>
+            </span>
+            <span class="transition-opacity duration-300" data-recent-text aria-live="off"></span>
+          </p>
         </div>
       </div>
 
@@ -822,6 +838,7 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
       if (me.email) $('[data-story-contact]').textContent = `We’ll contact you at ${me.email} if we need to check anything.`;
       renderEmail();
       showSigned(r.duplicate ? 'You’d already signed. Thank you.' : `Signed. Thank you, ${firstName(me.name)}.`);
+      justSigned = !r.duplicate;
       loadStats();
       // Move them straight on to the higher-impact step.
       setTimeout(() => $('#email').scrollIntoView({ behavior: 'smooth' }), 900);
@@ -937,21 +954,91 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
   }
 
   // ================= Live numbers =================
-  type Stats = { petition: number; emails_sent: number; wards_reached: number; stories: { display_name: string; relationship: string; story: string }[] };
+  type Stats = {
+    petition: number; petition_today: number; wards_reached: number;
+    recent: { ward: string | null; created_at: string }[];
+    stories: { display_name: string; relationship: string; story: string }[];
+  };
+  const SHOW_COUNT_FROM = 25; // below this, invite people to be among the first instead of showing a tiny number
+  const MILESTONES = [100, 250, 500, 1000, 1500, 2000, 2500, 5000, 7500, 10000];
+  const nextGoal = (n: number) => MILESTONES.find((m) => m > n) ?? Math.ceil((n + 1) / 5000) * 5000;
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let shownCount = 0;
+  let justSigned = false;
+
+  function animateCount(to: number) {
+    const els = $$('[data-count]');
+    const from = shownCount;
+    shownCount = to;
+    if (reduceMotion || from === to) { els.forEach((el) => (el.textContent = to.toLocaleString('en-GB'))); return; }
+    const start = performance.now(), dur = 900;
+    const step = (t: number) => {
+      const k = Math.min(1, (t - start) / dur), eased = 1 - Math.pow(1 - k, 3);
+      const v = Math.round(from + (to - from) * eased);
+      els.forEach((el) => (el.textContent = v.toLocaleString('en-GB')));
+      if (k < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  function ago(iso: string) {
+    const mins = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 60000));
+    if (mins < 1) return 'just now';
+    if (mins < 60) return `${mins} minute${mins === 1 ? '' : 's'} ago`;
+    const hrs = Math.round(mins / 60);
+    if (hrs < 24) return `${hrs} hour${hrs === 1 ? '' : 's'} ago`;
+    const days = Math.round(hrs / 24);
+    return days === 1 ? 'yesterday' : `${days} days ago`;
+  }
+  let recent: Stats['recent'] = [];
+  let recentIndex = 0;
+  function showRecent() {
+    if (!recent.length) return;
+    const r = recent[recentIndex % recent.length];
+    const where = r.ward ? `Someone in ${r.ward} ward` : 'Someone outside Brent';
+    const el = $('[data-recent-text]');
+    el.style.opacity = '0';
+    setTimeout(() => { el.textContent = `${where} signed ${ago(r.created_at)}`; el.style.opacity = '1'; }, reduceMotion ? 0 : 250);
+    recentIndex++;
+  }
+  setInterval(() => { if (!document.hidden) showRecent(); }, 4500);
+
   async function loadStats() {
     if (!supabaseReady) return;
     try {
       const s = await rpc<Stats>('campaign_public_stats');
       if (!s) return;
-      for (const el of $$('[data-stat]')) {
-        const k = el.dataset.stat as keyof Stats;
-        el.textContent = Number(s[k] ?? 0).toLocaleString('en-GB');
+      const n = Number(s.petition || 0);
+      const goal = nextGoal(n);
+      const pct = Math.max(2, Math.min(100, (n / goal) * 100));
+      const big = n >= SHOW_COUNT_FROM;
+
+      $('[data-counter]').hidden = false;
+      $('[data-live-counter]').hidden = !big;
+      if (big) animateCount(n);
+      $$('[data-count]').forEach((el) => (el.hidden = !big));
+      $('[data-count-label]').textContent = big ? 'people have signed' : 'Be one of the first to sign';
+      $('[data-count-label]').className = big
+        ? 'font-body text-base text-[var(--color-grey-700)]'
+        : 'font-heading text-[1.5rem] font-500 leading-tight text-[var(--color-track-blue)]';
+      $$<HTMLElement>('[data-bar]').forEach((el) => (el.style.width = `${pct}%`));
+      const bar = $('[data-progressbar]');
+      bar.setAttribute('aria-valuenow', String(n));
+      bar.setAttribute('aria-valuemax', String(goal));
+      $('[data-goal-text]').textContent = big
+        ? `${(goal - n).toLocaleString('en-GB')} more to reach ${goal.toLocaleString('en-GB')}`
+        : `First goal: ${goal.toLocaleString('en-GB')} signatures`;
+      $('[data-today]').textContent = s.petition_today > 0 && big ? `${s.petition_today.toLocaleString('en-GB')} today` : '';
+
+      recent = s.recent ?? [];
+      $('[data-recent]').hidden = !recent.length;
+      if (recent.length && !$('[data-recent-text]').textContent) { recentIndex = 0; showRecent(); }
+
+      if (justSigned && big) {
+        $('[data-signed-text]').textContent = `Signed. Thank you, ${firstName(me.name) || 'friend'}. You’re one of ${n.toLocaleString('en-GB')} people standing up for the track.`;
+        justSigned = false;
       }
-      if (s.petition + s.emails_sent >= 25) $('[data-live-counter]').hidden = false; // hide tiny numbers
-      if (s.petition >= 25) {
-        $('[data-petition-progress]').hidden = false;
-        $('[data-progress-bar]').style.width = `${Math.min(100, (s.petition / campaign.petitionTarget) * 100)}%`;
-      }
+
       if (s.stories?.length) {
         // Approved supporter stories go after the fixed quotes, replacing any added on an earlier load.
         $$('[data-approved-story]').forEach((el) => el.remove());
@@ -973,6 +1060,8 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
       }
     } catch { /* numbers are a bonus */ }
   }
+  // Keep the count fresh while the page is open.
+  setInterval(() => { if (!document.hidden) loadStats(); }, 60000);
 
   // ================= Video =================
   const video = document.querySelector<HTMLVideoElement>('[data-campaign-video]');

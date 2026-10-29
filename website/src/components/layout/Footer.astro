@@ -4,8 +4,8 @@
  *
  * Sender integration:
  * - BaseLayout loads the Sender universal JS snippet once for every page.
- * - Configure the Sender popup's click selector as #newsletter-signup-trigger.
- * - The mailto href remains a graceful fallback if the popup is unavailable.
+ * - "Join the newsletter" opens Sender's embedded form (bW615v) in a dialog.
+ * - Pages that don't load Sender link to /?newsletter=1, which opens the dialog on the homepage.
  */
 const footerNav = {
   explore: [
@@ -93,11 +93,11 @@ const footerNav = {
         <p class="mt-3 max-w-sm text-sm text-white/70">
           Stories from the track — termly updates, event invitations and impact reports.
         </p>
-        <div class="mt-5">
+        <div id="newsletter" class="mt-5 scroll-mt-28">
+          <!-- Opens Sender's embedded signup form in a dialog. Pages without Sender's script (e.g. the campaign page) go to the homepage, which opens it. -->
           <a
-            id="newsletter-signup-trigger"
-            data-newsletter-provider="sender"
-            href="mailto:admin@trackacademy.co.uk?subject=Please%20add%20me%20to%20the%20Track%20Academy%20newsletter"
+            href="/?newsletter=1#newsletter"
+            data-newsletter-open
             class="inline-flex min-h-11 items-center justify-center bg-[var(--color-track-orange)] px-6 py-3 font-body text-sm font-semibold uppercase tracking-wide text-white transition-all duration-150 ease-[var(--ease-sprint)] hover:bg-[var(--color-accent-dark)] active:scale-[0.98]"
           >
             Join the newsletter
@@ -203,3 +203,29 @@ const footerNav = {
     </div>
   </div>
 </footer>
+<!-- Newsletter dialog: Sender form "Join the Track Academy Family" (bW615v), rendered by Sender's script in BaseLayout. -->
+<dialog id="newsletter-dialog" class="m-auto w-[min(440px,calc(100vw-2rem))] max-h-[calc(100dvh-2rem)] overflow-auto bg-white p-0 backdrop:bg-[var(--color-track-navy)]/70" aria-label="Join the Track Academy newsletter">
+  <form method="dialog" class="flex justify-end p-2">
+    <button class="flex h-10 w-10 items-center justify-center font-body text-2xl leading-none text-[var(--color-grey-700)] hover:text-[var(--color-track-blue)]" aria-label="Close">×</button>
+  </form>
+  <div class="sender-form-field px-2 pb-4" style="text-align: center" data-sender-form-id="mfwg6jstbw615volbym"></div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('newsletter-dialog') as HTMLDialogElement | null;
+  const hasSender = () => typeof (window as unknown as { sender?: unknown }).sender === 'function';
+  const open = () => { if (dialog && !dialog.open) dialog.showModal(); };
+  document.querySelectorAll<HTMLAnchorElement>('[data-newsletter-open]').forEach((a) =>
+    a.addEventListener('click', (e) => {
+      if (!hasSender()) return; // no Sender here: follow the link to the homepage
+      e.preventDefault();
+      open();
+    }),
+  );
+  dialog?.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); }); // click backdrop to close
+  if (new URLSearchParams(location.search).has('newsletter')) {
+    const wait = setInterval(() => { if (hasSender()) { clearInterval(wait); open(); } }, 200);
+    setTimeout(() => clearInterval(wait), 8000);
+  }
+</script>
+
