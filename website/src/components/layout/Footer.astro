@@ -212,20 +212,55 @@ const footerNav = {
 </dialog>
 
 <script>
+  // "Join the newsletter" opens Sender's embedded form in our dialog.
+  // On pages where Sender's auto popup is switched off (campaign pages, homepage during the campaign),
+  // Sender is loaded only when the button is clicked, and its auto popup is removed so only our dialog shows.
+  const SENDER_ACCOUNT = '69be3198171408';
   const dialog = document.getElementById('newsletter-dialog') as HTMLDialogElement | null;
-  const hasSender = () => typeof (window as unknown as { sender?: unknown }).sender === 'function';
+  const w = window as unknown as { sender?: ((...a: unknown[]) => void) & { q?: unknown[] }; Sender?: string };
+  const hasSender = () => typeof w.sender === 'function';
+  const formReady = () => Boolean(dialog?.querySelector('.sender-form-field iframe'));
   const open = () => { if (dialog && !dialog.open) dialog.showModal(); };
+
+  function loadSenderQuietly() {
+    // Remove Sender's own popup (an iframe added directly to <body>) for the next 20 seconds.
+    const kill = () => document.querySelectorAll('body > iframe[title^="Join the Track Academy"]').forEach((f) => f.remove());
+    const obs = new MutationObserver(kill);
+    obs.observe(document.body, { childList: true });
+    setTimeout(() => obs.disconnect(), 20000);
+    if (hasSender()) return;
+    w.Sender = 'sender';
+    const q = (...args: unknown[]) => { (q.q = q.q || []).push(args); };
+    q.q = [] as unknown[][];
+    (q as unknown as { l: number }).l = Date.now();
+    w.sender = q as unknown as typeof w.sender;
+    const s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://cdn.sender.net/accounts_resources/universal.js';
+    document.head.append(s);
+    w.sender!(SENDER_ACCOUNT);
+  }
+
+  function openWhenReady() {
+    if (formReady()) return open();
+    const start = Date.now();
+    const t = setInterval(() => {
+      if (formReady() || Date.now() - start > 8000) { clearInterval(t); open(); }
+    }, 150);
+  }
+
+  const popupOff = document.body.hasAttribute('data-no-newsletter-popup');
   document.querySelectorAll<HTMLAnchorElement>('[data-newsletter-open]').forEach((a) =>
     a.addEventListener('click', (e) => {
-      if (!hasSender()) return; // no Sender here: follow the link to the homepage
       e.preventDefault();
-      open();
+      if (popupOff || !hasSender()) loadSenderQuietly();
+      openWhenReady();
     }),
   );
   dialog?.addEventListener('click', (e) => { if (e.target === dialog) dialog.close(); }); // click backdrop to close
   if (new URLSearchParams(location.search).has('newsletter')) {
-    const wait = setInterval(() => { if (hasSender()) { clearInterval(wait); open(); } }, 200);
-    setTimeout(() => clearInterval(wait), 8000);
+    if (popupOff) loadSenderQuietly();
+    openWhenReady();
   }
 </script>
 

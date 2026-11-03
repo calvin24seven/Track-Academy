@@ -35,7 +35,7 @@ const h2 = 'font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] 
 const relOptions = relationships.map((r) => ({ value: r.value, label: r.label }));
 ---
 
-<BaseLayout {...seo} hideNewsletterPopup hideMobileCta>
+<BaseLayout {...seo} hideNewsletterPopup hideMobileCta hideCampaignBanner>
   <SimpleHero image={HeroImage} title={campaign.headline} lead="Track Academy supported 519 young people in the past year. Sign, then tell your councillors. It takes two minutes." />
 
   <!-- Progress bar: steps tick off as they're done -->
@@ -291,18 +291,32 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
     </div>
   </section>
 
-  <!-- In their words: fixed quotes from the campaign plan, then approved supporter stories -->
-  <section class="bg-[var(--color-paper)] py-[clamp(3rem,7vw,5rem)]" data-stories-wall>
+  <!-- In their words: two named quotes from the campaign plan, then a wall of approved supporter stories (anonymous) -->
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,7vw,5.5rem)]" data-stories-wall>
     <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
-      <p class={eyebrow}>In their words</p>
-      <h2 class={h2}>What the track means</h2>
-      <div class="mt-8 grid gap-5 md:grid-cols-2" data-stories>
+      <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+        <div class="max-w-2xl">
+          <p class={eyebrow}>In their words</p>
+          <h2 class={h2}>What the track means</h2>
+          <p class="mt-3 font-body text-lg leading-[1.6] text-[var(--color-grey-700)]" data-stories-count hidden></p>
+        </div>
+        <a href="/protect-brent-athletics/stories/" class={`${linkBtn} hidden`} data-stories-all>Read all stories →</a>
+      </div>
+
+      <div class="mt-10 grid gap-5 md:grid-cols-2">
         {testimonials.map((t) => (
-          <blockquote class="border-l-4 border-[var(--color-track-orange)] bg-white p-6 font-body text-[var(--color-grey-900)] lg:p-8">
-            <p class="text-lg leading-[1.6]">“{t.quote}”</p>
-            <footer class="mt-4 text-sm font-600 text-[var(--color-track-blue)]">— {t.name}, {t.role}</footer>
-          </blockquote>
+          <figure class="border-l-4 border-[var(--color-track-orange)] bg-white p-7 font-body lg:p-9">
+            <blockquote class="font-heading text-[clamp(1.15rem,1.8vw,1.4rem)] font-400 leading-[1.45] text-[var(--color-grey-900)]"><p>“{t.quote}”</p></blockquote>
+            <figcaption class="mt-5 text-sm font-600 text-[var(--color-track-blue)]">— {t.name}, {t.role}</figcaption>
+          </figure>
         ))}
+      </div>
+
+      <div class="mt-5 columns-1 gap-5 sm:columns-2 lg:columns-3" data-wall></div>
+
+      <div class="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3" data-wall-footer hidden>
+        <a href="/protect-brent-athletics/stories/" class={btnGhost} data-stories-all-btn>Read all stories</a>
+        <a href="#story" class={linkBtn} data-open-story>Add your story</a>
       </div>
     </div>
   </section>
@@ -534,6 +548,7 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
 <script>
   import { campaign, primaryTargets, wardCouncillors, emailOpeners, emailSubjects, emailBody } from '../../data/campaign';
   import { insert, rpc, getRef, getSessionId, lookupPostcode, supabaseReady, type PostcodeInfo } from '../../lib/campaign-client';
+  import { storyCard, roughCount } from '../../lib/story-wall';
 
   const ref = getRef();
   const sid = getSessionId();
@@ -896,6 +911,7 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
     if (d && !d.hidden) { d.open = true; d.scrollIntoView({ behavior: 'smooth' }); }
   };
   openFromHash();
+  $('[data-open-story]').addEventListener('click', () => setTimeout(openFromHash, 0));
   window.addEventListener('hashchange', openFromHash);
   const sForm = $<HTMLFormElement>('#survey-form');
   for (const r of $$<HTMLInputElement>('input[name=is_member]', sForm)) {
@@ -957,7 +973,8 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
   type Stats = {
     petition: number; petition_today: number; wards_reached: number;
     recent: { ward: string | null; created_at: string }[];
-    stories: { display_name: string; relationship: string; story: string }[];
+    stories: { display_name: string; relationship: string; story: string; featured?: boolean }[];
+    stories_received?: number; stories_published?: number;
   };
   const SHOW_COUNT_FROM = 25; // below this, invite people to be among the first instead of showing a tiny number
   const MILESTONES = [100, 250, 500, 1000, 1500, 2000, 2500, 5000, 7500, 10000];
@@ -1039,24 +1056,22 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
         justSigned = false;
       }
 
+      // Stories wall: up to 9 approved stories, anonymous labels, featured first.
+      const received = Number(s.stories_received ?? 0), published = Number(s.stories_published ?? 0);
+      if (received >= 20) {
+        const c = $('[data-stories-count]');
+        c.textContent = `${roughCount(received)} people have told us what the indoor track means to them.`;
+        c.hidden = false;
+      }
       if (s.stories?.length) {
-        // Approved supporter stories go after the fixed quotes, replacing any added on an earlier load.
-        $$('[data-approved-story]').forEach((el) => el.remove());
-        $('[data-stories]').append(
-          ...s.stories.map((st) => {
-            const card = document.createElement('blockquote');
-            card.className = 'bg-white p-6 font-body text-[var(--color-grey-900)]';
-            card.dataset.approvedStory = '';
-            const p = document.createElement('p');
-            p.className = 'leading-[1.6]';
-            p.textContent = `“${st.story}”`;
-            const c = document.createElement('footer');
-            c.className = 'mt-4 text-sm font-600 text-[var(--color-track-blue)]';
-            c.textContent = `— ${st.display_name}`;
-            card.append(p, c);
-            return card;
-          }),
-        );
+        $('[data-wall]').replaceChildren(...s.stories.map((st) => storyCard({ text: st.story, label: st.display_name, featured: st.featured }, { clamp: true })));
+        $('[data-wall-footer]').hidden = false;
+        if (published > s.stories.length) {
+          $('[data-stories-all]').classList.remove('hidden');
+          $('[data-stories-all-btn]').textContent = `Read all ${published.toLocaleString('en-GB')} stories`;
+        } else {
+          $('[data-stories-all-btn]').hidden = true;
+        }
       }
     } catch { /* numbers are a bonus */ }
   }

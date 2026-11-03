@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TrackEntranceHero from '../components/sections/TrackEntranceHero.astro';
+import CampaignHero from '../components/sections/CampaignHero.astro';
+import { campaign } from '../data/campaign';
 import AudienceRouter from '../components/sections/AudienceRouter.astro';
 import ProgrammeEditorial from '../components/sections/ProgrammeEditorial.astro';
 import VideoEmbed from '../components/sections/VideoEmbed.astro';
@@ -20,11 +22,11 @@ const seo = {
 };
 ---
 
-<BaseLayout {...seo}>
-  <TrackEntranceHero
+<BaseLayout {...seo} hideCampaignBanner={campaign.homepageTakeover} hideNewsletterPopup={campaign.homepageTakeover}>
+  {campaign.homepageTakeover ? <CampaignHero /> : <TrackEntranceHero
     headline="A place to train. A place to belong."
     lead="Three times a week in Brent, young people come to train, get help with school and find adults who keep showing up."
-  />
+  />}
 
   <TrustBar />
   <AudienceRouter />

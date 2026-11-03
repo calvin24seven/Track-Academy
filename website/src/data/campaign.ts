@@ -19,6 +19,10 @@ export const campaign = {
   donateUrl: 'https://whydonate.com/fundraising/trackacademy',
   // Survey opens on this date (YYYY-MM-DD). Add ?survey=1 to the URL to preview it early.
   surveyOpensOn: '2026-11-02',
+  // While the campaign runs: the homepage opens with the campaign hero, and other pages show a slim banner.
+  // Set both to false to return the site to normal.
+  homepageTakeover: true,
+  siteBanner: true,
 };
 
 export const context = [

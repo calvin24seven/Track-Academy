@@ -1,0 +1,138 @@
+---
+/**
+ * /protect-brent-athletics/stories — every approved supporter story, anonymous, featured first.
+ * Stories load live from Supabase (campaign_public_stories), so approving one in the dashboard
+ * puts it here straight away, with no rebuild.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { campaign, testimonials } from '../../data/campaign';
+
+const seo = {
+  title: 'In their words | Protect Brent Athletics',
+  description: 'Parents, athletes, coaches and neighbours on what the indoor track at Willesden Sports Centre means to them.',
+};
+const btn =
+  'inline-flex items-center justify-center bg-[var(--color-track-orange)] px-6 py-4 font-body text-sm font-semibold uppercase tracking-wide text-white transition-all duration-150 hover:bg-[var(--color-accent-dark)] active:scale-[0.98]';
+const btnGhostLight =
+  'inline-flex items-center justify-center border-2 border-white px-6 py-[0.9rem] font-body text-sm font-semibold uppercase tracking-wide text-white transition-all duration-150 hover:bg-white hover:text-[var(--color-track-blue)] active:scale-[0.98]';
+const groups = [
+  { value: '', label: 'All' },
+  { value: 'parents', label: 'Parents' },
+  { value: 'athletes', label: 'Athletes' },
+  { value: 'coaches', label: 'Coaches & clubs' },
+  { value: 'community', label: 'Community' },
+];
+---
+
+<BaseLayout {...seo} hideNewsletterPopup hideMobileCta hideCampaignBanner>
+  <section class="tracked-surface bg-[var(--color-track-navy)] pb-[clamp(3rem,7vw,5rem)] pt-36 text-white lg:pt-44">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <p class="mb-4 font-body text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-track-gold)]">{campaign.hashtag}</p>
+      <h1 class="max-w-3xl font-heading text-[clamp(2.25rem,6vw,4.25rem)] font-500 leading-[1.02] tracking-[-0.025em]">In their words</h1>
+      <p class="mt-5 max-w-2xl font-body text-[clamp(1.05rem,1.6vw,1.25rem)] leading-[1.6] text-white/85" data-lead>
+        Parents, athletes, coaches and neighbours on what the indoor track at Willesden Sports Centre means to them.
+      </p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href="/protect-brent-athletics/#sign" class={btn}>Sign the petition</a>
+        <a href="/protect-brent-athletics/#story" class={btnGhostLight}>Add your story</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-[var(--color-paper)] py-[clamp(2.5rem,6vw,4.5rem)]">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <div class="grid gap-5 md:grid-cols-2">
+        {testimonials.map((t) => (
+          <figure class="border-l-4 border-[var(--color-track-orange)] bg-white p-7 font-body lg:p-9">
+            <blockquote class="font-heading text-[clamp(1.15rem,1.8vw,1.4rem)] font-400 leading-[1.45] text-[var(--color-grey-900)]"><p>“{t.quote}”</p></blockquote>
+            <figcaption class="mt-5 text-sm font-600 text-[var(--color-track-blue)]">— {t.name}, {t.role}</figcaption>
+          </figure>
+        ))}
+      </div>
+
+      <div class="mt-10 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex flex-wrap gap-2" role="group" aria-label="Filter stories" data-filters>
+          {groups.map((g, i) => (
+            <button
+              type="button"
+              data-group={g.value}
+              aria-pressed={i === 0 ? 'true' : 'false'}
+              class="rounded-full border border-[var(--color-grey-300)] bg-white px-4 py-2 font-body text-sm font-600 text-[var(--color-track-blue)] transition-colors hover:border-[var(--color-track-blue)] aria-pressed:border-[var(--color-track-blue)] aria-pressed:bg-[var(--color-track-blue)] aria-pressed:text-white"
+            >{g.label}<span class="ml-1.5 font-400 opacity-70" data-group-count></span></button>
+          ))}
+        </div>
+        <p class="font-body text-sm text-[var(--color-grey-500)]" aria-live="polite" data-showing></p>
+      </div>
+
+      <div class="mt-6 columns-1 gap-5 sm:columns-2 lg:columns-3" data-wall></div>
+      <p class="hidden py-10 text-center font-body text-[var(--color-grey-500)]" data-empty>Stories are being checked by our team and will appear here soon.</p>
+
+      <div class="mt-4 text-center">
+        <button type="button" class="hidden border-2 border-[var(--color-track-blue)] px-6 py-3 font-body text-sm font-semibold uppercase tracking-wide text-[var(--color-track-blue)] transition-all hover:bg-[var(--color-track-blue)] hover:text-white" data-more>Show more stories</button>
+      </div>
+      <p class="mx-auto mt-10 max-w-2xl text-center font-body text-xs leading-[1.6] text-[var(--color-grey-500)]">
+        Stories are shared with permission. Names are removed, and every story is checked by our safeguarding lead before it appears.
+      </p>
+    </div>
+  </section>
+
+  <section class="tracked-surface bg-[var(--color-track-blue)] py-[clamp(3rem,7vw,5rem)] text-white">
+    <div class="mx-auto flex max-w-[var(--container-narrow)] flex-col items-start gap-6 px-6 lg:flex-row lg:items-center lg:justify-between lg:px-8">
+      <div>
+        <h2 class="font-heading text-[clamp(1.6rem,4vw,2.5rem)] font-500 leading-[1.1]">Every voice adds weight.</h2>
+        <p class="mt-3 max-w-lg font-body text-white/80">Add your name, then tell your councillors what the track means to your family.</p>
+      </div>
+      <a href="/protect-brent-athletics/#sign" class={btn}>Sign the petition</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { rpc } from '../../lib/campaign-client';
+  import { storyCard, roughCount, type PublicStory } from '../../lib/story-wall';
+
+  type Page = { total: number; published: number; groups: Record<string, number>; rows: PublicStory[] };
+  const $ = <T extends Element = HTMLElement>(s: string) => document.querySelector<T>(s)!;
+  const PAGE = 24;
+  let group = '';
+  let offset = 0;
+  let total = 0;
+
+  async function load(append = false) {
+    if (!append) offset = 0;
+    let page: Page | null = null;
+    try {
+      page = await rpc<Page>('campaign_public_stories', { lim: PAGE, off: offset, p_group: group || null });
+    } catch { /* not available yet */ }
+    if (!page) return;
+    total = page.total;
+    const cards = page.rows.map((r) => storyCard(r));
+    if (append) $('[data-wall]').append(...cards);
+    else $('[data-wall]').replaceChildren(...cards);
+    offset += page.rows.length;
+
+    $('[data-empty]').classList.toggle('hidden', page.published > 0);
+    $('[data-more]').classList.toggle('hidden', offset >= total);
+    $('[data-showing]').textContent = total ? `Showing ${offset.toLocaleString('en-GB')} of ${total.toLocaleString('en-GB')}` : '';
+    if (!append && !group && page.published >= 20) {
+      $('[data-lead]').textContent = `${roughCount(page.published)} parents, athletes, coaches and neighbours on what the indoor track at Willesden Sports Centre means to them.`;
+    }
+    // Counts on the filter chips; hide groups with no stories.
+    document.querySelectorAll<HTMLButtonElement>('[data-group]').forEach((b) => {
+      const g = b.dataset.group!;
+      const n = g ? page!.groups[g] ?? 0 : page!.published;
+      b.querySelector('[data-group-count]')!.textContent = n ? String(n) : '';
+      b.hidden = Boolean(g) && n === 0;
+    });
+  }
+
+  $('[data-filters]').addEventListener('click', (e) => {
+    const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-group]');
+    if (!b) return;
+    group = b.dataset.group!;
+    document.querySelectorAll('[data-group]').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+    load();
+  });
+  $('[data-more]').addEventListener('click', () => load(true));
+  load();
+</script>

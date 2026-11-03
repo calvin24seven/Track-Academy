@@ -123,10 +123,22 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
     </section>
 
     <div class="grid gap-6 lg:grid-cols-2">
-      <section class={card}>
-        <h2 class={h}>Stories to review</h2>
-        <p class="mt-1 text-xs text-[var(--color-grey-500)]">The DSL must check any story about an under-18 before approving.</p>
-        <div class="mt-4 space-y-3" data-stories></div>
+      <section class={`${card} lg:col-span-2`}>
+        <div class="flex flex-wrap items-start justify-between gap-3">
+          <div class="max-w-3xl">
+            <h2 class={h}>Stories</h2>
+            <p class="mt-1 text-xs leading-[1.5] text-[var(--color-grey-500)]">Before approving, edit the published wording to remove anything identifying (a child's surname, school, address). Anything marked <b class="text-[var(--color-error)]">DSL check</b> needs the safeguarding lead's OK. Only approved stories with publish consent appear on the site, labelled anonymously (e.g. “A parent”). Featured stories show first.</p>
+          </div>
+          <a href="/protect-brent-athletics/stories/" target="_blank" class="text-sm font-600 text-[var(--color-track-blue)] underline">View the public stories page ↗</a>
+        </div>
+        <div class="mt-4 flex flex-wrap gap-2 text-sm" role="tablist" data-story-tabs>
+          <button type="button" role="tab" data-tab="pending">Pending</button>
+          <button type="button" role="tab" data-tab="approved">Published</button>
+          <button type="button" role="tab" data-tab="featured">Featured</button>
+          <button type="button" role="tab" data-tab="rejected">Not published</button>
+        </div>
+        <div class="mt-4 grid gap-3 md:grid-cols-2" data-stories></div>
+        <button type="button" class={`${btnGhost} mt-3`} data-stories-more hidden>Show more</button>
       </section>
       <section class={card}>
         <h2 class={h}>Offers of help</h2>
@@ -157,6 +169,8 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
     import { primaryTargets, wardCouncillors } from '../../data/campaign';
 
     const $ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<T>(s)!;
+    const $$ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => [...r.querySelectorAll<T>(s)];
+    const INPUT = 'w-full border border-[var(--color-grey-300)] bg-white px-3 py-2 font-body';
     const esc = (v: unknown) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
     const fmt = (n: number) => Number(n || 0).toLocaleString('en-GB');
     const gbp = (n: number) => `£${Math.round(n || 0).toLocaleString('en-GB')}`;
@@ -340,27 +354,120 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
       };
     }
 
-    async function renderStories() {
-      const rows = await select<any[]>('campaign_stories?select=*&status=eq.pending&order=created_at', token!);
-      const age: Record<string, string> = { under_13: 'Under 13', '13_17': '13–17', '18_plus': '18+', unknown: 'Child, age not given' };
-      const wrap = $('[data-stories]');
-      wrap.innerHTML = rows.length ? rows.map((r) => `
-        <div class="border border-[var(--color-grey-300)] p-3 text-sm" data-id="${r.id}">
-          <p class="text-xs text-[var(--color-grey-500)]">${esc(r.display_name)} · ${esc(r.relationship)} · ${age[r.age_band]} ${r.age_band !== '18_plus' ? '· <b class="text-[var(--color-error)]">DSL check needed</b>' : ''}
-            · publish: ${r.consent_publish ? 'yes' : '<b>no</b>'} · press: ${r.media_ok ? 'yes' : 'no'} ${r.contact_email ? '· ' + esc(r.contact_email) : ''}</p>
-          <p class="mt-1 whitespace-pre-wrap">${esc(r.story)}</p>
-          <div class="mt-2 flex gap-2"><button class="${'border border-green-700 px-2 py-1 text-xs text-green-800'}" data-act="approved">Approve</button><button class="border border-[var(--color-error)] px-2 py-1 text-xs text-[var(--color-error)]" data-act="rejected">Reject</button></div>
-        </div>`).join('') : '<p class="text-sm text-[var(--color-grey-500)]">Nothing waiting.</p>';
-      wrap.onclick = async (e) => {
-        const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-act]');
-        if (!b) return;
-        const id = b.closest<HTMLElement>('[data-id]')!.dataset.id;
-        try {
-          await patch(`campaign_stories?id=eq.${id}`, { status: b.dataset.act, reviewed_by: c.email, reviewed_at: new Date().toISOString() }, token!);
-          await renderStories();
-        } catch (err) { showLoadError(err); }
-      };
+    // ---- Stories review queue ----
+    type Story = {
+      id: string; created_at: string; display_name: string; relationship: string; age_band: string; story: string;
+      published_text: string | null; display_label: string | null; featured: boolean; status: string;
+      consent_publish: boolean; parent_consent: boolean; media_ok: boolean; contact_email: string | null; reviewed_by: string | null;
+    };
+    const AGE: Record<string, string> = { under_13: 'Under 13', '13_17': '13–17', '18_plus': '18+', unknown: 'Child, age not given' };
+    const defaultLabel = (r: Story) => ({
+      parent: 'A parent', alumni: 'A former athlete', coach_volunteer: 'A coach', club_member: 'A club member', resident: 'A local resident',
+      athlete: r.age_band === '18_plus' ? 'An athlete' : 'A young athlete',
+    } as Record<string, string>)[r.relationship] ?? 'A supporter';
+    const STORY_PAGE = 20;
+    let storyTab = 'pending';
+    let storyOffset = 0;
+    const tabQuery: Record<string, string> = {
+      pending: 'status=eq.pending&order=created_at',
+      approved: 'status=eq.approved&order=reviewed_at.desc',
+      featured: 'status=eq.approved&featured=is.true&order=reviewed_at.desc',
+      rejected: 'status=eq.rejected&order=reviewed_at.desc',
+    };
+
+    async function storyCounts() {
+      const all = await select<{ status: string; featured: boolean }[]>('campaign_stories?select=status,featured&limit=50000', token!);
+      const n = { pending: 0, approved: 0, featured: 0, rejected: 0 } as Record<string, number>;
+      for (const r of all) { n[r.status] = (n[r.status] ?? 0) + 1; if (r.status === 'approved' && r.featured) n.featured++; }
+      $$('[data-tab]').forEach((b) => {
+        const t = (b as HTMLElement).dataset.tab!;
+        const label = { pending: 'Pending', approved: 'Published', featured: 'Featured', rejected: 'Not published' }[t];
+        b.textContent = `${label} (${fmt(n[t] ?? 0)})`;
+        b.className = t === storyTab
+          ? 'bg-[var(--color-track-blue)] px-3 py-1.5 font-600 text-white'
+          : 'bg-[var(--color-grey-100)] px-3 py-1.5 font-600 text-[var(--color-track-blue)] hover:bg-[var(--color-grey-300)]';
+        b.setAttribute('aria-selected', String(t === storyTab));
+      });
     }
+
+    function storyCard(r: Story) {
+      const child = r.age_band !== '18_plus';
+      const text = r.published_text ?? r.story;
+      const edited = r.published_text != null && r.published_text !== r.story;
+      const canPublish = r.consent_publish;
+      const actions = r.status === 'pending'
+        ? `<button class="bg-[var(--color-success)] px-3 py-1.5 text-xs font-600 text-white" data-act="approve">${canPublish ? 'Approve' : 'Approve (evidence only)'}</button>
+           ${canPublish ? '<button class="border border-[var(--color-track-orange)] px-3 py-1.5 text-xs font-600 text-[var(--color-accent-dark)]" data-act="feature">★ Approve &amp; feature</button>' : ''}
+           <button class="border border-[var(--color-error)] px-3 py-1.5 text-xs font-600 text-[var(--color-error)]" data-act="reject">Don’t publish</button>`
+        : r.status === 'approved'
+          ? `<button class="bg-[var(--color-track-blue)] px-3 py-1.5 text-xs font-600 text-white" data-act="save">Save changes</button>
+             ${canPublish ? `<button class="border border-[var(--color-track-orange)] px-3 py-1.5 text-xs font-600 text-[var(--color-accent-dark)]" data-act="${r.featured ? 'unfeature' : 'feature'}">${r.featured ? 'Remove from featured' : '★ Feature'}</button>` : ''}
+             <button class="border border-[var(--color-error)] px-3 py-1.5 text-xs font-600 text-[var(--color-error)]" data-act="reject">Unpublish</button>`
+          : `<button class="border border-[var(--color-track-blue)] px-3 py-1.5 text-xs font-600 text-[var(--color-track-blue)]" data-act="pending">Move back to pending</button>`;
+      return `<article class="flex flex-col border ${r.featured ? 'border-[var(--color-track-orange)]' : 'border-[var(--color-grey-300)]'} p-4 text-sm" data-id="${r.id}">
+        <p class="flex flex-wrap gap-x-2 gap-y-1 text-xs text-[var(--color-grey-500)]">
+          <span>${esc(new Date(r.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }))}</span>
+          <span>· ${esc(r.display_name)} (${esc(r.relationship)})</span>
+          ${child ? `<span class="font-600 text-[var(--color-error)]">· DSL check (${esc(AGE[r.age_band] ?? r.age_band)})</span>` : ''}
+          <span>· publish: ${canPublish ? 'yes' : '<b class="text-[var(--color-error)]">no</b>'}</span>
+          <span>· press: ${r.media_ok ? 'yes' : 'no'}</span>
+          ${r.contact_email ? `<span>· <a class="underline" href="mailto:${esc(r.contact_email)}">${esc(r.contact_email)}</a></span>` : ''}
+          ${r.reviewed_by ? `<span>· reviewed by ${esc(r.reviewed_by)}</span>` : ''}
+        </p>
+        ${edited ? `<details class="mt-2 text-xs text-[var(--color-grey-500)]"><summary class="cursor-pointer">Original wording</summary><p class="mt-1 whitespace-pre-wrap">${esc(r.story)}</p></details>` : ''}
+        <label class="mt-2 block text-xs font-600 text-[var(--color-grey-700)]">Published wording
+          <textarea class="${INPUT} mt-1 min-h-[5rem] text-sm font-400" data-field="text" maxlength="3000">${esc(text)}</textarea>
+        </label>
+        <label class="mt-2 block text-xs font-600 text-[var(--color-grey-700)]">Shown as
+          <input class="${INPUT} mt-1 font-400" data-field="label" maxlength="60" placeholder="${esc(defaultLabel(r))}" value="${esc(r.display_label ?? '')}" />
+        </label>
+        <div class="mt-3 flex flex-wrap gap-2">${actions}</div>
+      </article>`;
+    }
+
+    async function renderStories(append = false) {
+      if (!append) storyOffset = 0;
+      const rows = await select<Story[]>(`campaign_stories?select=*&${tabQuery[storyTab]}&limit=${STORY_PAGE}&offset=${storyOffset}`, token!);
+      const wrap = $('[data-stories]');
+      const html = rows.map(storyCard).join('');
+      if (append) wrap.insertAdjacentHTML('beforeend', html);
+      else wrap.innerHTML = html || '<p class="text-sm text-[var(--color-grey-500)]">Nothing here.</p>';
+      storyOffset += rows.length;
+      $('[data-stories-more]').hidden = rows.length < STORY_PAGE;
+      await storyCounts();
+    }
+
+    $('[data-story-tabs]').addEventListener('click', (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-tab]');
+      if (!b) return;
+      storyTab = b.dataset.tab!;
+      renderStories().catch(showLoadError);
+    });
+    $('[data-stories-more]').addEventListener('click', () => renderStories(true).catch(showLoadError));
+    $('[data-stories]').addEventListener('click', async (e) => {
+      const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-act]');
+      if (!b) return;
+      const card = b.closest<HTMLElement>('[data-id]')!;
+      const original = (await select<Story[]>(`campaign_stories?select=story&id=eq.${card.dataset.id}`, token!))[0];
+      const text = (card.querySelector('[data-field=text]') as HTMLTextAreaElement).value.trim();
+      const label = (card.querySelector('[data-field=label]') as HTMLInputElement).value.trim();
+      const edits = { published_text: text && text !== original.story ? text : null, display_label: label || null };
+      const reviewed = { reviewed_by: c.email, reviewed_at: new Date().toISOString() };
+      const body = ({
+        approve: { ...edits, ...reviewed, status: 'approved', featured: false },
+        feature: { ...edits, ...reviewed, status: 'approved', featured: true },
+        unfeature: { ...edits, featured: false },
+        save: { ...edits },
+        reject: { ...reviewed, status: 'rejected', featured: false },
+        pending: { status: 'pending', featured: false, reviewed_by: null, reviewed_at: null },
+      } as Record<string, Record<string, unknown>>)[b.dataset.act!];
+      b.disabled = true;
+      try {
+        await patch(`campaign_stories?id=eq.${card.dataset.id}`, body, token!);
+        if (b.dataset.act === 'save') { b.textContent = 'Saved ✓'; setTimeout(() => (b.textContent = 'Save changes'), 1500); b.disabled = false; await storyCounts(); }
+        else { card.remove(); storyOffset = Math.max(0, storyOffset - 1); await storyCounts(); } // list shifted up by one
+      } catch (err) { showLoadError(err); b.disabled = false; }
+    });
 
     async function renderOffers() {
       const rows = await select<any[]>('campaign_offers?select=*&order=created_at.desc', token!);

@@ -31,6 +31,10 @@ const navItems = [
   { label: 'Impact', href: '/impact' },
   { label: 'Contact', href: '/contact' },
 ];
+
+import { campaign } from '../../data/campaign';
+interface Props { showCampaignBanner?: boolean }
+const showBanner = (Astro.props.showCampaignBanner ?? true) && campaign.siteBanner;
 ---
 
 <header
@@ -38,6 +42,16 @@ const navItems = [
   class="fixed top-0 left-0 right-0 z-50 transition-all duration-200 ease-[var(--ease-sprint)]"
   data-state="top"
 >
+  {showBanner && (
+    <div class="bg-[var(--color-track-orange)] text-white" data-campaign-banner hidden>
+      <div class="mx-auto flex max-w-[var(--container-content)] items-center justify-between gap-3 px-6 py-2 lg:px-8">
+        <a href={`${campaign.slug}/?ref=banner`} class="flex min-w-0 items-center gap-2 font-body text-[0.8rem] font-semibold sm:text-sm">
+          <span class="truncate">Brent Council is removing our indoor track. <span class="underline decoration-2 underline-offset-4">Sign the petition →</span></span>
+        </a>
+        <button type="button" class="flex h-7 w-7 shrink-0 items-center justify-center text-lg leading-none text-white/80 hover:text-white" aria-label="Hide campaign banner" data-campaign-banner-close>×</button>
+      </div>
+    </div>
+  )}
   <div class="mx-auto flex max-w-[var(--container-content)] items-center justify-between px-6 py-3 lg:px-8">
     <!-- Logo -->
     <a href="/" class="flex items-center" aria-label="Track Academy home">
@@ -178,6 +192,21 @@ const navItems = [
   mobileMenu?.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => setMenu(false));
   });
+</script>
+
+
+<script>
+  // Campaign banner: hidden for 7 days once dismissed.
+  const bar = document.querySelector<HTMLElement>('[data-campaign-banner]');
+  if (bar) {
+    let dismissed = 0;
+    try { dismissed = Number(localStorage.getItem('pba_banner_dismissed') || 0); } catch {}
+    if (Date.now() - dismissed > 7 * 864e5) bar.hidden = false;
+    bar.querySelector('[data-campaign-banner-close]')?.addEventListener('click', () => {
+      bar.hidden = true;
+      try { localStorage.setItem('pba_banner_dismissed', String(Date.now())); } catch {}
+    });
+  }
 </script>
 
 <style>
