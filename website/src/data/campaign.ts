@@ -2,13 +2,14 @@
  * Protect Brent Athletics — all campaign copy and contacts live here.
  * Edit this file to change wording; the page and email builder read from it.
  */
+import { latestReportedDemographics, latestReportedYoungPeople } from './impact';
 
 export const campaign = {
   slug: '/protect-brent-athletics',
   hashtag: '#ProtectBrentAthletics',
   headline: 'Tell Brent Council: save athletics in Brent',
   shareText:
-    'Brent Council is removing the indoor track at Willesden Sports Centre, used by 400+ young people. Their own Equality Impact Assessment admits girls, disabled young people and ethnically diverse communities will be hit hardest. It takes 2 minutes to act:',
+    `Brent Council is removing the indoor track at Willesden Sports Centre. Track Academy supported ${latestReportedYoungPeople} young people in the past year; ${latestReportedDemographics[0].number}% were from low-income families, ${latestReportedDemographics[1].number}% had a disability or long-term health condition, ${latestReportedDemographics[2].number}% were girls, and ${latestReportedDemographics[3].number}% were from Black, Asian, mixed and other minoritised ethnic backgrounds. Sign and email your councillors in two minutes:`,
   // Inbox that gets a blind copy of every supporter email so sends can be verified.
   // Create this mailbox first, then fill it in. Leave '' to turn the blind copy off.
   bccInbox: '',
@@ -27,12 +28,9 @@ export const context = [
 ];
 
 export const facts = [
-  { number: '400+', label: 'young people a year, using athletics as the hook for mentoring and education' },
   { number: '259', label: 'young people on the indoor track in January alone' },
-  { number: '60%', label: 'are girls, mostly teenagers' },
-  { number: '90%', label: 'are from ethnically diverse communities' },
-  { number: '45%', label: 'are from low-income families' },
-  { number: '29%', label: 'have a disability or long-term condition' },
+  { number: String(latestReportedYoungPeople), label: 'young people supported by Track Academy in the past year' },
+  ...latestReportedDemographics.map((stat) => ({ number: `${stat.number}%`, label: stat.label })),
 ];
 
 /** Quotes from the campaign plan (consent confirmed by Track Academy). Approved page stories are added after these. */

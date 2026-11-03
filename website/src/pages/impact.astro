@@ -12,11 +12,11 @@ import { Image } from 'astro:assets';
 import GirlSmiling from '../assets/stories/girl-smiling.jpg';
 import GroupPhoto from '../assets/stories/group-photo.jpg';
 import ParentAndChild from '../assets/website-2026/parent-and-child.jpg';
-import { latestAnnualReport, latestReportedYoungPeople } from '../data/impact';
+import { latestAnnualReport, latestReportedDemographics, latestReportedYoungPeople } from '../data/impact';
 
 const seo = {
   title: 'Our Impact — Track Academy',
-  description: 'The difference Track Academy makes for young people in Brent: participation, confidence, connection and stronger futures.',
+  description: 'Track Academy supported 519 young people in the past year. See who we reached and how our work helps young people in Brent.',
 };
 
 ---
@@ -43,6 +43,21 @@ const seo = {
     </div>
     <!-- Track lane line -->
     <div class="absolute bottom-0 left-0 right-0 lane-line"></div>
+  </section>
+
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,8vw,6rem)]" aria-labelledby="who-we-reached">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[-0.05em] text-[var(--color-track-orange)]">Who we reached · past year</p>
+      <h2 id="who-we-reached" class="mb-8 max-w-2xl font-heading text-[clamp(1.75rem,5vw,3rem)] font-500 leading-[1.05] tracking-[-0.02em] text-[var(--color-track-blue)]">A community with different needs, strengths and stories.</h2>
+      <dl class="grid gap-px bg-[var(--color-grey-300)] sm:grid-cols-2 lg:grid-cols-4">
+        {latestReportedDemographics.map((stat) => (
+          <div class="bg-white p-6 lg:p-8">
+            <dt class="font-body text-sm leading-[1.5] text-[var(--color-grey-700)]">{stat.label}</dt>
+            <dd class="mt-3 font-heading text-[clamp(2.5rem,5vw,4rem)] font-600 leading-none text-[var(--color-track-blue)] tabular-nums">{stat.number}%</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
   </section>
 
   <!-- Five key outcomes -->

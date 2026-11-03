@@ -18,7 +18,7 @@ import { campaign, context, facts, asks, primaryTargets, relationships, skillOpt
 const seo = {
   title: 'Protect Brent Athletics | Save the indoor track',
   description:
-    'Brent Council is removing the indoor track at Willesden Sports Centre, used by 400+ young people. Sign the petition and email your councillors in two minutes.',
+    'Track Academy supported 519 young people in the past year. Brent Council is removing the indoor track at Willesden Sports Centre. Sign the petition and email your councillors in two minutes.',
 };
 
 const input =
@@ -36,7 +36,7 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
 ---
 
 <BaseLayout {...seo} hideNewsletterPopup hideMobileCta>
-  <SimpleHero image={HeroImage} title={campaign.headline} lead="400+ young people train on this track. Sign, then tell your councillors. It takes two minutes." />
+  <SimpleHero image={HeroImage} title={campaign.headline} lead="Track Academy supported 519 young people in the past year. Sign, then tell your councillors. It takes two minutes." />
 
   <!-- Progress bar: steps tick off as they're done -->
   <section class="sticky top-20 z-30 border-b lg:top-[88px] border-[var(--color-grey-300)] bg-white/95 backdrop-blur">
