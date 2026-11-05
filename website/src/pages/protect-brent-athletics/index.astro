@@ -175,7 +175,7 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
           <textarea class={input} id="em-personal" name="personal" rows="3" maxlength="600" placeholder="e.g. My daughter started at 11. Training on the indoor track every winter gave her confidence, friends and a mentor she trusts."></textarea>
           <label class="mt-3 flex gap-3 font-body text-sm leading-[1.5] text-[var(--color-grey-700)]">
             <input type="checkbox" id="em-story-ok" class="mt-1 h-4 w-4 shrink-0" />
-            <span>Track Academy can also use this as evidence for the council, and on this page with my first name only. If it’s about my child, I’m their parent or carer. Our safeguarding lead checks everything first.</span>
+            <span>Track Academy can also share this with the council and publish it on its website, without my name. If it’s about my child, I’m their parent or carer.</span>
           </label>
         </div>
 
@@ -455,14 +455,14 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
                 </label>
                 <label class="flex gap-3 font-body text-sm text-[var(--color-grey-700)]">
                   <input type="checkbox" name="consent_publish" class="mt-1 h-4 w-4 shrink-0" />
-                  <span>Track Academy may publish it (first name only) and share it with the council.</span>
+                  <span>Track Academy may publish it on its website without my name, and share it with the council.</span>
                 </label>
                 <label class="flex gap-3 font-body text-sm text-[var(--color-grey-700)]">
                   <input type="checkbox" name="media_ok" class="mt-1 h-4 w-4 shrink-0" />
                   <span>I’m happy to be asked about speaking to the press.</span>
                 </label>
                 <p class="font-body text-xs text-[var(--color-grey-500)]" data-story-contact></p>
-            <p class="font-body text-xs text-[var(--color-grey-500)]">Goes to Track Academy’s campaign team. Nothing is published until our safeguarding lead approves it.</p>
+            <p class="font-body text-xs text-[var(--color-grey-500)]">Goes to Track Academy’s campaign team. With your permission it appears on our website without your name. We remove anything that could identify a child.</p>
                 <button type="submit" class={`${btn} justify-self-start`}>Send my story</button>
                 <p class="font-body text-sm text-[var(--color-track-blue)]" data-form-msg aria-live="polite"></p>
               </form>

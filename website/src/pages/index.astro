@@ -12,6 +12,7 @@ import InstagramFeed from '../components/sections/InstagramFeed.astro';
 import SchoolsTeaser from '../components/sections/SchoolsTeaser.astro';
 import TrustStrip from '../components/sections/TrustStrip.astro';
 import TrustBar from '../components/sections/TrustBar.astro';
+import StoriesBand from '../components/sections/StoriesBand.astro';
 import FinalDecision from '../components/sections/FinalDecision.astro';
 import { latestReportedDemographics, latestReportedYoungPeople } from '../data/impact';
 
@@ -31,6 +32,7 @@ const seo = {
   <TrustBar />
   <AudienceRouter />
   <VideoEmbed videoId="RVxiOzJPtAc" title="See what the track means to young people." />
+  <StoriesBand count={6} />
   <InstagramFeed />
   <ProgrammeEditorial />
   <NumeralsEscaping

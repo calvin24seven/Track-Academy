@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SimpleHero from '../components/sections/SimpleHero.astro';
 import Button from '../components/ui/Button.astro';
+import StoriesBand from '../components/sections/StoriesBand.astro';
 import { Image } from 'astro:assets';
 import StudentsRacing from '../assets/hero/students-racing.webp';
 import OlderStudents from '../assets/hero/older-students.jpg';
@@ -68,4 +69,5 @@ const seo = {
       <p class="mx-auto mt-8 max-w-2xl text-center font-body text-sm leading-[1.6] text-[var(--color-grey-500)]">Not sure which route to choose? Under 16s registration is completed by a parent or guardian. The Over 16s form is completed by the participant.</p>
     </div>
   </section>
+  <StoriesBand />
 </BaseLayout>

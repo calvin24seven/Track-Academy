@@ -70,9 +70,13 @@ function render(offers: Record<string, unknown>[], stories: Record<string, unkno
     )).join('');
 
   const storyHtml = stories.map((s) => {
-    const child = s.age_band !== '18_plus';
+    const held = s.age_band === 'under_13' || s.age_band === '13_17';
+    const aboutChild = s.age_band === 'unknown';
+    const flag = held
+      ? ' <span style="color:#d4004f">(held for a safeguarding check: approve or edit it on the dashboard)</span>'
+      : aboutChild ? ' <span style="color:#d4004f">(published: check it doesn’t identify a child)</span>' : '';
     return block(
-      `New story from ${esc(s.display_name)}${child ? ' <span style="color:#d4004f">(needs a safeguarding check)</span>' : ''}`,
+      `New story from ${esc(s.display_name)}${flag}`,
       `<p style="margin:0;white-space:pre-wrap">“${esc(s.story)}”</p>
        <p style="margin:8px 0 0;color:#5b5f6e">About: ${esc(AGE[String(s.age_band)] ?? s.age_band)} · Publish OK: ${s.consent_publish ? 'yes' : 'no'} · Press OK: ${s.media_ok ? 'yes' : 'no'}${s.contact_email ? ` · <a href="mailto:${esc(s.contact_email)}">${esc(s.contact_email)}</a>` : ''}</p>`,
     );
@@ -86,8 +90,8 @@ function render(offers: Record<string, unknown>[], stories: Record<string, unkno
   const html = `<div style="max-width:640px">
       <p style="font:15px/1.5 Arial,sans-serif;color:#1c1e26">New on the campaign page:</p>
       ${offerHtml}${storyHtml}
-      <p style="font:15px/1.5 Arial,sans-serif"><a href="${DASHBOARD}" style="color:#112a8a;font-weight:bold">Open the campaign dashboard</a> to approve stories and update offers.</p>
-      <p style="font:12px/1.5 Arial,sans-serif;color:#8a8d99">Stories are not published until approved on the dashboard.</p>
+      <p style="font:15px/1.5 Arial,sans-serif"><a href="${DASHBOARD}" style="color:#112a8a;font-weight:bold">Open the campaign dashboard</a> to review stories and update offers.</p>
+      <p style="font:12px/1.5 Arial,sans-serif;color:#8a8d99">Stories with permission are published automatically, without names. Edit or unpublish any story from the dashboard.</p>
     </div>`;
   // Reply goes straight to the person when there is exactly one offer; otherwise to the campaign contact.
   const replyTo = offers.length === 1 && !stories.length ? String(offers[0].email) : ALERT_TO[0];

@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SimpleHero from '../components/sections/SimpleHero.astro';
 import SplitFeature from '../components/sections/SplitFeature.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
+import StoriesBand from '../components/sections/StoriesBand.astro';
 import StudentsRacing from '../assets/hero/students-racing.webp';
 import TwoCoachesPlanning from '../assets/website-2026/two-coaches-planning.jpg';
 import ReadyToRace from '../assets/programme/ready-to-race.jpg';
@@ -105,6 +106,7 @@ const included = [
     </div>
   </section>
 
+  <StoriesBand group="athletes" eyebrow="From the track" heading="What athletes say" />
   <CTABanner
     heading="Ready to get your child on the track?"
     ctaPrimary={{ label: 'Register your child', href: '/register' }}

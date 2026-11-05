@@ -1,0 +1,104 @@
+---
+/**
+ * StoriesBand.astro — a band of real supporter stories ("In their words") for any page.
+ *
+ * Usage: <StoriesBand />  or  <StoriesBand group="parents" heading="What parents tell us" tone="dark" />
+ * - Loads published stories live (campaign_public_stories), so new stories appear without a rebuild.
+ * - Picks short stories at random (featured ones weighted in), so repeat visits feel fresh.
+ * - Renders nothing visible if there are no stories, so it never leaves an empty gap.
+ * - While the campaign runs (campaign.siteBanner), it ends with a quiet "Add your voice" link.
+ */
+import { campaign } from '../../data/campaign';
+
+interface Props {
+  /** parents | athletes | coaches | community; omit for everyone */
+  group?: 'parents' | 'athletes' | 'coaches' | 'community';
+  eyebrow?: string;
+  heading?: string;
+  /** how many stories to show (3 or 6 work best) */
+  count?: number;
+  tone?: 'light' | 'dark';
+}
+
+const {
+  group,
+  eyebrow = 'In their words',
+  heading = 'What the track means',
+  count = 3,
+  tone = 'light',
+} = Astro.props;
+const dark = tone === 'dark';
+const campaignOn = campaign.siteBanner;
+---
+
+<section
+  class:list={[
+    'hidden py-[clamp(3rem,7vw,5.5rem)]',
+    dark ? 'tracked-surface bg-[var(--color-track-navy)] text-white' : 'bg-[var(--color-paper)]',
+  ]}
+  data-stories-band
+  data-group={group ?? ''}
+  data-count={count}
+  data-tone={tone}
+  aria-labelledby={`stories-band-${group ?? 'all'}`}
+>
+  <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+    <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+      <div class="max-w-2xl">
+        <p class:list={['mb-3 font-body text-sm font-semibold uppercase tracking-[0.05em]', dark ? 'text-[var(--color-track-gold)]' : 'text-[var(--color-track-orange)]']}>{eyebrow}</p>
+        <h2 id={`stories-band-${group ?? 'all'}`} class:list={['font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em]', dark ? 'text-white' : 'text-[var(--color-track-blue)]']}>{heading}</h2>
+        <p class:list={['mt-3 font-body text-base leading-[1.6]', dark ? 'text-white/75' : 'text-[var(--color-grey-700)]']} data-band-sub hidden></p>
+      </div>
+      <a
+        href={`${campaign.slug}/stories/`}
+        class:list={['font-body text-sm font-600 underline decoration-2 underline-offset-4', dark ? 'text-white decoration-[var(--color-track-gold)]' : 'text-[var(--color-track-blue)] decoration-[var(--color-track-orange)]']}
+      >Read all stories →</a>
+    </div>
+
+    <div class="mt-8 columns-1 gap-5 md:columns-3" data-band-wall></div>
+
+    {campaignOn && (
+      <p class:list={['mt-2 font-body text-sm', dark ? 'text-white/75' : 'text-[var(--color-grey-700)]']}>
+        These are from families supporting <a href={`${campaign.slug}/?ref=stories-band`} class:list={['font-600 underline underline-offset-4', dark ? 'text-white' : 'text-[var(--color-track-blue)]']}>{campaign.hashtag}</a>. <a href={`${campaign.slug}/?ref=stories-band#sign`} class:list={['font-600 underline underline-offset-4', dark ? 'text-white' : 'text-[var(--color-track-blue)]']}>Add your voice</a>.
+      </p>
+    )}
+  </div>
+</section>
+
+<script>
+  import { rpc } from '../../lib/campaign-client';
+  import { storyCard, roughCount, type PublicStory } from '../../lib/story-wall';
+
+  type Page = { published: number; rows: PublicStory[] };
+
+  // Prefer short, punchy stories for a band; keep a little randomness so each visit differs.
+  function pick(rows: PublicStory[], n: number) {
+    const short = rows.filter((r) => r.text.length <= 280);
+    const pool = (short.length >= n ? short : rows).slice();
+    for (let i = pool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [pool[i], pool[j]] = [pool[j], pool[i]]; }
+    // Featured first among the chosen few.
+    return pool.slice(0, n).sort((a, b) => Number(b.featured) - Number(a.featured));
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-stories-band]').forEach(async (band) => {
+    const group = band.dataset.group || null;
+    const n = Number(band.dataset.count || 3);
+    const dark = band.dataset.tone === 'dark';
+    try {
+      const page = await rpc<Page>('campaign_public_stories', { lim: 60, off: 0, p_group: group });
+      if (!page?.rows?.length) return; // stay hidden
+      const wall = band.querySelector<HTMLElement>('[data-band-wall]')!;
+      wall.replaceChildren(...pick(page.rows, n).map((s) => {
+        const card = storyCard(s);
+        if (dark) card.classList.add('!border-white/10');
+        return card;
+      }));
+      if (page.published >= 20) {
+        const sub = band.querySelector<HTMLElement>('[data-band-sub]')!;
+        sub.textContent = `${roughCount(page.published)} parents, athletes, coaches and neighbours have shared what the indoor track means to them.`;
+        sub.hidden = false;
+      }
+      band.classList.remove('hidden');
+    } catch { /* stay hidden */ }
+  });
+</script>

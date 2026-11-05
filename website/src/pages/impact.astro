@@ -8,6 +8,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import AthleteStack from '../components/sections/AthleteStack.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
 import Button from '../components/ui/Button.astro';
+import StoriesBand from '../components/sections/StoriesBand.astro';
 import { Image } from 'astro:assets';
 import GirlSmiling from '../assets/stories/girl-smiling.jpg';
 import GroupPhoto from '../assets/stories/group-photo.jpg';
@@ -130,6 +131,7 @@ const seo = {
     </div>
   </section>
 
+  <StoriesBand eyebrow="Impact, in their words" />
   <CTABanner
     heading="Support our work."
     body="Your support keeps the track open, the mentors paid, and the education free."

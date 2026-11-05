@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SimpleHero from '../components/sections/SimpleHero.astro';
 import NumeralsEscaping from '../components/sections/NumeralsEscaping.astro';
 import CTABanner from '../components/sections/CTABanner.astro';
+import StoriesBand from '../components/sections/StoriesBand.astro';
 import Button from '../components/ui/Button.astro';
 import GroupPhoto from '../assets/stories/group-photo.jpg';
 import { latestReportedYoungPeople } from '../data/impact';
@@ -178,6 +179,7 @@ const shoppingList = [
     </div>
   </section>
 
+  <StoriesBand tone="dark" eyebrow="Why it matters" heading="What your support protects" />
   <CTABanner
     heading="Every £1 keeps the track open."
     ctaPrimary={{ label: 'Donate now', href: 'https://whydonate.com/fundraising/trackacademy' }}
