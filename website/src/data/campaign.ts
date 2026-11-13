@@ -9,7 +9,7 @@ export const campaign = {
   hashtag: '#ProtectBrentAthletics',
   headline: 'Tell Brent Council: save athletics in Brent',
   shareText:
-    `Brent Council is removing the indoor track at Willesden Sports Centre. Track Academy supported ${latestReportedYoungPeople} young people in the past year; ${latestReportedDemographics[0].number}% were from low-income families, ${latestReportedDemographics[1].number}% had a disability or long-term health condition, ${latestReportedDemographics[2].number}% were girls, and ${latestReportedDemographics[3].number}% were from Black, Asian, mixed and other minoritised ethnic backgrounds. Sign and email your councillors in two minutes:`,
+    `Brent Council has paused its plan to remove the indoor track at Willesden Sports Centre and will decide by 25 November. Track Academy supported ${latestReportedYoungPeople} young people in the past year; ${latestReportedDemographics[0].number}% were from low-income families, ${latestReportedDemographics[1].number}% had a disability or long-term health condition, ${latestReportedDemographics[2].number}% were girls, and ${latestReportedDemographics[3].number}% were from Black, Asian, mixed and other minoritised ethnic backgrounds. Sign and email the council by 5pm Friday 20 November. It takes two minutes:`,
   // Inbox that gets a blind copy of every supporter email so sends can be verified.
   // Create this mailbox first, then fill it in. Leave '' to turn the blind copy off.
   bccInbox: '',
@@ -26,10 +26,11 @@ export const campaign = {
 };
 
 export const context = [
-  "Brent Council has approved removing the indoor track at Willesden Sports Centre, and has given Track Academy and other youth providers two weeks' notice to leave without adequate support in place.",
-  "The council's own Equality Impact Assessment admits this will adversely affect girls, disabled young people and ethnically diverse communities. It also admits the proposed alternatives are not like-for-like, and that SEN provision is unresolved.",
-  "We are not asking the council to break any contracts or change its plans. We are asking it to help find a fair, sustainable solution that saves the future of athletics in Brent.",
-];
+  "After pressure from families, clubs and Track Academy, Brent Council has withdrawn its decision to remove the indoor track and paused the works. Rachel Crossley, Corporate Director, will now decide by 25 November. Users have until 5pm on Friday 20 November to respond.",
+  "The council's own Equality Impact Assessment admits removing the track would adversely affect girls, disabled young people and ethnically diverse communities. It also admits the proposed alternatives are not like-for-like, and that SEN provision is unresolved.",
+  "The council now cites about 6.5 hours a week of formal bookings, but accepts those records don't capture informal and weather-dependent use. Every email that says how the track is really used fills that gap.",
+  "We are not asking the council to break any contracts or stop investing. We are asking it to keep indoor athletics at Willesden and find a fair, sustainable solution that saves the future of athletics in Brent.",
+]
 
 export const facts = [
   { number: '259', label: 'young people on the indoor track in January alone' },

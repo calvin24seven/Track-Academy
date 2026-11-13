@@ -5,7 +5,7 @@
  */
 
 export const consultation = {
-  slug: '/protect-brent-athletics/have-your-say',
+  slug: '/protect-brent-athletics',
   to: 'leisure@brent.gov.uk',
   decisionMaker: 'Rachel Crossley',
   decisionMakerRole: 'Corporate Director, Service Reform and Strategy',

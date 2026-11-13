@@ -56,9 +56,9 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
       <div class="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 class={h}>Consultation responses</h2>
-          <p class="mt-1 text-xs text-[var(--color-grey-500)]">Emails to leisure@brent.gov.uk sent through the “Have your say” page (deadline 5pm Fri 20 Nov). Answers only: no names or emails. Self-reported.</p>
+          <p class="mt-1 text-xs text-[var(--color-grey-500)]">Emails to leisure@brent.gov.uk sent through the campaign page (deadline 5pm Fri 20 Nov). Answers only: no names or emails. Self-reported.</p>
         </div>
-        <a href="/protect-brent-athletics/have-your-say/" target="_blank" class="text-sm font-600 text-[var(--color-track-blue)] underline">Open the page ↗</a>
+        <a href="/protect-brent-athletics/#email" target="_blank" class="text-sm font-600 text-[var(--color-track-blue)] underline">Open the page ↗</a>
       </div>
       <div class="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4" data-consult-tiles></div>
       <div class="mt-4 grid gap-4 text-sm md:grid-cols-3" data-consult-detail></div>
@@ -612,7 +612,7 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
       sender: { file: 'opted-in-supporters', load: async () => (await allSigners({ only_optin: true })).map((r) => ({
         'Email': r.email, 'First name': String(r.full_name).split(/\s+/)[0], 'Last name': String(r.full_name).split(/\s+/).slice(1).join(' '), 'Ward': r.ward ?? '',
         // Private pre-filled link for the consultation email (use as a Sender custom field).
-        'Personal link': r.link_token ? `${location.origin}/protect-brent-athletics/have-your-say/?k=${r.link_token}` : '' })) },
+        'Personal link': r.link_token ? `${location.origin}/protect-brent-athletics/?k=${r.link_token}` : '' })) },
       survey: { file: 'membership-survey', load: async () => (await selectAll('membership_survey?select=*&order=created_at')).map((r) => ({
         'Answered': day(r.created_at), 'Member': yn(r.is_member), 'Membership type': r.membership_type ?? '', 'Members in household': r.members_in_household ?? '',
         'Monthly spend': r.monthly_spend_band ?? '', 'Would consider cancelling': r.would_consider_cancelling ?? '', 'Would consider joining': r.would_consider_joining ?? '',

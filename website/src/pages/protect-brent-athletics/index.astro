@@ -1,7 +1,8 @@
 ---
 /**
  * /protect-brent-athletics — Protect Brent Athletics campaign hub.
- * Action ladder: sign (easy) -> email councillors (pre-filled from signing) -> share.
+ * Action ladder: sign (easy) -> email the council's consultation inbox (pre-filled from signing) -> share.
+ * Consultation phase (Nov 2026): emails go to leisure@brent.gov.uk; wording in src/data/consultation.ts.
  * Then: story / skills / survey. Details typed once are carried into every later form.
  * Copy lives in src/data/campaign.ts. Data goes to Supabase (see supabase/migrations).
  */
@@ -13,12 +14,13 @@ import GroupPhoto from '../../assets/campaign/indoor-christmas-session.jpg';
 import RaceGirl from '../../assets/campaign/indoor-race-girl.jpg';
 import RaceSprint from '../../assets/campaign/indoor-race-sprint.jpg';
 import ContactPhoto from '../../assets/team/people/trustees/patrik-ewe.jpg';
-import { campaign, context, facts, asks, primaryTargets, relationships, skillOptions, testimonials } from '../../data/campaign';
+import { campaign, context, facts, asks, relationships, skillOptions, testimonials } from '../../data/campaign';
+import { consultation, usedOptions, frequencyOptions, dayOptions, wouldUseOptions, payOptions } from '../../data/consultation';
 
 const seo = {
   title: 'Protect Brent Athletics | Save the indoor track',
   description:
-    'Track Academy supported 519 young people in the past year. Brent Council is removing the indoor track at Willesden Sports Centre. Sign the petition and email your councillors in two minutes.',
+    'Brent Council has paused its plan to remove the Willesden indoor track and will decide by 25 November. Sign the petition and email the council by 5pm Friday 20 November. It takes two minutes.',
 };
 
 const input =
@@ -33,17 +35,21 @@ const linkBtn = 'font-body text-sm font-600 text-[var(--color-track-blue)] under
 const eyebrow = 'mb-3 font-body text-sm font-semibold uppercase tracking-[0.05em] text-[var(--color-track-orange)]';
 const h2 = 'font-heading text-[clamp(1.5rem,4vw,2.5rem)] font-500 leading-[1.1] tracking-[-0.01em] text-[var(--color-track-blue)]';
 const relOptions = relationships.map((r) => ({ value: r.value, label: r.label }));
+// Selectable chip: a real radio/checkbox styled through the peer variant (keyboard and screen-reader friendly).
+const chip =
+  'flex min-h-11 cursor-pointer items-center justify-center border border-[var(--color-grey-300)] bg-white px-3 py-2 text-center font-body text-sm font-500 text-[var(--color-grey-900)] transition-colors duration-150 hover:border-[var(--color-track-blue)] peer-checked:border-[var(--color-track-blue)] peer-checked:bg-[var(--color-track-blue)] peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--color-track-orange)] peer-focus-visible:ring-offset-2';
+const qLabel = 'mb-2 block font-body text-sm font-600 text-[var(--color-grey-900)]';
 ---
 
 <BaseLayout {...seo} hideNewsletterPopup hideMobileCta hideCampaignBanner>
-  <SimpleHero image={HeroImage} title={campaign.headline} lead="Track Academy supported 519 young people in the past year. Sign, then tell your councillors. It takes two minutes." />
+  <SimpleHero image={HeroImage} title="Brent is listening. Tell them why the track matters." lead="Brent Council has paused its plan to remove the indoor track and will decide by 25 November. Sign, then email the council by 5pm Friday 20 November. It takes two minutes." />
 
   <!-- Progress bar: steps tick off as they're done -->
   <section class="sticky top-20 z-30 border-b lg:top-[88px] border-[var(--color-grey-300)] bg-white/95 backdrop-blur">
     <div class="mx-auto flex max-w-[var(--container-content)] flex-wrap items-center justify-between gap-3 px-6 py-3 lg:px-8">
       <nav class="flex gap-2 font-body text-sm font-600" aria-label="Campaign steps">
         <a href="#sign" class="bg-[var(--color-track-blue)] px-3 py-2 text-white" data-step-link="sign">1 · Sign</a>
-        <a href="#email" class="bg-[var(--color-grey-100)] px-3 py-2 text-[var(--color-track-blue)]" data-step-link="email">2 · Email</a>
+        <a href="#email" class="bg-[var(--color-grey-100)] px-3 py-2 text-[var(--color-track-blue)]" data-step-link="email">2 · Email Brent</a>
         <a href="#share" class="bg-[var(--color-grey-100)] px-3 py-2 text-[var(--color-track-blue)]" data-step-link="share">3 · Share</a>
       </nav>
       <a href="#sign" class="flex items-center gap-3 font-body text-sm text-[var(--color-grey-700)] max-sm:hidden" data-live-counter hidden>
@@ -125,8 +131,8 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
         <!-- Shown after signing (or on return visits) -->
         <div class="hidden border-l-4 border-[var(--color-track-orange)] bg-white/10 p-6" data-signed>
           <p class="font-heading text-2xl font-500">✓ <span data-signed-text>You’ve signed.</span></p>
-          <p class="mt-2 font-body text-white/80">Signatures count. An email from you counts more. Councillors have to answer their own residents.</p>
-          <a href="#email" class={`${btn} mt-5`}>Next: email your councillors</a>
+          <p class="mt-2 font-body text-white/80">Signatures count. An email from you counts more: the council will read every response before it decides on 25 November.</p>
+          <a href="#email" class={`${btn} mt-5`}>Next: email the council</a>
           <button type="button" class="mt-4 block font-body text-xs text-white/60 underline" data-not-me>Not you? Clear my details</button>
         </div>
       </div>
@@ -136,9 +142,17 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
   <!-- STEP 2 · Email councillors (pre-filled from step 1) -->
   <section id="email" class="scroll-mt-36 bg-white py-[clamp(2.5rem,6vw,4.5rem)]">
     <div class="mx-auto max-w-[var(--container-narrow)] px-6 lg:px-8">
-      <p class={eyebrow}>Step 2 of 3 · 1 minute</p>
-      <h2 class={h2}>Email your councillors</h2>
-      <p class="mt-3 max-w-2xl font-body text-lg leading-[1.6] text-[var(--color-grey-700)]">We’ve written it for you. Add one line of your own and press send.</p>
+      <div class="flex flex-wrap items-end justify-between gap-x-8 gap-y-3">
+        <div>
+          <p class={eyebrow}>Step 2 of 3 · 2 minutes</p>
+          <h2 class={h2}>Tell Brent how you use the track</h2>
+        </div>
+        <div class="border-l-2 border-[var(--color-track-orange)] pl-4 font-body">
+          <p class="text-[0.8125rem] text-[var(--color-grey-500)]">Closes {consultation.deadlineLabel}</p>
+          <p class="text-base font-600 tabular-nums text-[var(--color-track-blue)]" data-left>Responses open</p>
+        </div>
+      </div>
+      <p class="mt-3 max-w-2xl font-body text-lg leading-[1.6] text-[var(--color-grey-700)]">Brent has invited users to respond before it decides. We’ve written your email: answer a few quick questions so it says how the track is really used, add a line of your own, and press send.</p>
 
       <form id="email-form" class="mt-8 grid gap-6" novalidate>
         <!-- Who it's from: summary when we already know them, fields when we don't -->
@@ -163,15 +177,83 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
           </div>
         </div>
 
+        <!-- Responding for a club or school: booking intentions are the strongest evidence -->
+        <details class="group border border-[var(--color-grey-300)]" data-org>
+          <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-3.5 font-body text-sm font-600 text-[var(--color-track-blue)] [&::-webkit-details-marker]:hidden">
+            Responding for a school, club or group?
+            <span class="text-lg leading-none text-[var(--color-track-orange)] transition-transform duration-200 group-open:rotate-45" aria-hidden="true">+</span>
+          </summary>
+          <div class="grid gap-4 border-t border-[var(--color-grey-100)] px-5 py-5 sm:grid-cols-2">
+            <div class="sm:col-span-2 flex gap-2" role="radiogroup" aria-label="Type of organisation">
+              <label class="relative flex-1"><input class="peer sr-only" type="radio" name="orgType" value="school" /><span class={chip}>School</span></label>
+              <label class="relative flex-1"><input class="peer sr-only" type="radio" name="orgType" value="club" /><span class={chip}>Club or group</span></label>
+            </div>
+            <div>
+              <label class={qLabel} for="em-org">Name</label>
+              <input class={input} id="em-org" name="organisation" maxlength="160" autocomplete="organization" />
+            </div>
+            <div>
+              <label class={qLabel} for="em-role">Your role</label>
+              <input class={input} id="em-role" name="role" maxlength="80" placeholder="e.g. Head of PE" autocomplete="organization-title" />
+            </div>
+            <div>
+              <label class={qLabel} for="em-hours">Hours a week you’d book</label>
+              <input class={input} id="em-hours" name="orgHours" type="number" inputmode="decimal" min="0" max="80" step="0.5" placeholder="e.g. 3" />
+            </div>
+            <div>
+              <label class={qLabel} for="em-young">Young people involved</label>
+              <input class={input} id="em-young" name="orgYoungPeople" type="number" inputmode="numeric" min="0" max="5000" placeholder="e.g. 60" />
+            </div>
+          </div>
+        </details>
+
+        <!-- How the track is used: this is the evidence the council has asked for -->
+        <div class="grid gap-6 border-y border-[var(--color-grey-100)] py-6">
+          <div>
+            <p class={qLabel} id="used-q"><span data-q-used>Have you used the indoor track?</span></p>
+            <div class="grid grid-cols-3 gap-2" role="radiogroup" aria-labelledby="used-q">
+              {usedOptions.map((o) => <label class="relative"><input class="peer sr-only" type="radio" name="used" value={o.value} /><span class={chip}>{o.label}</span></label>)}
+            </div>
+          </div>
+          <div class="hidden" data-frequency>
+            <p class={qLabel} id="freq-q">How often, in winter?</p>
+            <div class="grid grid-cols-1 gap-2 sm:grid-cols-3" role="radiogroup" aria-labelledby="freq-q">
+              {frequencyOptions.map((o) => <label class="relative"><input class="peer sr-only" type="radio" name="frequency" value={o.value} /><span class={chip}>{o.label}</span></label>)}
+            </div>
+          </div>
+          <div>
+            <p class={qLabel} id="days-q">When? <span class="font-400 text-[var(--color-grey-500)]">Pick any</span></p>
+            <div class="grid grid-cols-2 gap-2 sm:grid-cols-4" role="group" aria-labelledby="days-q">
+              {dayOptions.map((o) => <label class="relative"><input class="peer sr-only" type="checkbox" name="days" value={o.value} /><span class={chip}>{o.label}</span></label>)}
+            </div>
+          </div>
+          <div class="grid gap-6 sm:grid-cols-[2fr_3fr]" data-individual>
+            <div>
+              <p class={qLabel} id="would-q">If it stays, would you use it?</p>
+              <div class="grid grid-cols-3 gap-2" role="radiogroup" aria-labelledby="would-q">
+                {wouldUseOptions.map((o) => <label class="relative"><input class="peer sr-only" type="radio" name="wouldUse" value={o.value} /><span class={chip}>{o.label}</span></label>)}
+              </div>
+            </div>
+            <div>
+              <p class={qLabel} id="pay-q">What would you pay per session?</p>
+              <div class="grid grid-cols-3 gap-2 sm:grid-cols-5" role="radiogroup" aria-labelledby="pay-q">
+                {payOptions.map((o) => <label class="relative"><input class="peer sr-only" type="radio" name="pay" value={o.value} /><span class={`${chip} px-1.5`}>{o.value === 'prefer_not' ? 'Skip' : o.label}</span></label>)}
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div>
           <p class={labelCls}>Going to</p>
-          <ul class="flex flex-wrap gap-2" data-recipients aria-live="polite"></ul>
-          <p class="mt-2 font-body text-xs text-[var(--color-grey-500)]" data-recipients-note></p>
+          <p class="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span class="bg-[var(--color-track-blue)] px-3 py-1.5 font-body text-sm text-white">{consultation.to}</span>
+            <span class="font-body text-xs text-[var(--color-grey-500)]">Brent’s leisure team, for {consultation.decisionMaker}, who decides by {consultation.decisionLabel}.</span>
+          </p>
         </div>
 
         <div>
           <label class="block font-heading text-[1.2rem] font-500 leading-[1.25] text-[var(--color-track-blue)]" for="em-personal">Tell Brent how Track Academy has helped your child or family</label>
-          <p class="mt-1 mb-3 font-body text-sm text-[var(--color-grey-700)]">One or two sentences in your own words. This goes into the middle of your email. Councillors read personal emails and skip copied ones.</p>
+          <p class="mt-1 mb-3 font-body text-sm text-[var(--color-grey-700)]">One or two sentences in your own words. This goes into your email. Personal emails get read; copied ones get skimmed.</p>
           <textarea class={input} id="em-personal" name="personal" rows="3" maxlength="600" placeholder="e.g. My daughter started at 11. Training on the indoor track every winter gave her confidence, friends and a mentor she trusts."></textarea>
           <label class="mt-3 flex gap-3 font-body text-sm leading-[1.5] text-[var(--color-grey-700)]">
             <input type="checkbox" id="em-story-ok" class="mt-1 h-4 w-4 shrink-0" />
@@ -185,7 +267,7 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
         </details>
       </form>
 
-      <p class="mt-6 font-body text-sm text-[var(--color-grey-700)]">This opens your own email with everything filled in. Check it, then press send. It goes from you, straight to the councillors above.</p>
+      <p class="mt-6 font-body text-sm text-[var(--color-grey-700)]">This opens your own email with everything filled in. Check it, then press send. It goes from you, straight to Brent’s leisure team.</p>
       <div class="mt-3 grid gap-3 sm:flex sm:flex-wrap sm:items-center">
         <a href="#" class={btn} data-send="mailto">Send from my email app</a>
         <a href="#" class={btnGhost} data-send="gmail" target="_blank" rel="noopener">Gmail</a>
@@ -196,14 +278,14 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
 
       <div class="mt-6 hidden bg-[var(--color-grey-100)] p-6" data-confirm-sent>
         <p class="font-heading text-xl font-500 text-[var(--color-track-blue)]">Did it send?</p>
-        <p class="mt-1 font-body text-[var(--color-grey-700)]">Tell us, so we can show the council how many people wrote.</p>
+        <p class="mt-1 font-body text-[var(--color-grey-700)]">Tell us, so Track Academy can show the council how many users responded.</p>
         <div class="mt-4 flex flex-wrap gap-3">
           <button type="button" class={btn} data-sent-yes>Yes, I sent it</button>
           <button type="button" class={btnGhost} data-sent-no>Not yet</button>
         </div>
       </div>
       <div class="mt-6 hidden border-l-4 border-[var(--color-track-orange)] bg-[var(--color-grey-100)] p-6" data-sent-thanks>
-        <p class="font-heading text-xl font-500 text-[var(--color-track-blue)]">✓ Email sent. Thank you.</p>
+        <p class="font-heading text-xl font-500 text-[var(--color-track-blue)]">✓ Thank you. Your response is with the council.</p>
         <a href="#share" class={`${btn} mt-4`}>Last step: share</a>
       </div>
     </div>
@@ -227,7 +309,7 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
     </div>
   </section>
 
-  <!-- What's being removed: a real winter session (muted, plays only when on screen) -->
+  <!-- What we're fighting for: a real winter session (muted, plays only when on screen) -->
   <section class="bg-[var(--color-track-navy)] text-white">
     <figure class="relative mx-auto max-w-[var(--container-content)]">
       <video
@@ -241,7 +323,7 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
         data-campaign-video
       ></video>
       <figcaption class="px-6 py-5 lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:bg-gradient-to-t lg:from-[var(--color-track-navy)] lg:to-transparent lg:px-8 lg:pb-8 lg:pt-20">
-        <p class="font-heading text-[clamp(1.4rem,3.5vw,2.4rem)] font-500 leading-[1.1]">This is what Brent Council is removing.</p>
+        <p class="font-heading text-[clamp(1.4rem,3.5vw,2.4rem)] font-500 leading-[1.1]">This is what we’re fighting for.</p>
         <p class="mt-2 font-body text-white/80">A winter session on the indoor track at Willesden Sports Centre.</p>
       </figcaption>
     </figure>
@@ -269,7 +351,7 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
         </div>
         <div class="mt-8 border-l-4 border-[var(--color-track-orange)] bg-[var(--color-grey-50)] p-6">
           <p class="font-body text-sm font-600 uppercase tracking-[0.05em] text-[var(--color-grey-500)]">What we’re asking for</p>
-          <p class="mt-2 font-body text-base leading-[1.6] text-[var(--color-grey-900)]">A written, funded, year-round alternative that:</p>
+          <p class="mt-2 font-body text-base leading-[1.6] text-[var(--color-grey-900)]"><strong class="font-600">Keep the indoor track for athletics.</strong> If anything changes, we need a written, funded, year-round alternative with:</p>
           <ol class="mt-3 list-decimal space-y-1 pl-5 font-body text-base leading-[1.6] text-[var(--color-grey-700)]">
             {asks.map((a) => <li>{a}</li>)}
           </ol>
@@ -540,13 +622,14 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
   <section class="bg-[var(--color-grey-100)] py-10">
     <div class="mx-auto max-w-[var(--container-narrow)] space-y-3 px-6 font-body text-sm leading-[1.6] text-[var(--color-grey-500)] lg:px-8">
       <p>Track Academy is a registered charity (1164222). This campaign is about a facility for young people. It is not party political, and we are asking councillors from every party for support.</p>
-      <p>How we use your information: petition names and postcodes are given to Brent Council. Emails to councillors are sent from your own email account. Ward lookups use postcodes.io. To save you retyping, this page remembers your details on this device only. Use “Clear my details” to remove them. The membership survey is anonymous. We delete campaign data six months after the campaign ends. See our <a class="underline" href="/privacy">privacy policy</a>.</p>
+      <p>How we use your information: petition names and postcodes are given to Brent Council. Emails to the council are sent from your own email account; we keep your answers to the questions (not your name or email) so Track Academy can report totals. Ward lookups use postcodes.io. To save you retyping, this page remembers your details on this device only. Use “Clear my details” to remove them. The membership survey is anonymous. We delete campaign data six months after the campaign ends. See our <a class="underline" href="/privacy">privacy policy</a>.</p>
     </div>
   </section>
 </BaseLayout>
 
 <script>
-  import { campaign, primaryTargets, wardCouncillors, emailOpeners, emailSubjects, emailBody } from '../../data/campaign';
+  import { campaign } from '../../data/campaign';
+  import { consultation, subjects, buildEmail, type Answers } from '../../data/consultation';
   import { insert, rpc, getRef, getSessionId, lookupPostcode, supabaseReady, type PostcodeInfo } from '../../lib/campaign-client';
   import { storyCard, roughCount } from '../../lib/story-wall';
 
@@ -559,7 +642,8 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
 
   // ================= Remembered details ("me") =================
   // Typed once, carried into every later form, kept on this device so a return visit is pre-filled.
-  type Me = { name?: string; email?: string; postcode?: string; relationship?: string; signed?: boolean; emailed?: boolean; signedAt?: string; line?: string };
+  // emailed = wrote to councillors (Oct); consulted = responded to the council's consultation (Nov).
+  type Me = { name?: string; email?: string; postcode?: string; relationship?: string; signed?: boolean; emailed?: boolean; consulted?: boolean; signedAt?: string; line?: string; story?: string };
   const STORE = 'ptt_me';
   let me: Me = {};
   try { me = JSON.parse(localStorage.getItem(STORE) || '{}'); } catch {}
@@ -603,7 +687,6 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
 
   // ================= Postcode -> ward =================
   const norm = (w: string) => w.toLowerCase().replace(/&/g, 'and').replace(/[^a-z]/g, '');
-  const wardIndex = new Map(Object.entries(wardCouncillors).map(([w, list]) => [norm(w), list]));
   let pc: PostcodeInfo | null = null;
   let pcTimer: number | undefined;
   function schedulePostcode(v: string) {
@@ -643,79 +726,109 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
     markStep('sign', true);
   }
 
-  // ================= Email builder =================
-  const subject = emailSubjects[Math.floor(Math.random() * emailSubjects.length)];
-  const nameByEmail = new Map<string, string>();
-  for (const t of primaryTargets) nameByEmail.set(t.email.toLowerCase(), t.name);
-  for (const list of Object.values(wardCouncillors)) for (const c of list) nameByEmail.set(c.email.toLowerCase(), c.name);
+  // ================= Email builder (consultation: leisure@brent.gov.uk) =================
+  const subject = subjects[Math.floor(Math.random() * subjects.length)];
+  const emailForm = $<HTMLFormElement>('#email-form');
+  const REL_TO_RESPONDENT: Record<string, string> = {
+    parent: 'parent', athlete: 'athlete', alumni: 'athlete', coach_volunteer: 'coach', club_member: 'athlete', resident: 'resident', other: 'other',
+  };
+  const fv = (name: string) => ((emailForm.elements.namedItem(name) as RadioNodeList | HTMLInputElement | null)?.value ?? '').trim();
+  /** 'school' or 'club' when someone is responding for an organisation, otherwise ''. */
+  const orgType = () => (fv('organisation') ? (fv('orgType') || 'club') : '');
 
-  function recipients() {
-    const to = primaryTargets.map((t) => t.email);
-    const cc = pc?.inBrent && pc.ward
-      ? (wardIndex.get(norm(pc.ward)) ?? []).map((c) => c.email).filter((e) => !to.some((t) => t.toLowerCase() === e.toLowerCase()))
-      : [];
-    return { to, cc };
+  function answers(): Answers {
+    const org = orgType();
+    return {
+      name: me.name || '',
+      postcode: pc?.postcode ?? (me.postcode || '').toUpperCase(),
+      ward: pc?.inBrent ? pc.ward : null,
+      respondent: org || REL_TO_RESPONDENT[me.relationship || ''] || 'other',
+      organisation: fv('organisation'),
+      role: fv('role'),
+      used: fv('used') || undefined,
+      frequency: fv('frequency') || undefined,
+      days: $$<HTMLInputElement>('input[name=days]:checked', emailForm).map((i) => i.value),
+      wouldUse: fv('wouldUse') || undefined,
+      pay: fv('pay') || undefined,
+      orgHours: fv('orgHours'),
+      orgYoungPeople: fv('orgYoungPeople'),
+      ownWords: ($('#em-personal') as HTMLTextAreaElement).value,
+    };
   }
 
   function current() {
-    const rel = me.relationship || 'other';
-    const personal = ($('#em-personal') as HTMLTextAreaElement).value.trim();
-    const place = pc ? (pc.inBrent && pc.ward ? `${pc.ward} ward (${pc.postcode})` : pc.postcode) : '';
-    const body = emailBody({
-      opener: emailOpeners[rel] ?? emailOpeners.other,
-      place,
-      personal,
-      name: me.name || '',
-      postcode: pc?.postcode ?? (me.postcode || '').toUpperCase(),
-    });
-    return { rel, body, ...recipients() };
+    const a = answers();
+    return { rel: me.relationship || 'other', a, body: buildEmail(a), to: [consultation.to] };
+  }
+
+  function syncQuestions() {
+    const org = orgType();
+    const used = fv('used');
+    $('[data-frequency]').classList.toggle('hidden', !(used === 'this_year' || used === 'before'));
+    $('[data-individual]').classList.toggle('hidden', Boolean(org));
+    $('[data-q-used]').textContent = org === 'school' ? 'Has your school used the indoor track?'
+      : org ? 'Has your club or group used the indoor track?'
+      : me.relationship === 'parent' ? 'Has your child used the indoor track?' : 'Have you used the indoor track?';
   }
 
   // Collapse "who it's from" to a summary only once we know them (after signing / on return), never mid-typing.
   let showSummary = false;
   function renderEmail() {
-    const { body, to, cc } = current();
-    // Who it's from
     $('[data-identity-summary]').hidden = !showSummary;
     $('[data-identity-fields]').hidden = showSummary;
     $('[data-summary-name]').textContent = me.name || '';
     $('[data-summary-place]').textContent = pc?.inBrent && pc.ward ? `${pc.ward}, ${pc.postcode}` : (pc?.postcode ?? (me.postcode || '').toUpperCase());
-    // Recipients as name chips
-    const chip = (email: string, primary: boolean) => {
-      const li = document.createElement('li');
-      li.className = primary
-        ? 'bg-[var(--color-track-blue)] px-3 py-1.5 font-body text-sm text-white'
-        : 'border border-[var(--color-grey-300)] bg-white px-3 py-1.5 font-body text-sm text-[var(--color-grey-900)]';
-      li.textContent = nameByEmail.get(email.toLowerCase()) ?? email;
-      li.title = email;
-      return li;
-    };
-    $('[data-recipients]').replaceChildren(...to.map((e) => chip(e, true)), ...cc.map((e) => chip(e, false)));
-    $('[data-recipients-note]').textContent = cc.length
-      ? `The two Cabinet members, plus your ${pc?.ward} ward councillors, who represent you.`
-      : pc && !pc.inBrent
-        ? 'The two Cabinet members responsible. (You’re outside Brent, so no ward councillors are added.)'
-        : 'The two Cabinet members responsible. Add a Brent postcode to include your own ward councillors.';
+    syncQuestions();
     $('[data-subject]').textContent = subject;
-    $('[data-body]').textContent = body;
+    $('[data-body]').textContent = current().body;
   }
+  emailForm.addEventListener('change', renderEmail);
+  emailForm.addEventListener('input', renderEmail);
   $('[data-identity-edit]').addEventListener('click', () => {
     showSummary = false;
     renderEmail();
     $('#em-name').focus();
   });
   $('#em-personal').addEventListener('input', (e) => {
-    // Kept on this device so the consultation page (have-your-say) can reuse it.
+    // Kept on this device so a return visit keeps their words.
     me.line = (e.target as HTMLTextAreaElement).value;
     save();
     renderEmail();
   });
 
   function logEmail(action: 'email_opened' | 'email_sent', method: string) {
-    const { rel, to, cc } = current();
+    const { rel } = current();
     insert('campaign_actions', {
       action, method, ref, session_id: sid, relationship: rel,
-      ward: pc?.inBrent ? pc.ward : null, in_brent: pc?.inBrent ?? null, recipients: to.length + cc.length,
+      ward: pc?.inBrent ? pc.ward : null, in_brent: pc?.inBrent ?? null, recipients: 1,
+    });
+  }
+
+  /** Records the answers (never name or email) once per response, so Track Academy can report totals. */
+  let responseId: string | null = null;
+  function recordResponse(method: string) {
+    if (responseId) return;
+    const a = answers();
+    const org = orgType();
+    responseId = crypto.randomUUID();
+    insert('consultation_responses', {
+      id: responseId,
+      respondent: a.respondent,
+      organisation: org ? a.organisation || null : null,
+      used_track: a.used ?? null,
+      frequency: a.frequency ?? null,
+      days: a.days,
+      would_use: org ? null : a.wouldUse ?? null,
+      pay: org ? 'would_book' : a.pay ?? null,
+      keep_track: true,
+      org_hours_per_week: org && Number(a.orgHours) > 0 ? Number(a.orgHours) : null,
+      org_young_people: org && Number(a.orgYoungPeople) > 0 ? Math.round(Number(a.orgYoungPeople)) : null,
+      has_own_words: Boolean(a.ownWords && a.ownWords.trim()),
+      postcode_district: pc?.outward ?? null,
+      ward: pc?.inBrent ? pc.ward : null,
+      in_brent: pc?.inBrent ?? null,
+      returning_signer: Boolean(me.signed),
+      method, ref, session_id: sid,
     });
   }
 
@@ -768,30 +881,26 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
         renderEmail();
         const missing = !me.name ? '#em-name' : '#em-postcode';
         $(missing).focus();
-        $('[data-copy-note]').textContent = 'Add your name and postcode first. Councillors only act on emails from real residents.';
+        $('[data-copy-note]').textContent = 'Add your name and postcode first, so the council knows you’re a real user.';
         return;
       }
-      const { body, to, cc } = current();
-      const bcc = campaign.bccInbox ? [campaign.bccInbox] : [];
+      const { body, to } = current();
       if (method === 'mailto') {
-        (el as HTMLAnchorElement).href =
-          `mailto:${to.join(',')}?subject=${enc(subject)}&body=${enc(body)}` +
-          (cc.length ? `&cc=${cc.join(',')}` : '') + (bcc.length ? `&bcc=${bcc.join(',')}` : '');
+        (el as HTMLAnchorElement).href = `mailto:${to.join(',')}?subject=${enc(subject)}&body=${enc(body)}`;
       } else if (method === 'gmail') {
-        (el as HTMLAnchorElement).href =
-          `https://mail.google.com/mail/?view=cm&fs=1&to=${enc(to.join(','))}&cc=${enc(cc.join(','))}&bcc=${enc(bcc.join(','))}&su=${enc(subject)}&body=${enc(body)}`;
+        (el as HTMLAnchorElement).href = `https://mail.google.com/mail/?view=cm&fs=1&to=${enc(to.join(','))}&su=${enc(subject)}&body=${enc(body)}`;
       } else if (method === 'outlook') {
-        (el as HTMLAnchorElement).href =
-          `https://outlook.live.com/mail/0/deeplink/compose?to=${enc(to.join(';'))}&cc=${enc(cc.join(';'))}&bcc=${enc(bcc.join(';'))}&subject=${enc(subject)}&body=${enc(body)}`;
+        (el as HTMLAnchorElement).href = `https://outlook.live.com/mail/0/deeplink/compose?to=${enc(to.join(';'))}&subject=${enc(subject)}&body=${enc(body)}`;
       }
       lastMethod = method;
       logEmail('email_opened', method);
+      recordResponse(method);
       saveLineAsStory();
       setTimeout(() => $('[data-confirm-sent]').classList.remove('hidden'), 1500);
       if (method === 'copy') {
-        const ok = await copyText(`To: ${to.join(', ')}${cc.length ? `\nCc: ${cc.join(', ')}` : ''}\nSubject: ${subject}\n\n${body}`);
+        const ok = await copyText(`To: ${to.join(', ')}\nSubject: ${subject}\n\n${body}`);
         $('[data-copy-note]').textContent = ok
-          ? 'Copied, with the addresses. Paste into a new email and send.'
+          ? `Copied. Paste it into a new email to ${consultation.to} and send.`
           : 'Couldn’t copy automatically. Open “Preview the full email” and copy it from there.';
       } else {
         $('[data-copy-note]').textContent = '';
@@ -805,7 +914,8 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
   }
   $('[data-sent-yes]').addEventListener('click', () => {
     logEmail('email_sent', lastMethod);
-    me.emailed = true;
+    if (responseId) rpc('consultation_mark_sent', { response_id: responseId, sid }).catch(() => {});
+    me.consulted = true;
     save();
     showEmailed();
   });
@@ -1094,15 +1204,60 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
     }
   }
 
+  // ================= Countdown to the consultation deadline =================
+  const deadline = new Date(consultation.deadlineISO).getTime();
+  function tick() {
+    const ms = deadline - Date.now();
+    const el = $('[data-left]');
+    if (ms <= 0) { el.textContent = 'Responses have closed'; return; }
+    const d = Math.floor(ms / 864e5), h = Math.floor((ms % 864e5) / 36e5), m = Math.floor((ms % 36e5) / 6e4);
+    const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? '' : 's'}`;
+    el.textContent = d >= 2 ? `${plural(d, 'day')} left`
+      : d === 1 ? `1 day${h ? `, ${plural(h, 'hour')}` : ''} left`
+      : h > 0 ? `${plural(h, 'hour')}${m ? ` ${m} min` : ''} left` : `${plural(m, 'minute')} left`;
+  }
+  tick();
+  setInterval(tick, 30000);
+
+  // ================= Personal link (?k=token) =================
+  // Signers' emails carry a private link that fills in their details and earlier words on any device.
+  // No fingerprinting: the token is unguessable and removed from the address bar after use.
+  async function recognise() {
+    const params = new URLSearchParams(location.search);
+    const token = params.get('k');
+    if (!token) return false;
+    let found = false;
+    if (/^[0-9a-f-]{36}$/i.test(token)) {
+      try {
+        const r = await rpc<{ full_name: string; email: string; postcode: string; relationship: string; signed_at: string; story: string | null } | null>('campaign_lookup', { token });
+        if (r && r.full_name) {
+          me = { ...me, name: r.full_name, email: r.email, postcode: r.postcode, relationship: r.relationship, signed: true, signedAt: r.signed_at, story: r.story ?? me.story };
+          save();
+          found = true;
+        }
+      } catch { /* not recognised: carry on as a new visitor */ }
+    }
+    params.delete('k');
+    history.replaceState(null, '', `${location.pathname}${params.toString() ? `?${params}` : ''}${location.hash}`);
+    return found;
+  }
+
   // ================= Start-up =================
-  fillAll();
-  if (me.postcode) resolvePostcode(me.postcode);
-  showSummary = Boolean(me.signed && me.name && me.postcode);
-  if (me.signed) showSigned(me.name ? `You’ve signed, ${firstName(me.name)}. Thank you.` : undefined);
-  if (me.emailed) showEmailed();
-  if (me.email) $('[data-story-contact]').textContent = `We’ll contact you at ${me.email} if we need to check anything.`;
-  // Returning signers (e.g. from a reminder email linking to #email) land on step 2.
-  if (me.signed && !me.emailed && !location.hash) $('#email').scrollIntoView();
-  renderEmail();
-  loadStats();
+  (async () => {
+    const viaLink = await recognise();
+    fillAll();
+    if (me.postcode) resolvePostcode(me.postcode);
+    showSummary = Boolean(me.signed && me.name && me.postcode);
+    if (me.signed) showSigned(me.name ? `You’ve signed, ${firstName(me.name)}. Thank you.` : undefined);
+    if (me.consulted) showEmailed();
+    const words = me.line || me.story;
+    const personal = $('#em-personal') as HTMLTextAreaElement;
+    if (words && !personal.value) personal.value = words;
+    if (me.email) $('[data-story-contact]').textContent = `We’ll contact you at ${me.email} if we need to check anything.`;
+    renderEmail();
+    loadStats();
+    // Returning signers (personal link, or a reminder linking here) land on step 2.
+    // Small delay so images above have laid out and the jump lands in the right place.
+    if (me.signed && !me.consulted && (viaLink || !location.hash)) setTimeout(() => $('#email').scrollIntoView(), 400);
+  })();
 </script>
