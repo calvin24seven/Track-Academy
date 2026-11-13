@@ -1,0 +1,699 @@
+---
+/**
+ * /protect-brent-athletics/have-your-say — consultation phase (v2 of the campaign page).
+ * One job: help users send a specific, personal representation to leisure@brent.gov.uk before
+ * 5pm Fri 20 Nov 2026. Returning signers are recognised by their personal link (?k=) or, on the
+ * same device, by what the campaign page stored locally. No fingerprinting.
+ * Copy and email wording: src/data/consultation.ts
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import TrackPhoto from '../../assets/campaign/indoor-christmas-session.jpg';
+import {
+  consultation, respondentOptions, usedOptions, frequencyOptions, dayOptions, wouldUseOptions, payOptions,
+} from '../../data/consultation';
+import { campaign } from '../../data/campaign';
+
+const seo = {
+  title: 'Have your say on the indoor track | Protect Brent Athletics',
+  description:
+    'Brent Council has paused its plan to turn the Willesden indoor track into a gym. Tell the council how you use the track before 5pm Friday 20 November.',
+};
+
+// Shared class strings (one design language across the page).
+const field =
+  'w-full border border-[var(--color-grey-300)] bg-white px-4 py-3 font-body text-base text-[var(--color-grey-900)] placeholder:text-[var(--color-grey-500)] transition-colors focus:border-[var(--color-track-blue)] focus:outline-none focus:ring-2 focus:ring-[var(--color-track-orange)]/40';
+const label = 'mb-2 block font-body text-sm font-600 text-[var(--color-grey-900)]';
+const hint = 'mt-1.5 font-body text-[0.8125rem] leading-[1.5] text-[var(--color-grey-500)]';
+const legend = 'mb-3 font-body text-sm font-600 text-[var(--color-grey-900)]';
+// Selectable "chip": a real radio/checkbox, visually styled through the peer variant.
+const chipText =
+  'flex min-h-11 cursor-pointer items-center justify-center border border-[var(--color-grey-300)] bg-white px-4 py-2.5 text-center font-body text-sm font-500 text-[var(--color-grey-900)] transition-[border-color,background-color,color] duration-150 hover:border-[var(--color-track-blue)] peer-checked:border-[var(--color-track-blue)] peer-checked:bg-[var(--color-track-blue)] peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-[var(--color-track-orange)] peer-focus-visible:ring-offset-2';
+const btnPrimary =
+  'inline-flex min-h-12 items-center justify-center gap-2 bg-[var(--color-track-orange)] px-7 py-3.5 font-body text-sm font-semibold uppercase tracking-[0.04em] text-white transition-[background-color,transform] duration-150 hover:bg-[var(--color-accent-dark)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50';
+const btnSecondary =
+  'inline-flex min-h-12 items-center justify-center border-2 border-[var(--color-track-blue)] px-6 py-3 font-body text-sm font-semibold uppercase tracking-[0.04em] text-[var(--color-track-blue)] transition-colors duration-150 hover:bg-[var(--color-track-blue)] hover:text-white';
+const textLink =
+  'font-body text-sm font-600 text-[var(--color-track-blue)] underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4 hover:decoration-[var(--color-track-blue)]';
+---
+
+<BaseLayout {...seo} hideNewsletterPopup hideMobileCta hideCampaignBanner>
+  <!-- ============ HERO ============ -->
+  <section class="tracked-surface relative overflow-hidden bg-[var(--color-track-navy)] text-white">
+    <div class="mx-auto grid max-w-[var(--container-content)] gap-10 px-6 pb-14 pt-[7.5rem] sm:pt-32 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:px-8 lg:pb-20 lg:pt-40">
+      <div class="flex flex-col justify-center">
+        <p class="inline-flex w-fit items-center gap-2.5 border border-white/20 bg-white/[0.06] px-3 py-1.5 font-body text-xs font-semibold uppercase tracking-[0.1em] text-white/90">
+          <span class="h-2 w-2 rounded-full bg-[var(--color-track-gold)]" aria-hidden="true"></span>
+          <span class="sm:hidden">Paused · Decision by 25 Nov</span>
+          <span class="hidden sm:inline">Works paused · Decision by {consultation.decisionLabel}</span>
+        </p>
+
+        <!-- Shown when we recognise a returning signer -->
+        <p class="mt-6 hidden font-body text-base text-[var(--color-track-gold)]" data-welcome></p>
+
+        <h1 class="mt-5 font-heading text-[clamp(2.4rem,5.6vw,4.4rem)] font-500 leading-[1.02] tracking-[-0.03em]">
+          Brent is listening. Tell them why the track matters.
+        </h1>
+        <p class="mt-6 max-w-[34rem] font-body text-[clamp(1.05rem,1.5vw,1.2rem)] leading-[1.6] text-white/85">
+          The council has paused its plan to turn the indoor track into a gym and asked users to respond before it decides. Your email goes straight to the council. It takes two minutes.
+        </p>
+
+        <div class="mt-8 flex flex-col gap-5 sm:flex-row sm:items-center">
+          <a href="#respond" class={`${btnPrimary} shrink-0 whitespace-nowrap`} data-hero-cta>Write your response</a>
+          <div class="border-l-2 border-[var(--color-track-gold)] pl-4 font-body" data-countdown>
+            <p class="text-[0.8125rem] text-white/70">Closes {consultation.deadlineLabel}</p>
+            <p class="mt-0.5 text-base font-600 tabular-nums text-white" data-left></p>
+          </div>
+        </div>
+      </div>
+
+      <figure class="relative hidden lg:block">
+        <Image
+          src={TrackPhoto}
+          alt="Young athletes gathered on the indoor track at Willesden Sports Centre at a winter session"
+          widths={[480, 720, 960]}
+          sizes="40vw"
+          class="aspect-[4/5] h-auto w-full object-cover object-[50%_70%]"
+          loading="eager"
+        />
+        <figcaption class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[var(--color-track-navy)]/90 to-transparent px-5 pb-4 pt-12 font-body text-sm text-white/85">
+          The indoor track, Willesden Sports Centre
+        </figcaption>
+      </figure>
+    </div>
+    <div class="lane-line absolute bottom-0 left-0 right-0"></div>
+  </section>
+
+  <!-- ============ WHAT'S CHANGED ============ -->
+  <section class="bg-white py-[clamp(3rem,7vw,5rem)]" aria-labelledby="changed-heading">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <h2 id="changed-heading" class="font-body text-sm font-semibold uppercase tracking-[0.08em] text-[var(--color-track-orange)]">What’s changed</h2>
+      <ol class="mt-6 grid gap-px overflow-hidden border border-[var(--color-grey-100)] bg-[var(--color-grey-100)] md:grid-cols-3">
+        <li class="bg-white p-6 lg:p-8">
+          <p class="font-heading text-[1.6rem] font-500 leading-none text-[var(--color-track-blue)] tabular-nums">01</p>
+          <h3 class="mt-4 font-heading text-[1.25rem] font-500 leading-[1.2] text-[var(--color-grey-900)]">The decision is open again</h3>
+          <p class="mt-2 font-body text-[0.95rem] leading-[1.6] text-[var(--color-grey-700)]">Brent has withdrawn its earlier decision. {consultation.decisionMaker} will decide by {consultation.decisionLabel}.</p>
+        </li>
+        <li class="bg-white p-6 lg:p-8">
+          <p class="font-heading text-[1.6rem] font-500 leading-none text-[var(--color-track-blue)] tabular-nums">02</p>
+          <h3 class="mt-4 font-heading text-[1.25rem] font-500 leading-[1.2] text-[var(--color-grey-900)]">Users are invited to respond</h3>
+          <p class="mt-2 font-body text-[0.95rem] leading-[1.6] text-[var(--color-grey-700)]">Current and recent users, clubs and schools can email <span class="whitespace-nowrap font-600">{consultation.to}</span> by {consultation.deadlineLabel}.</p>
+        </li>
+        <li class="bg-white p-6 lg:p-8">
+          <p class="font-heading text-[1.6rem] font-500 leading-none text-[var(--color-track-blue)] tabular-nums">03</p>
+          <h3 class="mt-4 font-heading text-[1.25rem] font-500 leading-[1.2] text-[var(--color-grey-900)]">Real use is what counts</h3>
+          <p class="mt-2 font-body text-[0.95rem] leading-[1.6] text-[var(--color-grey-700)]">The council cites about 6.5 hours a week of formal bookings. Tell them how the track is really used, and would be.</p>
+        </li>
+      </ol>
+      <p class="mt-4 font-body text-sm text-[var(--color-grey-500)]">
+        Read the council’s proposals on <a href={consultation.councilPage} target="_blank" rel="noopener" class={textLink}>brent.gov.uk</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ RESPONSE BUILDER ============ -->
+  <section id="respond" class="scroll-mt-24 bg-[var(--color-paper)] py-[clamp(3rem,7vw,5.5rem)]" aria-labelledby="respond-heading">
+    <div class="mx-auto max-w-3xl px-6 lg:px-8">
+      <div class="mb-8">
+        <h2 id="respond-heading" class="font-heading text-[clamp(1.75rem,4vw,2.6rem)] font-500 leading-[1.08] tracking-[-0.015em] text-[var(--color-track-blue)]">Write your response</h2>
+        <p class="mt-3 font-body text-lg leading-[1.6] text-[var(--color-grey-700)]">Answer a few questions and we’ll write it with you. You check it, then send it from your own email.</p>
+      </div>
+
+      <!-- Already responded on this device -->
+      <div class="mb-6 hidden border-l-4 border-[var(--color-success)] bg-white p-5 font-body text-[var(--color-grey-700)]" data-already>
+        <p class="font-600 text-[var(--color-grey-900)]">You’ve already sent a response. Thank you.</p>
+        <p class="mt-1 text-sm">You can send another, for example on behalf of a club or school.</p>
+      </div>
+
+      <form id="builder" class="bg-white shadow-[0_1px_0_rgba(17,29,136,0.06),0_20px_50px_-20px_rgba(17,29,136,0.18)]" novalidate>
+        <!-- Progress -->
+        <div class="border-b border-[var(--color-grey-100)] px-6 pb-5 pt-6 sm:px-8">
+          <div class="flex items-baseline justify-between gap-4 font-body text-sm">
+            <p class="font-600 text-[var(--color-grey-900)]" data-step-title aria-live="polite">About you</p>
+            <p class="tabular-nums text-[var(--color-grey-500)]"><span data-step-num>1</span> of 3</p>
+          </div>
+          <div class="mt-3 grid grid-cols-3 gap-1.5" aria-hidden="true">
+            <span class="h-1 bg-[var(--color-track-orange)] transition-colors" data-step-bar="1"></span>
+            <span class="h-1 bg-[var(--color-grey-100)] transition-colors" data-step-bar="2"></span>
+            <span class="h-1 bg-[var(--color-grey-100)] transition-colors" data-step-bar="3"></span>
+          </div>
+        </div>
+
+        <!-- STEP 1: About you -->
+        <fieldset class="px-6 py-7 sm:px-8" data-step="1">
+          <legend class="sr-only">About you</legend>
+
+          <div>
+            <p class={legend} id="respondent-legend">Which best describes you?</p>
+            <div class="grid grid-cols-1 gap-2 sm:grid-cols-2" role="radiogroup" aria-labelledby="respondent-legend">
+              {respondentOptions.map((o) => (
+                <label class="relative">
+                  <input class="peer sr-only" type="radio" name="respondent" value={o.value} required />
+                  <span class={`${chipText} justify-start text-left`}>{o.label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div class="mt-6 hidden grid-cols-1 gap-4 sm:grid-cols-2" data-org-fields>
+            <div>
+              <label class={label} for="organisation" data-org-label>Name of your club or school</label>
+              <input class={field} id="organisation" name="organisation" maxlength="160" autocomplete="organization" />
+            </div>
+            <div>
+              <label class={label} for="role">Your role</label>
+              <input class={field} id="role" name="role" maxlength="80" placeholder="e.g. Head of PE, Club secretary" autocomplete="organization-title" />
+            </div>
+          </div>
+
+          <div class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label class={label} for="name">Your name</label>
+              <input class={field} id="name" name="name" autocomplete="name" maxlength="120" required />
+            </div>
+            <div>
+              <label class={label} for="postcode">Postcode</label>
+              <input class={field} id="postcode" name="postcode" autocomplete="postal-code" autocapitalize="characters" maxlength="10" required />
+              <p class={hint} data-ward-note aria-live="polite"></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- STEP 2: You and the track -->
+        <fieldset class="hidden px-6 py-7 sm:px-8" data-step="2">
+          <legend class="sr-only">You and the track</legend>
+
+          <div>
+            <p class={legend} id="used-legend"><span data-q-used>Have you used the indoor track?</span></p>
+            <div class="grid grid-cols-3 gap-2" role="radiogroup" aria-labelledby="used-legend">
+              {usedOptions.map((o) => (
+                <label class="relative"><input class="peer sr-only" type="radio" name="used" value={o.value} /><span class={chipText}>{o.label}</span></label>
+              ))}
+            </div>
+          </div>
+
+          <div class="mt-6 hidden" data-frequency>
+            <p class={legend} id="freq-legend">How often, in winter?</p>
+            <div class="grid grid-cols-1 gap-2 sm:grid-cols-3" role="radiogroup" aria-labelledby="freq-legend">
+              {frequencyOptions.map((o) => (
+                <label class="relative"><input class="peer sr-only" type="radio" name="frequency" value={o.value} /><span class={chipText}>{o.label}</span></label>
+              ))}
+            </div>
+          </div>
+
+          <div class="mt-6">
+            <p class={legend} id="days-legend">When do you (or would you) use it? <span class="font-400 text-[var(--color-grey-500)]">Pick any</span></p>
+            <div class="grid grid-cols-2 gap-2 sm:grid-cols-4" role="group" aria-labelledby="days-legend">
+              {dayOptions.map((o) => (
+                <label class="relative"><input class="peer sr-only" type="checkbox" name="days" value={o.value} /><span class={chipText}>{o.label}</span></label>
+              ))}
+            </div>
+          </div>
+
+          <!-- Individuals -->
+          <div data-individual>
+            <div class="mt-6">
+              <p class={legend} id="would-legend">If the track is kept, would you use it?</p>
+              <div class="grid grid-cols-3 gap-2" role="radiogroup" aria-labelledby="would-legend">
+                {wouldUseOptions.map((o) => (
+                  <label class="relative"><input class="peer sr-only" type="radio" name="wouldUse" value={o.value} /><span class={chipText}>{o.label}</span></label>
+                ))}
+              </div>
+            </div>
+            <div class="mt-6">
+              <p class={legend} id="pay-legend">What would you pay per session?</p>
+              <div class="grid grid-cols-2 gap-2 sm:grid-cols-5" role="radiogroup" aria-labelledby="pay-legend">
+                {payOptions.map((o) => (
+                  <label class="relative"><input class="peer sr-only" type="radio" name="pay" value={o.value} /><span class={chipText}>{o.label}</span></label>
+                ))}
+              </div>
+              <p class={hint}>Shows the council there’s paying demand it hasn’t counted.</p>
+            </div>
+          </div>
+
+          <!-- Clubs and schools -->
+          <div class="mt-6 hidden grid-cols-1 gap-4 sm:grid-cols-2" data-org-use>
+            <div>
+              <label class={label} for="orgHours">Hours a week you’d book</label>
+              <input class={field} id="orgHours" name="orgHours" type="number" inputmode="decimal" min="0" max="80" step="0.5" placeholder="e.g. 3" />
+            </div>
+            <div>
+              <label class={label} for="orgYoungPeople">Young people involved</label>
+              <input class={field} id="orgYoungPeople" name="orgYoungPeople" type="number" inputmode="numeric" min="0" max="5000" placeholder="e.g. 60" />
+            </div>
+            <p class={`${hint} sm:col-span-2 -mt-2`}>Booking intentions are the strongest evidence against the “6.5 hours a week” figure.</p>
+          </div>
+        </fieldset>
+
+        <!-- STEP 3: Your email -->
+        <fieldset class="hidden px-6 py-7 sm:px-8" data-step="3">
+          <legend class="sr-only">Your email</legend>
+
+          <div>
+            <label class={label} for="ownWords">In your own words <span class="font-400 text-[var(--color-grey-500)]">(optional, but it’s what gets read)</span></label>
+            <textarea class={`${field} min-h-[7.5rem] leading-[1.6]`} id="ownWords" name="ownWords" maxlength="1200" placeholder="What has the indoor track meant to you, your family or your club?"></textarea>
+            <p class={`${hint} hidden`} data-own-words-note>We’ve added what you told us before. Edit it or write something new.</p>
+          </div>
+
+          <div class="mt-7 border border-[var(--color-grey-300)]">
+            <dl class="divide-y divide-[var(--color-grey-100)] border-b border-[var(--color-grey-300)] font-body text-sm">
+              <div class="flex gap-3 px-4 py-2.5"><dt class="w-16 shrink-0 text-[var(--color-grey-500)]">To</dt><dd class="font-600 text-[var(--color-grey-900)]">{consultation.to}</dd></div>
+              <div class="flex gap-3 px-4 py-2.5"><dt class="w-16 shrink-0 text-[var(--color-grey-500)]">Subject</dt><dd class="text-[var(--color-grey-900)]" data-subject></dd></div>
+            </dl>
+            <label for="body" class="sr-only">Email to send</label>
+            <textarea id="body" class="block min-h-[22rem] w-full resize-y border-0 bg-[var(--color-grey-50)] px-4 py-4 font-body text-[0.95rem] leading-[1.65] text-[var(--color-grey-900)] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[var(--color-track-orange)]/40" data-body spellcheck="true"></textarea>
+            <div class="flex items-center justify-between gap-3 border-t border-[var(--color-grey-100)] px-4 py-2 font-body text-xs text-[var(--color-grey-500)]">
+              <span>You can edit the email directly.</span>
+              <button type="button" class="hidden font-600 text-[var(--color-track-blue)] underline underline-offset-2" data-reset-body>Reset wording</button>
+            </div>
+          </div>
+
+          <p class="mt-4 font-body text-[0.8125rem] leading-[1.5] text-[var(--color-grey-500)]">
+            The email is sent from your own account. We keep a record of your answers (not your name or email) so Track Academy can tell the council how many users responded.
+          </p>
+        </fieldset>
+
+        <!-- Footer actions -->
+        <div class="flex flex-col-reverse gap-3 border-t border-[var(--color-grey-100)] px-6 py-5 sm:flex-row sm:items-center sm:justify-between sm:px-8" data-nav>
+          <button type="button" class={`${textLink} invisible self-start sm:self-auto`} data-back>← Back</button>
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+            <p class="font-body text-sm text-[var(--color-error)]" data-error aria-live="assertive"></p>
+            <button type="button" class={btnPrimary} data-next>Continue</button>
+          </div>
+        </div>
+
+        <!-- Send (step 3) -->
+        <div class="hidden border-t border-[var(--color-grey-100)] px-6 py-6 sm:px-8" data-send-panel>
+          <div class="grid gap-3 sm:grid-cols-[1fr_auto_auto]">
+            <a href="#" class={btnPrimary} data-send="mailto">Send from my email app</a>
+            <a href="#" class={btnSecondary} data-send="gmail" target="_blank" rel="noopener">Gmail</a>
+            <a href="#" class={btnSecondary} data-send="outlook" target="_blank" rel="noopener">Outlook</a>
+          </div>
+          <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+            <button type="button" class={textLink} data-back-2>← Back</button>
+            <button type="button" class={textLink} data-send="copy">Copy the email instead</button>
+          </div>
+          <p class="mt-3 font-body text-sm text-[var(--color-grey-700)]" data-copy-note aria-live="polite"></p>
+
+          <div class="mt-5 hidden border-l-4 border-[var(--color-track-orange)] bg-[var(--color-grey-50)] p-5" data-confirm>
+            <p class="font-heading text-lg font-500 text-[var(--color-track-blue)]">Did it send?</p>
+            <p class="mt-1 font-body text-sm text-[var(--color-grey-700)]">Let us know, so Track Academy can count it.</p>
+            <div class="mt-4 flex flex-wrap gap-3">
+              <button type="button" class={btnPrimary} data-sent-yes>Yes, it’s sent</button>
+              <button type="button" class={btnSecondary} data-sent-no>Not yet</button>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- Success -->
+      <div class="hidden bg-white p-8 text-center shadow-[0_20px_50px_-20px_rgba(17,29,136,0.18)] sm:p-12" data-success tabindex="-1">
+        <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--color-success)] text-2xl text-white" aria-hidden="true">✓</div>
+        <h3 class="mt-5 font-heading text-[clamp(1.5rem,3vw,2rem)] font-500 text-[var(--color-track-blue)]">Thank you. It’s with the council.</h3>
+        <p class="mx-auto mt-3 max-w-md font-body text-[var(--color-grey-700)]">One more thing that helps most: send this page to someone else who uses the track, especially a school or club.</p>
+        <div class="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+          <a href="#" class={btnPrimary} data-share="whatsapp" target="_blank" rel="noopener">Share on WhatsApp</a>
+          <button type="button" class={btnSecondary} data-share="copy">Copy link</button>
+        </div>
+        <button type="button" class={`${textLink} mt-6`} data-another>Send another response</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SCHOOLS & CLUBS ============ -->
+  <section class="bg-white py-[clamp(3rem,7vw,5rem)]" aria-labelledby="orgs-heading">
+    <div class="mx-auto grid max-w-[var(--container-content)] items-center gap-8 px-6 lg:grid-cols-[1fr_auto] lg:px-8">
+      <div class="max-w-2xl">
+        <h2 id="orgs-heading" class="font-heading text-[clamp(1.5rem,3.5vw,2.2rem)] font-500 leading-[1.1] text-[var(--color-track-blue)]">Run a school, club or group?</h2>
+        <p class="mt-3 font-body text-lg leading-[1.6] text-[var(--color-grey-700)]">A short note saying how many hours a week you would book is the strongest evidence the council can receive. Heads of PE and club secretaries: it takes two minutes.</p>
+      </div>
+      <button type="button" class={btnSecondary} data-org-start>Respond for an organisation</button>
+    </div>
+  </section>
+
+  <!-- ============ PROOF ============ -->
+  <section class="tracked-surface bg-[var(--color-track-blue)] py-12 text-white" aria-label="Support so far" data-proof hidden>
+    <dl class="mx-auto grid max-w-[var(--container-content)] grid-cols-1 gap-8 px-6 text-center sm:grid-cols-3 lg:px-8">
+      <div class="flex flex-col gap-1"><dt class="font-body text-sm text-white/70">signed the petition</dt><dd class="order-first font-heading text-[clamp(2rem,4vw,2.75rem)] font-600 tabular-nums" data-proof-petition></dd></div>
+      <div class="flex flex-col gap-1"><dt class="font-body text-sm text-white/70">shared their story</dt><dd class="order-first font-heading text-[clamp(2rem,4vw,2.75rem)] font-600 tabular-nums" data-proof-stories></dd></div>
+      <div class="flex flex-col gap-1" data-proof-responses-wrap hidden><dt class="font-body text-sm text-white/70">responses sent to the council</dt><dd class="order-first font-heading text-[clamp(2rem,4vw,2.75rem)] font-600 tabular-nums" data-proof-responses></dd></div>
+    </dl>
+  </section>
+
+  <!-- ============ QUESTIONS ============ -->
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,7vw,5rem)]" aria-labelledby="faq-heading">
+    <div class="mx-auto max-w-3xl px-6 lg:px-8">
+      <h2 id="faq-heading" class="font-heading text-[clamp(1.5rem,3.5vw,2.2rem)] font-500 text-[var(--color-track-blue)]">Questions</h2>
+      <div class="mt-6 divide-y divide-[var(--color-grey-300)] border-y border-[var(--color-grey-300)]">
+        {[
+          ['Who can respond?', 'The council has invited existing and recent users of Willesden Sports Centre, including clubs, organisations and individuals. If you haven’t used the indoor track yet, you can say so honestly, and say whether you would.'],
+          ['I already emailed my councillors. Should I do this too?', 'Yes. That was about the earlier decision, which has now been withdrawn. This is the formal step before the final decision, and a short email about how you use the track adds new evidence.'],
+          ['Do I need to repeat what I’ve said before?', 'No. The council says everything already sent will be considered. Focus on how you use the track and whether you would use it if it stays.'],
+          ['What happens to my answers?', 'Your email goes from your own account to the council. We keep your answers to the questions (not your name or email) so Track Academy can report totals. Nothing is shared publicly.'],
+          ['What happens next?', `The council’s ${consultation.decisionMakerRole} will decide by ${consultation.decisionLabel}. We’ll let supporters know the outcome.`],
+        ].map(([q, a]) => (
+          <details class="group py-1">
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 py-4 font-body text-base font-600 text-[var(--color-grey-900)] [&::-webkit-details-marker]:hidden">
+              {q}
+              <span class="text-xl leading-none text-[var(--color-track-orange)] transition-transform duration-200 group-open:rotate-45" aria-hidden="true">+</span>
+            </summary>
+            <p class="pb-5 pr-10 font-body leading-[1.65] text-[var(--color-grey-700)]">{a}</p>
+          </details>
+        ))}
+      </div>
+      <p class="mt-10 font-body text-sm leading-[1.6] text-[var(--color-grey-500)]">
+        Questions about the campaign? Email <a href={`mailto:${campaign.contactEmail}`} class="underline">{campaign.contactEmail}</a>. Track Academy is a registered charity (1164222). See our <a href="/privacy" class="underline">privacy policy</a>.
+      </p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  import { consultation, subjects, buildEmail, type Answers } from '../../data/consultation';
+  import { insert, rpc, getRef, getSessionId, lookupPostcode, type PostcodeInfo } from '../../lib/campaign-client';
+
+  const $ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => r.querySelector<T>(s)!;
+  const $$ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => [...r.querySelectorAll<T>(s)];
+  const form = $<HTMLFormElement>('#builder');
+  const ref = getRef();
+  const sid = getSessionId();
+  const enc = encodeURIComponent;
+
+  // ---------- Remembered supporter (shared with the campaign page: same browser storage key) ----------
+  type Me = {
+    name?: string; email?: string; postcode?: string; relationship?: string; signed?: boolean;
+    signedAt?: string; story?: string; line?: string; consulted?: boolean;
+  };
+  const STORE = 'ptt_me';
+  let me: Me = {};
+  try { me = JSON.parse(localStorage.getItem(STORE) || '{}'); } catch {}
+  const save = () => { try { localStorage.setItem(STORE, JSON.stringify(me)); } catch {} };
+  let returning = Boolean(me.signed);
+
+  // Campaign-page relationships → this page's options.
+  const REL_TO_RESPONDENT: Record<string, string> = {
+    parent: 'parent', athlete: 'athlete', alumni: 'athlete', coach_volunteer: 'coach', resident: 'resident',
+  };
+
+  async function recognise() {
+    // Personal link (?k=token) wins: works on any device.
+    const params = new URLSearchParams(location.search);
+    const token = params.get('k');
+    if (token && /^[0-9a-f-]{36}$/i.test(token)) {
+      try {
+        const r = await rpc<{
+          full_name: string; email: string; postcode: string; relationship: string; signed_at: string; story: string | null;
+        } | null>('campaign_lookup', { token });
+        if (r && r.full_name) {
+          me = { ...me, name: r.full_name, email: r.email, postcode: r.postcode, relationship: r.relationship, signed: true, signedAt: r.signed_at, story: r.story ?? me.story };
+          save();
+          returning = true;
+        }
+      } catch { /* link not recognised: carry on as a new visitor */ }
+      // Don't leave the personal token in the address bar (or in shared links).
+      params.delete('k');
+      history.replaceState(null, '', `${location.pathname}${params.toString() ? `?${params}` : ''}${location.hash}`);
+    }
+  }
+
+  function applyMe() {
+    const first = (me.name || '').trim().split(/\s+/)[0];
+    if (returning && first) {
+      const when = me.signedAt ? ` on ${new Date(me.signedAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })}` : '';
+      const w = $('[data-welcome]');
+      w.innerHTML = '';
+      w.append(`Welcome back, ${first}. You signed the petition${when}, so we’ve filled in your details. `);
+      const notMe = document.createElement('button');
+      notMe.type = 'button';
+      notMe.className = 'underline underline-offset-4 text-white/80 hover:text-white';
+      notMe.textContent = 'Not you?';
+      notMe.addEventListener('click', () => { try { localStorage.removeItem(STORE); } catch {} location.reload(); });
+      w.append(notMe);
+      w.classList.remove('hidden');
+    }
+    if (me.consulted) $('[data-already]').classList.remove('hidden');
+    const set = (name: string, v?: string) => { const el = form.elements.namedItem(name) as HTMLInputElement | null; if (el && v && !el.value) el.value = v; };
+    set('name', me.name);
+    set('postcode', me.postcode);
+    const resp = me.relationship ? REL_TO_RESPONDENT[me.relationship] : undefined;
+    if (resp) { const r = form.querySelector<HTMLInputElement>(`input[name=respondent][value="${resp}"]`); if (r) r.checked = true; }
+    const words = me.line || me.story;
+    if (words) {
+      ($('#ownWords') as HTMLTextAreaElement).value = words;
+      $('[data-own-words-note]').classList.remove('hidden');
+    }
+  }
+
+  // ---------- Postcode → ward ----------
+  let pc: PostcodeInfo | null = null;
+  let pcTimer: number | undefined;
+  async function resolvePostcode() {
+    const v = ($('#postcode') as HTMLInputElement).value;
+    pc = v.trim().length >= 5 ? await lookupPostcode(v) : null;
+    $('[data-ward-note]').textContent = pc ? (pc.inBrent && pc.ward ? `${pc.ward} ward, Brent` : `Outside Brent (${pc.district ?? 'unknown'})`) : '';
+    render();
+  }
+  $('#postcode').addEventListener('input', () => { clearTimeout(pcTimer); pcTimer = window.setTimeout(resolvePostcode, 350); });
+
+  // ---------- Answers ----------
+  const val = (name: string) => (form.elements.namedItem(name) as RadioNodeList | HTMLInputElement | null)?.value?.trim() ?? '';
+  function answers(): Answers {
+    return {
+      name: val('name'),
+      postcode: pc?.postcode ?? val('postcode').toUpperCase(),
+      ward: pc?.inBrent ? pc.ward : null,
+      respondent: val('respondent'),
+      organisation: val('organisation'),
+      role: val('role'),
+      used: val('used') || undefined,
+      frequency: val('frequency') || undefined,
+      days: $$<HTMLInputElement>('input[name=days]:checked', form).map((i) => i.value),
+      wouldUse: val('wouldUse') || undefined,
+      pay: val('pay') || undefined,
+      orgHours: val('orgHours'),
+      orgYoungPeople: val('orgYoungPeople'),
+      ownWords: ($('#ownWords') as HTMLTextAreaElement).value,
+    };
+  }
+  const isOrg = () => ['club', 'school'].includes(val('respondent'));
+
+  // ---------- Conditional fields ----------
+  function syncFields() {
+    const org = isOrg();
+    $('[data-org-fields]').classList.toggle('hidden', !org);
+    $('[data-org-fields]').classList.toggle('grid', org);
+    $('[data-org-label]').textContent = val('respondent') === 'school' ? 'Name of your school' : 'Name of your club or group';
+    const kind = val('respondent') === 'school' ? 'school' : 'club';
+    $('[data-q-used]').textContent = org ? `Has your ${kind} used the indoor track?` : val('respondent') === 'parent' ? 'Has your child used the indoor track?' : 'Have you used the indoor track?';
+    const used = val('used');
+    $('[data-frequency]').classList.toggle('hidden', !(used === 'this_year' || used === 'before'));
+    $('[data-individual]').classList.toggle('hidden', org);
+    $('[data-org-use]').classList.toggle('hidden', !org);
+    $('[data-org-use]').classList.toggle('grid', org);
+  }
+
+  // ---------- Email preview ----------
+  const subject = subjects[Math.floor(Math.random() * subjects.length)];
+  const bodyEl = $<HTMLTextAreaElement>('[data-body]');
+  let bodyEdited = false;
+  function render() {
+    $('[data-subject]').textContent = subject;
+    if (!bodyEdited) bodyEl.value = buildEmail(answers());
+  }
+  bodyEl.addEventListener('input', () => { bodyEdited = true; $('[data-reset-body]').classList.remove('hidden'); });
+  $('[data-reset-body]').addEventListener('click', () => { bodyEdited = false; $('[data-reset-body]').classList.add('hidden'); render(); });
+
+  form.addEventListener('change', () => { syncFields(); render(); });
+  form.addEventListener('input', (e) => {
+    if ((e.target as HTMLElement).id === 'body') return;
+    render();
+    // Remember own words on this device so a return visit keeps them.
+    if ((e.target as HTMLElement).id === 'ownWords') { me.line = (e.target as HTMLTextAreaElement).value; save(); }
+  });
+
+  // ---------- Steps ----------
+  const titles = ['About you', 'You and the track', 'Your email'];
+  let step = 1;
+  function goto(n: number, focus = true) {
+    step = n;
+    $$('[data-step]').forEach((el) => el.classList.toggle('hidden', el.dataset.step !== String(n)));
+    $$('[data-step-bar]').forEach((el) => {
+      el.classList.toggle('bg-[var(--color-track-orange)]', Number(el.dataset.stepBar) <= n);
+      el.classList.toggle('bg-[var(--color-grey-100)]', Number(el.dataset.stepBar) > n);
+    });
+    $('[data-step-title]').textContent = titles[n - 1];
+    $('[data-step-num]').textContent = String(n);
+    $('[data-back]').classList.toggle('invisible', n === 1);
+    $('[data-nav]').classList.toggle('hidden', n === 3);
+    $('[data-send-panel]').classList.toggle('hidden', n !== 3);
+    $('[data-error]').textContent = '';
+    render();
+    if (focus) {
+      $('#respond').scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      const first = $(`[data-step="${n}"]`).querySelector<HTMLElement>('input:not(.sr-only), input, textarea');
+      setTimeout(() => first?.focus({ preventScroll: true }), 350);
+    }
+  }
+
+  function validate(n: number) {
+    if (n === 1) {
+      if (!val('respondent')) return 'Choose the option that best describes you.';
+      if (isOrg() && !val('organisation')) return 'Add the name of your club or school.';
+      if (!val('name')) return 'Add your name.';
+      if (val('postcode').replace(/\s/g, '').length < 5) return 'Add your postcode.';
+    }
+    if (n === 2) {
+      if (!val('used')) return 'Tell us whether you’ve used the indoor track.';
+    }
+    return '';
+  }
+
+  $('[data-next]').addEventListener('click', () => {
+    const err = validate(step);
+    if (err) { $('[data-error]').textContent = err; return; }
+    if (step === 1) { me.name = val('name'); me.postcode = val('postcode'); save(); }
+    goto(step + 1);
+  });
+  $('[data-back]').addEventListener('click', () => goto(Math.max(1, step - 1)));
+  $('[data-back-2]').addEventListener('click', () => goto(2));
+  // Enter in a text field moves forward instead of submitting.
+  form.addEventListener('submit', (e) => { e.preventDefault(); if (step < 3) $('[data-next]').click(); });
+
+  // ---------- Recording (answers only; never name or email) ----------
+  let responseId: string | null = null;
+  function record(method: string) {
+    if (responseId) return;
+    const a = answers();
+    responseId = crypto.randomUUID();
+    insert('consultation_responses', {
+      id: responseId,
+      respondent: a.respondent,
+      organisation: isOrg() ? a.organisation || null : null,
+      used_track: a.used ?? null,
+      frequency: a.frequency ?? null,
+      days: a.days,
+      would_use: isOrg() ? null : a.wouldUse ?? null,
+      pay: isOrg() ? 'would_book' : a.pay ?? null,
+      keep_track: true,
+      org_hours_per_week: isOrg() && Number(a.orgHours) > 0 ? Number(a.orgHours) : null,
+      org_young_people: isOrg() && Number(a.orgYoungPeople) > 0 ? Math.round(Number(a.orgYoungPeople)) : null,
+      has_own_words: Boolean(a.ownWords && a.ownWords.trim()),
+      postcode_district: pc?.outward ?? null,
+      ward: pc?.inBrent ? pc.ward : null,
+      in_brent: pc?.inBrent ?? null,
+      returning_signer: returning,
+      method, ref, session_id: sid,
+    });
+  }
+
+  // ---------- Send ----------
+  async function copyText(text: string) {
+    try { await navigator.clipboard.writeText(text); return true; }
+    catch {
+      const ta = Object.assign(document.createElement('textarea'), { value: text });
+      ta.style.cssText = 'position:fixed;opacity:0'; document.body.append(ta); ta.select();
+      const ok = document.execCommand('copy'); ta.remove(); return ok;
+    }
+  }
+  let lastMethod = 'mailto';
+  $$('[data-send]').forEach((el) => el.addEventListener('click', async (e) => {
+    const method = el.dataset.send!;
+    const body = bodyEl.value;
+    if (method === 'mailto') (el as HTMLAnchorElement).href = `mailto:${consultation.to}?subject=${enc(subject)}&body=${enc(body)}`;
+    if (method === 'gmail') (el as HTMLAnchorElement).href = `https://mail.google.com/mail/?view=cm&fs=1&to=${enc(consultation.to)}&su=${enc(subject)}&body=${enc(body)}`;
+    if (method === 'outlook') (el as HTMLAnchorElement).href = `https://outlook.live.com/mail/0/deeplink/compose?to=${enc(consultation.to)}&subject=${enc(subject)}&body=${enc(body)}`;
+    if (method === 'copy') {
+      e.preventDefault();
+      const ok = await copyText(`To: ${consultation.to}\nSubject: ${subject}\n\n${body}`);
+      $('[data-copy-note]').textContent = ok ? `Copied. Paste it into a new email to ${consultation.to} and send.` : 'Couldn’t copy automatically. Select the email above and copy it.';
+    }
+    lastMethod = method;
+    record(method);
+    setTimeout(() => $('[data-confirm]').classList.remove('hidden'), 1200);
+  }));
+
+  $('[data-sent-yes]').addEventListener('click', async () => {
+    if (responseId) rpc('consultation_mark_sent', { response_id: responseId, sid }).catch(() => {});
+    me.consulted = true; save();
+    form.classList.add('hidden');
+    $('[data-already]').classList.add('hidden');
+    const s = $('[data-success]');
+    s.classList.remove('hidden');
+    s.focus();
+    loadProof();
+  });
+  $('[data-sent-no]').addEventListener('click', () => $('[data-confirm]').classList.add('hidden'));
+
+  $('[data-another]').addEventListener('click', () => {
+    responseId = null;
+    bodyEdited = false;
+    $('[data-success]').classList.add('hidden');
+    $('[data-confirm]').classList.add('hidden');
+    form.classList.remove('hidden');
+    goto(1);
+  });
+
+  // ---------- Share ----------
+  const shareUrl = `${location.origin}${consultation.slug}/?ref=share`;
+  const shareText = `Brent Council has paused its plan to turn the Willesden indoor track into a gym and is asking users to respond by 5pm Friday 20 November. It takes two minutes: ${shareUrl}`;
+  $<HTMLAnchorElement>('[data-share=whatsapp]').href = `https://wa.me/?text=${enc(shareText)}`;
+  $('[data-share=copy]').addEventListener('click', async (e) => {
+    const ok = await copyText(shareUrl);
+    (e.currentTarget as HTMLElement).textContent = ok ? 'Link copied ✓' : shareUrl;
+  });
+
+  // ---------- Organisation shortcut ----------
+  $('[data-org-start]').addEventListener('click', () => {
+    const r = form.querySelector<HTMLInputElement>('input[name=respondent][value="school"]');
+    if (r) r.checked = true;
+    form.classList.remove('hidden');
+    $('[data-success]').classList.add('hidden');
+    syncFields();
+    goto(1);
+    setTimeout(() => $<HTMLInputElement>('#organisation').focus({ preventScroll: true }), 400);
+  });
+
+  // ---------- Countdown ----------
+  const deadline = new Date(consultation.deadlineISO).getTime();
+  function tick() {
+    const ms = deadline - Date.now();
+    const left = $('[data-left]');
+    if (ms <= 0) {
+      left.textContent = 'Responses have now closed';
+      $('[data-hero-cta]').classList.add('hidden');
+      return;
+    }
+    const d = Math.floor(ms / 864e5), h = Math.floor((ms % 864e5) / 36e5), m = Math.floor((ms % 36e5) / 6e4);
+    const plural = (n: number, w: string) => `${n} ${w}${n === 1 ? '' : 's'}`;
+    left.textContent = d >= 2 ? `${plural(d, 'day')} left`
+      : d === 1 ? `1 day${h ? `, ${plural(h, 'hour')}` : ''} left`
+      : h > 0 ? `${plural(h, 'hour')}${m ? ` ${m} min` : ''} left` : `${plural(m, 'minute')} left`;
+  }
+  tick();
+  setInterval(tick, 30000);
+
+  // ---------- Proof numbers ----------
+  async function loadProof() {
+    try {
+      const s = await rpc<{ responses: number; petition: number; stories: number }>('consultation_public_stats');
+      if (!s) return;
+      $('[data-proof-petition]').textContent = s.petition.toLocaleString('en-GB');
+      $('[data-proof-stories]').textContent = s.stories.toLocaleString('en-GB');
+      if (s.responses >= 10) {
+        $('[data-proof-responses]').textContent = s.responses.toLocaleString('en-GB');
+        $('[data-proof-responses-wrap]').hidden = false;
+      }
+      $('[data-proof]').hidden = false;
+    } catch { /* stays hidden */ }
+  }
+
+  // ---------- Start ----------
+  (async () => {
+    await recognise();
+    applyMe();
+    syncFields();
+    goto(1, false);
+    if (($('#postcode') as HTMLInputElement).value) resolvePostcode();
+    loadProof();
+  })();
+</script>

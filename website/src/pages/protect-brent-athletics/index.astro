@@ -559,7 +559,7 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
 
   // ================= Remembered details ("me") =================
   // Typed once, carried into every later form, kept on this device so a return visit is pre-filled.
-  type Me = { name?: string; email?: string; postcode?: string; relationship?: string; signed?: boolean; emailed?: boolean };
+  type Me = { name?: string; email?: string; postcode?: string; relationship?: string; signed?: boolean; emailed?: boolean; signedAt?: string; line?: string };
   const STORE = 'ptt_me';
   let me: Me = {};
   try { me = JSON.parse(localStorage.getItem(STORE) || '{}'); } catch {}
@@ -704,7 +704,12 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
     renderEmail();
     $('#em-name').focus();
   });
-  $('#em-personal').addEventListener('input', renderEmail);
+  $('#em-personal').addEventListener('input', (e) => {
+    // Kept on this device so the consultation page (have-your-say) can reuse it.
+    me.line = (e.target as HTMLTextAreaElement).value;
+    save();
+    renderEmail();
+  });
 
   function logEmail(action: 'email_opened' | 'email_sent', method: string) {
     const { rel, to, cc } = current();
@@ -847,6 +852,7 @@ const relOptions = relationships.map((r) => ({ value: r.value, label: r.label })
     });
     if (r.ok || r.duplicate) {
       me.signed = true;
+      me.signedAt ||= new Date().toISOString();
       save();
       fillAll();
       showSummary = Boolean(me.name && me.postcode);
