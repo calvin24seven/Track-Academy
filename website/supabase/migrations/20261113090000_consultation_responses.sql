@@ -63,7 +63,7 @@ create table if not exists public.consultation_responses (
 alter table public.consultation_responses enable row level security;
 
 create policy "anyone can record a response" on public.consultation_responses
-  for insert to anon, authenticated with check (true);
+  for insert to anon, authenticated with check (status = 'opened'); -- only consultation_mark_sent can set 'sent'
 create policy "admins read responses" on public.consultation_responses
   for select to authenticated using (public.campaign_is_admin());
 
