@@ -160,10 +160,14 @@ const qLabel = 'mb-2 block font-body text-sm font-600 text-[var(--color-grey-900
           <p class="font-body text-[var(--color-grey-900)]"><span class="text-[var(--color-grey-500)]">From</span> <strong data-summary-name></strong> · <span data-summary-place></span></p>
           <button type="button" class={linkBtn} data-identity-edit>Change</button>
         </div>
-        <div class="grid gap-4 sm:grid-cols-3" data-identity-fields>
+        <div class="grid gap-4 sm:grid-cols-2" data-identity-fields>
           <div>
             <label class={labelCls} for="em-name">Your name</label>
             <input class={input} id="em-name" name="name" autocomplete="name" required maxlength="120" data-me="name" />
+          </div>
+          <div>
+            <label class={labelCls} for="em-email">Your email</label>
+            <input class={input} id="em-email" name="email" type="email" inputmode="email" autocomplete="email" required maxlength="200" data-me="email" />
           </div>
           <div>
             <label class={labelCls} for="em-postcode">Postcode</label>
@@ -249,6 +253,10 @@ const qLabel = 'mb-2 block font-body text-sm font-600 text-[var(--color-grey-900
             <span class="bg-[var(--color-track-blue)] px-3 py-1.5 font-body text-sm text-white">{consultation.to}</span>
             <span class="font-body text-xs text-[var(--color-grey-500)]">Brent’s leisure team, for {consultation.decisionMaker}, who decides by {consultation.decisionLabel}.</span>
           </p>
+          <p class="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+            <span class="border border-[var(--color-grey-300)] bg-white px-3 py-1.5 font-body text-sm text-[var(--color-grey-900)]">Cc: {campaign.contactEmail}</span>
+            <span class="font-body text-xs text-[var(--color-grey-500)]">A copy goes to Track Academy so we can count every response and use them in our own submission.</span>
+          </p>
         </div>
 
         <div>
@@ -267,7 +275,7 @@ const qLabel = 'mb-2 block font-body text-sm font-600 text-[var(--color-grey-900
         </details>
       </form>
 
-      <p class="mt-6 font-body text-sm text-[var(--color-grey-700)]">This opens your own email with everything filled in. Check it, then press send. It goes from you, straight to Brent’s leisure team.</p>
+      <p class="mt-6 font-body text-sm text-[var(--color-grey-700)]">This opens your own email with everything filled in. Check it, then press send. It goes from you, straight to Brent’s leisure team, with a copy to Track Academy.</p>
       <div class="mt-3 grid gap-3 sm:flex sm:flex-wrap sm:items-center">
         <a href="#" class={btn} data-send="mailto">Send from my email app</a>
         <a href="#" class={btnGhost} data-send="gmail" target="_blank" rel="noopener">Gmail</a>
@@ -622,7 +630,7 @@ const qLabel = 'mb-2 block font-body text-sm font-600 text-[var(--color-grey-900
   <section class="bg-[var(--color-grey-100)] py-10">
     <div class="mx-auto max-w-[var(--container-narrow)] space-y-3 px-6 font-body text-sm leading-[1.6] text-[var(--color-grey-500)] lg:px-8">
       <p>Track Academy is a registered charity (1164222). This campaign is about a facility for young people. It is not party political, and we are asking councillors from every party for support.</p>
-      <p>How we use your information: petition names and postcodes are given to Brent Council. Emails to the council are sent from your own email account; we keep your answers to the questions (not your name or email) so Track Academy can report totals. Ward lookups use postcodes.io. To save you retyping, this page remembers your details on this device only. Use “Clear my details” to remove them. The membership survey is anonymous. We delete campaign data six months after the campaign ends. See our <a class="underline" href="/privacy">privacy policy</a>.</p>
+      <p>How we use your information: petition names and postcodes are given to Brent Council. Emails to the council are sent from your own email account, with a copy to Track Academy. When you respond, Track Academy keeps your name, email, postcode, answers and words so it can count responses, follow up and include them in its own submission to the council. Ward lookups use postcodes.io. To save you retyping, this page remembers your details on this device only. Use “Clear my details” to remove them. The membership survey is anonymous. We delete campaign data six months after the campaign ends. See our <a class="underline" href="/privacy">privacy policy</a>.</p>
     </div>
   </section>
 </BaseLayout>
@@ -777,7 +785,7 @@ const qLabel = 'mb-2 block font-body text-sm font-600 text-[var(--color-grey-900
     $('[data-identity-summary]').hidden = !showSummary;
     $('[data-identity-fields]').hidden = showSummary;
     $('[data-summary-name]').textContent = me.name || '';
-    $('[data-summary-place]').textContent = pc?.inBrent && pc.ward ? `${pc.ward}, ${pc.postcode}` : (pc?.postcode ?? (me.postcode || '').toUpperCase());
+    $('[data-summary-place]').textContent = [me.email, pc?.inBrent && pc.ward ? `${pc.ward}, ${pc.postcode}` : (pc?.postcode ?? (me.postcode || '').toUpperCase())].filter(Boolean).join(' · ');
     syncQuestions();
     $('[data-subject]').textContent = subject;
     $('[data-body]').textContent = current().body;
@@ -804,14 +812,14 @@ const qLabel = 'mb-2 block font-body text-sm font-600 text-[var(--color-grey-900
     });
   }
 
-  /** Records the answers (never name or email) once per response, so Track Academy can report totals. */
+  /** Records each response with the person's name, email and words, so Track Academy knows who responded. */
   let responseId: string | null = null;
   function recordResponse(method: string) {
     if (responseId) return;
     const a = answers();
     const org = orgType();
     responseId = crypto.randomUUID();
-    insert('consultation_responses', {
+    const row = {
       id: responseId,
       respondent: a.respondent,
       organisation: org ? a.organisation || null : null,
@@ -829,6 +837,17 @@ const qLabel = 'mb-2 block font-body text-sm font-600 text-[var(--color-grey-900
       in_brent: pc?.inBrent ?? null,
       returning_signer: Boolean(me.signed),
       method, ref, session_id: sid,
+    };
+    const contact = {
+      full_name: (me.name || '').slice(0, 120) || null,
+      email: (me.email || '').toLowerCase().slice(0, 200) || null,
+      postcode: (pc?.postcode ?? me.postcode ?? '').toUpperCase().slice(0, 10) || null,
+      role: org ? a.role || null : null,
+      own_words: a.ownWords?.trim().slice(0, 1500) || null,
+    };
+    insert('consultation_responses', { ...row, ...contact }).then((r) => {
+      // If the contact columns aren't in the database yet, still keep the answers.
+      if (!r.ok && /column/i.test(r.error)) insert('consultation_responses', row);
     });
   }
 
@@ -875,22 +894,23 @@ const qLabel = 'mb-2 block font-body text-sm font-600 text-[var(--color-grey-900
   for (const el of $$('[data-send]')) {
     el.addEventListener('click', async (e) => {
       const method = el.dataset.send!;
-      if (!me.name || !me.postcode) {
+      if (!me.name || !me.postcode || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(me.email || '')) {
         e.preventDefault();
         showSummary = false;
         renderEmail();
-        const missing = !me.name ? '#em-name' : '#em-postcode';
+        const missing = !me.name ? '#em-name' : !me.postcode ? '#em-postcode' : '#em-email';
         $(missing).focus();
-        $('[data-copy-note]').textContent = 'Add your name and postcode first, so the council knows you’re a real user.';
+        $('[data-copy-note]').textContent = 'Add your name, email and postcode first, so the council knows you’re a real user.';
         return;
       }
       const { body, to } = current();
+      const cc = campaign.contactEmail; // Track Academy gets a copy of every response
       if (method === 'mailto') {
-        (el as HTMLAnchorElement).href = `mailto:${to.join(',')}?subject=${enc(subject)}&body=${enc(body)}`;
+        (el as HTMLAnchorElement).href = `mailto:${to.join(',')}?cc=${enc(cc)}&subject=${enc(subject)}&body=${enc(body)}`;
       } else if (method === 'gmail') {
-        (el as HTMLAnchorElement).href = `https://mail.google.com/mail/?view=cm&fs=1&to=${enc(to.join(','))}&su=${enc(subject)}&body=${enc(body)}`;
+        (el as HTMLAnchorElement).href = `https://mail.google.com/mail/?view=cm&fs=1&to=${enc(to.join(','))}&cc=${enc(cc)}&su=${enc(subject)}&body=${enc(body)}`;
       } else if (method === 'outlook') {
-        (el as HTMLAnchorElement).href = `https://outlook.live.com/mail/0/deeplink/compose?to=${enc(to.join(';'))}&subject=${enc(subject)}&body=${enc(body)}`;
+        (el as HTMLAnchorElement).href = `https://outlook.live.com/mail/0/deeplink/compose?to=${enc(to.join(';'))}&cc=${enc(cc)}&subject=${enc(subject)}&body=${enc(body)}`;
       }
       lastMethod = method;
       logEmail('email_opened', method);
@@ -898,9 +918,9 @@ const qLabel = 'mb-2 block font-body text-sm font-600 text-[var(--color-grey-900
       saveLineAsStory();
       setTimeout(() => $('[data-confirm-sent]').classList.remove('hidden'), 1500);
       if (method === 'copy') {
-        const ok = await copyText(`To: ${to.join(', ')}\nSubject: ${subject}\n\n${body}`);
+        const ok = await copyText(`To: ${to.join(', ')}\nCc: ${cc}\nSubject: ${subject}\n\n${body}`);
         $('[data-copy-note]').textContent = ok
-          ? `Copied. Paste it into a new email to ${consultation.to} and send.`
+          ? `Copied. Paste it into a new email to ${consultation.to}, copy in ${cc}, and send.`
           : 'Couldn’t copy automatically. Open “Preview the full email” and copy it from there.';
       } else {
         $('[data-copy-note]').textContent = '';

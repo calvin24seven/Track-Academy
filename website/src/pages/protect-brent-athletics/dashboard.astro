@@ -56,13 +56,21 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
       <div class="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 class={h}>Consultation responses</h2>
-          <p class="mt-1 text-xs text-[var(--color-grey-500)]">Emails to leisure@brent.gov.uk sent through the campaign page (deadline 5pm Fri 20 Nov). Answers only: no names or emails. Self-reported.</p>
+          <p class="mt-1 text-xs text-[var(--color-grey-500)]">Emails to leisure@brent.gov.uk sent through the campaign page (deadline 5pm Fri 20 Nov), each copied to Track Academy. Self-reported.</p>
         </div>
         <a href="/protect-brent-athletics/#email" target="_blank" class="text-sm font-600 text-[var(--color-track-blue)] underline">Open the page ↗</a>
       </div>
       <div class="mt-4 grid grid-cols-2 gap-3 md:grid-cols-4" data-consult-tiles></div>
       <div class="mt-4 grid gap-4 text-sm md:grid-cols-3" data-consult-detail></div>
       <div class="mt-4 overflow-x-auto"><table class="w-full text-sm" data-consult-orgs></table></div>
+      <div class="mt-6 flex flex-wrap items-end justify-between gap-3">
+        <h3 class="font-heading text-lg font-500 text-[var(--color-track-blue)]">Who responded</h3>
+        <div class="flex items-center gap-3 text-sm">
+          <label class="flex items-center gap-1.5"><input type="checkbox" data-consult-all /> Include started but not confirmed</label>
+          <button type="button" class={btnGhost} data-export="consultation">Download responses</button>
+        </div>
+      </div>
+      <div class="mt-3 max-h-[32rem] overflow-auto border border-[var(--color-grey-100)]"><table class="w-full min-w-[1100px] text-sm" data-consult-list></table></div>
     </section>
 
     <!-- Who has signed -->
@@ -172,6 +180,7 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
         <button class={`${btnGhost} text-left`} data-export="stories">Stories<br><span class="font-400">All, with review status</span></button>
         <button class={`${btnGhost} text-left`} data-export="offers">Offers of help</button>
         <button class={`${btnGhost} text-left`} data-export="log">Stakeholder log</button>
+        <button class={`${btnGhost} text-left`} data-export="consultation">Consultation responses<br><span class="font-400">Names, emails, answers, their words</span></button>
         <button class={`${btnGhost} text-left`} data-export="emails">Email log<br><span class="font-400">Alerts sent through Resend</span></button>
       </div>
       <p class="mt-2 text-xs text-[var(--color-grey-500)]" data-export-msg aria-live="polite"></p>
@@ -510,6 +519,7 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
       try { c = await rpc<any>('consultation_admin_stats', {}, token!); } catch { return; } // not set up yet
       if (!c) return;
       $('[data-consult]').hidden = false;
+      renderConsultList();
       const tile = (l: string, v: string | number, sub = '') => `<div class="border border-[var(--color-grey-300)] p-4"><p class="text-xs uppercase tracking-wide text-[var(--color-grey-500)]">${l}</p><p class="font-heading text-3xl text-[var(--color-track-blue)] tabular-nums">${typeof v === 'number' ? fmt(v) : v}</p>${sub ? `<p class="text-xs text-[var(--color-grey-500)]">${sub}</p>` : ''}</div>`;
       const used = (c.used.this_year ?? 0) + (c.used.before ?? 0);
       $('[data-consult-tiles]').innerHTML =
@@ -528,6 +538,35 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
           c.organisations.map((o: any) => `<tr class="border-t border-[var(--color-grey-100)]"><td class="py-1 pr-4 font-600">${esc(o.organisation)}</td><td class="pr-4">${esc(o.respondent)}</td><td class="px-4 text-right tabular-nums">${esc(o.org_hours_per_week ?? '')}</td><td class="px-4 text-right tabular-nums">${esc(o.org_young_people ?? '')}</td><td class="pl-4 text-xs">${esc((o.days || []).map((d: string) => ({ weekday_evenings: 'Weekday evenings', saturday: 'Saturdays', sunday: 'Sundays', school_hours: 'School hours' } as Record<string, string>)[d] ?? d).join(', '))}</td></tr>`).join('')
         : '';
     }
+
+    // ---- Consultation: who responded ----
+    const RESP: Record<string, string> = { athlete: 'Athlete', parent: 'Parent', coach: 'Coach', club: 'Club', school: 'School', centre_member: 'Centre user', resident: 'Resident', other: 'Other' };
+    const USED: Record<string, string> = { this_year: 'Yes, this year', before: 'Yes, before', not_yet: 'Not yet' };
+    const FREQ: Record<string, string> = { weekly: 'Weekly+', monthly: 'Few times/month', occasionally: 'Now and then' };
+    const PAY: Record<string, string> = { up_to_3: 'Up to £3', '3_to_5': '£3–£5', '5_to_8': '£5–£8', '8_plus': '£8+', would_book: 'Would book', prefer_not: 'Skip' };
+    const DAYS: Record<string, string> = { weekday_evenings: 'Weekday eves', saturday: 'Sat', sunday: 'Sun', school_hours: 'School hours' };
+    async function renderConsultList() {
+      const all = (document.querySelector('[data-consult-all]') as HTMLInputElement | null)?.checked;
+      let rows: any[] = [];
+      try { rows = await select<any[]>(`consultation_responses?select=*${all ? '' : '&status=eq.sent'}&order=created_at.desc&limit=1000`, token!); } catch { return; }
+      const head = '<tr class="sticky top-0 bg-white text-left text-xs text-[var(--color-grey-500)]"><th class="px-2 py-1.5">When</th><th class="px-2">Name</th><th class="px-2">Email</th><th class="px-2">Postcode · ward</th><th class="px-2">Who</th><th class="px-2">Used</th><th class="px-2">Winter</th><th class="px-2">Days</th><th class="px-2">Would use</th><th class="px-2">Pay</th><th class="px-2">Organisation</th><th class="px-2">Their words</th><th class="px-2">Status</th></tr>';
+      $('[data-consult-list]').innerHTML = rows.length ? head + rows.map((r) => `<tr class="border-t border-[var(--color-grey-100)] align-top">
+          <td class="whitespace-nowrap px-2 py-1.5 text-xs text-[var(--color-grey-500)]">${esc(when(r.created_at))}</td>
+          <td class="px-2 font-600">${esc(r.full_name ?? '–')}</td>
+          <td class="px-2">${r.email ? `<a class="underline" href="mailto:${esc(r.email)}">${esc(r.email)}</a>` : '–'}</td>
+          <td class="whitespace-nowrap px-2">${esc(r.postcode ?? r.postcode_district ?? '')}${r.ward ? ` · ${esc(r.ward)}` : ''}</td>
+          <td class="px-2">${esc(RESP[r.respondent] ?? r.respondent)}</td>
+          <td class="whitespace-nowrap px-2">${esc(USED[r.used_track] ?? '')}</td>
+          <td class="whitespace-nowrap px-2">${esc(FREQ[r.frequency] ?? '')}</td>
+          <td class="px-2 text-xs">${esc((r.days || []).map((d: string) => DAYS[d] ?? d).join(', '))}</td>
+          <td class="px-2">${esc(r.would_use ?? '')}</td>
+          <td class="whitespace-nowrap px-2">${esc(PAY[r.pay] ?? '')}</td>
+          <td class="px-2">${r.organisation ? `${esc(r.organisation)}${r.role ? `<br><span class="text-xs text-[var(--color-grey-500)]">${esc(r.role)}</span>` : ''}${r.org_hours_per_week ? `<br><span class="text-xs">${esc(r.org_hours_per_week)} h/wk · ${esc(r.org_young_people ?? '?')} young people</span>` : ''}` : ''}</td>
+          <td class="max-w-[22rem] px-2 text-xs leading-[1.5]">${esc(r.own_words ?? '')}</td>
+          <td class="px-2 text-xs">${r.status === 'sent' ? '<span class="font-600 text-[var(--color-success)]">Sent</span>' : 'Started'}</td></tr>`).join('')
+        : '<tr><td class="p-3 text-[var(--color-grey-500)]">No responses yet.</td></tr>';
+    }
+    document.addEventListener('change', (e) => { if ((e.target as HTMLElement).matches('[data-consult-all]')) renderConsultList(); });
 
     // ---- Who has signed ----
     type Signer = {
@@ -627,6 +666,13 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
       log: { file: 'stakeholder-log', load: async () => (await selectAll('stakeholder_log?select=*&order=created_at')).map((r) => ({
         'Logged': day(r.created_at), 'By': r.logged_by ?? '', 'Who': r.stakeholder, 'Organisation': r.organisation ?? '', 'Channel': r.channel ?? '',
         'Stance': String(r.stance).replace('_', ' '), 'What they said': r.summary ?? '', 'Next step': r.next_step ?? '', 'Due': r.next_step_due ?? '' })) },
+      consultation: { file: 'consultation-responses', load: async () => (await selectAll('consultation_responses?select=*&order=created_at')).map((r) => ({
+        'Started': day(r.created_at), 'Status': r.status === 'sent' ? 'Sent' : 'Started, not confirmed', 'Name': r.full_name ?? '', 'Email': r.email ?? '',
+        'Postcode': r.postcode ?? r.postcode_district ?? '', 'Ward': r.ward ?? '', 'In Brent': yn(r.in_brent), 'Who': RESP[String(r.respondent)] ?? r.respondent,
+        'Organisation': r.organisation ?? '', 'Role': r.role ?? '', 'Hours a week (org)': r.org_hours_per_week ?? '', 'Young people (org)': r.org_young_people ?? '',
+        'Used the track': USED[String(r.used_track)] ?? '', 'Winter frequency': FREQ[String(r.frequency)] ?? '', 'Days': ((r.days as string[]) || []).map((d) => DAYS[d] ?? d).join(', '),
+        'Would use it': r.would_use ?? '', 'Would pay per session': PAY[String(r.pay)] ?? '', 'Their words': r.own_words ?? '',
+        'Returning signer': yn(r.returning_signer), 'Sent via': r.method ?? '', 'Source': r.ref ?? 'direct' })) },
       emails: { file: 'email-log', load: async () => (await selectAll('email_log?select=*&order=created_at')).map((r) => ({
         'Sent': day(r.created_at), 'Type': r.kind, 'To': r.to_addresses, 'Subject': r.subject, 'Status': r.status, 'Error': r.error ?? '', 'Resend id': r.resend_id ?? '' })) },
     };
