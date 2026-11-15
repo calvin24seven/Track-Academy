@@ -56,7 +56,7 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
       <div class="flex flex-wrap items-start justify-between gap-3">
         <div>
           <h2 class={h}>Consultation responses</h2>
-          <p class="mt-1 text-xs text-[var(--color-grey-500)]">Emails to leisure@brent.gov.uk sent through the campaign page (deadline 5pm Fri 20 Nov), each copied to Track Academy. Self-reported.</p>
+          <p class="mt-1 text-xs text-[var(--color-grey-500)]">Emails to leisure@brent.gov.uk sent through the campaign page (deadline 5pm Fri 20 Nov), with the exact email text each person was given to send. Self-reported.</p>
         </div>
         <a href="/protect-brent-athletics/#email" target="_blank" class="text-sm font-600 text-[var(--color-track-blue)] underline">Open the page ↗</a>
       </div>
@@ -549,7 +549,7 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
       const all = (document.querySelector('[data-consult-all]') as HTMLInputElement | null)?.checked;
       let rows: any[] = [];
       try { rows = await select<any[]>(`consultation_responses?select=*${all ? '' : '&status=eq.sent'}&order=created_at.desc&limit=1000`, token!); } catch { return; }
-      const head = '<tr class="sticky top-0 bg-white text-left text-xs text-[var(--color-grey-500)]"><th class="px-2 py-1.5">When</th><th class="px-2">Name</th><th class="px-2">Email</th><th class="px-2">Postcode · ward</th><th class="px-2">Who</th><th class="px-2">Used</th><th class="px-2">Winter</th><th class="px-2">Days</th><th class="px-2">Would use</th><th class="px-2">Pay</th><th class="px-2">Organisation</th><th class="px-2">Their words</th><th class="px-2">Status</th></tr>';
+      const head = '<tr class="sticky top-0 bg-white text-left text-xs text-[var(--color-grey-500)]"><th class="px-2 py-1.5">When</th><th class="px-2">Name</th><th class="px-2">Email</th><th class="px-2">Postcode · ward</th><th class="px-2">Who</th><th class="px-2">Used</th><th class="px-2">Winter</th><th class="px-2">Days</th><th class="px-2">Would use</th><th class="px-2">Pay</th><th class="px-2">Organisation</th><th class="px-2">Their words</th><th class="px-2">Email sent</th><th class="px-2">Status</th></tr>';
       $('[data-consult-list]').innerHTML = rows.length ? head + rows.map((r) => `<tr class="border-t border-[var(--color-grey-100)] align-top">
           <td class="whitespace-nowrap px-2 py-1.5 text-xs text-[var(--color-grey-500)]">${esc(when(r.created_at))}</td>
           <td class="px-2 font-600">${esc(r.full_name ?? '–')}</td>
@@ -563,6 +563,7 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
           <td class="whitespace-nowrap px-2">${esc(PAY[r.pay] ?? '')}</td>
           <td class="px-2">${r.organisation ? `${esc(r.organisation)}${r.role ? `<br><span class="text-xs text-[var(--color-grey-500)]">${esc(r.role)}</span>` : ''}${r.org_hours_per_week ? `<br><span class="text-xs">${esc(r.org_hours_per_week)} h/wk · ${esc(r.org_young_people ?? '?')} young people</span>` : ''}` : ''}</td>
           <td class="max-w-[22rem] px-2 text-xs leading-[1.5]">${esc(r.own_words ?? '')}</td>
+          <td class="px-2 text-xs">${r.email_body ? `<details><summary class="cursor-pointer font-600 text-[var(--color-track-blue)] underline">Read</summary><p class="mt-1 font-600">${esc(r.email_subject ?? '')}</p><pre class="mt-1 max-w-[28rem] whitespace-pre-wrap font-body leading-[1.5]">${esc(r.email_body)}</pre></details>` : '–'}</td>
           <td class="px-2 text-xs">${r.status === 'sent' ? '<span class="font-600 text-[var(--color-success)]">Sent</span>' : 'Started'}</td></tr>`).join('')
         : '<tr><td class="p-3 text-[var(--color-grey-500)]">No responses yet.</td></tr>';
     }
@@ -671,7 +672,7 @@ const btnGhost = 'border border-[var(--color-track-blue)] px-3 py-1.5 font-body 
         'Postcode': r.postcode ?? r.postcode_district ?? '', 'Ward': r.ward ?? '', 'In Brent': yn(r.in_brent), 'Who': RESP[String(r.respondent)] ?? r.respondent,
         'Organisation': r.organisation ?? '', 'Role': r.role ?? '', 'Hours a week (org)': r.org_hours_per_week ?? '', 'Young people (org)': r.org_young_people ?? '',
         'Used the track': USED[String(r.used_track)] ?? '', 'Winter frequency': FREQ[String(r.frequency)] ?? '', 'Days': ((r.days as string[]) || []).map((d) => DAYS[d] ?? d).join(', '),
-        'Would use it': r.would_use ?? '', 'Would pay per session': PAY[String(r.pay)] ?? '', 'Their words': r.own_words ?? '',
+        'Would use it': r.would_use ?? '', 'Would pay per session': PAY[String(r.pay)] ?? '', 'Their words': r.own_words ?? '', 'Email subject': r.email_subject ?? '', 'Email sent': r.email_body ?? '',
         'Returning signer': yn(r.returning_signer), 'Sent via': r.method ?? '', 'Source': r.ref ?? 'direct' })) },
       emails: { file: 'email-log', load: async () => (await selectAll('email_log?select=*&order=created_at')).map((r) => ({
         'Sent': day(r.created_at), 'Type': r.kind, 'To': r.to_addresses, 'Subject': r.subject, 'Status': r.status, 'Error': r.error ?? '', 'Resend id': r.resend_id ?? '' })) },
