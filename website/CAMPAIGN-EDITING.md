@@ -13,7 +13,8 @@ All campaign wording lives in two plain text files. You don't need to touch any 
 1. Open the file on GitHub (repo `Track-Academy`, folder `website/src/data/`) and click the pencil icon.
 2. Change only the words **inside the quote marks**. Keep the quote marks, commas and brackets as they are.
    - Use a curly apostrophe `’` (copy it from here) or keep straight ones out of text wrapped in `'…'` quotes. A plain `'` inside `'…'` text breaks the build.
-3. Click **Commit changes**. Then ask Calvin (or whoever deploys) to publish. Publishing is: `npm run build` then `npx wrangler deploy` from the `website` folder.
+3. Make sure you're on the `master` branch, then click **Commit changes**. The live site rebuilds by itself
+   and your change shows on trackacademy.co.uk in about 2 minutes. Nothing else to do.
 
 Example — after the decision, change:
 
