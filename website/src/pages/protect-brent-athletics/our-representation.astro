@@ -1,0 +1,168 @@
+---
+/**
+ * /protect-brent-athletics/our-representation — public headlines of Track Academy's
+ * formal representation to Brent Council (submitted 20 Nov 2026).
+ * All wording lives in src/data/representation.ts.
+ */
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+import RaceSprint from '../../assets/campaign/indoor-race-sprint.jpg';
+import GroupPhoto from '../../assets/campaign/indoor-christmas-session.jpg';
+import { campaign } from '../../data/campaign';
+import { representation, headlineFigures, position, keyPoints, ourAsks, whoItServes, mixedUse, closing } from '../../data/representation';
+
+const seo = {
+  title: 'Our representation to Brent Council | Protect Brent Athletics',
+  description:
+    'Track Academy’s objection to removing the indoor athletics track at Willesden Sports Centre: the key points, and what we have asked Brent Council to do. Backed by 1,809 signatures and 495 testimonials.',
+};
+const eyebrow = 'mb-3 font-body text-sm font-semibold uppercase tracking-[0.06em] text-[var(--color-track-orange)]';
+const h2 = 'font-heading text-[clamp(1.6rem,4vw,2.6rem)] font-500 leading-[1.08] tracking-[-0.015em] text-[var(--color-track-blue)]';
+const btn =
+  'inline-flex items-center justify-center bg-[var(--color-track-orange)] px-6 py-4 font-body text-sm font-semibold uppercase tracking-wide text-white transition-all duration-150 hover:bg-[var(--color-accent-dark)] active:scale-[0.98]';
+const btnGhostLight =
+  'inline-flex items-center justify-center border-2 border-white px-6 py-[0.9rem] font-body text-sm font-semibold uppercase tracking-wide text-white transition-all duration-150 hover:bg-white hover:text-[var(--color-track-blue)] active:scale-[0.98]';
+const shareUrl = `https://trackacademy.co.uk${representation.slug}/`;
+const shareText = `Track Academy has formally objected to Brent Council removing the borough’s only indoor athletics track, backed by 1,809 signatures and 495 testimonials. Read what we’ve asked for: ${campaign.hashtag}`;
+---
+
+<BaseLayout {...seo} hideNewsletterPopup hideMobileCta hideCampaignBanner>
+  <!-- Hero -->
+  <section class="relative overflow-hidden bg-[var(--color-track-navy)] text-white">
+    <div class="absolute inset-0">
+      <Image src={RaceSprint} alt="" class="h-full w-full object-cover opacity-35" loading="eager" fetchpriority="high" widths={[640, 1024, 1920]} sizes="100vw" />
+      <div class="absolute inset-0 bg-gradient-to-t from-[var(--color-track-navy)] via-[rgba(10,28,95,0.7)] to-[rgba(10,28,95,0.45)]"></div>
+    </div>
+    <div class="relative mx-auto max-w-[var(--container-content)] px-6 pb-[clamp(3rem,7vw,5rem)] pt-36 lg:px-8 lg:pt-44">
+      <p class="mb-5 flex flex-wrap items-center gap-3 font-body text-xs font-semibold uppercase tracking-[0.13em] text-white/90">
+        <span class="relative flex h-2.5 w-2.5" aria-hidden="true">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--color-track-orange)] opacity-75 motion-reduce:animate-none"></span>
+          <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-[var(--color-track-orange)]"></span>
+        </span>
+        Submitted {representation.submittedOn} · {representation.decisionLine}
+      </p>
+      <h1 class="max-w-4xl font-heading text-[clamp(2.4rem,6.5vw,5rem)] font-500 leading-[1] tracking-[-0.03em]">{representation.headline}</h1>
+      <p class="mt-6 max-w-2xl font-body text-[clamp(1.05rem,1.6vw,1.3rem)] leading-[1.6] text-white/90">{representation.lead}</p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href="#asks" class={btn}>What we’ve asked for</a>
+        <a href="#share" class={btnGhostLight}>Share this page</a>
+      </div>
+
+      <dl class="mt-14 grid grid-cols-2 gap-px overflow-hidden bg-white/15 lg:grid-cols-4">
+        {headlineFigures.map((f) => (
+          <div class="bg-[var(--color-track-navy)]/80 p-5 lg:p-7">
+            <dt class="sr-only">{f.label}</dt>
+            <dd class="font-heading text-[clamp(2.2rem,5vw,3.5rem)] font-600 leading-none tracking-[-0.02em] text-[var(--color-track-gold)] tabular-nums">{f.number}</dd>
+            <dd class="mt-3 font-body text-sm leading-[1.45] text-white/85">{f.label}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0 lane-line"></div>
+  </section>
+
+  <!-- Position -->
+  <section class="bg-white py-[clamp(3rem,7vw,5rem)]">
+    <div class="mx-auto grid max-w-[var(--container-content)] gap-8 px-6 lg:grid-cols-[5fr_7fr] lg:gap-16 lg:px-8">
+      <div>
+        <p class={eyebrow}>Our position</p>
+        <h2 class={h2}>Yes to investment. Invest in what’s useful.</h2>
+      </div>
+      <div class="space-y-5 font-body text-lg leading-[1.65] text-[var(--color-grey-700)]">
+        {position.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <!-- Key points -->
+  <section class="bg-[var(--color-paper)] py-[clamp(3rem,7vw,5rem)]">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <p class={eyebrow}>The case in six points</p>
+      <h2 class={`${h2} max-w-3xl`}>Why the track should stay</h2>
+      <ol class="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {keyPoints.map((k, i) => (
+          <li class="flex flex-col border-t-4 border-[var(--color-track-orange)] bg-white p-7">
+            <span class="font-heading text-sm font-600 text-[var(--color-track-orange)] tabular-nums">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="mt-2 font-heading text-[1.3rem] font-500 leading-[1.2] text-[var(--color-track-blue)]">{k.title}</h3>
+            <p class="mt-3 font-body text-base leading-[1.6] text-[var(--color-grey-700)]">{k.body}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Asks -->
+  <section id="asks" class="scroll-mt-24 tracked-surface bg-[var(--color-track-navy)] py-[clamp(3rem,7vw,5rem)] text-white">
+    <div class="mx-auto max-w-[var(--container-content)] px-6 lg:px-8">
+      <p class="mb-3 font-body text-sm font-semibold uppercase tracking-[0.06em] text-[var(--color-track-gold)]">What we ask</p>
+      <h2 class="max-w-3xl font-heading text-[clamp(1.6rem,4vw,2.6rem)] font-500 leading-[1.08] tracking-[-0.015em]">Four reasonable ways forward</h2>
+      <ol class="mt-10 grid gap-5 md:grid-cols-2">
+        {ourAsks.map((a, i) => (
+          <li class="flex gap-5 bg-white/[0.06] p-7 ring-1 ring-white/15">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center bg-[var(--color-track-orange)] font-heading text-lg font-600">{i + 1}</span>
+            <div>
+              <h3 class="font-heading text-[1.3rem] font-500 leading-[1.2]">{a.title}</h3>
+              <p class="mt-3 font-body text-base leading-[1.6] text-white/85">{a.body}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Who it serves + mixed use -->
+  <section class="bg-white py-[clamp(3rem,7vw,5rem)]">
+    <div class="mx-auto grid max-w-[var(--container-content)] gap-12 px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
+      <div>
+        <p class={eyebrow}>Who the track serves</p>
+        <h2 class={h2}>The young people Brent says it wants to reach</h2>
+        <dl class="mt-8 grid grid-cols-2 gap-5">
+          {whoItServes.map((s) => (
+            <div class="border-l-4 border-[var(--color-track-orange)] pl-4">
+              <dd class="font-heading text-[clamp(2rem,4vw,2.75rem)] font-600 leading-none text-[var(--color-track-blue)] tabular-nums">{s.number}</dd>
+              <dt class="mt-2 font-body text-sm text-[var(--color-grey-700)]">{s.label}</dt>
+            </div>
+          ))}
+        </dl>
+        <p class="mt-6 font-body text-sm text-[var(--color-grey-700)]">Track Academy participants. Without an indoor home in winter and hot weather, we may be forced to leave Brent.</p>
+      </div>
+      <div>
+        <p class={eyebrow}>The option nobody has tested</p>
+        <h2 class={h2}>A shared, mixed-use space</h2>
+        <ul class="mt-6 space-y-4 font-body text-lg leading-[1.6] text-[var(--color-grey-700)]">
+          {mixedUse.map((m) => <li class="flex gap-3"><span class="mt-[0.65rem] h-2 w-2 shrink-0 bg-[var(--color-track-orange)]" aria-hidden="true"></span><span>{m}</span></li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section aria-hidden="true">
+    <Image src={GroupPhoto} alt="" class="h-[clamp(14rem,35vw,26rem)] w-full object-cover" widths={[640, 1024, 1920]} sizes="100vw" />
+  </section>
+
+  <!-- Share / close -->
+  <section id="share" class="scroll-mt-24 bg-[var(--color-paper)] py-[clamp(3rem,7vw,5rem)]">
+    <div class="mx-auto max-w-3xl px-6 text-center lg:px-8">
+      <p class={eyebrow}>{campaign.hashtag}</p>
+      <h2 class={h2}>Help the council hear it before it decides</h2>
+      <p class="mx-auto mt-5 max-w-2xl font-body text-lg leading-[1.6] text-[var(--color-grey-700)]">{closing} Share this page so Brent knows the community is watching.</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <a class={btn} href={`https://wa.me/?text=${encodeURIComponent(`${shareText} ${shareUrl}`)}`} target="_blank" rel="noopener">WhatsApp</a>
+        <a class={btn} href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noopener">X / Twitter</a>
+        <a class={btn} href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`} target="_blank" rel="noopener">Facebook</a>
+        <button type="button" class="inline-flex items-center justify-center border-2 border-[var(--color-track-blue)] px-6 py-[0.9rem] font-body text-sm font-semibold uppercase tracking-wide text-[var(--color-track-blue)] transition-all hover:bg-[var(--color-track-blue)] hover:text-white" data-copy={shareUrl}>Copy link</button>
+      </div>
+      <p class="mt-8 font-body text-sm">
+        <a href={`${campaign.slug}/stories/`} class="font-600 text-[var(--color-track-blue)] underline decoration-[var(--color-track-orange)] decoration-2 underline-offset-4">Read what families and athletes told the council →</a>
+      </p>
+      <p class="mt-4 font-body text-sm text-[var(--color-grey-700)]">Press and councillors: contact {campaign.contactName} at <a class="underline" href={`mailto:${campaign.contactEmail}`}>{campaign.contactEmail}</a> for the full representation.</p>
+    </div>
+  </section>
+</BaseLayout>
+
+<script>
+  document.querySelector<HTMLButtonElement>('[data-copy]')?.addEventListener('click', async (e) => {
+    const b = e.currentTarget as HTMLButtonElement;
+    try { await navigator.clipboard.writeText(b.dataset.copy!); b.textContent = 'Link copied'; } catch {}
+  });
+</script>

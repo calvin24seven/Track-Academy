@@ -8,6 +8,7 @@ import { Image } from 'astro:assets';
 import Photo from '../../assets/campaign/indoor-race-girl.jpg';
 import Button from '../ui/Button.astro';
 import { campaign } from '../../data/campaign';
+import { representation } from '../../data/representation';
 ---
 
 <section class="relative h-[88svh] min-h-[600px] w-full overflow-hidden lg:h-[100svh]">
@@ -39,13 +40,13 @@ import { campaign } from '../../data/campaign';
           class="animate-mask-reveal font-heading text-[clamp(2.9rem,7vw,5.75rem)] font-500 leading-[0.98] tracking-[-0.035em] text-white"
           style="animation-delay: 300ms; animation-fill-mode: both;"
         >
-          Save athletics in Brent.
+          Keep Brent’s only indoor athletics track.
         </h1>
         <p
           class="mt-6 max-w-xl animate-scale-in font-body text-[clamp(1.05rem,1.5vw,1.3rem)] leading-[1.55] text-white/90"
           style="animation-delay: 500ms; animation-fill-mode: both;"
         >
-          Brent Council has paused its plan to remove the indoor track at Willesden Sports Centre and will decide by 25 November. Add your name, then email the council by 5pm Friday 20 November.
+          We’ve submitted our formal objection to Brent Council, backed by 1,809 signatures and 495 testimonials. {representation.decisionLine} Read what we’ve asked for.
         </p>
 
         <p class="mt-6 hidden items-center gap-3 font-body text-white animate-scale-in" style="animation-delay: 600ms; animation-fill-mode: both;" data-hero-count>
@@ -57,7 +58,7 @@ import { campaign } from '../../data/campaign';
           class="mt-8 flex flex-col gap-4 animate-scale-in sm:flex-row sm:items-center"
           style="animation-delay: 700ms; animation-fill-mode: both;"
         >
-          <Button href={`${campaign.slug}/?ref=homepage#sign`} label="Have your say" variant="primary" size="default" />
+          <Button href={`${representation.slug}/?ref=homepage`} label="Read our representation" variant="primary" size="default" />
           <a href={`${campaign.slug}/stories/`} class="font-body text-sm font-semibold text-white underline decoration-[var(--color-track-gold)] decoration-2 underline-offset-8 transition-colors hover:text-[var(--color-track-gold)]">Read their stories →</a>
         </div>
       </div>

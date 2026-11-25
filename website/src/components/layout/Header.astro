@@ -33,6 +33,7 @@ const navItems = [
 ];
 
 import { campaign } from '../../data/campaign';
+import { representation } from '../../data/representation';
 interface Props { showCampaignBanner?: boolean }
 const showBanner = (Astro.props.showCampaignBanner ?? true) && campaign.siteBanner;
 ---
@@ -45,8 +46,8 @@ const showBanner = (Astro.props.showCampaignBanner ?? true) && campaign.siteBann
   {showBanner && (
     <div class="bg-[var(--color-track-orange)] text-white" data-campaign-banner hidden>
       <div class="mx-auto flex max-w-[var(--container-content)] items-center justify-between gap-3 px-6 py-2 lg:px-8">
-        <a href={`${campaign.slug}/?ref=banner`} class="flex min-w-0 items-center gap-2 font-body text-[0.8rem] font-semibold sm:text-sm">
-          <span class="truncate">Brent has paused the indoor track closure. <span class="underline decoration-2 underline-offset-4">Have your say by 5pm Fri 20 Nov →</span></span>
+        <a href={`${representation.slug}/?ref=banner`} class="flex min-w-0 items-center gap-2 font-body text-[0.8rem] font-semibold sm:text-sm">
+          <span class="truncate"><span class="max-sm:hidden">Indoor track: {representation.decisionLine} </span><span class="underline decoration-2 underline-offset-4">Read our case to Brent Council →</span></span>
         </a>
         <button type="button" class="flex h-7 w-7 shrink-0 items-center justify-center text-lg leading-none text-white/80 hover:text-white" aria-label="Hide campaign banner" data-campaign-banner-close>×</button>
       </div>
@@ -200,11 +201,11 @@ const showBanner = (Astro.props.showCampaignBanner ?? true) && campaign.siteBann
   const bar = document.querySelector<HTMLElement>('[data-campaign-banner]');
   if (bar) {
     let dismissed = 0;
-    try { dismissed = Number(localStorage.getItem('pba_banner_dismissed') || 0); } catch {}
+    try { dismissed = Number(localStorage.getItem('pba_banner_dismissed_rep') || 0); } catch {}
     if (Date.now() - dismissed > 7 * 864e5) bar.hidden = false;
     bar.querySelector('[data-campaign-banner-close]')?.addEventListener('click', () => {
       bar.hidden = true;
-      try { localStorage.setItem('pba_banner_dismissed', String(Date.now())); } catch {}
+      try { localStorage.setItem('pba_banner_dismissed_rep', String(Date.now())); } catch {}
     });
   }
 </script>
