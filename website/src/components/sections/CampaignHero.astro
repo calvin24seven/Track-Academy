@@ -11,7 +11,7 @@ import { campaign } from '../../data/campaign';
 import { representation } from '../../data/representation';
 ---
 
-<section class="relative h-[88svh] min-h-[600px] w-full overflow-hidden lg:h-[100svh]">
+<section class="relative flex min-h-[88svh] w-full flex-col overflow-hidden lg:min-h-[100svh]">
   <div class="absolute inset-0 animate-blur-in">
     <Image
       src={Photo}
@@ -26,7 +26,7 @@ import { representation } from '../../data/representation';
     <div class="absolute inset-0 bg-gradient-to-t from-[rgba(10,28,95,0.85)] via-[rgba(10,28,95,0.35)] to-transparent"></div>
   </div>
 
-  <div class="absolute bottom-0 left-0 right-0 top-[7rem] flex flex-col justify-end px-6 pb-14 lg:justify-center lg:px-8 lg:pb-20">
+  <div class="relative flex flex-1 flex-col justify-end px-6 pb-14 pt-36 lg:justify-center lg:px-8 lg:pb-16 lg:pt-32">
     <div class="mx-auto w-full max-w-[var(--container-content)]">
       <div class="max-w-3xl">
         <p class="mb-5 flex items-center gap-3 font-body text-xs font-semibold uppercase tracking-[0.13em] text-white/90">
@@ -37,13 +37,13 @@ import { representation } from '../../data/representation';
           Campaign · {campaign.hashtag}
         </p>
         <h1
-          class="animate-mask-reveal font-heading text-[clamp(2.9rem,7vw,5.75rem)] font-500 leading-[0.98] tracking-[-0.035em] text-white"
+          class="animate-mask-reveal font-heading text-[clamp(2.6rem,min(6.5vw,9.5svh),5.5rem)] font-500 leading-[0.98] tracking-[-0.035em] text-white"
           style="animation-delay: 300ms; animation-fill-mode: both;"
         >
           Keep Brent’s only indoor athletics track.
         </h1>
         <p
-          class="mt-6 max-w-xl animate-scale-in font-body text-[clamp(1.05rem,1.5vw,1.3rem)] leading-[1.55] text-white/90"
+          class="mt-6 max-w-2xl animate-scale-in font-body text-[clamp(1.05rem,1.5vw,1.3rem)] leading-[1.55] text-white/90"
           style="animation-delay: 500ms; animation-fill-mode: both;"
         >
           We’ve submitted our formal objection to Brent Council, backed by 1,809 signatures and 495 testimonials. {representation.decisionLine} Read what we’ve asked for.
@@ -59,7 +59,7 @@ import { representation } from '../../data/representation';
           style="animation-delay: 700ms; animation-fill-mode: both;"
         >
           <Button href={`${representation.slug}/?ref=homepage`} label="Read our representation" variant="primary" size="default" />
-          <a href={`${campaign.slug}/stories/`} class="font-body text-sm font-semibold text-white underline decoration-[var(--color-track-gold)] decoration-2 underline-offset-8 transition-colors hover:text-[var(--color-track-gold)]">Read their stories →</a>
+          <a href={`${campaign.slug}/?ref=homepage#sign`} class="font-body text-sm font-semibold text-white underline decoration-[var(--color-track-gold)] decoration-2 underline-offset-8 transition-colors hover:text-[var(--color-track-gold)]">Sign the petition →</a>
         </div>
       </div>
     </div>
